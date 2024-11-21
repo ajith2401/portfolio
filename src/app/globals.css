@@ -1,0 +1,26 @@
+/* // src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light theme variables */
+    --background: #ffffff;
+    --foreground: #000000;
+    --primary: #2563eb;
+    --secondary: #64748b;
+    --accent: #f59e0b;
+    --card: #f8fafc;
+  }
+
+  [data-theme='dark'] {
+    /* Dark theme variables */
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    --primary: #3b82f6;
+    --secondary: #94a3b8;
+    --accent: #fbbf24;
+    --card: #1e293b;
+  }
+}
