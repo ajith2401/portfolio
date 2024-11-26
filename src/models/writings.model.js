@@ -1,11 +1,21 @@
 // models/Writing.js
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const WritingSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['philosophy', 'poem', 'story', 'article']
+    enum: [
+      'philosophy',
+      'poem',
+      'article',
+      'short story',
+      'short writings',
+      'politics',
+      'cinema',
+      'letter',
+      'joke'
+    ]
   },
   title: {
     type: String,
@@ -101,6 +111,7 @@ WritingSchema.methods.addRating = async function(name, email, rating) {
 };
 
 
-export const Writing = mongoose.models.Writing || mongoose.model('Writing', WritingSchema);
+const Writing = mongoose.models.Writing || mongoose.model('Writing', WritingSchema);
 
+module.exports = Writing;
 

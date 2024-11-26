@@ -1,5 +1,5 @@
 // models/Comment.js 
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const CommentSchema = new mongoose.Schema({
     writing: {
@@ -25,4 +25,6 @@ const CommentSchema = new mongoose.Schema({
     }
   });
 
-  export const Comment = mongoose.models.Comment || mongoose.model('Comment', CommentSchema);
+const Comment = mongoose.models.Comment || mongoose.model('Comment', CommentSchema);
+
+module.exports = Comment;
