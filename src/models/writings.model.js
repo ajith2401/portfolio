@@ -1,26 +1,20 @@
-// models/Writing.js
-const mongoose = require('mongoose');
+// src/models/writings.model.js
+import mongoose from 'mongoose';
 
 const WritingSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
     enum: [
-      'philosophy',
-      'poem',
-      'article',
-      'short story',
-      'short writings',
-      'politics',
-      'cinema',
-      'letter',
-      'joke'
+      'philosophy', 'poem', 'article', 'short story',
+      'short writings', 'politics', 'cinema', 'letter', 'joke'
     ]
   },
   title: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    index: true
   },
   subtitle: {
     type: String,
@@ -28,7 +22,8 @@ const WritingSchema = new mongoose.Schema({
   },
   body: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   images: {
     small: String,
@@ -39,7 +34,8 @@ const WritingSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     min: 0,
-    max: 5
+    max: 5,
+    index: true
   },
   totalRatings: {
     type: Number,
@@ -71,11 +67,13 @@ const WritingSchema = new mongoose.Schema({
   }],
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    index: true
   }
 });
 
-// Add method to calculate average rating
+WritingSchema.index({ title: 'text', body: 'text' });
+
 WritingSchema.methods.calculateAverageRating = function() {
   if (this.ratings.length === 0) {
     this.averageRating = 0;
@@ -84,24 +82,21 @@ WritingSchema.methods.calculateAverageRating = function() {
   }
   
   const sum = this.ratings.reduce((acc, rating) => acc + rating.rating, 0);
-  this.averageRating = sum / this.ratings.length;
+  this.averageRating = (sum / this.ratings.length).toFixed(1);
   this.totalRatings = this.ratings.length;
 };
 
-// Middleware to update average rating before saving
 WritingSchema.pre('save', function(next) {
   this.calculateAverageRating();
   next();
 });
 
-// Helper method to add new rating
 WritingSchema.methods.addRating = async function(name, email, rating) {
-  // Check if user has already rated
   const existingRating = this.ratings.find(r => r.email === email);
   
   if (existingRating) {
     existingRating.rating = rating;
-    existingRating.name = name; // Update name in case it changed
+    existingRating.name = name;
   } else {
     this.ratings.push({ name, email, rating });
   }
@@ -110,8 +105,12 @@ WritingSchema.methods.addRating = async function(name, email, rating) {
   await this.save();
 };
 
+// Use a try-catch to handle model registration
+let Writing;
+try {
+  Writing = mongoose.model('Writing');
+} catch {
+  Writing = mongoose.model('Writing', WritingSchema);
+}
 
-const Writing = mongoose.models.Writing || mongoose.model('Writing', WritingSchema);
-
-module.exports = Writing;
-
+export { Writing };

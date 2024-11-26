@@ -1,30 +1,38 @@
-// models/Comment.js 
-const mongoose = require('mongoose');
+// src/models/comment.model.js
+import mongoose from 'mongoose';
 
 const CommentSchema = new mongoose.Schema({
-    writing: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Writing',
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    email: {
-      type: String,
-      required: true
-    },
-    comment: {
-      type: String,
-      required: true
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now
-    }
-  });
+  writing: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Writing',
+    required: true,
+    index: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  comment: {
+    type: String,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    index: true
+  }
+});
 
-const Comment = mongoose.models.Comment || mongoose.model('Comment', CommentSchema);
+// Use a try-catch to handle model registration
+let Comment;
+try {
+  Comment = mongoose.model('Comment');
+} catch {
+  Comment = mongoose.model('Comment', CommentSchema);
+}
 
-module.exports = Comment;
+export { Comment };
