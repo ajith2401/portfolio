@@ -14,53 +14,61 @@ export class ImageGenerationService {
 
   setupThemes() {
     this.themes = {
-      default: {
-        colors: {
-          primary: '#1DA1F2',
-          secondary: '#2C3E50',
-          background: '#FFFFFF',
-          text: '#000000',
-          title: '#FF0000',
-          accent: '#FF0000'
-        },
-        fonts: {
-          title: '"Noto Serif Tamil Slanted"',    // Title font
-          body: '"Annai MN"',                     // Body font
-          branding: '"Tamil Sangam MN"',          // Author name font
-          contact: '"Noto Sans Tamil"'            // Contact details font
-        },
-        layout: {
-          padding: 60,
-          titleSize: 42,     // Title size
-          bodySize: 32,      // Body text size
-          lineHeight: 1.8,   // Line spacing
-          brandingSize: 24,  // Author name size
-          contactSize: 18    // Contact details size
-        }
+      default: this.createTheme('#FFFFFF', '#000000'),
+      red: this.createTheme('#FFE6E6', '#8B0000'),
+      blue: this.createTheme('#E6F3FF', '#00008B'),
+      green: this.createTheme('#E6FFE6', '#006400'),
+      black: this.createTheme('#1A1A1A', '#FFFFFF'),
+      gray: this.createTheme('#F0F0F0', '#333333'),
+      dark: this.createTheme('#1a1a1a', '#FFFFFF'),
+      love: this.createTheme('#FFF5F5', '#ff4646')
+    };
+  }
+
+  createTheme(backgroundColor, textColor) {
+    return {
+      colors: {
+        primary: textColor,
+        secondary: this.adjustColor(textColor, 0.8),
+        background: backgroundColor,
+        text: textColor,
+        title: this.adjustColor(textColor, 1.2),
+        accent: this.adjustColor(textColor, 1.3)
       },
-      dark: {
-        colors: {
-          primary: '#FFFFFF',
-          secondary: '#333333',
-          background: '#1a1a1a',
-          text: '#FFFFFF',
-          title: '#1DA1F2',
-          accent: '#ff6b6b'
-        }
+      fonts: {
+        title: '"Noto Serif Tamil Slanted"',
+        body: '"Annai MN"',
+        branding: '"Tamil Sangam MN"',
+        contact: '"Noto Sans Tamil"'
       },
-      love: {
-        colors: {
-          primary: '#ff6b6b',
-          secondary: '#ff8787',
-          background: '#FFF5F5',
-          text: '#2D3436',
-          title: '#ff4646',
-          accent: '#ff4646'
-        },
-        decorations: ['hearts', 'flowers']
+      layout: {
+        padding: 60,
+        titleSize: 48,     // Increased title size
+        bodySize: 36,      // Increased body text size
+        lineHeight: 1.8,
+        brandingSize: 32,  // Increased branding size
+        contactSize: 24,   // Increased contact size
+        textAlign: 'center' // Default alignment
       }
     };
   }
+
+  adjustColor(hexColor, factor) {
+    const rgb = this.hexToRgb(hexColor);
+    return `rgb(${Math.min(255, Math.floor(rgb.r * factor))}, 
+                ${Math.min(255, Math.floor(rgb.g * factor))}, 
+                ${Math.min(255, Math.floor(rgb.b * factor))})`;
+  }
+
+  hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+
 
   async createImage(text, options = {}) {
     const {
@@ -172,136 +180,178 @@ parseBackgroundColor(color) {
 
 // Update branding elements with simpler SVG structure
 async addBrandingElements(buffer, theme) {
+  const brandingSvg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" version="1.1">
+  <text
+    x="600"
+    y="40"
+    font-family="${theme.fonts.branding.replace(/"/g, '&quot;')}"
+    font-size="${theme.layout.brandingSize}"
+    fill="${theme.colors.primary}"
+    text-anchor="middle"
+  >அஜித்குமார்</text>
+  <g transform="translate(100, 100)">
+    <text
+      x="0"
+      y="0"
+      font-family="${theme.fonts.contact.replace(/"/g, '&quot;')}"
+      font-size="${theme.layout.contactSize}"
+      fill="${theme.colors.text}"
+    >www.ajithkumar.dev</text>
+    <text
+      x="500"
+      y="0"
+      font-family="${theme.fonts.contact.replace(/"/g, '&quot;')}"
+      font-size="${theme.layout.contactSize}"
+      fill="${theme.colors.text}"
+      text-anchor="middle"
+    >9944154823</text>
+    <text
+      x="900"
+      y="0"
+      font-family="${theme.fonts.contact.replace(/"/g, '&quot;')}"
+      font-size="${theme.layout.contactSize}"
+      fill="${theme.colors.text}"
+      text-anchor="end"
+    >@vaanawill</text>
+  </g>
+</svg>`;
+
+  // Create background matching theme
+  const brandingBackground = await sharp({
+    create: {
+      width: 1200,
+      height: 150,
+      channels: 4,
+      background: this.parseBackgroundColor(theme.colors.background)
+    }
+  }).png().toBuffer();
+
   try {
-      const brandingSvg = `
-          <svg width="1200" height="100" xmlns="http://www.w3.org/2000/svg">
-              <!-- Brand Name -->
-              <text
-                  x="600"
-                  y="30"
-                  font-family="${theme?.fonts?.branding}"
-                  font-size="${theme?.layout?.brandingSize}px"
-                  fill="#FF0000"
-                  text-anchor="middle"
-              >அஜித்குமார்</text>
+    const brandingBuffer = await sharp(brandingBackground)
+      .composite([{
+        input: Buffer.from(brandingSvg),
+        top: 0,
+        left: 0
+      }])
+      .toBuffer();
 
-              <!-- Contact Details -->
-              <g transform="translate(100, 80)">
-                  <!-- Website -->
-                  <text
-                      x="0"
-                      y="0"
-                      font-family="${theme?.fonts?.contact}"
-                      font-size="${theme?.layout?.contactSize}px"
-                      fill="#000000"
-                  >www.ajithkumar.dev</text>
-
-                  <!-- Phone -->
-                  <text
-                      x="500"
-                      y="0"
-                      font-family="${theme?.fonts?.contact}"
-                      font-size="${theme?.layout?.contactSize}px"
-                      fill="#000000"
-                      text-anchor="middle"
-                  >9944154823</text>
-
-                  <!-- Instagram -->
-                  <text
-                      x="900"
-                      y="0"
-                      font-family="${theme?.fonts?.contact}"
-                      font-size="${theme?.layout?.contactSize}px"
-                      fill="#000000"
-                      text-anchor="end"
-                  >@vaanawill</text>
-              </g>
-          </svg>
-      `;
-
-      // First create a white background for the branding area
-      const brandingBackground = await sharp({
-          create: {
-              width: 1200,
-              height: 100,
-              channels: 4,
-              background: { r: 255, g: 255, b: 255, alpha: 1 }
-          }
-      }).png().toBuffer();
-
-      // Create final branding with text
-      const brandingBuffer = await sharp(brandingBackground)
-          .composite([{
-              input: Buffer.from(brandingSvg),
-              top: 0,
-              left: 0
-          }])
-          .toBuffer();
-
-      // Add the branding to the main image
-      return await sharp(buffer)
-          .composite([{
-              input: brandingBuffer,
-              gravity: 'south'  // Place at bottom
-          }])
-          .toBuffer();
+    return await sharp(buffer)
+      .composite([{
+        input: brandingBuffer,
+        gravity: 'south'
+      }])
+      .toBuffer();
   } catch (error) {
-      console.warn("Error adding branding and contact details:", error.message);
-      return buffer;
+    console.error('Error generating branding:', error);
+    throw new Error(`Failed to generate branding: ${error.message}`);
   }
 }
 
+
 // Update content generation for new font
 generateContentSVG(text, theme, analysis) {
-  const textLines = text.split('\n').map(line => this.wrapText(line, 25)).flat();
-  const lineHeight = theme.layout.lineHeight || 1.8;
-  const startY = 250;
+  const lines = text.split('\n').filter(line => line.trim());
+  const lineHeight = theme.layout.lineHeight || 2.0;
+  
+  // Constants for positioning
+  const RIGHT_MARGIN = 1100; // Right margin position
+  const START_Y = theme.title ? 300 : 200; // Start lower if there's a title
+  
+  // Process each line with proper escaping
+  const escapedLines = lines.map(line => 
+    line.trim()
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+  );
 
-  const textElements = textLines.map((line, index) => `
-    <text
-      x="600"
-      y="${startY + (index * (theme?.layout?.bodySize || 32) * lineHeight)}"
-      font-family="${theme?.fonts?.body}"
-      font-size="${theme?.layout?.bodySize || 32}px"
-      fill="#000000"
-      text-anchor="middle"
+  // Generate SVG text elements with right alignment
+  const svgContent = escapedLines.map((line, index) => {
+    const yPosition = START_Y + (index * theme.layout.bodySize * lineHeight);
+    
+    return `    <text
+      x="${RIGHT_MARGIN}"
+      y="${yPosition}"
+      font-family="${theme.fonts.body.replace(/"/g, '&quot;')}"
+      font-size="${theme.layout.bodySize}"
+      fill="${theme.colors.text}"
+      text-anchor="end"
       dominant-baseline="middle"
-    >${line.trim()}</text>
-  `).join('');
+      class="poetry-line"
+    >${line}</text>`;
+  }).join('\n');
 
-  return `
-    <svg width="1200" height="1200" xmlns="http://www.w3.org/2000/svg">
-      ${textElements}
-    </svg>
-  `;
+  // Add decorative elements for poetry
+  const decorativeElements = theme.effects?.decorativeElements ? `
+    <path 
+      d="M ${RIGHT_MARGIN - 500} 150 L ${RIGHT_MARGIN} 150" 
+      stroke="${theme.colors.text}" 
+      stroke-width="1"
+      stroke-opacity="0.3"
+    />
+    <path 
+      d="M ${RIGHT_MARGIN - 300} ${START_Y + (lines.length * theme.layout.bodySize * lineHeight) + 50} L ${RIGHT_MARGIN} ${START_Y + (lines.length * theme.layout.bodySize * lineHeight) + 50}" 
+      stroke="${theme.colors.text}" 
+      stroke-width="1"
+      stroke-opacity="0.3"
+    />` : '';
+
+  return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" version="1.1">
+  <style>
+    .poetry-line {
+      font-family: ${theme.fonts.body.replace(/"/g, '&quot;')};
+      ${theme.effects?.textShadow ? 'filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));' : ''}
+    }
+  </style>
+  ${decorativeElements}
+  ${svgContent}
+</svg>`;
 }
 
-// Update title generation for new font
+// Update title generation for poetry
 generateTitleSVG(title, theme) {
-  return `
-      <svg width="1200" height="150" xmlns="http://www.w3.org/2000/svg">
-          <text
-              x="600"
-              y="75"
-              font-family="${theme?.fonts?.title}"
-              font-size="${theme?.layout?.titleSize || 42}px"
-              font-weight="800"
-              fill="#FF0000"
-              text-anchor="middle"
-              dominant-baseline="middle"
-          >${title}</text>
+  const escapedTitle = title
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 
-          <!-- Title underline -->
-          <line 
-              x1="300" 
-              y1="100" 
-              x2="900" 
-              y2="100" 
-              stroke="#FF0000"
-              stroke-width="1"
-          />
-      </svg>
-  `;
+  return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" version="1.1">
+  <text
+    x="600"
+    y="75"
+    font-family="${theme.fonts.title.replace(/"/g, '&quot;')}"
+    font-size="${theme.layout.titleSize}"
+    font-weight="800"
+    fill="${theme.colors.title}"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    ${theme.effects?.textShadow ? 'filter="drop-shadow(2px 2px 2px rgba(0,0,0,0.3))"' : ''}
+  >${escapedTitle}</text>
+  <line 
+    x1="300" 
+    y1="100" 
+    x2="900" 
+    y2="100" 
+    stroke="${theme.colors.title}"
+    stroke-width="1"
+  />
+</svg>`;
+}
+
+// Helper method for Tamil text metrics
+calculateTamilTextWidth(text, fontSize) {
+  const tamilCharCount = (text.match(/[\u0B80-\u0BFF]/g) || []).length;
+  const latinCharCount = text.length - tamilCharCount;
+  
+  // Adjust width calculation for Tamil characters
+  return (tamilCharCount * fontSize * 0.8) + (latinCharCount * fontSize * 0.5);
 }
 
 
@@ -403,40 +453,44 @@ async generateForWriting(writingId) {
     return images;
   }
 
-wrapText(text, maxChars) {
-    if (!text) return [];
-    
-    // Split by explicit line breaks first
-    const paragraphs = text.split('\n');
-    
-    // Process each paragraph for word wrapping
-    return paragraphs.map(paragraph => {
-        const words = paragraph.split(' ');
-        const lines = [];
-        let currentLine = words[0];
+// Update the wrapText method to handle different alignments
+wrapText(text, maxChars, alignment = 'start') {
+  if (!text) return [];
+  
+  // Adjust max chars based on alignment
+  const adjustedMaxChars = alignment === 'start' ? maxChars + 5 : maxChars;
+  
+  // Split by explicit line breaks first
+  const paragraphs = text.split('\n');
+  
+  // Process each paragraph for word wrapping
+  return paragraphs.map(paragraph => {
+    const words = paragraph.split(' ');
+    const lines = [];
+    let currentLine = words[0];
 
-        for (let i = 1; i < words.length; i++) {
-            const word = words[i];
-            const testLine = `${currentLine} ${word}`;
-            
-            // Adjust for Tamil characters
-            const tamilCharCount = (testLine.match(/[\u0B80-\u0BFF]/g) || []).length;
-            const effectiveLength = testLine.length + (tamilCharCount * 0.3);
+    for (let i = 1; i < words.length; i++) {
+      const word = words[i];
+      const testLine = `${currentLine} ${word}`;
+      
+      // Adjust for Tamil characters
+      const tamilCharCount = (testLine.match(/[\u0B80-\u0BFF]/g) || []).length;
+      const effectiveLength = testLine.length + (tamilCharCount * 0.3);
 
-            if (effectiveLength <= maxChars) {
-                currentLine = testLine;
-            } else {
-                lines.push(currentLine);
-                currentLine = word;
-            }
-        }
-        
-        if (currentLine) {
-            lines.push(currentLine);
-        }
-        
-        return lines;
-    }).flat(); // Flatten the array of arrays into a single array of lines
+      if (effectiveLength <= adjustedMaxChars) {
+        currentLine = testLine;
+      } else {
+        lines.push(currentLine);
+        currentLine = word;
+      }
+    }
+    
+    if (currentLine) {
+      lines.push(currentLine);
+    }
+    
+    return lines;
+  }).flat();
 }
 
   calculateTextDimensions(text, fontSize, fontFamily) {
