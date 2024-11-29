@@ -747,8 +747,8 @@ export class ImageGenerationService {
       backgroundImage: 'lightGreenBlueImg.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#47565E', hoverColor: '#394347' },
-        text: { color: '#47565E', hoverColor: '#394347' },
+        title: { color: '#FFFFFF', hoverColor: '#394347' },
+        text: { color: '#FFFFFF', hoverColor: '#394347' },
         branding: {
           background: '#F9FFF2',
           name: { color: '#47565E', hoverColor: '#394347' },
@@ -829,11 +829,11 @@ export class ImageGenerationService {
     waterColor: {
       ...this.createTheme('#FFF5F5', '#8B4513'),
       name: 'waterColor',
-      backgroundImage: 'waterColourRoseImg.jpg',
+      backgroundImage: 'background-616360.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#8B4513', hoverColor: '#723709' },
-        text: { color: '#8B4513', hoverColor: '#723709' },
+        title: { color: '#FFFFFF', hoverColor: '#723709' },
+        text: { color: '#FFFFFF', hoverColor: '#723709' },
         branding: {
           background: '#FFF5F5',
           name: { color: '#8B4513', hoverColor: '#723709' },
@@ -849,8 +849,8 @@ export class ImageGenerationService {
       backgroundImage: 'textileMaterialImg.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#4A4A4A', hoverColor: '#333333' },
-        text: { color: '#4A4A4A', hoverColor: '#333333' },
+        title: { color: '#FFFFFF', hoverColor: '#333333' },
+        text: { color: '#FFFFFF', hoverColor: '#333333' },
         branding: {
           background: '#F5F5F5',
           name: { color: '#4A4A4A', hoverColor: '#333333' },
@@ -866,8 +866,8 @@ export class ImageGenerationService {
       backgroundImage: 'foggyGreenForestImg.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#2E7D32', hoverColor: '#1B5E20' },
-        text: { color: '#2E7D32', hoverColor: '#1B5E20' },
+        title: { color: '#FFFFFF', hoverColor: '#1B5E20' },
+        text: { color: '#FFFFFF', hoverColor: '#1B5E20' },
         branding: {
           background: '#E8F5E9',
           name: { color: '#2E7D32', hoverColor: '#1B5E20' },
@@ -880,11 +880,45 @@ export class ImageGenerationService {
     greenLeaf: {
       ...this.createTheme('#E8F5E9', '#1B5E20'),
       name: 'greenLeaf',
-      backgroundImage: 'greenLeafImg.jpg',
+      backgroundImage: 'greenLeafAlt.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#1B5E20', hoverColor: '#0A4A0E' },
-        text: { color: '#1B5E20', hoverColor: '#0A4A0E' },
+        title: { color: '#000000', hoverColor: '#0A4A0E' },
+        text: { color: '#000000', hoverColor: '#0A4A0E' },
+        branding: {
+          background: '#E8F5E9',
+          name: { color: '#1B5E20', hoverColor: '#0A4A0E' },
+          web: { color: '#004D40', hoverColor: '#1B5E20' },
+          phone: { color: '#004D40', hoverColor: '#1B5E20' },
+          social: { color: '#004D40', hoverColor: '#1B5E20' }
+        }
+      }
+    },
+    paperFlower: {
+      ...this.createTheme('#E8F5E9', '#1B5E20'),
+      name: 'greenLeaf',
+      backgroundImage: 'flowerDummy.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#000000', hoverColor: '#0A4A0E' },
+        text: { color: '#000000', hoverColor: '#0A4A0E' },
+        branding: {
+          background: '#E8F5E9',
+          name: { color: '#1B5E20', hoverColor: '#0A4A0E' },
+          web: { color: '#004D40', hoverColor: '#1B5E20' },
+          phone: { color: '#004D40', hoverColor: '#1B5E20' },
+          social: { color: '#004D40', hoverColor: '#1B5E20' }
+        }
+      }
+    },
+    pinkFlower: {
+      ...this.createTheme('#E8F5E9', '#1B5E20'),
+      name: 'greenLeaf',
+      backgroundImage: 'flowerReal.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#000000', hoverColor: '#0A4A0E' },
+        text: { color: '#000000', hoverColor: '#0A4A0E' },
         branding: {
           background: '#E8F5E9',
           name: { color: '#1B5E20', hoverColor: '#0A4A0E' },
@@ -900,8 +934,8 @@ export class ImageGenerationService {
       backgroundImage: 'greenLeafRoseImg.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#4A148C', hoverColor: '#3A1070' },
-        text: { color: '#4A148C', hoverColor: '#3A1070' },
+        title: { color: '#FFFFFF', hoverColor: '#3A1070' },
+        text: { color: '#FFFFFF', hoverColor: '#3A1070' },
         branding: {
           background: '#F3E5F5',
           name: { color: '#4A148C', hoverColor: '#3A1070' },
@@ -917,8 +951,8 @@ export class ImageGenerationService {
       backgroundImage: 'greenishBrownLeafImg.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#3E2723', hoverColor: '#2D1B19' },
-        text: { color: '#3E2723', hoverColor: '#2D1B19' },
+        title: { color: '#FFFFFF', hoverColor: '#2D1B19' },
+        text: { color: '#FFFFFF', hoverColor: '#2D1B19' },
         branding: {
           background: '#EFEBE9',
           name: { color: '#3E2723', hoverColor: '#2D1B19' },
@@ -962,14 +996,14 @@ export class ImageGenerationService {
         }
       }
     },
-   redForest: {
+   redFlower: {
       ...this.createTheme('#FFEBEE', '#B71C1C'),
       name: 'redForest',
-      backgroundImage: 'redFlowerForestImg.jpg',
+      backgroundImage: 'redFlower.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#B71C1C', hoverColor: '#8F1616' },
-        text: { color: '#B71C1C', hoverColor: '#8F1616' },
+        title: { color: '#FFFFFF', hoverColor: '#8F1616' },
+        text: { color: '#FFFFFF', hoverColor: '#8F1616' },
         branding: {
           background: '#FFEBEE',
           name: { color: '#B71C1C', hoverColor: '#8F1616' },
@@ -1033,11 +1067,11 @@ export class ImageGenerationService {
     ancientStone: {
       ...this.createTheme('#E8E0D5', '#2B1810'),
       name: 'ancientStone',
-      backgroundImage: 'BrownAncientStoneImg.jpg',
+      backgroundImage: 'BrownAncientStoneAit.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#2B1810', hoverColor: '#1A0F0A' },
-        text: { color: '#2B1810', hoverColor: '#1A0F0A' },
+        title: { color: '#0D47A1', hoverColor: '#1A0F0A' },
+        text: { color: '#0D47A1', hoverColor: '#1A0F0A' },
         branding: {
           background: '#E8E0D5',
           name: { color: '#2B1810', hoverColor: '#1A0F0A' },
@@ -1047,14 +1081,14 @@ export class ImageGenerationService {
         }
       }
     },
-    morningSun: {
+    darkNight: {
       ...this.createTheme('#FFF7E6', '#8B4513'),
       name: 'morningSun',
-      backgroundImage: 'MorningYelllowSunImg.jpg',
+      backgroundImage: 'darkNight.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#8B4513', hoverColor: '#723709' },
-        text: { color: '#8B4513', hoverColor: '#723709' },
+        title: { color: '#000000', hoverColor: '#723709' },
+        text: { color: '#000000', hoverColor: '#723709' },
         branding: {
           background: '#FFF7E6',
           name: { color: '#8B4513', hoverColor: '#723709' },
@@ -1084,7 +1118,7 @@ export class ImageGenerationService {
     pureBlack: {
       ...this.createTheme('#000000', '#FFFFFF'),
       name: 'pureBlack',
-      backgroundImage: 'OldArchBWImg.jpg',
+      backgroundImage: 'pureBlack.jpg',
       fonts: defaultFonts,
       colors: {
         title: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
@@ -1109,14 +1143,14 @@ export class ImageGenerationService {
         }
       }
     },
-    blueFire: {
+    warmToneFlower: {
       ...this.createTheme('#E3F2FD', '#1565C0'),
-      name: 'blueFire',
-      backgroundImage: 'blueBGFilreImg.jpg',
+      name: 'warmToneFlower',
+      backgroundImage: 'warmToneFlower.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#1565C0', hoverColor: '#0D47A1' },
-        text: { color: '#1565C0', hoverColor: '#0D47A1' },
+        title: { color: '#FFFFFF', hoverColor: '#0D47A1' },
+        text: { color: '#FFFFFF', hoverColor: '#0D47A1' },
         branding: {
           background: '#E3F2FD',
           name: { color: '#1565C0', hoverColor: '#0D47A1' },
@@ -1865,7 +1899,6 @@ async createImage(text, options = {}) {
 
 async createTexturedBackground(width, height, theme) {
   try {
-    // First ensure theme has required properties
     if (!theme || !theme.colors || !theme.layout) {
       console.warn('Theme missing required properties, using defaults');
       theme = this.createTheme('#FFFFFF', '#000000');
@@ -1878,11 +1911,11 @@ async createTexturedBackground(width, height, theme) {
     
     // Create slightly darker background for content area
     const contentBgColor = this.lightenColor(themeInfo.recommendedBg || theme.colors.background, 0.15);
-
-    // Option 2: Gradient approach
+    
+    // Create gradient colors
     const gradientColors = this.createGradientColors(themeInfo.recommendedBg || theme.colors.background);
     
-    // Create base image with the content background color
+    // Create base image
     const baseImage = await sharp({
       create: {
         width,
@@ -1892,9 +1925,8 @@ async createTexturedBackground(width, height, theme) {
       }
     }).png().toBuffer();
 
-    // If no background image specified, create enhanced texture with theme colors
     if (!theme.backgroundImage) {
-      // Create gradient using theme colors
+      // Create gradient buffer
       const gradientBuffer = await sharp({
         create: {
           width,
@@ -1906,12 +1938,9 @@ async createTexturedBackground(width, height, theme) {
       .linear(1.1, -10)
       .raw()
       .toBuffer();
-
-      // Apply padding based on theme layout
-      const paddingTop = theme.layout.margins?.top || theme.layout.padding || 60;
-      const paddingBottom = theme.layout.margins?.bottom || theme.layout.padding || 60;
       
-      // Create separate buffers for content and branding areas
+
+      // Create content buffer
       const contentBuffer = await sharp({
         create: {
           width,
@@ -1924,6 +1953,7 @@ async createTexturedBackground(width, height, theme) {
       .raw()
       .toBuffer();
 
+      // Create branding buffer
       const brandingBuffer = await sharp({
         create: {
           width,
@@ -1935,7 +1965,9 @@ async createTexturedBackground(width, height, theme) {
       .raw()
       .toBuffer();
 
-      // Combine all layers
+      const paddingTop = theme.layout.margins?.top || theme.layout.padding || 60;
+
+      // Combine layers
       return await sharp(baseImage)
         .composite([
           {
@@ -1977,7 +2009,7 @@ async createTexturedBackground(width, height, theme) {
         .toBuffer();
     }
 
-    // If background image exists, try to use it
+    // Handle background image case
     try {
       const texturePath = path.join(process.cwd(), 'public/backgrounds', theme.backgroundImage);
       const textureBuffer = await sharp(texturePath)
@@ -1986,46 +2018,86 @@ async createTexturedBackground(width, height, theme) {
           position: 'center'
         })
         .modulate({
-          brightness: 1.1,  // Slightly increase brightness
-          saturation: 1.2,  // Boost saturation
-          hue: 0           // Keep original hue
+          brightness: 1.1,
+          saturation: 1.2,
+          hue: 0
         })
         .toBuffer();
 
       return await sharp(baseImage)
-      .composite([
-        {
+        .composite([{
           input: textureBuffer,
-          blend: 'multiply',    // Changed from overlay to multiply for better color
-          opacity: 0.95,        // Increased opacity significantly
-        },
-      ])
-      .modulate({
-        brightness: 1.05,      // Slight brightness boost
-        saturation: 1.1        // Slight saturation boost
-      })
-      .toBuffer();
+          blend: 'multiply',
+          opacity: 0.95,
+        }])
+        .modulate({
+          brightness: 1.05,
+          saturation: 1.1
+        })
+        .toBuffer();
 
     } catch (textureError) {
-      console.warn(`Background image not found: ${theme.backgroundImage}. Using theme colors.`);
+      console.warn(`Background image not found: ${theme.backgroundImage}. Using base image.`);
       
-      // Create fallback pattern using theme colors
+
+      const noiseBuffer = await sharp({
+        create: {
+          width,
+          height,
+          channels: 4,
+          noise: {
+            type: 'gaussian',
+            mean: 0,
+            sigma: 80
+          },
+          background: { r: 25, g: 25, b: 112, alpha: 0.4 } // Dark blue tint
+        }
+      })
+      .png()
+      .toBuffer();
+
+      // Create second noise layer for texture depth
+      const fineNoiseBuffer = await sharp({
+        create: {
+          width,
+          height,
+          channels: 4,
+          noise: {
+            type: 'gaussian',
+            mean: 0,
+            sigma: 40
+          },
+          background: { r: 0, g: 0, b: 50, alpha: 0.3 }
+        }
+      })
+      .png()
+      .toBuffer();
+
       return await sharp(baseImage)
+        .composite([
+          {
+            input: noiseBuffer,
+            blend: 'overlay',
+            opacity: 0.4
+          },
+          {
+            input: fineNoiseBuffer,
+            blend: 'soft-light',
+            opacity: 0.3
+          }
+        ])
         .modulate({
-          brightness: 1.03,
-          saturation: 1.05,
-          lightness: 1.02
+          brightness: 0.95,  // Slightly darker
+          saturation: 1.2,   // More color saturation
+          lightness: 0.9     // Deeper shadows
         })
         .toBuffer();
-    }
+          }
   } catch (error) {
     console.error("Error creating textured background:", error.message);
     throw error;
   }
 }
-
-
-
 // Function to lighten color
 lightenColor(hexColor, factor) {
   if (!hexColor) return '#FFFFFF';
@@ -2062,8 +2134,6 @@ createGradientColors(baseColor, steps = 3) {
     return [baseColor];
   }
 }
-
-
 darkenColor(hexColor, factor) {
   if (!hexColor) return '#FFFFFF';
   try {
@@ -2078,6 +2148,7 @@ darkenColor(hexColor, factor) {
     return hexColor;
   }
 }
+
 // Helper method to parse background color
 parseBackgroundColor(color) {
     if (!color) return { r: 255, g: 255, b: 255, alpha: 1 };
@@ -2342,7 +2413,7 @@ generateContentSVG(text, theme, analysis = {}) {
       x="${xPos}"
       y="${yPosition}"
       font-size="${theme.fonts.body.size}"
-      fill="${theme.colors.text.color}"
+      fill="${this.darkenColor(theme.colors.text.color, 0.8)}"
       text-anchor="${anchor}"
       dominant-baseline="middle"
       class="content-line"
@@ -2366,6 +2437,11 @@ generateContentSVG(text, theme, analysis = {}) {
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
+    <filter id="textGlow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+      <feComposite in="SourceGraphic" operator="over"/>
+    </filter>
+
 
     <!-- Text hover effects -->
     <style>
@@ -2419,16 +2495,22 @@ generateTitleSVG(title, theme) {
   // Use the new theme structure for fonts
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" version="1.1">
+  <defs>
+    <filter id="titleGlow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+      <feComposite in="SourceGraphic" operator="over"/>
+    </filter>
+  </defs>
   <text
     x="${xPosition}"
     y="75"
     font-family="${theme.fonts.title.family.replace(/"/g, '&quot;')}"
     font-size="${theme.fonts.title.size}"
     font-weight="${theme.fonts.title.weight}"
-    fill="${theme.colors.title.color}"
+    fill="${this.darkenColor(theme.colors.title.color, 0.8)}"
     text-anchor="${textAnchor}"
     dominant-baseline="middle"
-    ${theme.effects?.textShadow ? 'filter="url(#shadow)"' : ''}
+     ${theme.effects?.textShadow ? 'filter="url(#shadow)"' : ''}
   >${escapedTitle}</text>
   ${theme.layout.textAlign === 'right' ?
     `<line x1="300" y1="100" x2="${xPosition + 50}" y2="100"` :
@@ -2437,6 +2519,24 @@ generateTitleSVG(title, theme) {
     stroke-width="1"
   />
 </svg>`;
+}
+
+// Enhanced color darkening function
+darkenColor(hexColor, factor) {
+  if (!hexColor) return '#000000';
+  try {
+    const rgb = this.hexToRgb(hexColor);
+    if (!rgb) return hexColor;
+    
+    return `#${[rgb.r, rgb.g, rgb.b]
+      .map(c => Math.floor(c * factor)) // Multiply by factor to darken
+      .map(c => Math.min(255, Math.max(0, c))) // Ensure value stays between 0-255
+      .map(c => c.toString(16).padStart(2, '0')) // Convert to hex
+      .join('')}`;
+  } catch (error) {
+    console.warn('Error darkening color:', error);
+    return hexColor;
+  }
 }
 
 // Helper function for generating decorative elements
