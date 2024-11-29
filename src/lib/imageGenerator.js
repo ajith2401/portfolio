@@ -253,11 +253,11 @@ export class ImageGenerationService {
       red: {
         ...this.createTheme('#FFE6E6', '#8B0000'),
         name: 'red',
-        backgroundImage: 'redlinedImg.jpg',
+        backgroundImage: 'red.jpg',
         fonts: defaultFonts,
         colors: {
-          title: { color: '#8B0000', hoverColor: '#660000' },
-          text: { color: '#8B0000', hoverColor: '#660000' },
+          title: { color: '#FFFFFF', hoverColor: '#660000' },
+          text: { color: '#FFFFFF', hoverColor: '#660000' },
           branding: {
             background: '#FFE6E6',
             name: { color: '#8B0000', hoverColor: '#660000' },
@@ -289,11 +289,11 @@ export class ImageGenerationService {
       green: {
         ...this.createTheme('#E6FFE6', '#006400'),
         name: 'green',
-        backgroundImage: 'greenImg.jpg',
+        backgroundImage: 'greenAlt2.png',
         fonts: defaultFonts,
         colors: {
-          title: { color: '#006400', hoverColor: '#004d00' },
-          text: { color: '#006400', hoverColor: '#004d00' },
+          title: { color: '	#FFFFFF', hoverColor: '#004d00' },
+          text: { color: '	#FFFFFF', hoverColor: '#004d00' },
           branding: {
             background: '#E6FFE6',
             name: { color: '#006400', hoverColor: '#004d00' },
@@ -327,11 +327,11 @@ export class ImageGenerationService {
       navyBlue: {
         ...this.createTheme('#D3EFF4', '#05445E'),
         name: 'navyBlue',
-        backgroundImage: 'navyblueImg.jpg',
+        backgroundImage: 'navyblueAlt.jpg',
         fonts: defaultFonts,
         colors: {
-          title: { color: '#05445E', hoverColor: '#043444' },
-          text: { color: '#05445E', hoverColor: '#043444' },
+          title: { color: '#CBCBD4', hoverColor: '#043444' },
+          text: { color: '#CBCBD4', hoverColor: '#043444' },
           branding: {
             background: '#D3EFF4',
             name: { color: '#05445E', hoverColor: '#043444' },
@@ -381,11 +381,11 @@ export class ImageGenerationService {
     oceanBlue: {
       ...this.createTheme('#E1F5FE', '#01579B'),
       name: 'oceanBlue',
-      backgroundImage: 'oceanBlueImg.jpg',
+      backgroundImage: 'oceanBlueAlt.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#01579B', hoverColor: '#014378' },
-        text: { color: '#01579B', hoverColor: '#014378' },
+        title: { color: '#FFA500', hoverColor: '#014378' },
+        text: { color: '#FFA500', hoverColor: '#014378' },
         branding: {
           background: '#E1F5FE',
           name: { color: '#01579B', hoverColor: '#014378' },
@@ -402,8 +402,8 @@ export class ImageGenerationService {
       backgroundImage: 'peacockFeatherImg.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#006064', hoverColor: '#004d4d' },
-        text: { color: '#006064', hoverColor: '#004d4d' },
+        title: { color: '#FFFFFF', hoverColor: '#004d4d' },
+        text: { color: '#FFFFFF', hoverColor: '#004d4d' },
         branding: {
           background: '#E0F7FA',
           name: { color: '#006064', hoverColor: '#004d4d' },
@@ -420,8 +420,8 @@ export class ImageGenerationService {
       backgroundImage: 'eveningSkyImg.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#4A148C', hoverColor: '#3A1070' },
-        text: { color: '#4A148C', hoverColor: '#3A1070' },
+        title: { color: '#FFFFFF', hoverColor: '#3A1070' },
+        text: { color: '#FFFFFF', hoverColor: '#3A1070' },
         branding: {
           background: '#FFF8E1',
           name: { color: '#4A148C', hoverColor: '#3A1070' },
@@ -459,11 +459,11 @@ export class ImageGenerationService {
     creamTan: {
       ...this.createTheme('#F3ECDA', '#94553D'),
       name: 'creamTan',
-      backgroundImage: 'brownImg.jpg',
+      backgroundImage: 'brownAlt.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#94553D', hoverColor: '#7A4632' },
-        text: { color: '#94553D', hoverColor: '#7A4632' },
+        title: { color: '#f5f5f0', hoverColor: '#7A4632' },
+        text: { color: '#f5f5f0', hoverColor: '#7A4632' },
         branding: {
           background: '#F3ECDA',
           name: { color: '#94553D', hoverColor: '#7A4632' },
@@ -479,8 +479,8 @@ export class ImageGenerationService {
       backgroundImage: 'blackCloth.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#050606', hoverColor: '#1A1A1A' },
-        text: { color: '#050606', hoverColor: '#1A1A1A' },
+        title: { color: '#FFFFFF', hoverColor: '#1A1A1A' },
+        text: { color: '#FFFFFF', hoverColor: '#1A1A1A' },
         branding: {
           background: '#FDFDFD',
           name: { color: '#050606', hoverColor: '#1A1A1A' },
@@ -513,8 +513,8 @@ export class ImageGenerationService {
       backgroundImage: 'tealGrayImg.jpg',
       fonts: defaultFonts,
       colors: {
-        title: { color: '#4B7A7A', hoverColor: '#3D6363' },
-        text: { color: '#4B7A7A', hoverColor: '#3D6363' },
+        title: { color: "#022036", hoverColor: '#3D6363' },
+        text: { color: "#022036", hoverColor: '#3D6363' },
         branding: {
           background: '#EAF4F4',
           name: { color: '#4B7A7A', hoverColor: '#3D6363' },
@@ -908,7 +908,419 @@ export class ImageGenerationService {
           social: { color: '#0D47A1', hoverColor: '#1565C0' }
         }
       }
+    },
+    bluePastel: {
+  ...this.createTheme('#FBEAEB', '#2F3C7E'),
+  name: 'bluePastel',
+  backgroundImage: 'bluePastelImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2F3C7E', hoverColor: '#243064' },
+    text: { color: '#2F3C7E', hoverColor: '#243064' },
+    branding: {
+      background: '#FBEAEB',
+      name: { color: '#2F3C7E', hoverColor: '#243064' },
+      web: { color: '#38478F', hoverColor: '#2F3C7E' },
+      phone: { color: '#38478F', hoverColor: '#2F3C7E' },
+      social: { color: '#38478F', hoverColor: '#2F3C7E' }
     }
+  }
+},
+charcoalYellow: {
+  ...this.createTheme('#FEE715', '#101820'),
+  name: 'charcoalYellow',
+  backgroundImage: 'charcoalYellowImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#101820', hoverColor: '#0E1618' },
+    text: { color: '#101820', hoverColor: '#0E1618' },
+    branding: {
+      background: '#FEE715',
+      name: { color: '#101820', hoverColor: '#0E1618' },
+      web: { color: '#252B2E', hoverColor: '#101820' },
+      phone: { color: '#252B2E', hoverColor: '#101820' },
+      social: { color: '#252B2E', hoverColor: '#101820' }
+    }
+  }
+},
+coralYellow: {
+  ...this.createTheme('#F9E795', '#F96167'),
+  name: 'coralYellow',
+  backgroundImage: 'coralYellowImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#F96167', hoverColor: '#D7505B' },
+    text: { color: '#F96167', hoverColor: '#D7505B' },
+    branding: {
+      background: '#F9E795',
+      name: { color: '#F96167', hoverColor: '#D7505B' },
+      web: { color: '#FC7B85', hoverColor: '#F96167' },
+      phone: { color: '#FC7B85', hoverColor: '#F96167' },
+      social: { color: '#FC7B85', hoverColor: '#F96167' }
+    }
+  }
+},
+cherryCream: {
+  ...this.createTheme('#FCF6F5', '#990011'),
+  name: 'cherryCream',
+  backgroundImage: 'cherryCreamImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#990011', hoverColor: '#7A0010' },
+    text: { color: '#990011', hoverColor: '#7A0010' },
+    branding: {
+      background: '#FCF6F5',
+      name: { color: '#990011', hoverColor: '#7A0010' },
+      web: { color: '#B20013', hoverColor: '#990011' },
+      phone: { color: '#B20013', hoverColor: '#990011' },
+      social: { color: '#B20013', hoverColor: '#990011' }
+    }
+  }
+},
+babyBlueWhite: {
+  ...this.createTheme('#FFFFFF', '#8AAAE5'),
+  name: 'babyBlueWhite',
+  backgroundImage: 'babyBlueWhiteImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#8AAAE5', hoverColor: '#7191C4' },
+    text: { color: '#8AAAE5', hoverColor: '#7191C4' },
+    branding: {
+      background: '#FFFFFF',
+      name: { color: '#8AAAE5', hoverColor: '#7191C4' },
+      web: { color: '#9BBCE8', hoverColor: '#8AAAE5' },
+      phone: { color: '#9BBCE8', hoverColor: '#8AAAE5' },
+      social: { color: '#9BBCE8', hoverColor: '#8AAAE5' }
+    }
+  }
+},
+dualBlue: {
+  ...this.createTheme('#CADCFC', '#00246B'),
+  name: 'dualBlue',
+  backgroundImage: 'dualBlueImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#00246B', hoverColor: '#001D58' },
+    text: { color: '#00246B', hoverColor: '#001D58' },
+    branding: {
+      background: '#CADCFC',
+      name: { color: '#00246B', hoverColor: '#001D58' },
+      web: { color: '#00307F', hoverColor: '#00246B' },
+      phone: { color: '#00307F', hoverColor: '#00246B' },
+      social: { color: '#00307F', hoverColor: '#00246B' }
+    }
+  }
+},
+skyPink: {
+  ...this.createTheme('#EA738D', '#89ABE3'),
+  name: 'skyPink',
+  backgroundImage: 'skyPinkImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#89ABE3', hoverColor: '#718EC6' },
+    text: { color: '#89ABE3', hoverColor: '#718EC6' },
+    branding: {
+      background: '#EA738D',
+      name: { color: '#89ABE3', hoverColor: '#718EC6' },
+      web: { color: '#A3B9E9', hoverColor: '#89ABE3' },
+      phone: { color: '#A3B9E9', hoverColor: '#89ABE3' },
+      social: { color: '#A3B9E9', hoverColor: '#89ABE3' }
+    }
+  }
+},
+forestGreen: {
+  ...this.createTheme('#97BC62', '#2C5F2D'),
+  name: 'forestGreen',
+  backgroundImage: 'forestGreenImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2C5F2D', hoverColor: '#244D25' },
+    text: { color: '#2C5F2D', hoverColor: '#244D25' },
+    branding: {
+      background: '#97BC62',
+      name: { color: '#2C5F2D', hoverColor: '#244D25' },
+      web: { color: '#3A713A', hoverColor: '#2C5F2D' },
+      phone: { color: '#3A713A', hoverColor: '#2C5F2D' },
+      social: { color: '#3A713A', hoverColor: '#2C5F2D' }
+    }
+  }
+},
+midnightRoyal: {
+  ...this.createTheme('#7A2048', '#1E2761'),
+  name: 'midnightRoyal',
+  backgroundImage: 'midnightRoyalImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#1E2761', hoverColor: '#181D4D' },
+    text: { color: '#1E2761', hoverColor: '#181D4D' },
+    branding: {
+      background: '#7A2048',
+      name: { color: '#1E2761', hoverColor: '#181D4D' },
+      web: { color: '#2A3B81', hoverColor: '#1E2761' },
+      phone: { color: '#2A3B81', hoverColor: '#1E2761' },
+      social: { color: '#2A3B81', hoverColor: '#1E2761' }
+    }
+  }
+},
+terracottaTeal: {
+  ...this.createTheme('#A7BEAE', '#B85042'),
+  name: 'terracottaTeal',
+  backgroundImage: 'terracottaTealImg.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#B85042', hoverColor: '#984338' },
+    text: { color: '#B85042', hoverColor: '#984338' },
+    branding: {
+      background: '#A7BEAE',
+      name: { color: '#B85042', hoverColor: '#984338' },
+      web: { color: '#D06757', hoverColor: '#B85042' },
+      phone: { color: '#D06757', hoverColor: '#B85042' },
+      social: { color: '#D06757', hoverColor: '#B85042' }
+    }
+  }
+},
+bluePastelPink: {
+  ...this.createTheme('#FBEAEB', '#2F3C7E'),
+  name: 'BluePastelPink',
+  backgroundImage: 'bluePastelHarmony.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2F3C7E', hoverColor: '#1F2C5E' },
+    text: { color: '#2F3C7E', hoverColor: '#1F2C5E' },
+    branding: {
+      background: '#FBEAEB',
+      name: { color: '#2F3C7E', hoverColor: '#1F2C5E' },
+      web: { color: '#3C4F9E', hoverColor: '#2F3C7E' },
+      phone: { color: '#3C4F9E', hoverColor: '#2F3C7E' },
+      social: { color: '#3C4F9E', hoverColor: '#2F3C7E' }
+    }
+  }
+},
+charcoalYellow: {
+  ...this.createTheme('#FEE715', '#101820'),
+  name: 'CharcoalYellow',
+  backgroundImage: 'urbanContrast.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#101820', hoverColor: '#0A1014' },
+    text: { color: '#101820', hoverColor: '#0A1014' },
+    branding: {
+      background: '#FEE715',
+      name: { color: '#101820', hoverColor: '#0A1014' },
+      web: { color: '#323232', hoverColor: '#101820' },
+      phone: { color: '#323232', hoverColor: '#101820' },
+      social: { color: '#323232', hoverColor: '#101820' }
+    }
+  }
+},
+redYellow: {
+  ...this.createTheme('#F96167', '#F9E795'),
+  name: 'RedYellow',
+  backgroundImage: 'vibrantPlayful.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#F96167', hoverColor: '#E65058' },
+    text: { color: '#F96167', hoverColor: '#E65058' },
+    branding: {
+      background: '#F9E795',
+      name: { color: '#F96167', hoverColor: '#E65058' },
+      web: { color: '#FF727B', hoverColor: '#F96167' },
+      phone: { color: '#FF727B', hoverColor: '#F96167' },
+      social: { color: '#FF727B', hoverColor: '#F96167' }
+    }
+  }
+},
+cherryOffWhite: {
+  ...this.createTheme('#FCF6F5', '#990011'),
+  name: 'CherryOffWhite',
+  backgroundImage: 'romanticTimeless.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#990011', hoverColor: '#880010' },
+    text: { color: '#990011', hoverColor: '#880010' },
+    branding: {
+      background: '#FCF6F5',
+      name: { color: '#990011', hoverColor: '#880010' },
+      web: { color: '#B00012', hoverColor: '#990011' },
+      phone: { color: '#B00012', hoverColor: '#990011' },
+      social: { color: '#B00012', hoverColor: '#990011' }
+    }
+  }
+},
+babyBlueWhite: {
+  ...this.createTheme('#FFFFFF', '#8AAAE5'),
+  name: 'BabyBlueWhite',
+  backgroundImage: 'trustAndEase.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#8AAAE5', hoverColor: '#7993D4' },
+    text: { color: '#8AAAE5', hoverColor: '#7993D4' },
+    branding: {
+      background: '#FFFFFF',
+      name: { color: '#8AAAE5', hoverColor: '#7993D4' },
+      web: { color: '#A2BBF0', hoverColor: '#8AAAE5' },
+      phone: { color: '#A2BBF0', hoverColor: '#8AAAE5' },
+      social: { color: '#A2BBF0', hoverColor: '#8AAAE5' }
+    }
+  }
+},
+forestMoss: {
+  ...this.createTheme('#97BC62', '#2C5F2D'),
+  name: 'ForestMoss',
+  backgroundImage: 'natureInspired.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2C5F2D', hoverColor: '#1F4720' },
+    text: { color: '#2C5F2D', hoverColor: '#1F4720' },
+    branding: {
+      background: '#97BC62',
+      name: { color: '#2C5F2D', hoverColor: '#1F4720' },
+      web: { color: '#44853E', hoverColor: '#2C5F2D' },
+      phone: { color: '#44853E', hoverColor: '#2C5F2D' },
+      social: { color: '#44853E', hoverColor: '#2C5F2D' }
+    }
+  }
+},
+terracottaGreen: {
+  ...this.createTheme('#A7BEAE', '#B85042'),
+  name: 'TerracottaGreen',
+  backgroundImage: 'earthyRetro.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#B85042', hoverColor: '#A04539' },
+    text: { color: '#B85042', hoverColor: '#A04539' },
+    branding: {
+      background: '#A7BEAE',
+      name: { color: '#B85042', hoverColor: '#A04539' },
+      web: { color: '#C96C58', hoverColor: '#B85042' },
+      phone: { color: '#C96C58', hoverColor: '#B85042' },
+      social: { color: '#C96C58', hoverColor: '#B85042' }
+    }
+  }
+},
+sunsetPeach: {
+  ...this.createTheme('#FFC4A3', '#FF5E5B'),
+  name: 'SunsetPeach',
+  backgroundImage: 'warmTwilight.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FF5E5B', hoverColor: '#E54F4A' },
+    text: { color: '#FF5E5B', hoverColor: '#E54F4A' },
+    branding: {
+      background: '#FFC4A3',
+      name: { color: '#FF5E5B', hoverColor: '#E54F4A' },
+      web: { color: '#FF6F6B', hoverColor: '#FF5E5B' },
+      phone: { color: '#FF6F6B', hoverColor: '#FF5E5B' },
+      social: { color: '#FF6F6B', hoverColor: '#FF5E5B' }
+    }
+  }
+},
+royalGold: {
+  ...this.createTheme('#FFD700', '#1B1464'),
+  name: 'RoyalGold',
+  backgroundImage: 'opulentElegance.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#1B1464', hoverColor: '#141046' },
+    text: { color: '#1B1464', hoverColor: '#141046' },
+    branding: {
+      background: '#FFD700',
+      name: { color: '#1B1464', hoverColor: '#141046' },
+      web: { color: '#322378', hoverColor: '#1B1464' },
+      phone: { color: '#322378', hoverColor: '#1B1464' },
+      social: { color: '#322378', hoverColor: '#1B1464' }
+    }
+  }
+},
+lavenderDream: {
+  ...this.createTheme('#E0BBE4', '#957DAD'),
+  name: 'LavenderDream',
+  backgroundImage: 'soothingSerenity.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#957DAD', hoverColor: '#7B6690' },
+    text: { color: '#957DAD', hoverColor: '#7B6690' },
+    branding: {
+      background: '#E0BBE4',
+      name: { color: '#957DAD', hoverColor: '#7B6690' },
+      web: { color: '#A983B5', hoverColor: '#957DAD' },
+      phone: { color: '#A983B5', hoverColor: '#957DAD' },
+      social: { color: '#A983B5', hoverColor: '#957DAD' }
+    }
+  }
+},
+tealOrange: {
+  ...this.createTheme('#88D9E6', '#FF8A5B'),
+  name: 'TealOrange',
+  backgroundImage: 'energeticContrast.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FF8A5B', hoverColor: '#E57A4D' },
+    text: { color: '#FF8A5B', hoverColor: '#E57A4D' },
+    branding: {
+      background: '#88D9E6',
+      name: { color: '#FF8A5B', hoverColor: '#E57A4D' },
+      web: { color: '#FF9B6C', hoverColor: '#FF8A5B' },
+      phone: { color: '#FF9B6C', hoverColor: '#FF8A5B' },
+      social: { color: '#FF9B6C', hoverColor: '#FF8A5B' }
+    }
+  }
+},
+goldenMint: {
+  ...this.createTheme('#ADE498', '#F3C13A'),
+  name: 'GoldenMint',
+  backgroundImage: 'freshAndLively.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#F3C13A', hoverColor: '#D3A52F' },
+    text: { color: '#F3C13A', hoverColor: '#D3A52F' },
+    branding: {
+      background: '#ADE498',
+      name: { color: '#F3C13A', hoverColor: '#D3A52F' },
+      web: { color: '#F7D54A', hoverColor: '#F3C13A' },
+      phone: { color: '#F7D54A', hoverColor: '#F3C13A' },
+      social: { color: '#F7D54A', hoverColor: '#F3C13A' }
+    }
+  }
+},
+seafoamRust: {
+  ...this.createTheme('#6C91C2', '#D1495B'),
+  name: 'SeafoamRust',
+  backgroundImage: 'earthyCool.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#D1495B', hoverColor: '#BA3E4D' },
+    text: { color: '#D1495B', hoverColor: '#BA3E4D' },
+    branding: {
+      background: '#6C91C2',
+      name: { color: '#D1495B', hoverColor: '#BA3E4D' },
+      web: { color: '#E06775', hoverColor: '#D1495B' },
+      phone: { color: '#E06775', hoverColor: '#D1495B' },
+      social: { color: '#E06775', hoverColor: '#D1495B' }
+    }
+  }
+},
+coolMagenta: {
+  ...this.createTheme('#E1F8DC', '#6F1D1B'),
+  name: 'CoolMagenta',
+  backgroundImage: 'crispContrast.jpg',
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#6F1D1B', hoverColor: '#5C1816' },
+    text: { color: '#6F1D1B', hoverColor: '#5C1816' },
+    branding: {
+      background: '#E1F8DC',
+      name: { color: '#6F1D1B', hoverColor: '#5C1816' },
+      web: { color: '#7F2220', hoverColor: '#6F1D1B' },
+      phone: { color: '#7F2220', hoverColor: '#6F1D1B' },
+      social: { color: '#7F2220', hoverColor: '#6F1D1B' }
+    }
+  }
+},
+
+
+
+
   }; 
 } 
 
