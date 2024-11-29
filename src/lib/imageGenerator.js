@@ -14,41 +14,375 @@ export class ImageGenerationService {
 
   setupThemes() {
     this.themes = {
-      default: this.createTheme('#FFFFFF', '#000000'),
-      red: this.createTheme('#FFE6E6', '#8B0000'),
-      blue: this.createTheme('#E6F3FF', '#00008B'),
-      green: this.createTheme('#E6FFE6', '#006400'),
-      black: this.createTheme('#1A1A1A', '#FFFFFF'),
-      gray: this.createTheme('#F0F0F0', '#333333'),
-      dark: this.createTheme('#1a1a1a', '#FFFFFF'),
-      love: this.createTheme('#FFF5F5', '#ff4646')
+      // Basic themes with background images
+      default: {
+        ...this.createTheme('#FFFFFF', '#000000'),
+        name: 'default',
+        backgroundImage: 'whiteIinedImg.jpg'
+      },
+      
+      red: {
+        ...this.createTheme('#FFE6E6', '#8B0000'),
+        name: 'red',
+        backgroundImage: 'redlinedImg.jpg'
+      },
+      
+      blue: {
+        ...this.createTheme('#E6F3FF', '#00008B'),
+        name: 'blue',
+        backgroundImage: 'blueImg.jpg'
+      },
+      
+      green: {
+        ...this.createTheme('#E6FFE6', '#006400'),
+        name: 'green',
+        backgroundImage: 'greenImg.jpg'
+      },
+      
+      black: {
+        ...this.createTheme('#1A1A1A', '#FFFFFF'),
+        name: 'black',
+        backgroundImage: 'paintedBlackImg.jpg'
+      },
+      
+      gray: {
+        ...this.createTheme('#F0F0F0', '#333333'),
+        name: 'gray',
+        backgroundImage: 'grayImg.jpg'
+      },
+      
+      dark: {
+        ...this.createTheme('#1a1a1a', '#FFFFFF'),
+        name: 'dark',
+        backgroundImage: 'paintedBlackImg.jpg'
+      },
+  
+      // Complex themes with specific backgrounds
+      navyBlue: {
+        ...this.createTheme('#D3EFF4', '#05445E', '#189AB4'),
+        name: 'navyBlue',
+        backgroundImage: 'navyblueImg.jpg'
+      },
+  
+      midnightBlue: {
+        ...this.createTheme('#D3EFF4', '#274472', '#41729F'),
+        name: 'midnightBlue',
+        backgroundImage: 'navyblueImg.jpg'
+      },
+  
+      blackDustyRose: {
+        ...this.createTheme('#E9DDD4', '#000000', '#8B4513'),
+        name: 'blackDustyRose',
+        backgroundImage: 'blackDustyRose.jpg'
+      },
+  
+      creamTan: {
+        ...this.createTheme('#F3ECDA', '#94553D', '#6B4423'),
+        name: 'creamTan',
+        backgroundImage: 'brownImg.jpg'
+      },
+  
+      jetBlack: {
+        ...this.createTheme('#FDFDFD', '#050606', '#ADB3BC'),
+        name: 'jetBlack',
+        backgroundImage: 'blackCloth.jpg'
+      },
+  
+      limeGreen: {
+        ...this.createTheme('#F6FFE5', '#4A7212', '#104210'),
+        name: 'limeGreen',
+        backgroundImage: 'limeGreenImg.jpg'
+      },
+  
+      tealGray: {
+        ...this.createTheme('#EAF4F4', '#4B7A7A', '#2F4F4F'),
+        name: 'tealGray',
+        backgroundImage: 'tealGrayImg.jpg'
+      },
+  
+      skyBlue: {
+        ...this.createTheme('#EDF2FB', '#003F88', '#00296B'),
+        name: 'skyBlue',
+        backgroundImage: 'lightBlueImg.jpg'
+      },
+  
+      softGreen: {
+        ...this.createTheme('#F9FFF2', '#47565E', '#214456'),
+        name: 'softGreen',
+        backgroundImage: 'lightGreenBlueImg.jpg'
+      },
+  
+      vintage: {
+        ...this.createTheme('#F4F2F3', '#656256', '#230903'),
+        name: 'vintage',
+        backgroundImage: 'vintageGreenImg.jpg'
+      },
+  
+      flower: {
+        ...this.createTheme('#F4F2F3', '#656256', '#230903'),
+        name: 'flower',
+        backgroundImage: 'flower.jpg'
+      },
+  
+      blackCloth: {
+        ...this.createTheme('#1A1A1A', '#FFFFFF', '#FFFFFF'),
+        name: 'blackCloth',
+        backgroundImage: 'blackCloth.jpg'
+      },
+  
+      // Additional artistic themes
+      artistic: {
+        ...this.createTheme('#F5F5F5', '#2E4A62', '#4A6670'),
+        name: 'artistic',
+        backgroundImage: 'artisticGreenImg.jpg'
+      },
+  
+      gradient: {
+        ...this.createTheme('#FFFFFF', '#333333', '#666666'),
+        name: 'gradient',
+        backgroundImage: 'gradient.jpg'
+      },
+  
+      waterColor: {
+        ...this.createTheme('#FFF5F5', '#8B4513', '#A0522D'),
+        name: 'waterColor',
+        backgroundImage: 'waterColourRoseImg.jpg'
+      },
+  
+      textile: {
+        ...this.createTheme('#F5F5F5', '#4A4A4A', '#666666'),
+        name: 'textile',
+        backgroundImage: 'textileMaterialImg.jpg'
+      },
+  
+      tieDye: {
+        ...this.createTheme('#FFFFFF', '#333333', '#4A4A4A'),
+        name: 'tieDye',
+        backgroundImage: 'tieDyeImg.jpg'
+      },
+  
+      maroon: {
+        ...this.createTheme('#FFF0F0', '#800000', '#A52A2A'),
+        name: 'maroon',
+        backgroundImage: 'maroonImg.jpg'
+      },
+  
+      grayLine: {
+        ...this.createTheme('#F5F5F5', '#333333', '#666666'),
+        name: 'grayLine',
+        backgroundImage: 'grayLine.jpg'
+      },
+
+      ancientStone: {
+        ...this.createTheme('#E8E0D5', '#2B1810', '#463026'),
+        name: 'ancientStone',
+        backgroundImage: 'BrownAncientStoneImg.jpg'
+      },
+  
+      morningSun: {
+        ...this.createTheme('#FFF7E6', '#8B4513', '#A0522D'),
+        name: 'morningSun',
+        backgroundImage: 'MorningYelllowSunImg.jpg'
+      },
+  
+      multiColor: {
+        ...this.createTheme('#FFFFFF', '#1A237E', '#0D47A1'),
+        name: 'multiColor',
+        backgroundImage: 'MultiBlueRedYellowImg.jpg'
+      },
+  
+      oldArchBW: {
+        ...this.createTheme('#F5F5F5', '#1A1A1A', '#333333'),
+        name: 'oldArchBW',
+        backgroundImage: 'OldArchBWImg.jpg'
+      },
+  
+      blueFire: {
+        ...this.createTheme('#E3F2FD', '#1565C0', '#0D47A1'),
+        name: 'blueFire',
+        backgroundImage: 'blueBGFilreImg.jpg'
+      },
+  
+      eveningSky: {
+        ...this.createTheme('#FFF8E1', '#4A148C', '#311B92'),
+        name: 'eveningSky',
+        backgroundImage: 'eveningSkyImg.jpg'
+      },
+  
+      whiteFlower: {
+        ...this.createTheme('#FFFFFF', '#2E7D32', '#1B5E20'),
+        name: 'whiteFlower',
+        backgroundImage: 'flowerInWhiteBGImg.jpg'
+      },
+  
+      pureBlack: {
+          ...this.createTheme('#000000', '#FFFFFF', '#CCCCCC'), // Changed background to black, text to white
+          name: 'oldArchBW',
+          backgroundImage: 'OldArchBWImg.jpg',
+          effects: {
+            textShadow: true,
+            glow: false,
+            decorativeElements: true,
+            backgroundTexture: true,
+            shadow: {
+              blur: 4,
+              opacity: 0.5,
+              offset: { x: 2, y: 2 }
+            }
+          },
+          layout: {
+            padding: 60,
+            titleSize: 48,
+            bodySize: 32,
+            lineHeight: 2.0,
+            textAlign: 'center'
+          }
+        },
+      foggyForest: {
+        ...this.createTheme('#E8F5E9', '#2E7D32', '#1B5E20'),
+        name: 'foggyForest',
+        backgroundImage: 'foggyGreenForestImg.jpg'
+      },
+  
+      greenLeaf: {
+        ...this.createTheme('#E8F5E9', '#1B5E20', '#004D40'),
+        name: 'greenLeaf',
+        backgroundImage: 'greenLeafImg.jpg'
+      },
+  
+      leafRose: {
+        ...this.createTheme('#F3E5F5', '#4A148C', '#311B92'),
+        name: 'leafRose',
+        backgroundImage: 'greenLeafRoseImg.jpg'
+      },
+  
+      greenishBrown: {
+        ...this.createTheme('#EFEBE9', '#3E2723', '#4E342E'),
+        name: 'greenishBrown',
+        backgroundImage: 'greenishBrownLeafImg.jpg'
+      },
+  
+      lightBlack: {
+        ...this.createTheme('#212121', '#FFFFFF', '#EEEEEE'),
+        name: 'lightBlack',
+        backgroundImage: 'lightBlackImg.jpg'
+      },
+  
+      lightBluePaint: {
+        ...this.createTheme('#E3F2FD', '#0D47A1', '#1565C0'),
+        name: 'lightBluePaint',
+        backgroundImage: 'lightBluePaintImg.jpg'
+      },
+  
+      oceanBlue: {
+        ...this.createTheme('#E1F5FE', '#01579B', '#0277BD'),
+        name: 'oceanBlue',
+        backgroundImage: 'oceanBlueImg.jpg'
+      },
+  
+      oldPaper: {
+        ...this.createTheme('#EFEBE9', '#3E2723', '#4E342E'),
+        name: 'oldPaper',
+        backgroundImage: 'oldDullBrownPaperImg.jpg'
+      },
+  
+      peacockFeather: {
+        ...this.createTheme('#E0F7FA', '#006064', '#00838F'),
+        name: 'peacockFeather',
+        backgroundImage: 'peacockFeatherImg.jpg'
+      },
+  
+      pinkBlueWater: {
+        ...this.createTheme('#F3E5F5', '#4A148C', '#6A1B9A'),
+        name: 'pinkBlueWater',
+        backgroundImage: 'pinkBlueWaterColurImg.jpg'
+      },
+  
+      redForest: {
+        ...this.createTheme('#FFEBEE', '#B71C1C', '#C62828'),
+        name: 'redForest',
+        backgroundImage: 'redFlowerForestImg.jpg'
+      },
+  
+      redTexture: {
+        ...this.createTheme('#FFEBEE', '#B71C1C', '#C62828'),
+        name: 'redTexture',
+        backgroundImage: 'redTextureImg.jpg'
+      },
+  
+      starSky: {
+        ...this.createTheme('#1A237E', '#FFFFFF', '#E8EAF6'),
+        name: 'starSky',
+        backgroundImage: 'starSkyImg.jpg'
+      }
+  
     };
   }
 
-  createTheme(backgroundColor, textColor) {
+  createTheme(backgroundColor, textColor, secondaryColor = null, backgroundImage = null) {
     return {
       colors: {
         primary: textColor,
-        secondary: this.adjustColor(textColor, 0.8),
+        secondary: secondaryColor || textColor,
         background: backgroundColor,
         text: textColor,
         title: this.adjustColor(textColor, 1.2),
         accent: this.adjustColor(textColor, 1.3)
       },
+      backgroundImage: backgroundImage, // Add background image support
       fonts: {
         title: '"Noto Serif Tamil Slanted"',
         body: '"Annai MN"',
         branding: '"Tamil Sangam MN"',
-        contact: '"Noto Sans Tamil"'
+        contact: '"Noto Sans Tamil"',
+        weights: {
+          light: 300,
+          regular: 400,
+          medium: 500,
+          bold: 700,
+          heavy: 800
+        },
+        styles: {
+          normal: 'normal',
+          italic: 'italic',
+          oblique: 'oblique'
+        }
       },
       layout: {
         padding: 60,
-        titleSize: 48,     // Increased title size
-        bodySize: 36,      // Increased body text size
+        titleSize: 48,
+        bodySize: 36,
         lineHeight: 1.8,
-        brandingSize: 32,  // Increased branding size
-        contactSize: 24,   // Increased contact size
-        textAlign: 'center' // Default alignment
+        brandingSize: 32,
+        contactSize: 24,
+        textAlign: 'center',
+        spacing: {
+          paragraph: 1.5,
+          section: 2.5
+        },
+        margins: {
+          top: 60,
+          bottom: 60,
+          left: 60,
+          right: 60
+        }
+      },
+      effects: {
+        textShadow: false,
+        glow: false,
+        outline: false,
+        decorativeElements: false,
+        backgroundTexture: true,
+        shadow: {
+          blur: 3,
+          opacity: 0.3,
+          offset: { x: 2, y: 2 }
+        },
+        glow: {
+          blur: 10,
+          intensity: 0.4,
+          color: textColor
+        }
       }
     };
   }
@@ -123,44 +457,95 @@ export class ImageGenerationService {
   }
   
 
-  async createTexturedBackground(width, height, theme) {
-    try {
-        // Create base image
-        const baseImage = await sharp({
-            create: {
-                width,
-                height,
-                channels: 4,
-                background: this.parseBackgroundColor(theme.colors.background)
-            }
-        }).png().toBuffer();
+async createTexturedBackground(width, height, theme) {
+  try {
+    console.log({ width, height, theme });
 
-        try {
-            // Use node-fetch or axios for fetching
-            const textureUrl = "https://res.cloudinary.com/dk5p5vrwa/image/upload/v1732732038/image-generation-assets/textures/v7gnw9kgeoy501gjqnou.png";
-            const response = await fetch(textureUrl);
-            if (!response.ok) throw new Error(`Failed to fetch texture: ${response.statusText}`);
-            
-            const textureBuffer = await response.arrayBuffer();
-            
-            // Apply texture
-            return await sharp(baseImage)
-                .composite([{
-                    input: Buffer.from(textureBuffer),
-                    tile: true,
-                    blend: 'overlay',
-                    opacity: 0.15
-                }])
-                .toBuffer();
-        } catch (textureError) {
-            console.warn("Texture application failed:", textureError.message);
-            // Return base image if texture application fails
-            return baseImage;
-        }
-    } catch (error) {
-        console.error("Error creating background:", error.message);
-        throw error;
+    // Resolve the path to the public folder for background textures
+    const bgImage = theme.backgroundImage || `${theme.name}Img.jpg`;
+    const texturePath = path.join(process.cwd(), 'public/backgrounds', bgImage);
+    console.log({ texturePath });
+
+    // Create base image with the theme's background color
+    const baseImage = await sharp({
+      create: {
+        width,
+        height,
+        channels: 4,
+        background: this.parseBackgroundColor(theme.colors.background),
+      },
+    }).png().toBuffer();
+
+    try {
+      // Check if a specific texture image exists for the theme
+      let textureBuffer = await sharp(texturePath)
+        .resize(width, height, { 
+          fit: 'cover',
+          position: 'center'
+        })
+        .modulate({
+          brightness: 1.1,  // Slightly increase brightness
+          saturation: 1.2,  // Boost saturation
+          hue: 0           // Keep original hue
+        })
+        .toBuffer();
+
+      // Apply the resized texture with improved settings
+      return await sharp(baseImage)
+        .composite([
+          {
+            input: textureBuffer,
+            blend: 'multiply',    // Changed from overlay to multiply for better color
+            opacity: 0.95,        // Increased opacity significantly
+          },
+        ])
+        .modulate({
+          brightness: 1.05,      // Slight brightness boost
+          saturation: 1.1        // Slight saturation boost
+        })
+        .toBuffer();
+    } catch (textureError) {
+      console.warn(`Texture for theme '${theme.name}' not found. Using fallback texture.`, textureError.message);
+
+      // Fallback to a default texture with improved settings
+      const defaultTextureUrl = "https://res.cloudinary.com/dk5p5vrwa/image/upload/v1732732038/image-generation-assets/textures/v7gnw9kgeoy501gjqnou.png";
+      const response = await fetch(defaultTextureUrl);
+      if (!response.ok) throw new Error(`Failed to fetch fallback texture: ${response.statusText}`);
+
+      const fallbackTextureBuffer = await response.arrayBuffer();
+
+      // Resize and enhance fallback texture
+      const resizedFallbackTexture = await sharp(Buffer.from(fallbackTextureBuffer))
+        .resize(width, height, { 
+          fit: 'cover',
+          position: 'center'
+        })
+        .modulate({
+          brightness: 1.1,
+          saturation: 1.2,
+          hue: 0
+        })
+        .toBuffer();
+
+      // Apply the fallback texture with improved settings
+      return await sharp(baseImage)
+        .composite([
+          {
+            input: resizedFallbackTexture,
+            blend: 'multiply',
+            opacity: 0.95,
+          },
+        ])
+        .modulate({
+          brightness: 1.05,
+          saturation: 1.1
+        })
+        .toBuffer();
     }
+  } catch (error) {
+    console.error("Error creating textured background:", error.message);
+    throw error;
+  }
 }
 
 // Helper method to parse background color
@@ -176,7 +561,6 @@ parseBackgroundColor(color) {
     
     return color;
 }
-  
 
 // Update branding elements with simpler SVG structure
 async addBrandingElements(buffer, theme) {
@@ -249,67 +633,149 @@ async addBrandingElements(buffer, theme) {
 }
 
 
-// Update content generation for new font
 generateContentSVG(text, theme, analysis) {
   const lines = text.split('\n').filter(line => line.trim());
   const lineHeight = theme.layout.lineHeight || 2.0;
   
-  // Constants for positioning
-  const RIGHT_MARGIN = 1100; // Right margin position
-  const START_Y = theme.title ? 300 : 200; // Start lower if there's a title
+  // Enhanced positioning system
+  const containerWidth = 1200;
+  const padding = theme.layout.margins?.horizontal || theme.layout.padding || 60;
+  const effectiveWidth = containerWidth - (padding * 2);
   
-  // Process each line with proper escaping
-  const escapedLines = lines.map(line => 
-    line.trim()
+  // Calculate alignment position
+  const getXPosition = (alignment, lineWidth) => {
+    switch (alignment) {
+      case 'right':
+        return containerWidth - padding;
+      case 'center':
+        return containerWidth / 2;
+      case 'justify':
+        // For justify, we'll handle this separately
+        return padding;
+      default: // left
+        return padding;
+    }
+  };
+
+  // Get text anchor based on alignment
+  const getTextAnchor = (alignment) => {
+    switch (alignment) {
+      case 'right':
+        return 'end';
+      case 'center':
+        return 'middle';
+      default:
+        return 'start';
+    }
+  };
+
+  // Process text styles and effects
+  const baseTextStyle = `
+    font-family: ${theme.fonts.body.replace(/"/g, '&quot;')};
+    font-weight: ${theme.fonts.weights?.regular || 400};
+    font-style: ${theme.fonts.styles?.normal || 'normal'};
+  `;
+
+  const textEffects = [];
+  if (theme.effects?.textShadow) {
+    textEffects.push(`filter: drop-shadow(${theme.effects.shadow.offset.x}px ${theme.effects.shadow.offset.y}px ${theme.effects.shadow.blur}px rgba(0,0,0,${theme.effects.shadow.opacity}))`);
+  }
+  if (theme.effects?.glow) {
+    textEffects.push(`filter: drop-shadow(0 0 ${theme.effects.glow.blur}px ${theme.effects.glow.color})`);
+  }
+
+  // Generate SVG content with enhanced styling
+  const svgContent = lines.map((line, index) => {
+    const yPosition = (theme.layout.margins?.top || 60) + 
+                     (index * theme.layout.bodySize * lineHeight);
+    const escapedLine = line.trim()
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;')
-  );
+      .replace(/'/g, '&apos;');
 
-  // Generate SVG text elements with right alignment
-  const svgContent = escapedLines.map((line, index) => {
-    const yPosition = START_Y + (index * theme.layout.bodySize * lineHeight);
-    
     return `    <text
-      x="${RIGHT_MARGIN}"
+      x="${getXPosition(theme.layout.textAlign)}"
       y="${yPosition}"
-      font-family="${theme.fonts.body.replace(/"/g, '&quot;')}"
       font-size="${theme.layout.bodySize}"
       fill="${theme.colors.text}"
-      text-anchor="end"
+      text-anchor="${getTextAnchor(theme.layout.textAlign)}"
       dominant-baseline="middle"
       class="poetry-line"
-    >${line}</text>`;
+    >${escapedLine}</text>`;
   }).join('\n');
 
-  // Add decorative elements for poetry
-  const decorativeElements = theme.effects?.decorativeElements ? `
-    <path 
-      d="M ${RIGHT_MARGIN - 500} 150 L ${RIGHT_MARGIN} 150" 
-      stroke="${theme.colors.text}" 
-      stroke-width="1"
-      stroke-opacity="0.3"
-    />
-    <path 
-      d="M ${RIGHT_MARGIN - 300} ${START_Y + (lines.length * theme.layout.bodySize * lineHeight) + 50} L ${RIGHT_MARGIN} ${START_Y + (lines.length * theme.layout.bodySize * lineHeight) + 50}" 
-      stroke="${theme.colors.text}" 
-      stroke-width="1"
-      stroke-opacity="0.3"
-    />` : '';
-
+  // Add enhanced styling
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" version="1.1">
-  <style>
-    .poetry-line {
-      font-family: ${theme.fonts.body.replace(/"/g, '&quot;')};
-      ${theme.effects?.textShadow ? 'filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));' : ''}
-    }
-  </style>
-  ${decorativeElements}
+  <defs>
+    <style>
+      .poetry-line {
+        ${baseTextStyle}
+        ${textEffects.join(';')}
+      }
+    </style>
+  </defs>
+  ${this.generateDecorationElements(theme)}
   ${svgContent}
 </svg>`;
+}
+
+// Helper function for generating decorative elements
+generateDecorationElements(theme) {
+  if (!theme.effects?.decorativeElements) return '';
+
+  const decorations = [];
+  const width = 1200;
+  const height = 1200;
+
+  // Add decorative lines
+  if (theme.layout.textAlign === 'right') {
+    decorations.push(`
+      <line 
+        x1="${width - 500}" 
+        y1="150" 
+        x2="${width - 100}" 
+        y2="150" 
+        stroke="${theme.colors.text}" 
+        stroke-width="1"
+        stroke-opacity="0.3"
+      />
+      <line 
+        x1="${width - 400}" 
+        y1="${height - 150}" 
+        x2="${width - 100}" 
+        y2="${height - 150}" 
+        stroke="${theme.colors.text}" 
+        stroke-width="1"
+        stroke-opacity="0.3"
+      />
+    `);
+  }
+
+  return decorations.join('\n');
+}
+
+// Helper function for calculating text metrics
+calculateTextMetrics(text, fontSize, fontFamily) {
+  // Approximate character widths based on script
+  const metrics = {
+    tamil: fontSize * 0.8,  // Tamil characters are typically wider
+    latin: fontSize * 0.5,  // Latin characters
+    space: fontSize * 0.3   // Space between words
+  };
+
+  const tamilCount = (text.match(/[\u0B80-\u0BFF]/g) || []).length;
+  const spaceCount = (text.match(/\s/g) || []).length;
+  const latinCount = text.length - tamilCount - spaceCount;
+
+  return {
+    width: (tamilCount * metrics.tamil) + 
+           (latinCount * metrics.latin) + 
+           (spaceCount * metrics.space),
+    height: fontSize * 1.2
+  };
 }
 
 // Update title generation for poetry
