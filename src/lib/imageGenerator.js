@@ -6,10 +6,192 @@ import { uploadGeneratedImage } from './cloudinary';
 import connectDB from './db';
 import { Writing } from '@/models';
 
+
+const TEXT_METRICS = {
+  CANVAS_WIDTH: 1200,
+  CANVAS_HEIGHT: 1200,
+  BRANDING_HEIGHT: 150,  // Fixed branding space at bottom
+  
+  // Line count thresholds
+  MIN_LINES: 1,
+  MAX_LINES: 28,  // (1200 - 150 branding) / (24px * 1.4 min spacing) ≈ 31.5 lines max
+  
+  // Font size ranges - Adjusted for new minimum
+  MAX_FONT_SIZE: 32,     // For short content (1-5 lines)
+  MIN_FONT_SIZE: 24,     // New minimum for better readability
+  
+  // Line height ranges - Optimized for new font sizes
+  MAX_LINE_HEIGHT: 1.8,  // For content with few lines (1-10)
+  MIN_LINE_HEIGHT: 1.4,  // Minimum readable spacing for Tamil
+  
+  // Positioning - Adjusted for new metrics
+  BASE_POSITION: 200,    // Reduced to accommodate larger minimum font
+  MIN_POSITION: 80,      // Minimum distance from top
+  
+  // Words per line
+  POEM_MAX_WORDS: 4,
+  PROSE_MAX_WORDS: 8,    // 8 words max for prose
+  
+  // Dynamic adjustment thresholds - Recalculated for new minimum font size
+  LINE_THRESHOLDS: [
+    { lines: 8,  fontSize: 32, lineHeight: 1.8 },  // 1-8 lines: largest font
+    { lines: 15, fontSize: 28, lineHeight: 1.6 },  // 9-15 lines: medium font
+    { lines: 20, fontSize: 26, lineHeight: 1.5 },  // 16-20 lines: smaller font
+    { lines: 28, fontSize: 24, lineHeight: 1.4 }   // 21+ lines: minimum font
+  ],
+  
+  // Font reduction steps - Adjusted for new range
+  FONT_REDUCTION: {
+    STEP: 2,            // Smaller steps due to smaller font range
+    MIN_THRESHOLD: 5    // Start reducing after 5 lines
+  }
+};
+
+class TextMetricsCalculator {
+  calculateMetrics(lineCount, category, hasTitle = false) {
+    // 1. Validate line count with new maximum
+    const validLineCount = Math.max(
+      TEXT_METRICS.MIN_LINES,
+      Math.min(lineCount, TEXT_METRICS.MAX_LINES)
+    );
+
+    // 2. Calculate available space
+    const titleHeight = hasTitle ? 120 : 0;
+    const availableHeight = TEXT_METRICS.CANVAS_HEIGHT - 
+                          TEXT_METRICS.BRANDING_HEIGHT - 
+                          titleHeight;
+
+    // 3. Calculate initial font size based on line count
+    const fontSize = this.calculateDynamicFontSize(validLineCount);
+    
+    // 4. Calculate line height
+    const lineHeight = this.calculateDynamicLineHeight(validLineCount);
+    
+    // 5. Calculate initial text block height
+    const textBlockHeight = this.calculateTextBlockHeight(validLineCount, fontSize, lineHeight);
+    
+    // 6. Adjust values if content exceeds boundaries
+    const { adjustedFontSize, adjustedLineHeight } = this.adjustForBoundaries(
+      fontSize, 
+      lineHeight, 
+      textBlockHeight, 
+      availableHeight,
+      validLineCount
+    );
+
+    // 7. Calculate final text block height
+    const finalTextBlockHeight = this.calculateTextBlockHeight(
+      validLineCount, 
+      adjustedFontSize, 
+      adjustedLineHeight
+    );
+
+    // 8. Calculate optimal top position
+    const topPosition = this.calculateTopPosition(
+      validLineCount, 
+      finalTextBlockHeight, 
+      hasTitle
+    );
+
+    // 9. Calculate words per line based on font size and category
+    const maxWordsPerLine = category === 'poem' ? 
+      TEXT_METRICS.POEM_MAX_WORDS : 
+      Math.min(
+        TEXT_METRICS.PROSE_MAX_WORDS,
+        Math.floor((TEXT_METRICS.CANVAS_WIDTH - 120) / (adjustedFontSize * 2))
+      );
+
+    return {
+      fontSize: adjustedFontSize,
+      lineHeight: adjustedLineHeight,
+      topPosition,
+      maxWordsPerLine,
+      textBlockHeight: finalTextBlockHeight,
+      metrics: {
+        totalHeight: finalTextBlockHeight + titleHeight + TEXT_METRICS.BRANDING_HEIGHT,
+        exceedsCanvas: finalTextBlockHeight > availableHeight
+      }
+    };
+  }
+
+  calculateDynamicFontSize(lineCount) {
+    // Find appropriate threshold
+    const threshold = TEXT_METRICS.LINE_THRESHOLDS.find(t => lineCount <= t.lines) || 
+                     TEXT_METRICS.LINE_THRESHOLDS[TEXT_METRICS.LINE_THRESHOLDS.length - 1];
+    
+    // Calculate reduction for lines exceeding threshold
+    const reduction = Math.max(0, 
+      Math.floor((lineCount - TEXT_METRICS.FONT_REDUCTION.MIN_THRESHOLD) / 5) * 
+      TEXT_METRICS.FONT_REDUCTION.STEP
+    );
+    
+    // Ensure we never go below minimum font size
+    return Math.max(
+      TEXT_METRICS.MIN_FONT_SIZE,
+      threshold.fontSize - reduction
+    );
+  }
+
+  calculateDynamicLineHeight(lineCount) {
+    const threshold = TEXT_METRICS.LINE_THRESHOLDS.find(t => lineCount <= t.lines) || 
+                     TEXT_METRICS.LINE_THRESHOLDS[TEXT_METRICS.LINE_THRESHOLDS.length - 1];
+    
+    return Math.max(
+      TEXT_METRICS.MIN_LINE_HEIGHT,
+      threshold.lineHeight
+    );
+  }
+
+  calculateTextBlockHeight(lineCount, fontSize, lineHeight) {
+    return lineCount * fontSize * lineHeight;
+  }
+
+  adjustForBoundaries(fontSize, lineHeight, textBlockHeight, availableHeight, lineCount) {
+    let adjustedFontSize = fontSize;
+    let adjustedLineHeight = lineHeight;
+
+    // If content exceeds boundaries, adjust line height first
+    if (textBlockHeight > availableHeight) {
+      adjustedLineHeight = Math.max(
+        TEXT_METRICS.MIN_LINE_HEIGHT,
+        (availableHeight / (lineCount * fontSize))
+      );
+      
+      // If still too large, reduce font size to minimum
+      if (lineCount * fontSize * adjustedLineHeight > availableHeight) {
+        adjustedFontSize = TEXT_METRICS.MIN_FONT_SIZE;
+        adjustedLineHeight = TEXT_METRICS.MIN_LINE_HEIGHT;
+      }
+    }
+
+    return { adjustedFontSize, adjustedLineHeight };
+  }
+
+  calculateTopPosition(lineCount, textBlockHeight, hasTitle) {
+    let position = TEXT_METRICS.BASE_POSITION;
+    
+    // Adjust position based on content length
+    if (lineCount > 15) {
+      position -= Math.min(50, (lineCount - 15) * 3);
+    }
+    
+    // Ensure minimum position
+    position = Math.max(TEXT_METRICS.MIN_POSITION, position);
+    
+    // Add title offset if present
+    if (hasTitle) {
+      position += 80;
+    }
+    
+    return position;
+  }
+}
+
 export class ImageGenerationService {
   constructor() {
     this.analyzer = new TamilTextAnalyzer();
     this.setupThemes();
+    this.textMetrics = new TextMetricsCalculator();
   }
 
   setupThemes() {
@@ -22,13 +204,13 @@ export class ImageGenerationService {
       },
       
       red: {
-        ...this.createTheme('#FFE6E6', '#8B0000'),
+        ...this.createTheme('#FFE6E6', '#9bd2f2'),
         name: 'red',
         backgroundImage: 'redlinedImg.jpg'
       },
       
       blue: {
-        ...this.createTheme('#E6F3FF', '#00008B'),
+        ...this.createTheme('#E6F3FF', '#ffffff',"#095086"),
         name: 'blue',
         backgroundImage: 'blueImg.jpg'
       },
@@ -404,58 +586,107 @@ export class ImageGenerationService {
   }
 
 
-  async createImage(text, options = {}) {
-    const {
-      width = 1200,
-      height = 1200,
-      theme: themeName = 'default',
-      analysis = {},
-      title = '',
-      style = {}
-    } = options;
+// Add this method to your ImageGenerationService class
+calculateTopPosition(lineCount) {
+  // Base position for single line
+  const basePosition = 500;
+  const decrementPerLine = 10;  // Decrease by 10px per line
+  const minPosition = 150;      // Minimum top position
   
-    // Safely resolve the theme
-    const baseTheme = this.themes[themeName] || this.themes.default;
-    const theme = { ...baseTheme, layout: { ...baseTheme.layout, ...style } };
+  // Validate line count
+  if (lineCount < 1) return basePosition;
+  if (lineCount > 25) lineCount = 25;  // Cap at maximum 25 lines
+
+  // Calculate position
+  let position = basePosition - ((lineCount - 1) * decrementPerLine);
   
-    try {
-      console.log("Creating image with theme:", themeName);
-      console.log("Resolved theme properties:", theme);
+  // Ensure position doesn't go below minimum
+  return Math.max(position, minPosition);
+}
+
+
+async createImage(text, options = {}) {
+  const {
+    width = TEXT_METRICS.CANVAS_WIDTH,
+    height = TEXT_METRICS.CANVAS_HEIGHT,
+    theme: themeName = 'default',
+    category = 'article',
+    title = '',
+    style = {},
+    analysis = {} // Add analysis with default empty object
+  } = options;
+
+  const metrics = this.calculateDynamicTextMetrics(text, category);
+  const formattedText = this.textFormatter(text, category);
   
-      // Step 1: Create base textured background
-      let processedImage = await this.createTexturedBackground(width, height, theme);
-  
-      // Step 2: Add title if provided
-      if (title) {
-        const titleSvg = this.generateTitleSVG(title, theme);
-        processedImage = await sharp(processedImage)
-          .composite([{ input: Buffer.from(titleSvg), top: 80, left: 0 }])
-          .toBuffer();
-        console.log("Added title to the image.");
+  const theme = {
+    ...this.themes[themeName],
+    layout: {
+      ...this.themes[themeName].layout,
+      bodySize: metrics.fontSize,
+      lineHeight: metrics.lineHeight,
+      ...style,
+      margins: {
+        ...this.themes[themeName].layout.margins,
+        ...style.margins
       }
-  
-      // Step 3: Add main content (text)
-      if (text && text.trim()) {
-        const contentSvg = this.generateContentSVG(text, theme, analysis);
-        processedImage = await sharp(processedImage)
-          .composite([{ input: Buffer.from(contentSvg), top: title ? 200 : 80, left: 0 }])
-          .toBuffer();
-        console.log("Added main content to the image.");
-      } else {
-        console.warn("Text content is missing or empty. Skipping content addition.");
-      }
-  
-      // Step 4: Add branding and contact details
-      const finalImage = await this.addBrandingElements(processedImage, theme);
-      console.log("Added branding and contact details.");
-  
-      return finalImage;
-    } catch (error) {
-      console.error("Error in createImage:", error.message);
-      throw error;
     }
+  };
+
+  try {
+    console.log("Creating image with theme:", themeName);
+
+    // Step 1: Create base textured background
+    let processedImage = await this.createTexturedBackground(width, height, theme);
+    
+    // Step 2: Calculate text metrics
+    const textLineCount = this.lineCounter(text, category);
+    const formattedText = this.textFormatter(text, category);
+    
+    // Get layout calculations
+    const layout = this.textMetrics.calculateMetrics(textLineCount, category, Boolean(title));
+    
+    // Update theme with calculated metrics
+    theme.layout = {
+      ...theme.layout,
+      bodySize: layout.fontSize,
+      lineHeight: layout.lineHeight
+    };
+
+    // Step 3: Add title if provided
+    if (title) {
+      const titleSvg = this.generateTitleSVG(title, theme);
+      processedImage = await sharp(processedImage)
+        .composite([{ 
+          input: Buffer.from(titleSvg), 
+          top: layout.topPosition - 120,
+          left: 0 
+        }])
+        .toBuffer();
+    }
+
+    // Step 4: Add main content
+    if (text && text.trim()) {
+      // Pass the analysis object to generateContentSVG
+      const contentSvg = this.generateContentSVG(formattedText, theme, analysis);
+      processedImage = await sharp(processedImage)
+        .composite([{ 
+          input: Buffer.from(contentSvg), 
+          top: layout.topPosition,
+          left: 0 
+        }])
+        .toBuffer();
+    }
+
+    // Step 5: Add branding
+    const finalImage = await this.addBrandingElements(processedImage, theme);
+
+    return finalImage;
+  } catch (error) {
+    console.error("Error in createImage:", error.message);
+    throw error;
   }
-  
+}
 
 async createTexturedBackground(width, height, theme) {
   try {
@@ -562,6 +793,94 @@ parseBackgroundColor(color) {
     return color;
 }
 
+lineCounter(text, category = 'poem') {
+  if (!text) return 0;
+  
+  const maxWordsPerLine = category === 'poem' ? 4 : 8;
+  const lines = text.split('\n').filter(line => line.trim());
+  let totalLines = 0;
+  
+  lines.forEach(line => {
+    const words = line.split(' ').filter(word => word.trim());
+    const additionalLines = Math.ceil(words.length / maxWordsPerLine);
+    totalLines += additionalLines;
+  });
+  
+  return totalLines;
+}
+
+calculateDynamicTextMetrics(text, category) {
+  const lines = text.split('\n').filter(line => line.trim());
+  const totalChars = text.length;
+  const wordsPerLine = category === 'poem' ? 
+    TEXT_METRICS.POEM_MAX_WORDS : 
+    TEXT_METRICS.PROSE_MAX_WORDS;
+  
+  // Calculate optimal font size based on content length
+  let fontSize = TEXT_METRICS.MAX_FONT_SIZE;
+  if (totalChars > 500) {
+    fontSize = Math.max(
+      TEXT_METRICS.MIN_FONT_SIZE, 
+      TEXT_METRICS.MAX_FONT_SIZE - Math.floor(totalChars / 500)
+    );
+  }
+
+  // Calculate optimal line height
+  let lineHeight = TEXT_METRICS.MAX_LINE_HEIGHT;
+  if (lines.length > 15) {
+    lineHeight = Math.max(
+      TEXT_METRICS.MIN_LINE_HEIGHT,
+      TEXT_METRICS.MAX_LINE_HEIGHT - (lines.length / 30)
+    );
+  }
+
+  // Calculate top position
+  let topPosition = TEXT_METRICS.BASE_POSITION;
+  if (lines.length > 15) {
+    topPosition = Math.max(
+      TEXT_METRICS.MIN_POSITION,
+      topPosition - ((lines.length - 15) * TEXT_METRICS.DECREMENT_PER_LINE)
+    );
+  }
+
+  return {
+    fontSize,
+    lineHeight,
+    wordsPerLine,
+    topPosition
+  };
+}
+
+// Update textFormatter method
+textFormatter(text, category = 'article') {
+  if (!text) return '';
+  
+  const maxWordsPerLine = category === 'poem' ? 
+    TEXT_METRICS.POEM_MAX_WORDS : 
+    TEXT_METRICS.PROSE_MAX_WORDS;
+    
+  const lines = text.split('\n').filter(line => line.trim());
+  const formattedLines = [];
+  
+  lines.forEach(line => {
+    const words = line.split(' ').filter(word => word.trim());
+    
+    if (words.length <= maxWordsPerLine) {
+      formattedLines.push(line);
+      return;
+    }
+    
+    // Split into multiple lines
+    for (let i = 0; i < words.length; i += maxWordsPerLine) {
+      const lineWords = words.slice(i, Math.min(i + maxWordsPerLine, words.length));
+      formattedLines.push(lineWords.join(' '));
+    }
+  });
+  
+  return formattedLines.join('\n');
+}
+
+
 // Update branding elements with simpler SVG structure
 async addBrandingElements(buffer, theme) {
   const brandingSvg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -632,9 +951,8 @@ async addBrandingElements(buffer, theme) {
   }
 }
 
-
 // Enhanced text generation methods with better positioning and styling
-generateContentSVG(text, theme, analysis) {
+generateContentSVG(text, theme, analysis = {}) {
   const lines = text.split('\n').filter(line => line.trim());
   const lineHeight = theme.layout.lineHeight || 2.0;
   
@@ -863,8 +1181,13 @@ async generateForText(text, options = {}) {
   console.log("Generating image with text:", text);
 
   try {
-    const analysis = this.analyzer.analyzeText(text);
-    const imageBuffer = await this.createImage(text, { ...options, analysis });
+    // Create empty analysis object if analyzer is not available
+    const analysis = this.analyzer ? await this.analyzer.analyzeText(text) : {};
+    
+    const imageBuffer = await this.createImage(text, { 
+      ...options, 
+      analysis: analysis || {} // Ensure analysis is always defined
+    });
 
     if (!imageBuffer || !(imageBuffer instanceof Buffer)) {
       throw new Error("Invalid image data generated.");
@@ -881,7 +1204,6 @@ async generateForText(text, options = {}) {
     throw new Error(`Failed to generate image: ${error.message}`);
   }
 }
-
 
 async createAndSaveWriting(options) {
   const { title, body, category, theme = 'default', effects, style } = options;
