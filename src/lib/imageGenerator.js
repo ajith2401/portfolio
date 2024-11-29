@@ -49,6 +49,41 @@ const TEXT_METRICS = {
 
 const themeKeyMapping = [
   {
+    keyName: 'modernGradient',
+    mainColors: ['#6B73FF', '#000DFF'],
+    recommendedBg: '#000DFF',
+    description: 'Modern blue gradient - professional and sleek'
+  },
+  
+  {
+    keyName: 'sunsetGradient',
+    mainColors: ['#FF6B6B', '#FFE66D'],
+    recommendedBg: '#FFE66D',
+    description: 'Warm sunset colors - creative and energetic'
+  },
+  
+  {
+    keyName: 'oceanGradient',
+    mainColors: ['#48C6EF', '#6F86D6'],
+    recommendedBg: '#6F86D6',
+    description: 'Ocean inspired blues - calming and serene'
+  },
+  
+  {
+    keyName: 'forestGradient',
+    mainColors: ['#56AB2F', '#A8E063'],
+    recommendedBg: '#A8E063',
+    description: 'Forest green gradient - natural and fresh'
+  },
+  
+  {
+    keyName: 'purpleGradient',
+    mainColors: ['#DA22FF', '#9733EE'],
+    recommendedBg: '#9733EE',
+    description: 'Rich purple gradient - luxurious and creative'
+  },
+
+  {
     keyName: 'bluePastelHarmony',
     mainColors: ['#2F3C7E', '#FBEAEB'],
     recommendedBg: '#FBEAEB',
@@ -263,6 +298,28 @@ const themeKeyMapping = [
   description: 'Deep green and mint - fresh and natural'
 }
 ];
+
+const DEFAULT_LAYOUT = {
+  padding: 60,
+  margins: {
+    top: 60,
+    bottom: 60,
+    left: 60,
+    right: 60
+  },
+  spacing: {
+    paragraph: 1.5,
+    section: 2.5
+  },
+  lineHeight: 1.8,
+  textAlign: 'center',
+  branding: {
+    height: 150,
+    padding: 20,
+    spacing: 10
+  }
+};
+
 
 class TextMetricsCalculator {
   calculateMetrics(lineCount, category, hasTitle = false) {
@@ -1662,7 +1719,945 @@ export class ImageGenerationService {
           social: { color: '#4B7D6C', hoverColor: '#3D6657' }
         }
       }
+    },
+
+    //gradeint themes
+
+sunsetGradient: {
+  ...this.createTheme('#F09819', '#FFFFFF'),
+  name: 'sunsetGradient',
+  gradient: {
+    type: 'linear',
+    angle: 45,
+    colors: ['#FF512F', '#F09819', '#DD2476']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
     }
+  },
+  effects: {
+    textShadow: true,
+    glow: true,
+    shadow: {
+      blur: 4,
+      opacity: 0.4,
+      offset: { x: 2, y: 2 }
+    }
+  }
+},
+
+oceanGradient: {
+  ...this.createTheme('#6dd5ed', '#FFFFFF'),
+  name: 'oceanGradient',
+  gradient: {
+    type: 'linear',
+    angle: 135,
+    colors: ['#2193b0', '#6dd5ed']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+purpleDream: {
+  ...this.createTheme('#4A00E0', '#FFFFFF'),
+  name: 'purpleDream',
+  gradient: {
+    type: 'linear',
+    angle: 120,
+    colors: ['#8E2DE2', '#4A00E0']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+// Add these aesthetic gradient themes
+
+midnightOcean: {
+  ...this.createTheme('#0F2027', '#FFFFFF'),
+  name: 'midnightOcean',
+  gradient: {
+    type: 'linear',
+    angle: 135,
+    colors: ['#0F2027', '#203A43', '#2C5364']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+roseMist: {
+  ...this.createTheme('#ff6e7f', '#FFFFFF'),
+  name: 'roseMist',
+  gradient: {
+    type: 'linear',
+    angle: 45,
+    colors: ['#ff6e7f', '#bfe9ff']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+emeraldDream: {
+  ...this.createTheme('#43cea2', '#FFFFFF'),
+  name: 'emeraldDream',
+  gradient: {
+    type: 'linear',
+    angle: 150,
+    colors: ['#43cea2', '#185a9d']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+goldenHour: {
+  ...this.createTheme('#f7971e', '#FFFFFF'),
+  name: 'goldenHour',
+  gradient: {
+    type: 'linear',
+    angle: 60,
+    colors: ['#f7971e', '#ffd200']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+lavenderMist: {
+  ...this.createTheme('#834d9b', '#FFFFFF'),
+  name: 'lavenderMist',
+  gradient: {
+    type: 'linear',
+    angle: 165,
+    colors: ['#834d9b', '#d04ed6']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+cosmicFusion: {
+  ...this.createTheme('#ff00cc', '#FFFFFF'),
+  name: 'cosmicFusion',
+  gradient: {
+    type: 'linear',
+    angle: 130,
+    colors: ['#ff00cc', '#333399']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+arcticAurora: {
+  ...this.createTheme('#4ECDC4', '#FFFFFF'),
+  name: 'arcticAurora',
+  gradient: {
+    type: 'linear',
+    angle: 145,
+    colors: ['#4ECDC4', '#556270']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+cherryBlossom: {
+  ...this.createTheme('#FBD3E9', '#000000'),
+  name: 'cherryBlossom',
+  gradient: {
+    type: 'linear',
+    angle: 75,
+    colors: ['#FBD3E9', '#BB377D']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+desertSunrise: {
+  ...this.createTheme('#FFB75E', '#FFFFFF'),
+  name: 'desertSunrise',
+  gradient: {
+    type: 'linear',
+    angle: 90,
+    colors: ['#FFB75E', '#ED8F03']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+forestDepths: {
+  ...this.createTheme('#134E5E', '#FFFFFF'),
+  name: 'forestDepths',
+  gradient: {
+    type: 'linear',
+    angle: 155,
+    colors: ['#134E5E', '#71B280']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+twilightHaze: {
+  ...this.createTheme('#2C3E50', '#FFFFFF'),
+  name: 'twilightHaze',
+  gradient: {
+    type: 'linear',
+    angle: 140,
+    colors: ['#2C3E50', '#3498DB']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+sunsetSerenade: {
+  ...this.createTheme('#FFE000', '#FFFFFF'),
+  name: 'sunsetSerenade',
+  gradient: {
+    type: 'linear',
+    angle: 65,
+    colors: ['#FFE000', '#799F0C']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+mysticDawn: {
+  ...this.createTheme('#FF512F', '#FFFFFF'),
+  name: 'mysticDawn',
+  gradient: {
+    type: 'linear',
+    angle: 125,
+    colors: ['#FF512F', '#F09819']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+crystalline: {
+  ...this.createTheme('#00C9FF', '#FFFFFF'),
+  name: 'crystalline',
+  gradient: {
+    type: 'linear',
+    angle: 160,
+    colors: ['#00C9FF', '#92FE9D']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+moonlightSonata: {
+  ...this.createTheme('#0F2027', '#FFFFFF'),
+  name: 'moonlightSonata',
+  gradient: {
+    type: 'linear',
+    angle: 145,
+    colors: ['#0F2027', '#2C5364', '#203A43']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+plumSunset: {
+  ...this.createTheme('#CC2B5E', '#FFFFFF'),
+  name: 'plumSunset',
+  gradient: {
+    type: 'linear',
+    angle: 135,
+    colors: ['#CC2B5E', '#753A88']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+mintLeaf: {
+  ...this.createTheme('#00B09B', '#FFFFFF'),
+  name: 'mintLeaf',
+  gradient: {
+    type: 'linear',
+    angle: 120,
+    colors: ['#00B09B', '#96C93D']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+polarLight: {
+  ...this.createTheme('#2980B9', '#FFFFFF'),
+  name: 'polarLight',
+  gradient: {
+    type: 'linear',
+    angle: 155,
+    colors: ['#2980B9', '#6DD5FA', '#FFFFFF']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+roseQuartz: {
+  ...this.createTheme('#E8CBC0', '#000000'),
+  name: 'roseQuartz',
+  gradient: {
+    type: 'linear',
+    angle: 145,
+    colors: ['#E8CBC0', '#636FA4']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+celestialNight: {
+  ...this.createTheme('#1A2980', '#FFFFFF'),
+  name: 'celestialNight',
+  gradient: {
+    type: 'linear',
+    angle: 165,
+    colors: ['#1A2980', '#26D0CE']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+retroWave: {
+  ...this.createTheme('#FF057C', '#FFFFFF'),
+  name: 'retroWave',
+  gradient: {
+    type: 'linear',
+    angle: 30,
+    colors: ['#FF057C', '#7C64D5', '#4CC3FF']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+pastelSunrise: {
+  ...this.createTheme('#FFB88C', '#000000'),
+  name: 'pastelSunrise',
+  gradient: {
+    type: 'linear',
+    angle: 45,
+    colors: ['#FFB88C', '#DE6262']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+aquaMarine: {
+  ...this.createTheme('#1A2980', '#FFFFFF'),
+  name: 'aquaMarine',
+  gradient: {
+    type: 'linear',
+    angle: 60,
+    colors: ['#1A2980', '#26D0CE']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+// Add these new gradient themes specifically designed for contemplative poetry
+
+soulfulNight: {
+  ...this.createTheme('#2C3E50', '#FFFFFF'),
+  name: 'soulfulNight',
+  gradient: {
+    type: 'linear',
+    angle: 135,
+    colors: ['#2C3E50', '#3498db', '#2980b9']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+innerPeace: {
+  ...this.createTheme('#614385', '#FFFFFF'),
+  name: 'innerPeace',
+  gradient: {
+    type: 'linear',
+    angle: 145,
+    colors: ['#614385', '#516395']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+serenityFlow: {
+  ...this.createTheme('#1a2a6c', '#FFFFFF'),
+  name: 'serenityFlow',
+  gradient: {
+    type: 'linear',
+    angle: 120,
+    colors: ['#1a2a6c', '#b21f1f', '#fdbb2d']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+tranquilDawn: {
+  ...this.createTheme('#355C7D', '#FFFFFF'),
+  name: 'tranquilDawn',
+  gradient: {
+    type: 'linear',
+    angle: 150,
+    colors: ['#355C7D', '#6C5B7B', '#C06C84']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+mindfulMist: {
+  ...this.createTheme('#076585', '#FFFFFF'),
+  name: 'mindfulMist',
+  gradient: {
+    type: 'linear',
+    angle: 165,
+    colors: ['#076585', '#fff']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+// More gradient themes perfect for reflective poetry
+
+mysticTwilight: {
+  ...this.createTheme('#232526', '#FFFFFF'),
+  name: 'mysticTwilight',
+  gradient: {
+    type: 'linear',
+    angle: 145,
+    colors: ['#232526', '#414345', '#232526']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+silentRain: {
+  ...this.createTheme('#4B79A1', '#FFFFFF'),
+  name: 'silentRain',
+  gradient: {
+    type: 'linear',
+    angle: 165,
+    colors: ['#4B79A1', '#283E51']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+etherealDream: {
+  ...this.createTheme('#7F7FD5', '#FFFFFF'),
+  name: 'etherealDream',
+  gradient: {
+    type: 'linear',
+    angle: 130,
+    colors: ['#7F7FD5', '#86A8E7', '#91EAE4']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+meditativeSpace: {
+  ...this.createTheme('#141E30', '#FFFFFF'),
+  name: 'meditativeSpace',
+  gradient: {
+    type: 'linear',
+    angle: 155,
+    colors: ['#141E30', '#243B55']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+gentleDusk: {
+  ...this.createTheme('#373B44', '#FFFFFF'),
+  name: 'gentleDusk',
+  gradient: {
+    type: 'linear',
+    angle: 145,
+    colors: ['#373B44', '#4286f4']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+peacefulAutumn: {
+  ...this.createTheme('#CAC531', '#000000'),
+  name: 'peacefulAutumn',
+  gradient: {
+    type: 'linear',
+    angle: 135,
+    colors: ['#CAC531', '#F3F9A7']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+      social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+    }
+  }
+},
+
+moonlessNight: {
+  ...this.createTheme('#0F2027', '#FFFFFF'),
+  name: 'moonlessNight',
+  gradient: {
+    type: 'linear',
+    angle: 150,
+    colors: ['#0F2027', '#203A43', '#2C5364']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+soulfulSunset: {
+  ...this.createTheme('#1e3c72', '#FFFFFF'),
+  name: 'soulfulSunset',
+  gradient: {
+    type: 'linear',
+    angle: 120,
+    colors: ['#1e3c72', '#2a5298', '#7F7FD5']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+},
+
+innerCalm: {
+  ...this.createTheme('#3494E6', '#FFFFFF'),
+  name: 'innerCalm',
+  gradient: {
+    type: 'linear',
+    angle: 145,
+    colors: ['#3494E6', '#EC6EAD']
+  },
+  layout: DEFAULT_LAYOUT,
+  fonts: defaultFonts,
+  colors: {
+    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+    branding: {
+      background: 'transparent',
+      name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+      social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+    }
+  }
+}
+
   }; 
 } 
 
@@ -1812,6 +2807,22 @@ calculateTopPosition(lineCount) {
   return Math.max(position, minPosition);
 }
 
+async createGradientBackground(width, height, gradientColors) {
+  const svg = `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:${gradientColors[0]};stop-opacity:1" />
+          <stop offset="100%" style="stop-color:${gradientColors[1]};stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grad)"/>
+    </svg>
+  `;
+
+  return await sharp(Buffer.from(svg))
+    .toBuffer();
+}
 
 async createImage(text, options = {}) {
   const {
@@ -2122,113 +3133,143 @@ async generateTextureNoise(type, width, height) {
   };
 }
 
+// Add radial gradient support
+createRadialGradientSVG(width, height, gradient) {
+  const { colors, centerX = '50%', centerY = '50%', radius = '70%' } = gradient;
+  
+  return `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="grad" cx="${centerX}" cy="${centerY}" r="${radius}">
+          ${colors.map((color, index) => `
+            <stop offset="${(index * 100) / (colors.length - 1)}%" 
+                  style="stop-color:${color};stop-opacity:1" />
+          `).join('')}
+        </radialGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grad)"/>
+    </svg>
+  `;
+}
+
+// Additional helper method for creating multi-point gradients
+createMultiPointGradient(width, height, colors, points) {
+  const svg = `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad" gradientUnits="userSpaceOnUse"
+                       x1="0" y1="0" x2="${width}" y2="${height}">
+          ${colors.map((color, i) => `
+            <stop offset="${points[i]}%" style="stop-color:${color};stop-opacity:1" />
+          `).join('')}
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grad)"/>
+    </svg>
+  `;
+  
+  return svg;
+}
+
 async createTexturedBackground(width, height, theme) {
   try {
-    if (!theme || !theme.colors || !theme.layout) {
-      console.warn('Theme missing required properties, using defaults');
-      theme = this.createTheme('#FFFFFF', '#000000');
-    }
+    theme = this.validateTheme(theme);
 
     const themeInfo = themeKeyMapping.find(t => t.keyName === theme.name) || {
       mainColors: [theme.colors.background],
       recommendedBg: theme.colors.background
     };
-    
-    // Create slightly darker background for content area
-    const contentBgColor = this.lightenColor(themeInfo.recommendedBg || theme.colors.background, 0.15);
-    
-    // Create gradient colors
-    const gradientColors = this.createGradientColors(themeInfo.recommendedBg || theme.colors.background);
-    
-    // Create base image
-    const baseImage = await sharp({
-      create: {
-        width,
-        height,
-        channels: 4,
-        background: this.parseBackgroundColor(contentBgColor)
-      }
-    }).png().toBuffer();
 
-    if (!theme.backgroundImage) {
-      // Create gradient buffer
-      const gradientBuffer = await sharp({
+    console.log('====================================');
+    console.log({theme});
+    console.log('====================================');
+
+    let baseImage;
+    let contentBgColor;
+    
+    // Handle gradient themes
+    if (theme.gradient) {
+      const gradientSvg = this.createGradientSVG(width, height, theme.gradient);
+      baseImage = await sharp(Buffer.from(gradientSvg))
+        .png()
+        .toBuffer();
+      contentBgColor = 'transparent';
+    } else {
+      contentBgColor = this.lightenColor(themeInfo.recommendedBg || theme.colors.background, 0.15);
+      baseImage = await sharp({
         create: {
           width,
           height,
           channels: 4,
-          background: this.parseBackgroundColor(gradientColors[0])
+          background: this.parseBackgroundColor(contentBgColor)
         }
-      })
-      .linear(1.1, -10)
-      .raw()
-      .toBuffer();
-      
+      }).png().toBuffer();
+    }
 
-      // Create content buffer
+    if (!theme.backgroundImage) {
+      // Create buffers for content and branding sections
+      const contentHeight = height - (theme.layout.branding.height || 150);
+      const brandingHeight = theme.layout.branding.height || 150;
+      const paddingTop = theme.layout.margins?.top || theme.layout.padding || 60;
+
+      // Create content area buffer
       const contentBuffer = await sharp({
         create: {
           width,
-          height: height - (theme.layout.branding.height || 150),
+          height: contentHeight,
           channels: 4,
-          background: this.parseBackgroundColor(contentBgColor)
+          background: theme.gradient ? { r: 0, g: 0, b: 0, alpha: 0 } : this.parseBackgroundColor(contentBgColor)
         }
       })
-      .linear(1.1, -5)
-      .raw()
+      .png()
       .toBuffer();
 
-      // Create branding buffer
+      // Create branding area buffer
       const brandingBuffer = await sharp({
         create: {
           width,
-          height: theme.layout.branding.height || 150,
+          height: brandingHeight,
           channels: 4,
           background: this.parseBackgroundColor(theme.colors.branding.background)
         }
       })
-      .raw()
+      .png()
       .toBuffer();
 
-      const paddingTop = theme.layout.margins?.top || theme.layout.padding || 60;
+      // Add texture if specified
+      if (theme.effects?.backgroundTexture) {
+        const texture = await this.generateTextureNoise('filmGrain', width, height);
+        baseImage = await sharp(baseImage)
+          .composite(texture.composite.map(comp => ({
+            ...comp,
+            left: 0,
+            top: 0
+          })))
+          .modulate(texture.modulate)
+          .toBuffer();
+      }
 
-      // Combine layers
+      // Combine all layers
+      const compositeOperations = [
+        {
+          input: contentBuffer,
+          left: 0,
+          top: paddingTop,
+          blend: theme.gradient ? 'over' : 'multiply'
+        },
+        {
+          input: brandingBuffer,
+          left: 0,
+          top: height - brandingHeight,
+          blend: 'over'
+        }
+      ];
+
       return await sharp(baseImage)
-        .composite([
-          {
-            input: contentBuffer,
-            raw: {
-              width,
-              height: height - (theme.layout.branding.height || 150),
-              channels: 4
-            },
-            top: paddingTop,
-            blend: 'over'
-          },
-          {
-            input: brandingBuffer,
-            raw: {
-              width,
-              height: theme.layout.branding.height || 150,
-              channels: 4
-            },
-            top: height - (theme.layout.branding.height || 150),
-            blend: 'over'
-          },
-          {
-            input: gradientBuffer,
-            raw: {
-              width,
-              height,
-              channels: 4
-            },
-            blend: 'soft-light',
-            opacity: 0.3
-          }
-        ])
+        .composite(compositeOperations)
         .modulate({
           brightness: 1.02,
-          saturation: 1.05,
+          saturation: theme.gradient ? 1.1 : 1.05,
           lightness: 1.01
         })
         .toBuffer();
@@ -2252,8 +3293,10 @@ async createTexturedBackground(width, height, theme) {
       return await sharp(baseImage)
         .composite([{
           input: textureBuffer,
+          left: 0,
+          top: 0,
           blend: 'multiply',
-          opacity: 0.95,
+          opacity: 0.95
         }])
         .modulate({
           brightness: 1.05,
@@ -2266,15 +3309,44 @@ async createTexturedBackground(width, height, theme) {
       
       const texture = await this.generateTextureNoise('denim', width, height);
       return await sharp(baseImage)
-        .composite(texture.composite)
+        .composite(texture.composite.map(comp => ({
+          ...comp,
+          left: 0,
+          top: 0
+        })))
         .modulate(texture.modulate)
         .toBuffer();
-
-          }
+    }
   } catch (error) {
     console.error("Error creating textured background:", error.message);
     throw error;
   }
+}
+
+// Update createGradientSVG for better gradient handling
+createGradientSVG(width, height, gradient) {
+  const { type, angle = 45, colors } = gradient;
+  
+  // Calculate gradient coordinates based on angle
+  const angleInRadians = (angle * Math.PI) / 180;
+  const x1 = 50 - Math.cos(angleInRadians) * 50;
+  const y1 = 50 - Math.sin(angleInRadians) * 50;
+  const x2 = 50 + Math.cos(angleInRadians) * 50;
+  const y2 = 50 + Math.sin(angleInRadians) * 50;
+
+  return `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad" x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%">
+          ${colors.map((color, index) => `
+            <stop offset="${(index * 100) / (colors.length - 1)}%" 
+                  style="stop-color:${color};stop-opacity:1" />
+          `).join('')}
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grad)"/>
+    </svg>
+  `;
 }
 // Function to lighten color
 lightenColor(hexColor, factor) {
@@ -2291,6 +3363,34 @@ lightenColor(hexColor, factor) {
     console.warn('Error lightening color:', error);
     return hexColor;
   }
+}
+
+// Add this method to ensure theme has required properties
+validateTheme(theme) {
+  if (!theme) {
+    return this.createTheme('#FFFFFF', '#000000');
+  }
+
+  // Ensure layout exists
+  if (!theme.layout) {
+    theme.layout = DEFAULT_LAYOUT;
+  }
+
+  // Ensure all required layout properties exist
+  theme.layout = {
+    ...DEFAULT_LAYOUT,
+    ...theme.layout,
+    branding: {
+      ...DEFAULT_LAYOUT.branding,
+      ...(theme.layout?.branding || {})
+    },
+    margins: {
+      ...DEFAULT_LAYOUT.margins,
+      ...(theme.layout?.margins || {})
+    }
+  };
+
+  return theme;
 }
 
 // Function to create gradient colors
