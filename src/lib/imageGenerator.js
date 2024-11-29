@@ -633,6 +633,7 @@ async addBrandingElements(buffer, theme) {
 }
 
 
+// Enhanced text generation methods with better positioning and styling
 generateContentSVG(text, theme, analysis) {
   const lines = text.split('\n').filter(line => line.trim());
   const lineHeight = theme.layout.lineHeight || 2.0;
@@ -642,15 +643,14 @@ generateContentSVG(text, theme, analysis) {
   const padding = theme.layout.margins?.horizontal || theme.layout.padding || 60;
   const effectiveWidth = containerWidth - (padding * 2);
   
-  // Calculate alignment position
-  const getXPosition = (alignment, lineWidth) => {
-    switch (alignment) {
+  // Calculate x position based on alignment
+  const getXPosition = (alignment) => {
+    switch (alignment?.toLowerCase()) {
       case 'right':
-        return containerWidth - padding;
+        return containerWidth - padding; // Align to right margin
       case 'center':
         return containerWidth / 2;
       case 'justify':
-        // For justify, we'll handle this separately
         return padding;
       default: // left
         return padding;
@@ -659,7 +659,7 @@ generateContentSVG(text, theme, analysis) {
 
   // Get text anchor based on alignment
   const getTextAnchor = (alignment) => {
-    switch (alignment) {
+    switch (alignment?.toLowerCase()) {
       case 'right':
         return 'end';
       case 'center':
@@ -669,7 +669,7 @@ generateContentSVG(text, theme, analysis) {
     }
   };
 
-  // Process text styles and effects
+  // Enhanced text effects
   const baseTextStyle = `
     font-family: ${theme.fonts.body.replace(/"/g, '&quot;')};
     font-weight: ${theme.fonts.weights?.regular || 400};
@@ -678,16 +678,26 @@ generateContentSVG(text, theme, analysis) {
 
   const textEffects = [];
   if (theme.effects?.textShadow) {
-    textEffects.push(`filter: drop-shadow(${theme.effects.shadow.offset.x}px ${theme.effects.shadow.offset.y}px ${theme.effects.shadow.blur}px rgba(0,0,0,${theme.effects.shadow.opacity}))`);
+    textEffects.push(`filter: drop-shadow(${theme.effects.shadow?.offset?.x || 2}px ${theme.effects.shadow?.offset?.y || 2}px ${theme.effects.shadow?.blur || 3}px rgba(0,0,0,${theme.effects.shadow?.opacity || 0.3}))`);
   }
   if (theme.effects?.glow) {
-    textEffects.push(`filter: drop-shadow(0 0 ${theme.effects.glow.blur}px ${theme.effects.glow.color})`);
+    textEffects.push(`filter: drop-shadow(0 0 ${theme.effects.glow?.blur || 10}px ${theme.effects.glow?.color || theme.colors.text})`);
   }
 
-  // Generate SVG content with enhanced styling
+  // Calculate vertical spacing
+  const getTotalHeight = (lineCount) => {
+    return theme.layout.margins?.top || 60 + 
+           (lineCount * theme.layout.bodySize * lineHeight);
+  };
+
+  // Generate SVG content with enhanced positioning
   const svgContent = lines.map((line, index) => {
     const yPosition = (theme.layout.margins?.top || 60) + 
                      (index * theme.layout.bodySize * lineHeight);
+    
+    const xPos = getXPosition(theme.layout.textAlign);
+    const anchor = getTextAnchor(theme.layout.textAlign);
+    
     const escapedLine = line.trim()
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -696,20 +706,32 @@ generateContentSVG(text, theme, analysis) {
       .replace(/'/g, '&apos;');
 
     return `    <text
-      x="${getXPosition(theme.layout.textAlign)}"
+      x="${xPos}"
       y="${yPosition}"
       font-size="${theme.layout.bodySize}"
       fill="${theme.colors.text}"
-      text-anchor="${getTextAnchor(theme.layout.textAlign)}"
+      text-anchor="${anchor}"
       dominant-baseline="middle"
       class="poetry-line"
+      ${theme.effects?.textShadow ? 'filter="url(#shadow)"' : ''}
     >${escapedLine}</text>`;
   }).join('\n');
 
-  // Add enhanced styling
+  // Enhanced SVG with filters and styling
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" version="1.1">
   <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="${theme.effects?.shadow?.blur || 3}"/>
+      <feOffset dx="${theme.effects?.shadow?.offset?.x || 2}" dy="${theme.effects?.shadow?.offset?.y || 2}"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="${theme.effects?.shadow?.opacity || 0.3}"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
     <style>
       .poetry-line {
         ${baseTextStyle}
@@ -719,6 +741,44 @@ generateContentSVG(text, theme, analysis) {
   </defs>
   ${this.generateDecorationElements(theme)}
   ${svgContent}
+</svg>`;
+}
+
+// Enhanced title generation
+generateTitleSVG(title, theme) {
+  const escapedTitle = title
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+
+  // Calculate title position based on alignment
+  const xPosition = theme.layout.textAlign === 'right' ? 1100 :
+                   theme.layout.textAlign === 'left' ? 100 : 600;
+  
+  const textAnchor = theme.layout.textAlign === 'right' ? 'end' :
+                     theme.layout.textAlign === 'left' ? 'start' : 'middle';
+
+  return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" version="1.1">
+  <text
+    x="${xPosition}"
+    y="75"
+    font-family="${theme.fonts.title.replace(/"/g, '&quot;')}"
+    font-size="${theme.layout.titleSize}"
+    font-weight="800"
+    fill="${theme.colors.title}"
+    text-anchor="${textAnchor}"
+    dominant-baseline="middle"
+    ${theme.effects?.textShadow ? 'filter="url(#shadow)"' : ''}
+  >${escapedTitle}</text>
+  ${theme.layout.textAlign === 'right' ?
+    `<line x1="300" y1="100" x2="${xPosition + 50}" y2="100"` :
+    `<line x1="${xPosition - 300}" y1="100" x2="${xPosition + 300}" y2="100"`}
+    stroke="${theme.colors.title}"
+    stroke-width="1"
+  />
 </svg>`;
 }
 
@@ -776,39 +836,6 @@ calculateTextMetrics(text, fontSize, fontFamily) {
            (spaceCount * metrics.space),
     height: fontSize * 1.2
   };
-}
-
-// Update title generation for poetry
-generateTitleSVG(title, theme) {
-  const escapedTitle = title
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;');
-
-  return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" version="1.1">
-  <text
-    x="600"
-    y="75"
-    font-family="${theme.fonts.title.replace(/"/g, '&quot;')}"
-    font-size="${theme.layout.titleSize}"
-    font-weight="800"
-    fill="${theme.colors.title}"
-    text-anchor="middle"
-    dominant-baseline="middle"
-    ${theme.effects?.textShadow ? 'filter="drop-shadow(2px 2px 2px rgba(0,0,0,0.3))"' : ''}
-  >${escapedTitle}</text>
-  <line 
-    x1="300" 
-    y1="100" 
-    x2="900" 
-    y2="100" 
-    stroke="${theme.colors.title}"
-    stroke-width="1"
-  />
-</svg>`;
 }
 
 // Helper method for Tamil text metrics
