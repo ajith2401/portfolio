@@ -195,360 +195,820 @@ export class ImageGenerationService {
   }
 
   setupThemes() {
+    const defaultFonts = {
+      title: {
+        family: '"Noto Serif Tamil Slanted"',
+        size: 48,
+        weight: 800
+      },
+      body: {
+        family: '"Annai MN"',
+        size: 32,
+        weight: 400
+      },
+      branding: {
+        name: {
+          family: '"Tamil Sangam MN"',
+          size: 32,
+          weight: 700,
+        },
+        web: {
+          family: '"Noto Sans Tamil"',
+          size: 24,
+          weight: 400,
+        },
+        phone: {
+          family: '"Noto Sans Tamil"',
+          size: 24,
+          weight: 400,
+        },
+        social: {
+          family: '"Noto Sans Tamil"',
+          size: 24,
+          weight: 400,
+        }
+      }
+    };
+  
     this.themes = {
-      // Basic themes with background images
+      // Light Themes
       default: {
         ...this.createTheme('#FFFFFF', '#000000'),
         name: 'default',
-        backgroundImage: 'whiteIinedImg.jpg'
+        backgroundImage: 'whiteIinedImg.jpg',
+        fonts: defaultFonts,
+        colors: {
+          title: { color: '#000000', hoverColor: '#333333' },
+          text: { color: '#000000', hoverColor: '#333333' },
+          branding: {
+            background: '#095086',
+            name: { color: '#ffffff', hoverColor: '#333333' },
+            web: { color: '#ffffff', hoverColor: '#333333' },
+            phone: { color: '#ffffff', hoverColor: '#333333' },
+            social: { color: '#ffffff', hoverColor: '#333333' }
+          }
+        }
       },
-      
+  
       red: {
-        ...this.createTheme('#FFE6E6', '#9bd2f2'),
+        ...this.createTheme('#FFE6E6', '#8B0000'),
         name: 'red',
-        backgroundImage: 'redlinedImg.jpg'
+        backgroundImage: 'redlinedImg.jpg',
+        fonts: defaultFonts,
+        colors: {
+          title: { color: '#8B0000', hoverColor: '#660000' },
+          text: { color: '#8B0000', hoverColor: '#660000' },
+          branding: {
+            background: '#FFE6E6',
+            name: { color: '#8B0000', hoverColor: '#660000' },
+            web: { color: '#8B0000', hoverColor: '#660000' },
+            phone: { color: '#8B0000', hoverColor: '#660000' },
+            social: { color: '#8B0000', hoverColor: '#660000' }
+          }
+        }
       },
-      
+  
       blue: {
-        ...this.createTheme('#E6F3FF', '#ffffff',"#095086"),
+        ...this.createTheme('#E6F3FF', '#003366'),
         name: 'blue',
-        backgroundImage: 'blueImg.jpg'
+        backgroundImage: 'blueImg.jpg',
+        fonts: defaultFonts,
+        colors: {
+          title: { color: '#ffffff', hoverColor: '#002147' },
+          text: { color: '#ffffff', hoverColor: '#002147' },
+          branding: {
+            background: '#E6F3FF',
+            name: { color: '#003366', hoverColor: '#002147' },
+            web: { color: '#004080', hoverColor: '#003366' },
+            phone: { color: '#004080', hoverColor: '#003366' },
+            social: { color: '#004080', hoverColor: '#003366' }
+          }
+        }
       },
-      
+  
       green: {
         ...this.createTheme('#E6FFE6', '#006400'),
         name: 'green',
-        backgroundImage: 'greenImg.jpg'
+        backgroundImage: 'greenImg.jpg',
+        fonts: defaultFonts,
+        colors: {
+          title: { color: '#006400', hoverColor: '#004d00' },
+          text: { color: '#006400', hoverColor: '#004d00' },
+          branding: {
+            background: '#E6FFE6',
+            name: { color: '#006400', hoverColor: '#004d00' },
+            web: { color: '#007300', hoverColor: '#006400' },
+            phone: { color: '#007300', hoverColor: '#006400' },
+            social: { color: '#007300', hoverColor: '#006400' }
+          }
+        }
       },
-      
+  
+      // Dark Themes
       black: {
         ...this.createTheme('#1A1A1A', '#FFFFFF'),
         name: 'black',
-        backgroundImage: 'paintedBlackImg.jpg'
-      },
-      
-      gray: {
-        ...this.createTheme('#F0F0F0', '#333333'),
-        name: 'gray',
-        backgroundImage: 'grayImg.jpg'
-      },
-      
-      dark: {
-        ...this.createTheme('#1a1a1a', '#FFFFFF'),
-        name: 'dark',
-        backgroundImage: 'paintedBlackImg.jpg'
+        backgroundImage: 'paintedBlackImg.jpg',
+        fonts: defaultFonts,
+        colors: {
+          title: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+          text: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+          branding: {
+            background: '#1A1A1A',
+            name: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+            web: { color: '#F0F0F0', hoverColor: '#E0E0E0' },
+            phone: { color: '#F0F0F0', hoverColor: '#E0E0E0' },
+            social: { color: '#F0F0F0', hoverColor: '#E0E0E0' }
+          }
+        }
       },
   
-      // Complex themes with specific backgrounds
+      // Nature-inspired Themes
       navyBlue: {
-        ...this.createTheme('#D3EFF4', '#05445E', '#189AB4'),
+        ...this.createTheme('#D3EFF4', '#05445E'),
         name: 'navyBlue',
-        backgroundImage: 'navyblueImg.jpg'
+        backgroundImage: 'navyblueImg.jpg',
+        fonts: defaultFonts,
+        colors: {
+          title: { color: '#05445E', hoverColor: '#043444' },
+          text: { color: '#05445E', hoverColor: '#043444' },
+          branding: {
+            background: '#D3EFF4',
+            name: { color: '#05445E', hoverColor: '#043444' },
+            web: { color: '#189AB4', hoverColor: '#05445E' },
+            phone: { color: '#189AB4', hoverColor: '#05445E' },
+            social: { color: '#189AB4', hoverColor: '#05445E' }
+          }
+        }
       },
   
       midnightBlue: {
-        ...this.createTheme('#D3EFF4', '#274472', '#41729F'),
+        ...this.createTheme('#D3EFF4', '#274472'),
         name: 'midnightBlue',
-        backgroundImage: 'navyblueImg.jpg'
-      },
-  
-      blackDustyRose: {
-        ...this.createTheme('#E9DDD4', '#000000', '#8B4513'),
-        name: 'blackDustyRose',
-        backgroundImage: 'blackDustyRose.jpg'
-      },
-  
-      creamTan: {
-        ...this.createTheme('#F3ECDA', '#94553D', '#6B4423'),
-        name: 'creamTan',
-        backgroundImage: 'brownImg.jpg'
-      },
-  
-      jetBlack: {
-        ...this.createTheme('#FDFDFD', '#050606', '#ADB3BC'),
-        name: 'jetBlack',
-        backgroundImage: 'blackCloth.jpg'
-      },
-  
-      limeGreen: {
-        ...this.createTheme('#F6FFE5', '#4A7212', '#104210'),
-        name: 'limeGreen',
-        backgroundImage: 'limeGreenImg.jpg'
-      },
-  
-      tealGray: {
-        ...this.createTheme('#EAF4F4', '#4B7A7A', '#2F4F4F'),
-        name: 'tealGray',
-        backgroundImage: 'tealGrayImg.jpg'
-      },
-  
-      skyBlue: {
-        ...this.createTheme('#EDF2FB', '#003F88', '#00296B'),
-        name: 'skyBlue',
-        backgroundImage: 'lightBlueImg.jpg'
-      },
-  
-      softGreen: {
-        ...this.createTheme('#F9FFF2', '#47565E', '#214456'),
-        name: 'softGreen',
-        backgroundImage: 'lightGreenBlueImg.jpg'
-      },
-  
-      vintage: {
-        ...this.createTheme('#F4F2F3', '#656256', '#230903'),
-        name: 'vintage',
-        backgroundImage: 'vintageGreenImg.jpg'
-      },
-  
-      flower: {
-        ...this.createTheme('#F4F2F3', '#656256', '#230903'),
-        name: 'flower',
-        backgroundImage: 'flower.jpg'
-      },
-  
-      blackCloth: {
-        ...this.createTheme('#1A1A1A', '#FFFFFF', '#FFFFFF'),
-        name: 'blackCloth',
-        backgroundImage: 'blackCloth.jpg'
-      },
-  
-      // Additional artistic themes
-      artistic: {
-        ...this.createTheme('#F5F5F5', '#2E4A62', '#4A6670'),
-        name: 'artistic',
-        backgroundImage: 'artisticGreenImg.jpg'
-      },
-  
-      gradient: {
-        ...this.createTheme('#FFFFFF', '#333333', '#666666'),
-        name: 'gradient',
-        backgroundImage: 'gradient.jpg'
-      },
-  
-      waterColor: {
-        ...this.createTheme('#FFF5F5', '#8B4513', '#A0522D'),
-        name: 'waterColor',
-        backgroundImage: 'waterColourRoseImg.jpg'
-      },
-  
-      textile: {
-        ...this.createTheme('#F5F5F5', '#4A4A4A', '#666666'),
-        name: 'textile',
-        backgroundImage: 'textileMaterialImg.jpg'
-      },
-  
-      tieDye: {
-        ...this.createTheme('#FFFFFF', '#333333', '#4A4A4A'),
-        name: 'tieDye',
-        backgroundImage: 'tieDyeImg.jpg'
-      },
-  
-      maroon: {
-        ...this.createTheme('#FFF0F0', '#800000', '#A52A2A'),
-        name: 'maroon',
-        backgroundImage: 'maroonImg.jpg'
-      },
-  
-      grayLine: {
-        ...this.createTheme('#F5F5F5', '#333333', '#666666'),
-        name: 'grayLine',
-        backgroundImage: 'grayLine.jpg'
-      },
-
-      ancientStone: {
-        ...this.createTheme('#E8E0D5', '#2B1810', '#463026'),
-        name: 'ancientStone',
-        backgroundImage: 'BrownAncientStoneImg.jpg'
-      },
-  
-      morningSun: {
-        ...this.createTheme('#FFF7E6', '#8B4513', '#A0522D'),
-        name: 'morningSun',
-        backgroundImage: 'MorningYelllowSunImg.jpg'
-      },
-  
-      multiColor: {
-        ...this.createTheme('#FFFFFF', '#1A237E', '#0D47A1'),
-        name: 'multiColor',
-        backgroundImage: 'MultiBlueRedYellowImg.jpg'
-      },
-  
-      oldArchBW: {
-        ...this.createTheme('#F5F5F5', '#1A1A1A', '#333333'),
-        name: 'oldArchBW',
-        backgroundImage: 'OldArchBWImg.jpg'
-      },
-  
-      blueFire: {
-        ...this.createTheme('#E3F2FD', '#1565C0', '#0D47A1'),
-        name: 'blueFire',
-        backgroundImage: 'blueBGFilreImg.jpg'
-      },
-  
-      eveningSky: {
-        ...this.createTheme('#FFF8E1', '#4A148C', '#311B92'),
-        name: 'eveningSky',
-        backgroundImage: 'eveningSkyImg.jpg'
-      },
-  
-      whiteFlower: {
-        ...this.createTheme('#FFFFFF', '#2E7D32', '#1B5E20'),
-        name: 'whiteFlower',
-        backgroundImage: 'flowerInWhiteBGImg.jpg'
-      },
-  
-      pureBlack: {
-          ...this.createTheme('#000000', '#FFFFFF', '#CCCCCC'), // Changed background to black, text to white
-          name: 'oldArchBW',
-          backgroundImage: 'OldArchBWImg.jpg',
-          effects: {
-            textShadow: true,
-            glow: false,
-            decorativeElements: true,
-            backgroundTexture: true,
-            shadow: {
-              blur: 4,
-              opacity: 0.5,
-              offset: { x: 2, y: 2 }
-            }
-          },
-          layout: {
-            padding: 60,
-            titleSize: 48,
-            bodySize: 32,
-            lineHeight: 2.0,
-            textAlign: 'center'
+        backgroundImage: 'navyblueImg.jpg',
+        fonts: defaultFonts,
+        colors: {
+          title: { color: '#274472', hoverColor: '#1b2f4d' },
+          text: { color: '#274472', hoverColor: '#1b2f4d' },
+          branding: {
+            background: '#D3EFF4',
+            name: { color: '#274472', hoverColor: '#1b2f4d' },
+            web: { color: '#41729F', hoverColor: '#274472' },
+            phone: { color: '#41729F', hoverColor: '#274472' },
+            social: { color: '#41729F', hoverColor: '#274472' }
           }
-        },
-      foggyForest: {
-        ...this.createTheme('#E8F5E9', '#2E7D32', '#1B5E20'),
-        name: 'foggyForest',
-        backgroundImage: 'foggyGreenForestImg.jpg'
+        }
       },
-  
-      greenLeaf: {
-        ...this.createTheme('#E8F5E9', '#1B5E20', '#004D40'),
-        name: 'greenLeaf',
-        backgroundImage: 'greenLeafImg.jpg'
-      },
-  
-      leafRose: {
-        ...this.createTheme('#F3E5F5', '#4A148C', '#311B92'),
-        name: 'leafRose',
-        backgroundImage: 'greenLeafRoseImg.jpg'
-      },
-  
-      greenishBrown: {
-        ...this.createTheme('#EFEBE9', '#3E2723', '#4E342E'),
-        name: 'greenishBrown',
-        backgroundImage: 'greenishBrownLeafImg.jpg'
-      },
-  
-      lightBlack: {
-        ...this.createTheme('#212121', '#FFFFFF', '#EEEEEE'),
-        name: 'lightBlack',
-        backgroundImage: 'lightBlackImg.jpg'
-      },
-  
-      lightBluePaint: {
-        ...this.createTheme('#E3F2FD', '#0D47A1', '#1565C0'),
-        name: 'lightBluePaint',
-        backgroundImage: 'lightBluePaintImg.jpg'
-      },
-  
-      oceanBlue: {
-        ...this.createTheme('#E1F5FE', '#01579B', '#0277BD'),
-        name: 'oceanBlue',
-        backgroundImage: 'oceanBlueImg.jpg'
-      },
-  
-      oldPaper: {
-        ...this.createTheme('#EFEBE9', '#3E2723', '#4E342E'),
-        name: 'oldPaper',
-        backgroundImage: 'oldDullBrownPaperImg.jpg'
-      },
-  
-      peacockFeather: {
-        ...this.createTheme('#E0F7FA', '#006064', '#00838F'),
-        name: 'peacockFeather',
-        backgroundImage: 'peacockFeatherImg.jpg'
-      },
-  
-      pinkBlueWater: {
-        ...this.createTheme('#F3E5F5', '#4A148C', '#6A1B9A'),
-        name: 'pinkBlueWater',
-        backgroundImage: 'pinkBlueWaterColurImg.jpg'
-      },
-  
-      redForest: {
-        ...this.createTheme('#FFEBEE', '#B71C1C', '#C62828'),
-        name: 'redForest',
-        backgroundImage: 'redFlowerForestImg.jpg'
-      },
-  
-      redTexture: {
-        ...this.createTheme('#FFEBEE', '#B71C1C', '#C62828'),
-        name: 'redTexture',
-        backgroundImage: 'redTextureImg.jpg'
-      },
-  
-      starSky: {
-        ...this.createTheme('#1A237E', '#FFFFFF', '#E8EAF6'),
-        name: 'starSky',
-        backgroundImage: 'starSkyImg.jpg'
+   
+    blackDustyRose: {
+      ...this.createTheme('#E9DDD4', '#8B4513'),
+      name: 'blackDustyRose',
+      backgroundImage: 'blackDustyRose.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#8B4513', hoverColor: '#723709' },
+        text: { color: '#8B4513', hoverColor: '#723709' },
+        branding: {
+          background: '#E9DDD4',
+          name: { color: '#8B4513', hoverColor: '#723709' },
+          web: { color: '#A0522D', hoverColor: '#8B4513' },
+          phone: { color: '#A0522D', hoverColor: '#8B4513' },
+          social: { color: '#A0522D', hoverColor: '#8B4513' }
+        }
       }
-  
-    };
-  }
+    },
+
+    oceanBlue: {
+      ...this.createTheme('#E1F5FE', '#01579B'),
+      name: 'oceanBlue',
+      backgroundImage: 'oceanBlueImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#01579B', hoverColor: '#014378' },
+        text: { color: '#01579B', hoverColor: '#014378' },
+        branding: {
+          background: '#E1F5FE',
+          name: { color: '#01579B', hoverColor: '#014378' },
+          web: { color: '#0277BD', hoverColor: '#01579B' },
+          phone: { color: '#0277BD', hoverColor: '#01579B' },
+          social: { color: '#0277BD', hoverColor: '#01579B' }
+        }
+      }
+    },
+
+    peacockFeather: {
+      ...this.createTheme('#E0F7FA', '#006064'),
+      name: 'peacockFeather',
+      backgroundImage: 'peacockFeatherImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#006064', hoverColor: '#004d4d' },
+        text: { color: '#006064', hoverColor: '#004d4d' },
+        branding: {
+          background: '#E0F7FA',
+          name: { color: '#006064', hoverColor: '#004d4d' },
+          web: { color: '#00838F', hoverColor: '#006064' },
+          phone: { color: '#00838F', hoverColor: '#006064' },
+          social: { color: '#00838F', hoverColor: '#006064' }
+        }
+      }
+    },
+
+    eveningSky: {
+      ...this.createTheme('#FFF8E1', '#4A148C'),
+      name: 'eveningSky',
+      backgroundImage: 'eveningSkyImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#4A148C', hoverColor: '#3A1070' },
+        text: { color: '#4A148C', hoverColor: '#3A1070' },
+        branding: {
+          background: '#FFF8E1',
+          name: { color: '#4A148C', hoverColor: '#3A1070' },
+          web: { color: '#6A1B9A', hoverColor: '#4A148C' },
+          phone: { color: '#6A1B9A', hoverColor: '#4A148C' },
+          social: { color: '#6A1B9A', hoverColor: '#4A148C' }
+        }
+      }
+    },
+    starSky: {
+      ...this.createTheme('#1A237E', '#FFFFFF'),
+      name: 'starSky',
+      backgroundImage: 'starSkyImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+        text: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+        branding: {
+          background: '#1A237E',
+          name: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+          web: { color: '#E8EAF6', hoverColor: '#FFFFFF' },
+          phone: { color: '#E8EAF6', hoverColor: '#FFFFFF' },
+          social: { color: '#E8EAF6', hoverColor: '#FFFFFF' }
+        }
+      },
+      effects: {
+        textShadow: true,
+        shadow: {
+          blur: 4,
+          opacity: 0.5,
+          offset: { x: 2, y: 2 }
+        }
+      }
+    },
+    creamTan: {
+      ...this.createTheme('#F3ECDA', '#94553D'),
+      name: 'creamTan',
+      backgroundImage: 'brownImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#94553D', hoverColor: '#7A4632' },
+        text: { color: '#94553D', hoverColor: '#7A4632' },
+        branding: {
+          background: '#F3ECDA',
+          name: { color: '#94553D', hoverColor: '#7A4632' },
+          web: { color: '#6B4423', hoverColor: '#94553D' },
+          phone: { color: '#6B4423', hoverColor: '#94553D' },
+          social: { color: '#6B4423', hoverColor: '#94553D' }
+        }
+      }
+    },
+    jetBlack: {
+      ...this.createTheme('#FDFDFD', '#050606'),
+      name: 'jetBlack',
+      backgroundImage: 'blackCloth.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#050606', hoverColor: '#1A1A1A' },
+        text: { color: '#050606', hoverColor: '#1A1A1A' },
+        branding: {
+          background: '#FDFDFD',
+          name: { color: '#050606', hoverColor: '#1A1A1A' },
+          web: { color: '#ADB3BC', hoverColor: '#050606' },
+          phone: { color: '#ADB3BC', hoverColor: '#050606' },
+          social: { color: '#ADB3BC', hoverColor: '#050606' }
+        }
+      }
+    },
+    limeGreen: {
+      ...this.createTheme('#F6FFE5', '#4A7212'),
+      name: 'limeGreen',
+      backgroundImage: 'limeGreenImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#4A7212', hoverColor: '#3A5A0E' },
+        text: { color: '#4A7212', hoverColor: '#3A5A0E' },
+        branding: {
+          background: '#F6FFE5',
+          name: { color: '#4A7212', hoverColor: '#3A5A0E' },
+          web: { color: '#104210', hoverColor: '#4A7212' },
+          phone: { color: '#104210', hoverColor: '#4A7212' },
+          social: { color: '#104210', hoverColor: '#4A7212' }
+        }
+      }
+    },
+    tealGray: {
+      ...this.createTheme('#EAF4F4', '#4B7A7A'),
+      name: 'tealGray',
+      backgroundImage: 'tealGrayImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#4B7A7A', hoverColor: '#3D6363' },
+        text: { color: '#4B7A7A', hoverColor: '#3D6363' },
+        branding: {
+          background: '#EAF4F4',
+          name: { color: '#4B7A7A', hoverColor: '#3D6363' },
+          web: { color: '#2F4F4F', hoverColor: '#4B7A7A' },
+          phone: { color: '#2F4F4F', hoverColor: '#4B7A7A' },
+          social: { color: '#2F4F4F', hoverColor: '#4B7A7A' }
+        }
+      }
+    },
+    softGreen: {
+      ...this.createTheme('#F9FFF2', '#47565E'),
+      name: 'softGreen',
+      backgroundImage: 'lightGreenBlueImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#47565E', hoverColor: '#394347' },
+        text: { color: '#47565E', hoverColor: '#394347' },
+        branding: {
+          background: '#F9FFF2',
+          name: { color: '#47565E', hoverColor: '#394347' },
+          web: { color: '#214456', hoverColor: '#47565E' },
+          phone: { color: '#214456', hoverColor: '#47565E' },
+          social: { color: '#214456', hoverColor: '#47565E' }
+        }
+      }
+    },
+    vintage: {
+      ...this.createTheme('#F4F2F3', '#656256'),
+      name: 'vintage',
+      backgroundImage: 'vintageGreenImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#656256', hoverColor: '#4E4B42' },
+        text: { color: '#656256', hoverColor: '#4E4B42' },
+        branding: {
+          background: '#F4F2F3',
+          name: { color: '#656256', hoverColor: '#4E4B42' },
+          web: { color: '#230903', hoverColor: '#656256' },
+          phone: { color: '#230903', hoverColor: '#656256' },
+          social: { color: '#230903', hoverColor: '#656256' }
+        }
+      }
+    },
+    flower: {
+      ...this.createTheme('#F4F2F3', '#656256'),
+      name: 'flower',
+      backgroundImage: 'flower.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#656256', hoverColor: '#4E4B42' },
+        text: { color: '#656256', hoverColor: '#4E4B42' },
+        branding: {
+          background: '#F4F2F3',
+          name: { color: '#656256', hoverColor: '#4E4B42' },
+          web: { color: '#230903', hoverColor: '#656256' },
+          phone: { color: '#230903', hoverColor: '#656256' },
+          social: { color: '#230903', hoverColor: '#656256' }
+        }
+      }
+    },
+    blackCloth: {
+      ...this.createTheme('#1A1A1A', '#FFFFFF'),
+      name: 'blackCloth',
+      backgroundImage: 'blackCloth.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+        text: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+        branding: {
+          background: '#1A1A1A',
+          name: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+          web: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+          phone: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+          social: { color: '#FFFFFF', hoverColor: '#E0E0E0' }
+        }
+      }
+    },
+    gradient: {
+      ...this.createTheme('#FFFFFF', '#333333'),
+      name: 'gradient',
+      backgroundImage: 'gradient.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#333333', hoverColor: '#1A1A1A' },
+        text: { color: '#333333', hoverColor: '#1A1A1A' },
+        branding: {
+          background: '#FFFFFF',
+          name: { color: '#333333', hoverColor: '#1A1A1A' },
+          web: { color: '#666666', hoverColor: '#333333' },
+          phone: { color: '#666666', hoverColor: '#333333' },
+          social: { color: '#666666', hoverColor: '#333333' }
+        }
+      }
+    },
+    waterColor: {
+      ...this.createTheme('#FFF5F5', '#8B4513'),
+      name: 'waterColor',
+      backgroundImage: 'waterColourRoseImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#8B4513', hoverColor: '#723709' },
+        text: { color: '#8B4513', hoverColor: '#723709' },
+        branding: {
+          background: '#FFF5F5',
+          name: { color: '#8B4513', hoverColor: '#723709' },
+          web: { color: '#A0522D', hoverColor: '#8B4513' },
+          phone: { color: '#A0522D', hoverColor: '#8B4513' },
+          social: { color: '#A0522D', hoverColor: '#8B4513' }
+        }
+      }
+    },
+    textile: {
+      ...this.createTheme('#F5F5F5', '#4A4A4A'),
+      name: 'textile',
+      backgroundImage: 'textileMaterialImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#4A4A4A', hoverColor: '#333333' },
+        text: { color: '#4A4A4A', hoverColor: '#333333' },
+        branding: {
+          background: '#F5F5F5',
+          name: { color: '#4A4A4A', hoverColor: '#333333' },
+          web: { color: '#666666', hoverColor: '#4A4A4A' },
+          phone: { color: '#666666', hoverColor: '#4A4A4A' },
+          social: { color: '#666666', hoverColor: '#4A4A4A' }
+        }
+      }
+    },
+    foggyForest: {
+      ...this.createTheme('#E8F5E9', '#2E7D32'),
+      name: 'foggyForest',
+      backgroundImage: 'foggyGreenForestImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#2E7D32', hoverColor: '#1B5E20' },
+        text: { color: '#2E7D32', hoverColor: '#1B5E20' },
+        branding: {
+          background: '#E8F5E9',
+          name: { color: '#2E7D32', hoverColor: '#1B5E20' },
+          web: { color: '#1B5E20', hoverColor: '#2E7D32' },
+          phone: { color: '#1B5E20', hoverColor: '#2E7D32' },
+          social: { color: '#1B5E20', hoverColor: '#2E7D32' }
+        }
+      }
+    },
+    greenLeaf: {
+      ...this.createTheme('#E8F5E9', '#1B5E20'),
+      name: 'greenLeaf',
+      backgroundImage: 'greenLeafImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#1B5E20', hoverColor: '#0A4A0E' },
+        text: { color: '#1B5E20', hoverColor: '#0A4A0E' },
+        branding: {
+          background: '#E8F5E9',
+          name: { color: '#1B5E20', hoverColor: '#0A4A0E' },
+          web: { color: '#004D40', hoverColor: '#1B5E20' },
+          phone: { color: '#004D40', hoverColor: '#1B5E20' },
+          social: { color: '#004D40', hoverColor: '#1B5E20' }
+        }
+      }
+    },
+    leafRose: {
+      ...this.createTheme('#F3E5F5', '#4A148C'),
+      name: 'leafRose',
+      backgroundImage: 'greenLeafRoseImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#4A148C', hoverColor: '#3A1070' },
+        text: { color: '#4A148C', hoverColor: '#3A1070' },
+        branding: {
+          background: '#F3E5F5',
+          name: { color: '#4A148C', hoverColor: '#3A1070' },
+          web: { color: '#311B92', hoverColor: '#4A148C' },
+          phone: { color: '#311B92', hoverColor: '#4A148C' },
+          social: { color: '#311B92', hoverColor: '#4A148C' }
+        }
+      }
+    },
+    greenishBrown: {
+      ...this.createTheme('#EFEBE9', '#3E2723'),
+      name: 'greenishBrown',
+      backgroundImage: 'greenishBrownLeafImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#3E2723', hoverColor: '#2D1B19' },
+        text: { color: '#3E2723', hoverColor: '#2D1B19' },
+        branding: {
+          background: '#EFEBE9',
+          name: { color: '#3E2723', hoverColor: '#2D1B19' },
+          web: { color: '#4E342E', hoverColor: '#3E2723' },
+          phone: { color: '#4E342E', hoverColor: '#3E2723' },
+          social: { color: '#4E342E', hoverColor: '#3E2723' }
+        }
+      }
+    },
+    lightBlack: {
+      ...this.createTheme('#212121', '#FFFFFF'),
+      name: 'lightBlack',
+      backgroundImage: 'lightBlackImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+        text: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+        branding: {
+          background: '#212121',
+          name: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+          web: { color: '#EEEEEE', hoverColor: '#FFFFFF' },
+          phone: { color: '#EEEEEE', hoverColor: '#FFFFFF' },
+          social: { color: '#EEEEEE', hoverColor: '#FFFFFF' }
+        }
+      }
+    },
+    oldPaper: {
+      ...this.createTheme('#EFEBE9', '#3E2723'),
+      name: 'oldPaper',
+      backgroundImage: 'oldDullBrownPaperImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#3E2723', hoverColor: '#2D1B19' },
+        text: { color: '#3E2723', hoverColor: '#2D1B19' },
+        branding: {
+          background: '#EFEBE9',
+          name: { color: '#3E2723', hoverColor: '#2D1B19' },
+          web: { color: '#4E342E', hoverColor: '#3E2723' },
+          phone: { color: '#4E342E', hoverColor: '#3E2723' },
+          social: { color: '#4E342E', hoverColor: '#3E2723' }
+        }
+      }
+    },
+   redForest: {
+      ...this.createTheme('#FFEBEE', '#B71C1C'),
+      name: 'redForest',
+      backgroundImage: 'redFlowerForestImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#B71C1C', hoverColor: '#8F1616' },
+        text: { color: '#B71C1C', hoverColor: '#8F1616' },
+        branding: {
+          background: '#FFEBEE',
+          name: { color: '#B71C1C', hoverColor: '#8F1616' },
+          web: { color: '#C62828', hoverColor: '#B71C1C' },
+          phone: { color: '#C62828', hoverColor: '#B71C1C' },
+          social: { color: '#C62828', hoverColor: '#B71C1C' }
+        }
+      }
+    },
+    redTexture: {
+      ...this.createTheme('#FFEBEE', '#B71C1C'),
+      name: 'redTexture',
+      backgroundImage: 'redTextureImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#B71C1C', hoverColor: '#8F1616' },
+        text: { color: '#B71C1C', hoverColor: '#8F1616' },
+        branding: {
+          background: '#FFEBEE',
+          name: { color: '#B71C1C', hoverColor: '#8F1616' },
+          web: { color: '#C62828', hoverColor: '#B71C1C' },
+          phone: { color: '#C62828', hoverColor: '#B71C1C' },
+          social: { color: '#C62828', hoverColor: '#B71C1C' }
+        }
+      }
+    },
+    pinkBlueWater: {
+      ...this.createTheme('#F3E5F5', '#4A148C'),
+      name: 'pinkBlueWater',
+      backgroundImage: 'pinkBlueWaterColurImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#4A148C', hoverColor: '#3A1070' },
+        text: { color: '#4A148C', hoverColor: '#3A1070' },
+        branding: {
+          background: '#F3E5F5',
+          name: { color: '#4A148C', hoverColor: '#3A1070' },
+          web: { color: '#6A1B9A', hoverColor: '#4A148C' },
+          phone: { color: '#6A1B9A', hoverColor: '#4A148C' },
+          social: { color: '#6A1B9A', hoverColor: '#4A148C' }
+        }
+      }
+    },
+    lightBluePaint: {
+      ...this.createTheme('#E3F2FD', '#0D47A1'),
+      name: 'lightBluePaint',
+      backgroundImage: 'lightBluePaintImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#0D47A1', hoverColor: '#093777' },
+        text: { color: '#0D47A1', hoverColor: '#093777' },
+        branding: {
+          background: '#E3F2FD',
+          name: { color: '#0D47A1', hoverColor: '#093777' },
+          web: { color: '#1565C0', hoverColor: '#0D47A1' },
+          phone: { color: '#1565C0', hoverColor: '#0D47A1' },
+          social: { color: '#1565C0', hoverColor: '#0D47A1' }
+        }
+      }
+    },
+    ancientStone: {
+      ...this.createTheme('#E8E0D5', '#2B1810'),
+      name: 'ancientStone',
+      backgroundImage: 'BrownAncientStoneImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#2B1810', hoverColor: '#1A0F0A' },
+        text: { color: '#2B1810', hoverColor: '#1A0F0A' },
+        branding: {
+          background: '#E8E0D5',
+          name: { color: '#2B1810', hoverColor: '#1A0F0A' },
+          web: { color: '#463026', hoverColor: '#2B1810' },
+          phone: { color: '#463026', hoverColor: '#2B1810' },
+          social: { color: '#463026', hoverColor: '#2B1810' }
+        }
+      }
+    },
+    morningSun: {
+      ...this.createTheme('#FFF7E6', '#8B4513'),
+      name: 'morningSun',
+      backgroundImage: 'MorningYelllowSunImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#8B4513', hoverColor: '#723709' },
+        text: { color: '#8B4513', hoverColor: '#723709' },
+        branding: {
+          background: '#FFF7E6',
+          name: { color: '#8B4513', hoverColor: '#723709' },
+          web: { color: '#A0522D', hoverColor: '#8B4513' },
+          phone: { color: '#A0522D', hoverColor: '#8B4513' },
+          social: { color: '#A0522D', hoverColor: '#8B4513' }
+        }
+      }
+    },
+    multiColor: {
+      ...this.createTheme('#FFFFFF', '#1A237E'),
+      name: 'multiColor',
+      backgroundImage: 'MultiBlueRedYellowImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#1A237E', hoverColor: '#131A5E' },
+        text: { color: '#1A237E', hoverColor: '#131A5E' },
+        branding: {
+          background: '#FFFFFF',
+          name: { color: '#1A237E', hoverColor: '#131A5E' },
+          web: { color: '#0D47A1', hoverColor: '#1A237E' },
+          phone: { color: '#0D47A1', hoverColor: '#1A237E' },
+          social: { color: '#0D47A1', hoverColor: '#1A237E' }
+        }
+      }
+    },
+    pureBlack: {
+      ...this.createTheme('#000000', '#FFFFFF'),
+      name: 'pureBlack',
+      backgroundImage: 'OldArchBWImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+        text: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+        branding: {
+          background: '#000000',
+          name: { color: '#FFFFFF', hoverColor: '#E0E0E0' },
+          web: { color: '#CCCCCC', hoverColor: '#FFFFFF' },
+          phone: { color: '#CCCCCC', hoverColor: '#FFFFFF' },
+          social: { color: '#CCCCCC', hoverColor: '#FFFFFF' }
+        }
+      },
+      effects: {
+        textShadow: true,
+        glow: false,
+        decorativeElements: true,
+        backgroundTexture: true,
+        shadow: {
+          blur: 4,
+          opacity: 0.5,
+          offset: { x: 2, y: 2 }
+        }
+      }
+    },
+    blueFire: {
+      ...this.createTheme('#E3F2FD', '#1565C0'),
+      name: 'blueFire',
+      backgroundImage: 'blueBGFilreImg.jpg',
+      fonts: defaultFonts,
+      colors: {
+        title: { color: '#1565C0', hoverColor: '#0D47A1' },
+        text: { color: '#1565C0', hoverColor: '#0D47A1' },
+        branding: {
+          background: '#E3F2FD',
+          name: { color: '#1565C0', hoverColor: '#0D47A1' },
+          web: { color: '#0D47A1', hoverColor: '#1565C0' },
+          phone: { color: '#0D47A1', hoverColor: '#1565C0' },
+          social: { color: '#0D47A1', hoverColor: '#1565C0' }
+        }
+      }
+    }
+  }; 
+} 
+
 
   createTheme(backgroundColor, textColor, secondaryColor = null, backgroundImage = null) {
     return {
       colors: {
-        primary: textColor,
-        secondary: secondaryColor || textColor,
         background: backgroundColor,
-        text: textColor,
-        title: this.adjustColor(textColor, 1.2),
-        accent: this.adjustColor(textColor, 1.3)
-      },
-      backgroundImage: backgroundImage, // Add background image support
-      fonts: {
-        title: '"Noto Serif Tamil Slanted"',
-        body: '"Annai MN"',
-        branding: '"Tamil Sangam MN"',
-        contact: '"Noto Sans Tamil"',
-        weights: {
-          light: 300,
-          regular: 400,
-          medium: 500,
-          bold: 700,
-          heavy: 800
+        // Title customization
+        title: {
+          color: this.adjustColor(textColor, 1.2),
+          hoverColor: this.adjustColor(textColor, 1.4),
         },
-        styles: {
-          normal: 'normal',
-          italic: 'italic',
-          oblique: 'oblique'
+        // Main text customization
+        text: {
+          color: textColor,
+          hoverColor: this.adjustColor(textColor, 1.1),
+        },
+        // Branding section customization
+        branding: {
+          background: backgroundColor, // Separate background for branding section
+          name: {
+            color: textColor,
+            hoverColor: this.adjustColor(textColor, 1.2),
+          },
+          web: {
+            color: secondaryColor || textColor,
+            hoverColor: this.adjustColor(secondaryColor || textColor, 1.1),
+          },
+          phone: {
+            color: secondaryColor || textColor,
+            hoverColor: this.adjustColor(secondaryColor || textColor, 1.1),
+          },
+          social: {
+            color: secondaryColor || textColor,
+            hoverColor: this.adjustColor(secondaryColor || textColor, 1.1),
+          }
+        }
+      },
+      fonts: {
+        title: {
+          family: '"Noto Serif Tamil Slanted"',
+          weight: 800,
+          style: 'normal',
+          size: 48,
+        },
+        body: {
+          family: '"Annai MN"',
+          weight: 400,
+          style: 'normal',
+          size: 36,
+        },
+        branding: {
+          name: {
+            family: '"Tamil Sangam MN"',
+            weight: 700,
+            style: 'normal',
+            size: 32,
+          },
+          web: {
+            family: '"Noto Sans Tamil"',
+            weight: 400,
+            style: 'normal',
+            size: 24,
+          },
+          phone: {
+            family: '"Noto Sans Tamil"',
+            weight: 400,
+            style: 'normal',
+            size: 24,
+          },
+          social: {
+            family: '"Noto Sans Tamil"',
+            weight: 400,
+            style: 'normal',
+            size: 24,
+          }
         }
       },
       layout: {
         padding: 60,
-        titleSize: 48,
-        bodySize: 36,
-        lineHeight: 1.8,
-        brandingSize: 32,
-        contactSize: 24,
-        textAlign: 'center',
-        spacing: {
-          paragraph: 1.5,
-          section: 2.5
-        },
         margins: {
           top: 60,
           bottom: 60,
           left: 60,
           right: 60
+        },
+        spacing: {
+          paragraph: 1.5,
+          section: 2.5
+        },
+        lineHeight: 1.8,
+        textAlign: 'center',
+        branding: {
+          height: 150,
+          padding: 20,
+          spacing: 10
         }
       },
+      backgroundImage: backgroundImage,
       effects: {
         textShadow: false,
         glow: false,
@@ -559,11 +1019,6 @@ export class ImageGenerationService {
           blur: 3,
           opacity: 0.3,
           offset: { x: 2, y: 2 }
-        },
-        glow: {
-          blur: 10,
-          intensity: 0.4,
-          color: textColor
         }
       }
     };
@@ -884,53 +1339,69 @@ textFormatter(text, category = 'article') {
 // Update branding elements with simpler SVG structure
 async addBrandingElements(buffer, theme) {
   const brandingSvg = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" version="1.1">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="${theme.layout.branding.height || 150}" version="1.1">
+  <!-- Brand Name -->
   <text
     x="600"
     y="40"
-    font-family="${theme.fonts.branding.replace(/"/g, '&quot;')}"
-    font-size="${theme.layout.brandingSize}"
-    fill="${theme.colors.primary}"
+    font-family="${theme.fonts.branding.name.family.replace(/"/g, '&quot;')}"
+    font-size="${theme.fonts.branding.name.size}"
+    font-weight="${theme.fonts.branding.name.weight}"
+    fill="${theme.colors.branding.name.color}"
     text-anchor="middle"
+    class="branding-name"
   >அஜித்குமார்</text>
+
+  <!-- Contact Information Group -->
   <g transform="translate(100, 100)">
+    <!-- Website -->
     <text
       x="0"
       y="0"
-      font-family="${theme.fonts.contact.replace(/"/g, '&quot;')}"
-      font-size="${theme.layout.contactSize}"
-      fill="${theme.colors.text}"
+      font-family="${theme.fonts.branding.web.family.replace(/"/g, '&quot;')}"
+      font-size="${theme.fonts.branding.web.size}"
+      font-weight="${theme.fonts.branding.web.weight}"
+      fill="${theme.colors.branding.web.color}"
+      class="branding-web"
     >www.ajithkumar.dev</text>
+
+    <!-- Phone Number -->
     <text
       x="500"
       y="0"
-      font-family="${theme.fonts.contact.replace(/"/g, '&quot;')}"
-      font-size="${theme.layout.contactSize}"
-      fill="${theme.colors.text}"
+      font-family="${theme.fonts.branding.phone.family.replace(/"/g, '&quot;')}"
+      font-size="${theme.fonts.branding.phone.size}"
+      font-weight="${theme.fonts.branding.phone.weight}"
+      fill="${theme.colors.branding.phone.color}"
       text-anchor="middle"
+      class="branding-phone"
     >9944154823</text>
+
+    <!-- Social Media Handle -->
     <text
       x="900"
       y="0"
-      font-family="${theme.fonts.contact.replace(/"/g, '&quot;')}"
-      font-size="${theme.layout.contactSize}"
-      fill="${theme.colors.text}"
+      font-family="${theme.fonts.branding.social.family.replace(/"/g, '&quot;')}"
+      font-size="${theme.fonts.branding.social.size}"
+      font-weight="${theme.fonts.branding.social.weight}"
+      fill="${theme.colors.branding.social.color}"
       text-anchor="end"
+      class="branding-social"
     >@vaanawill</text>
   </g>
 </svg>`;
 
-  // Create background matching theme
-  const brandingBackground = await sharp({
-    create: {
-      width: 1200,
-      height: 150,
-      channels: 4,
-      background: this.parseBackgroundColor(theme.colors.background)
-    }
-  }).png().toBuffer();
-
   try {
+    // Create background matching theme
+    const brandingBackground = await sharp({
+      create: {
+        width: 1200,
+        height: theme.layout.branding.height || 150,
+        channels: 4,
+        background: this.parseBackgroundColor(theme.colors.branding.background)
+      }
+    }).png().toBuffer();
+
     const brandingBuffer = await sharp(brandingBackground)
       .composite([{
         input: Buffer.from(brandingSvg),
@@ -945,13 +1416,13 @@ async addBrandingElements(buffer, theme) {
         gravity: 'south'
       }])
       .toBuffer();
+
   } catch (error) {
     console.error('Error generating branding:', error);
     throw new Error(`Failed to generate branding: ${error.message}`);
   }
 }
 
-// Enhanced text generation methods with better positioning and styling
 generateContentSVG(text, theme, analysis = {}) {
   const lines = text.split('\n').filter(line => line.trim());
   const lineHeight = theme.layout.lineHeight || 2.0;
@@ -965,7 +1436,7 @@ generateContentSVG(text, theme, analysis = {}) {
   const getXPosition = (alignment) => {
     switch (alignment?.toLowerCase()) {
       case 'right':
-        return containerWidth - padding; // Align to right margin
+        return containerWidth - padding;
       case 'center':
         return containerWidth / 2;
       case 'justify':
@@ -989,9 +1460,9 @@ generateContentSVG(text, theme, analysis = {}) {
 
   // Enhanced text effects
   const baseTextStyle = `
-    font-family: ${theme.fonts.body.replace(/"/g, '&quot;')};
-    font-weight: ${theme.fonts.weights?.regular || 400};
-    font-style: ${theme.fonts.styles?.normal || 'normal'};
+    font-family: ${theme.fonts.body.family.replace(/"/g, '&quot;')};
+    font-weight: ${theme.fonts.body.weight};
+    font-style: ${theme.fonts.body.style || 'normal'};
   `;
 
   const textEffects = [];
@@ -999,7 +1470,7 @@ generateContentSVG(text, theme, analysis = {}) {
     textEffects.push(`filter: drop-shadow(${theme.effects.shadow?.offset?.x || 2}px ${theme.effects.shadow?.offset?.y || 2}px ${theme.effects.shadow?.blur || 3}px rgba(0,0,0,${theme.effects.shadow?.opacity || 0.3}))`);
   }
   if (theme.effects?.glow) {
-    textEffects.push(`filter: drop-shadow(0 0 ${theme.effects.glow?.blur || 10}px ${theme.effects.glow?.color || theme.colors.text})`);
+    textEffects.push(`filter: drop-shadow(0 0 ${theme.effects.glow?.blur || 10}px ${theme.colors.text.color})`);
   }
 
   // Calculate vertical spacing
@@ -1026,19 +1497,20 @@ generateContentSVG(text, theme, analysis = {}) {
     return `    <text
       x="${xPos}"
       y="${yPosition}"
-      font-size="${theme.layout.bodySize}"
-      fill="${theme.colors.text}"
+      font-size="${theme.fonts.body.size}"
+      fill="${theme.colors.text.color}"
       text-anchor="${anchor}"
       dominant-baseline="middle"
-      class="poetry-line"
+      class="content-line"
       ${theme.effects?.textShadow ? 'filter="url(#shadow)"' : ''}
     >${escapedLine}</text>`;
   }).join('\n');
 
-  // Enhanced SVG with filters and styling
+  // Complete SVG with filters and styling
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" version="1.1">
   <defs>
+    <!-- Shadow filter -->
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="${theme.effects?.shadow?.blur || 3}"/>
       <feOffset dx="${theme.effects?.shadow?.offset?.x || 2}" dy="${theme.effects?.shadow?.offset?.y || 2}"/>
@@ -1050,15 +1522,37 @@ generateContentSVG(text, theme, analysis = {}) {
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
+
+    <!-- Text hover effects -->
     <style>
-      .poetry-line {
+      .content-line {
         ${baseTextStyle}
         ${textEffects.join(';')}
+        transition: fill 0.3s ease;
+      }
+      .content-line:hover {
+        fill: ${theme.colors.text.hoverColor || theme.colors.text.color};
       }
     </style>
   </defs>
+
+  <!-- Decorative elements -->
   ${this.generateDecorationElements(theme)}
+
+  <!-- Main content -->
   ${svgContent}
+
+  <!-- Additional effects for analysis-based styling -->
+  ${analysis.sentiment?.polarity === 'positive' ? `
+    <defs>
+      <linearGradient id="positiveGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:${theme.colors.text.color};stop-opacity:0.1"/>
+        <stop offset="50%" style="stop-color:${theme.colors.text.color};stop-opacity:0.2"/>
+        <stop offset="100%" style="stop-color:${theme.colors.text.color};stop-opacity:0.1"/>
+      </linearGradient>
+    </defs>
+    <rect x="0" y="0" width="1200" height="1200" fill="url(#positiveGlow)" opacity="0.1"/>
+  ` : ''}
 </svg>`;
 }
 
@@ -1078,15 +1572,16 @@ generateTitleSVG(title, theme) {
   const textAnchor = theme.layout.textAlign === 'right' ? 'end' :
                      theme.layout.textAlign === 'left' ? 'start' : 'middle';
 
+  // Use the new theme structure for fonts
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" version="1.1">
   <text
     x="${xPosition}"
     y="75"
-    font-family="${theme.fonts.title.replace(/"/g, '&quot;')}"
-    font-size="${theme.layout.titleSize}"
-    font-weight="800"
-    fill="${theme.colors.title}"
+    font-family="${theme.fonts.title.family.replace(/"/g, '&quot;')}"
+    font-size="${theme.fonts.title.size}"
+    font-weight="${theme.fonts.title.weight}"
+    fill="${theme.colors.title.color}"
     text-anchor="${textAnchor}"
     dominant-baseline="middle"
     ${theme.effects?.textShadow ? 'filter="url(#shadow)"' : ''}
@@ -1094,7 +1589,7 @@ generateTitleSVG(title, theme) {
   ${theme.layout.textAlign === 'right' ?
     `<line x1="300" y1="100" x2="${xPosition + 50}" y2="100"` :
     `<line x1="${xPosition - 300}" y1="100" x2="${xPosition + 300}" y2="100"`}
-    stroke="${theme.colors.title}"
+    stroke="${theme.colors.title.color}"
     stroke-width="1"
   />
 </svg>`;
