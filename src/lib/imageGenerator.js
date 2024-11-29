@@ -1666,7 +1666,6 @@ export class ImageGenerationService {
   }; 
 } 
 
-
   createTheme(backgroundColor, textColor, secondaryColor = null, backgroundImage = null) {
     return {
       colors: {
@@ -1896,6 +1895,232 @@ async createImage(text, options = {}) {
     throw error;
   }
 }
+// Add this to your ImageGenerationService class
+async generateTextureNoise(type, width, height) {
+  const textureEffects = {
+    // 1. Vintage Paper
+    vintagePaper: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 30 },
+          background: { r: 245, g: 245, b: 240, alpha: 0.8 },
+          blend: 'soft-light',
+          opacity: 0.7
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 20 },
+          background: { r: 180, g: 170, b: 155, alpha: 0.2 },
+          blend: 'overlay',
+          opacity: 0.3
+        }
+      ],
+      modulate: { brightness: 1.05, saturation: 0.9, lightness: 1.02 }
+    },
+
+    // 2. Denim Texture
+    denim: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 80 },
+          background: { r: 25, g: 25, b: 112, alpha: 0.4 },
+          blend: 'overlay',
+          opacity: 0.4
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 40 },
+          background: { r: 0, g: 0, b: 50, alpha: 0.3 },
+          blend: 'soft-light',
+          opacity: 0.3
+        }
+      ],
+      modulate: { brightness: 0.95, saturation: 1.2, lightness: 0.9 }
+    },
+
+    // 3. Watercolor Effect
+    watercolor: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 30 },
+          background: { r: 245, g: 245, b: 240, alpha: 0.8 },
+          blend: 'soft-light',
+          opacity: 0.7
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 70 },
+          background: { r: 200, g: 220, b: 200, alpha: 0.2 },
+          blend: 'screen',
+          opacity: 0.3
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 20 },
+          background: { r: 50, g: 50, b: 50, alpha: 0.05 },
+          blend: 'overlay',
+          opacity: 0.1
+        }
+      ],
+      modulate: { brightness: 1.05, saturation: 0.9, lightness: 1.02 }
+    },
+
+    // 4. Concrete Texture
+    concrete: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 50 },
+          background: { r: 200, g: 200, b: 200, alpha: 0.5 },
+          blend: 'overlay',
+          opacity: 0.5
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 30 },
+          background: { r: 180, g: 180, b: 180, alpha: 0.3 },
+          blend: 'soft-light',
+          opacity: 0.4
+        }
+      ],
+      modulate: { brightness: 0.98, saturation: 0.7, lightness: 1.0 }
+    },
+
+    // 5. Canvas Texture
+    canvas: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 40 },
+          background: { r: 240, g: 235, b: 230, alpha: 0.6 },
+          blend: 'overlay',
+          opacity: 0.4
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 25 },
+          background: { r: 220, g: 215, b: 210, alpha: 0.3 },
+          blend: 'multiply',
+          opacity: 0.2
+        }
+      ],
+      modulate: { brightness: 1.02, saturation: 0.95, lightness: 1.0 }
+    },
+
+    // 6. Film Grain
+    filmGrain: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 35 },
+          background: { r: 100, g: 100, b: 100, alpha: 0.2 },
+          blend: 'overlay',
+          opacity: 0.3
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 15 },
+          background: { r: 50, g: 50, b: 50, alpha: 0.1 },
+          blend: 'soft-light',
+          opacity: 0.2
+        }
+      ],
+      modulate: { brightness: 0.98, saturation: 0.95, lightness: 1.0 }
+    },
+
+    // 7. Marble Effect
+    marble: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 90 },
+          background: { r: 240, g: 240, b: 240, alpha: 0.7 },
+          blend: 'overlay',
+          opacity: 0.5
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 40 },
+          background: { r: 220, g: 220, b: 220, alpha: 0.3 },
+          blend: 'soft-light',
+          opacity: 0.4
+        }
+      ],
+      modulate: { brightness: 1.1, saturation: 0.8, lightness: 1.05 }
+    },
+
+    // 8. Rusted Metal
+    rustedMetal: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 60 },
+          background: { r: 139, g: 69, b: 19, alpha: 0.5 },
+          blend: 'overlay',
+          opacity: 0.6
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 30 },
+          background: { r: 183, g: 65, b: 14, alpha: 0.3 },
+          blend: 'soft-light',
+          opacity: 0.4
+        }
+      ],
+      modulate: { brightness: 0.95, saturation: 1.1, lightness: 0.98 }
+    },
+
+    // 9. Parchment
+    parchment: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 25 },
+          background: { r: 255, g: 250, b: 240, alpha: 0.6 },
+          blend: 'soft-light',
+          opacity: 0.5
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 15 },
+          background: { r: 210, g: 200, b: 180, alpha: 0.2 },
+          blend: 'overlay',
+          opacity: 0.3
+        }
+      ],
+      modulate: { brightness: 1.03, saturation: 0.85, lightness: 1.02 }
+    },
+
+    // 10. Chalk Board
+    chalkBoard: {
+      layers: [
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 45 },
+          background: { r: 50, g: 50, b: 50, alpha: 0.4 },
+          blend: 'overlay',
+          opacity: 0.5
+        },
+        {
+          noise: { type: 'gaussian', mean: 0, sigma: 20 },
+          background: { r: 30, g: 30, b: 30, alpha: 0.2 },
+          blend: 'soft-light',
+          opacity: 0.3
+        }
+      ],
+      modulate: { brightness: 0.9, saturation: 0.8, lightness: 0.95 }
+    }
+  };
+
+  const effect = textureEffects[type] || textureEffects.vintagePaper;
+  const buffers = await Promise.all(effect.layers.map(async layer => {
+    const buffer = await sharp({
+      create: {
+        width,
+        height,
+        channels: 4,
+        noise: layer.noise,
+        background: layer.background
+      }
+    })
+    .png()
+    .toBuffer();
+
+    return {
+      input: buffer,
+      blend: layer.blend,
+      opacity: layer.opacity
+    };
+  }));
+
+  return {
+    composite: buffers,
+    modulate: effect.modulate
+  };
+}
 
 async createTexturedBackground(width, height, theme) {
   try {
@@ -2039,59 +2264,12 @@ async createTexturedBackground(width, height, theme) {
     } catch (textureError) {
       console.warn(`Background image not found: ${theme.backgroundImage}. Using base image.`);
       
-
-      const noiseBuffer = await sharp({
-        create: {
-          width,
-          height,
-          channels: 4,
-          noise: {
-            type: 'gaussian',
-            mean: 0,
-            sigma: 80
-          },
-          background: { r: 25, g: 25, b: 112, alpha: 0.4 } // Dark blue tint
-        }
-      })
-      .png()
-      .toBuffer();
-
-      // Create second noise layer for texture depth
-      const fineNoiseBuffer = await sharp({
-        create: {
-          width,
-          height,
-          channels: 4,
-          noise: {
-            type: 'gaussian',
-            mean: 0,
-            sigma: 40
-          },
-          background: { r: 0, g: 0, b: 50, alpha: 0.3 }
-        }
-      })
-      .png()
-      .toBuffer();
-
+      const texture = await this.generateTextureNoise('denim', width, height);
       return await sharp(baseImage)
-        .composite([
-          {
-            input: noiseBuffer,
-            blend: 'overlay',
-            opacity: 0.4
-          },
-          {
-            input: fineNoiseBuffer,
-            blend: 'soft-light',
-            opacity: 0.3
-          }
-        ])
-        .modulate({
-          brightness: 0.95,  // Slightly darker
-          saturation: 1.2,   // More color saturation
-          lightness: 0.9     // Deeper shadows
-        })
+        .composite(texture.composite)
+        .modulate(texture.modulate)
         .toBuffer();
+
           }
   } catch (error) {
     console.error("Error creating textured background:", error.message);
