@@ -7,86 +7,105 @@ import useWritingStore from "@/store/seWritingStore.js";
 
 // Constants for form options
 const CATEGORIES = ["article", "poem", "philosophy", "short story"];
-const THEMES = [
-    "default", "red", "blue", "green", "black", "navyBlue", "midnightBlue", 
-    "blackDustyRose", "oceanBlue", "peacockFeather", "eveningSky", "starSky", 
-    "creamTan", "jetBlack", "limeGreen", "tealGray", "softGreen", "vintage", 
-    "flower", "blackCloth", "gradient", "waterColor", "textile", "foggyForest", 
-    "greenLeaf","paperFlower", "pinkFlower", "leafRose", "greenishBrown", "lightBlack", "oldPaper", 
-    "redFlower", "redTexture", "pinkBlueWater", "lightBluePaint", "ancientStone", 
-    "darkNight",  "pureBlack", "warmToneFlower",
-    "bluePastelHarmony", 
-    "charcoalSunrise", 
-    "coralSunset", 
-    "cherryElegance", 
-    "skySerenity", 
-    "oceanDepths", 
-    "skyCandy", 
-    "natureMist", 
-    "royalMystic", 
-    "earthTones", 
-    "oliveBloom", 
-    "mysticLavender", 
-    "oceanBreeze", 
-    "mintLagoon", 
-    "autumnSunset", 
-    "vintageMauve", 
-    "rusticCharm", 
-    "glacierMist", 
-    "autumnHarmony", 
-    "industrialChic", 
-    "dustyRoseHarmony", 
-    "berryBurst", 
-    "mistyMorning", 
-    "seafoamDream", 
-    "sunsetGlow", 
-    "desertSage", 
-    "moonlitNight", 
-    "sageGarden",
-    "sunsetGradient",
-    "purpleDream",
-    "oceanGradient",
-    'midnightOcean',
-    'roseMist',
-    'emeraldDream',
-    'goldenHour',
-    'lavenderMist',
-    'cosmicFusion',
-    'arcticAurora',
-    'cherryBlossom',
-    'desertSunrise',
-    'forestDepths',
-    'twilightHaze',
-    'sunsetSerenade',
-    'mysticDawn',
-    'crystalline',
-    'moonlightSonata',
-    'plumSunset',
-    'mintLeaf',
-    'polarLight',
-    'roseQuartz',
-    'celestialNight',
-    'retroWave',
-    'pastelSunrise',
-    'aquaMarine',
-    'soulfulNight',
-    'innerPeace',
-    'serenityFlow',
-    'tranquilDawn',
-    'mindfulMist',
-    'innerCalm',
-    'soulfulSunset',
-    'moonlessNight',
-    'peacefulAutumn',
-    'gentleDusk',
-    'meditativeSpace',
-    'etherealDream',
-    'silentRain',
-    'mysticTwilight'
-  ];
+const THEME_CATEGORIES = {
+  backgroundImage: {
+    label: "Background Image Themes",
+    themes: [
+      "default", "red", "blue", "green", "black", "navyBlue", "midnightBlue", 
+      "blackDustyRose", "oceanBlue", "peacockFeather", "eveningSky", "starSky", 
+      "creamTan", "jetBlack", "limeGreen", "tealGray", "softGreen", "vintage", 
+      "flower", "blackCloth", "gradient", "waterColor", "textile", "foggyForest", 
+      "greenLeaf", "paperFlower", "pinkFlower", "leafRose", "greenishBrown", 
+      "lightBlack", "oldPaper", "redFlower", "redTexture", "pinkBlueWater", 
+      "lightBluePaint", "ancientStone", "darkNight", "pureBlack", "warmToneFlower"
+    ]
+  },
+  solidColor: {
+    label: "Solid Color Themes",
+    themes: [
+      "bluePastelHarmony", "charcoalSunrise", "coralSunset", "cherryElegance", 
+      "skySerenity", "oceanDepths", "skyCandy", "natureMist", "royalMystic", 
+      "earthTones", "oliveBloom", "mysticLavender", "oceanBreeze", "mintLagoon", 
+      "autumnSunset", "vintageMauve", "rusticCharm", "glacierMist", 
+      "autumnHarmony", "industrialChic", "dustyRoseHarmony", "berryBurst", 
+      "mistyMorning", "seafoamDream", "sunsetGlow", "desertSage", "moonlitNight", 
+      "sageGarden","dawnHarmony","velvetDesire","graniteWisdom","festiveFlare",
+      "emeraldSerenity","bharatanatyam","bayOfBengal","kanchipuram"
+    ]
+  },
+  gradient: {
+    label: "Gradient Themes",
+    themes: [
+      "sunsetGradient", "purpleDream", "oceanGradient", "midnightOcean", 
+      "roseMist", "emeraldDream", "goldenHour", "lavenderMist", "cosmicFusion", 
+      "arcticAurora", "cherryBlossom", "desertSunrise", "forestDepths", 
+      "twilightHaze", "sunsetSerenade", "mysticDawn", "crystalline", 
+      "moonlightSonata", "plumSunset", "mintLeaf", "polarLight", "roseQuartz", 
+      "celestialNight", "retroWave", "pastelSunrise", "aquaMarine", "soulfulNight", 
+      "innerPeace", "serenityFlow", "tranquilDawn", "mindfulMist", "innerCalm", 
+      "soulfulSunset", "moonlessNight", "peacefulAutumn", "gentleDusk", 
+      "meditativeSpace", "etherealDream", "silentRain", "mysticTwilight", 
+      "morningSerenity", "riverDream", "templewWisdom", "pearlMist", 
+      "kovilSanctuary", "oceanWhisper", "silkDream", "tamaraiBloom", 
+      "moonlightRaga", "velvetHeaven", "mistyMemories", "blissfulDawn", 
+      "heartSong", "wisdomPath", "dawnHarmony", "velvetDesire", "graniteWisdom", 
+      "festiveFlare", "emeraldSerenity","morningPastel","gentleLavender","freshMint",
+      "pinkClouds","softLemonCream","skyBloom","peachSorbet","lilacBreeze","seaPearl",
+      "roseGarden", "morningBliss", "peachHarmony", "mintyFresh", "lavenderDream",
+      "skyWhisper","cottonCandy","softSpring","sunsetGlow","oceanMist","dewDrop",
+      "blossomPink","citrusBreeze","citrusBreeze","serenityBlue","lemonFrost","frostyLilac",
+      "softCoral","paleGold","powderBlue","morningMist","peachGlow"
+    ]
+  }
+};
   
 const TEXT_ALIGN_OPTIONS = ["left", "center", "right"];
 const POSITIONS = ["top-left", "top-right", "bottom-left", "bottom-right"];
+
+// Replace the Theme selection section in your form with this:
+const ThemeSelector = ({ formData, setFormField }) => {
+const [themeMode, setThemeMode] = useState('gradient'); // Default to gradient
+
+const handleThemeModeChange = (mode) => {
+  setThemeMode(mode);
+  // Set the first theme of the selected category as default
+  setFormField("theme", THEME_CATEGORIES[mode].themes[0]);
+};
+
+return (
+  <div className="space-y-4">
+    <div>
+      <label className="block text-sm font-medium mb-2">Theme Mode</label>
+      <select
+        value={themeMode}
+        onChange={(e) => handleThemeModeChange(e.target.value)}
+        className="w-full p-2 border rounded"
+      >
+        <option value="backgroundImage">Background Image Themes</option>
+        <option value="solidColor">Solid Color Themes</option>
+        <option value="gradient">Gradient Themes</option>
+      </select>
+    </div>
+
+    <div>
+      <label className="block text-sm font-medium mb-2">Select Theme</label>
+      <select
+        value={formData.theme}
+        onChange={(e) => setFormField("theme", e.target.value)}
+        className="w-full p-2 border rounded"
+      >
+        {THEME_CATEGORIES[themeMode].themes.map((theme) => (
+          <option key={theme} value={theme}>
+            {theme.charAt(0).toUpperCase() + theme.slice(1).replace(/([A-Z])/g, ' $1')}
+          </option>
+        ))}
+      </select>
+    </div>
+  </div>
+);
+
+};
+
 
 export default function WritingForm() {
   const router = useRouter();
@@ -161,20 +180,7 @@ export default function WritingForm() {
         </div>
 
         {/* Theme */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Theme</label>
-          <select
-            value={formData.theme}
-            onChange={(e) => setFormField("theme", e.target.value)}
-            className="w-full p-2 border rounded"
-          >
-            {THEMES.map((theme) => (
-              <option key={theme} value={theme}>
-                {theme}
-              </option>
-            ))}
-          </select>
-        </div>
+        <ThemeSelector formData={formData} setFormField={setFormField} />
 
         {/* Effects */}
         <div>

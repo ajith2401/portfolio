@@ -1,15 +1,12 @@
 import sharp from "sharp";
 import ColorHelper from "./colorHelper";
 import { GradientManager } from "./gradientManager";
-const { textureEffects } = require("./themeKeyMapping");
+const { textureEffects, themeKeyMapping } = require("./themeKeyMapping");
 import path from 'path';
 import ThemeSetup from "./themeSetup";
 
 export class NoiseTextureGenerator {
 
-    constructor() {
-        this.themeSetup = ThemeSetup;
-      }
     static async generateTextureNoise(type, width, height) {
 
         const effect = textureEffects[type] || textureEffects.vintagePaper;
@@ -41,7 +38,7 @@ export class NoiseTextureGenerator {
     
     static async createTexturedBackground(width, height, theme) {
         try {
-        theme = this.themeSetup.validateTheme(theme);
+        theme  = ThemeSetup.validateTheme(theme);(theme);
         const themeInfo = themeKeyMapping.find(t => t.keyName === theme.name) || {
             mainColors: [theme.colors.background],
             recommendedBg: theme.colors.background

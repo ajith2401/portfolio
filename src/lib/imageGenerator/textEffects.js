@@ -1,14 +1,14 @@
 import { Writing } from "@/models";
 import { uploadGeneratedImage } from "../cloudinary";
-import { ImageGenerationService } from "./imageGenerator";
 import { TamilTextAnalyzer } from "../tamilAnalysis/analyzer";
+import imageGenerator from "./imageGenerator";
 
 export class TextEffects {
   constructor () {
     this.analyzer = new TamilTextAnalyzer();
   }
 
-    generateDecorationElements(theme) {
+   static generateDecorationElements(theme) {
 
         if (!theme.effects?.decorativeElements) return '';
     
@@ -50,7 +50,7 @@ export class TextEffects {
         return `https://res.cloudinary.com/${cloudName}/image/upload/${folderPath}/${assetPath}`;
     }
   
-    static async generateForText(text, options = {}) {
+     async generateForText(text, options = {}) {
         if (!text || typeof text !== 'string' || !text.trim()) {
         console.error("Error: Missing or invalid text content for image generation.");
         throw new Error("Text content is required for generating an image.");
@@ -62,7 +62,7 @@ export class TextEffects {
         // Create empty analysis object if analyzer is not available
         const analysis = this.analyzer ? await this.analyzer.analyzeText(text) : {};
         
-        const imageBuffer = await ImageGenerationService.createImage(text, { 
+        const imageBuffer = await imageGenerator.createImage(text, { 
             ...options, 
             analysis: analysis || {} // Ensure analysis is always defined
         });
@@ -83,7 +83,7 @@ export class TextEffects {
         }
     }
     
-    static  async generateForWriting(writingId) {
+      async generateForWriting(writingId) {
         await connectDB();
         const writing = await Writing.findById(writingId);
         
@@ -98,7 +98,7 @@ export class TextEffects {
             'short story': 'emotional'
         };
     
-        const images = await TextEffects.generateForText(writing.body, {
+        const images = await this.generateForText(writing.body, {
             title: writing.title,
             themeName: themeMap[writing.category] || 'default',
             category: writing.category
@@ -110,7 +110,7 @@ export class TextEffects {
         return images;
         }
   
-   static  async addTextEffects(buffer, theme) {
+     async addTextEffects(buffer, theme) {
       // Add various text effects based on theme
       const composite = [];
       
@@ -135,14 +135,14 @@ export class TextEffects {
         .toBuffer();
     }
   
-    static async createShadowLayer(buffer) {
+     async createShadowLayer(buffer) {
       return sharp(buffer)
         .blur(3)
         .linear(-0.5, 1)
         .toBuffer();
     }
   
-    static async createGlowLayer(buffer) {
+     async createGlowLayer(buffer) {
       return sharp(buffer)
         .blur(10)
         .linear(1, 0)
