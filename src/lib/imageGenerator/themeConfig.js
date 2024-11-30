@@ -63,8 +63,8 @@ export const themeConfigs = {
               backgroundImage: 'greenAlt2.png',
               fonts: defaultFonts,
               colors: {
-                title: { color: '	#FFFFFF', hoverColor: '#004d00' },
-                text: { color: '	#FFFFFF', hoverColor: '#004d00' },
+                title: { color: '#FFFFFF', hoverColor: '#004d00' },
+                text: { color: '#FFFFFF', hoverColor: '#004d00' },
                 branding: {
                   background: '#E6FFE6',
                   name: { color: '#006400', hoverColor: '#004d00' },
@@ -714,6 +714,8 @@ export const themeConfigs = {
               }
             }
           },
+
+          // solid colurs without image
       
           bluePastelHarmony: {
             baseColors: ['#FBEAEB', '#2F3C7E'],
@@ -1181,6 +1183,233 @@ export const themeConfigs = {
               }
             }
           },
+
+          // 1. Tranquil Teal
+            tranquilTeal: {
+                baseColors: ['#008080', '#FFFFFF'],
+                name: 'tranquilTeal',
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: '#E0F7FA',
+                        name: { color: '#008080', hoverColor: '#004D4D' },
+                        web: { color: '#008080', hoverColor: '#004D4D' },
+                        phone: { color: '#008080', hoverColor: '#004D4D' },
+                        social: { color: '#008080', hoverColor: '#004D4D' }
+                    }
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                effects: {
+                    textShadow: true,
+                    backgroundTexture: true
+                }
+            },
+
+            // 2. Amber Glow
+            amberGlow: {
+                baseColors: ['#FFBF00', '#2A2A2A'],
+                name: 'amberGlow',
+                colors: {
+                    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    branding: {
+                        background: '#FFF8E1',
+                        name: { color: '#FFBF00', hoverColor: '#E6AC00' },
+                        web: { color: '#FFBF00', hoverColor: '#E6AC00' },
+                        phone: { color: '#FFBF00', hoverColor: '#E6AC00' },
+                        social: { color: '#FFBF00', hoverColor: '#E6AC00' }
+                    }
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                effects: {
+                    textShadow: true,
+                    backgroundTexture: true
+                }
+            },
+
+            // 3. Sapphire Night
+            sapphireNight: {
+                baseColors: ['#0F52BA', '#FFFFFF'],
+                name: 'sapphireNight',
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: '#E3F2FD',
+                        name: { color: '#0F52BA', hoverColor: '#0A3A7A' },
+                        web: { color: '#0F52BA', hoverColor: '#0A3A7A' },
+                        phone: { color: '#0F52BA', hoverColor: '#0A3A7A' },
+                        social: { color: '#0F52BA', hoverColor: '#0A3A7A' }
+                    }
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                effects: {
+                    textShadow: true,
+                    backgroundTexture: true
+                }
+            },
+
+            // 4. Coral Reef
+            coralReef: {
+                baseColors: ['#FF7F50', '#2A2A2A'],
+                name: 'coralReef',
+                colors: {
+                    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    branding: {
+                        background: '#FFF3E0',
+                        name: { color: '#FF7F50', hoverColor: '#E66A3F' },
+                        web: { color: '#FF7F50', hoverColor: '#E66A3F' },
+                        phone: { color: '#FF7F50', hoverColor: '#E66A3F' },
+                        social: { color: '#FF7F50', hoverColor: '#E66A3F' }
+                    }
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                effects: {
+                    textShadow: true,
+                    backgroundTexture: true
+                }
+            },
+
+            // 5. Plum Essence
+            plumEssence: {
+                baseColors: ['#8E4585', '#FFFFFF'],
+                name: 'plumEssence',
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: '#F3E5F5',
+                        name: { color: '#8E4585', hoverColor: '#6A2E61' },
+                        web: { color: '#8E4585', hoverColor: '#6A2E61' },
+                        phone: { color: '#8E4585', hoverColor: '#6A2E61' },
+                        social: { color: '#8E4585', hoverColor: '#6A2E61' }
+                    }
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                effects: {
+                    textShadow: true,
+                    backgroundTexture: true
+                }
+            },
+
+            // 6. Forest Canopy
+            forestCanopy: {
+                baseColors: ['#228B22', '#FFFFFF'],
+                name: 'forestCanopy',
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: '#E8F5E9',
+                        name: { color: '#228B22', hoverColor: '#1A661A' },
+                        web: { color: '#228B22', hoverColor: '#1A661A' },
+                        phone: { color: '#228B22', hoverColor: '#1A661A' },
+                        social: { color: '#228B22', hoverColor: '#1A661A' }
+                    }
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                effects: {
+                    textShadow: true,
+                    backgroundTexture: true
+                }
+            },
+
+            // 7. Marigold Sunshine
+            marigoldSunshine: {
+                baseColors: ['#FFD700', '#2A2A2A'],
+                name: 'marigoldSunshine',
+                colors: {
+                    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    branding: {
+                        background: '#FFF9C4',
+                        name: { color: '#FFD700', hoverColor: '#E6C200' },
+                        web: { color: '#FFD700', hoverColor: '#E6C200' },
+                        phone: { color: '#FFD700', hoverColor: '#E6C200' },
+                        social: { color: '#FFD700', hoverColor: '#E6C200' }
+                    }
+                }
+            },
+    
+            // 8. Midnight Violet
+            midnightViolet: {
+                baseColors: ['#4B0082', '#FFFFFF'],
+                name: 'midnightViolet',
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: '#EDE7F6',
+                        name: { color: '#4B0082', hoverColor: '#330061' },
+                        web: { color: '#4B0082', hoverColor: '#330061' },
+                        phone: { color: '#4B0082', hoverColor: '#330061' },
+                        social: { color: '#4B0082', hoverColor: '#330061' }
+                    }
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                effects: {
+                    textShadow: true,
+                    backgroundTexture: true
+                }
+            },
+            
+            // 9. Arctic Ice
+            arcticIce: {
+                baseColors: ['#00CED1', '#FFFFFF'],
+                name: 'arcticIce',
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: '#E0F7FA',
+                        name: { color: '#00CED1', hoverColor: '#008B8B' },
+                        web: { color: '#00CED1', hoverColor: '#008B8B' },
+                        phone: { color: '#00CED1', hoverColor: '#008B8B' },
+                        social: { color: '#00CED1', hoverColor: '#008B8B' }
+                    }
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                effects: {
+                    textShadow: true,
+                    backgroundTexture: true
+                }
+            },
+            
+            // 10. Rosewood Charm
+            rosewoodCharm: {
+                baseColors: ['#993333', '#FFFFFF'],
+                name: 'rosewoodCharm',
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: '#FFEBEE',
+                        name: { color: '#993333', hoverColor: '#661D1D' },
+                        web: { color: '#993333', hoverColor: '#661D1D' },
+                        phone: { color: '#993333', hoverColor: '#661D1D' },
+                        social: { color: '#993333', hoverColor: '#661D1D' }
+                    }
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                effects: {
+                    textShadow: true,
+                    backgroundTexture: true
+                }
+            },
+            
+ 
+
       
           moonlitNight: {
             baseColors: ['#2C3E50', '#E0E0E0'],

@@ -22,12 +22,13 @@ class ThemeSetup {
         }
     
         this.themes = Object.entries(themeConfigs).reduce((acc, [key, config]) => {
-            const [backgroundColor, textColor] = config.baseColors;  // Changed from colors to baseColors
-            const baseTheme = this.createTheme(backgroundColor, textColor);
+            const [backgroundColor, textColor] = config.baseColors; 
+          const OGtextColor =config.colors.text.color ;
+            const baseTheme = this.createTheme(backgroundColor, OGtextColor);
             
-            const colors = createThemeColors(config.textColors?.text || textColor);
-            const titleColors = createThemeColors(config.textColors?.title || textColor);
-            const brandColors = createThemeColors(config.textColors?.brand || textColor);
+            const colors = createThemeColors(config.colors.text.color || OGtextColor || textColor);
+            const titleColors = createThemeColors(config.colors.title.color || OGtextColor || textColor);
+            const brandColors = createThemeColors(config.textColors?.brand ||textColor);
         
             acc[key] = {
                 ...baseTheme,
@@ -53,6 +54,7 @@ class ThemeSetup {
 
 
     createTheme(backgroundColor, textColor, secondaryColor = null, backgroundImage = null) {
+      console.log({textColor,secondaryColor}); 
       return {
         colors: {
           background: backgroundColor,
