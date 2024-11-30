@@ -1,7 +1,8 @@
 //src/app/api/writings/with-image/route.js
 
 import connectDB from "@/lib/db";
-import { ImageGenerationService } from "@/lib/imageGenerator";
+import { ImageGenerationService } from "@/lib/ImageGenerator/imageGenerator";
+
 import { NextResponse } from "next/server";
 
 // // Initialize the service

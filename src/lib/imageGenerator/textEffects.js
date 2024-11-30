@@ -1,147 +1,154 @@
-//src/lib/imageGenerator/textEffects.js
-export class TextEffectProcessor {
-  constructor() {
-    this.supportedEffects = {
-      shadow: {
-        default: { blur: 3, opacity: 0.3, offset: { x: 2, y: 2 } }
-      },
-      glow: {
-        default: { intensity: 0.4, spread: 5, color: '#ffffff' }
-      },
-      outline: {
-        default: { width: 2, color: '#000000' }
-      },
-      gradient: {
-        default: {
-          colors: ['#000000', '#333333'],
-          angle: 45,
-          stops: [0, 100]
-        }
-      }
-    };
+import { Writing } from "@/models";
+import { uploadGeneratedImage } from "../cloudinary";
+import { ImageGenerationService } from "./imageGenerator";
+import { TamilTextAnalyzer } from "../tamilAnalysis/analyzer";
+
+export class TextEffects {
+  constructor () {
+    this.analyzer = new TamilTextAnalyzer();
   }
 
-  generateShadowFilter(options = {}) {
-    const {
-      blur = this.supportedEffects.shadow.default.blur,
-      opacity = this.supportedEffects.shadow.default.opacity,
-      offset = this.supportedEffects.shadow.default.offset
-    } = options;
+    generateDecorationElements(theme) {
 
-    return `
-      <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="${blur}"/>
-        <feOffset dx="${offset.x}" dy="${offset.y}" result="offsetblur"/>
-        <feComponentTransfer>
-          <feFuncA type="linear" slope="${opacity}"/>
-        </feComponentTransfer>
-        <feMerge>
-          <feMergeNode/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    `;
-  }
-
-  generateGlowFilter(options = {}) {
-    const {
-      intensity = this.supportedEffects.glow.default.intensity,
-      spread = this.supportedEffects.glow.default.spread,
-      color = this.supportedEffects.glow.default.color
-    } = options;
-
-    return `
-      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="${spread}"/>
-        <feComponentTransfer>
-          <feFuncA type="linear" slope="${intensity}"/>
-        </feComponentTransfer>
-        <feFlood flood-color="${color}" result="glow-color"/>
-        <feComposite in="glow-color" in2="SourceGraphic" operator="in"/>
-        <feMerge>
-          <feMergeNode/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    `;
-  }
-
-  generateOutlineFilter(options = {}) {
-    const {
-      width = this.supportedEffects.outline.default.width,
-      color = this.supportedEffects.outline.default.color
-    } = options;
-
-    return `
-      <filter id="outline">
-        <feMorphology operator="dilate" radius="${width}"/>
-        <feFlood flood-color="${color}"/>
-        <feComposite in2="SourceAlpha" operator="in"/>
-        <feMerge>
-          <feMergeNode/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    `;
-  }
-
-  generateGradientFilter(options = {}, theme = null) {
-    const {
-      colors = this.supportedEffects.gradient.default.colors,
-      angle = this.supportedEffects.gradient.default.angle,
-      stops = this.supportedEffects.gradient.default.stops
-    } = options;
-
-    // Use theme colors if available
-    const gradientColors = theme?.colors ? [
-      theme.colors.text,
-      theme.colors.accent || theme.colors.text
-    ] : colors;
-
-    return `
-      <linearGradient id="textGradient" gradientTransform="rotate(${angle})">
-        ${gradientColors.map((color, index) => {
-          const offset = stops[index] || (index * 100 / (gradientColors.length - 1));
-          return `<stop offset="${offset}%" stop-color="${color}"/>`;
-        }).join('\n')}
-      </linearGradient>
-    `;
-  }
-
-  // Combine multiple effects
-  generateCombinedFilters(effects = [], theme = null) {
-    const filters = [];
+        if (!theme.effects?.decorativeElements) return '';
     
-    effects.forEach((effect, index) => {
-      switch (effect.type) {
-        case 'shadow':
-          filters.push(this.generateShadowFilter(effect.options));
-          break;
-        case 'glow':
-          filters.push(this.generateGlowFilter(effect.options));
-          break;
-        case 'outline':
-          filters.push(this.generateOutlineFilter(effect.options));
-          break;
-        case 'gradient':
-          filters.push(this.generateGradientFilter(effect.options, theme));
-          break;
+        const decorations = [];
+        const width = 1200;
+        const height = 1200;
+    
+        // Add decorative lines
+        if (theme.layout.textAlign === 'right') {
+        decorations.push(`
+            <line 
+            x1="${width - 500}" 
+            y1="150" 
+            x2="${width - 100}" 
+            y2="150" 
+            stroke="${theme.colors.text}" 
+            stroke-width="1"
+            stroke-opacity="0.3"
+            />
+            <line 
+            x1="${width - 400}" 
+            y1="${height - 150}" 
+            x2="${width - 100}" 
+            y2="${height - 150}" 
+            stroke="${theme.colors.text}" 
+            stroke-width="1"
+            stroke-opacity="0.3"
+            />
+        `);
+        }
+    
+        return decorations.join('\n');
+    }
+  
+  
+    getCloudinaryUrl(assetPath) {
+        const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+        const folderPath = 'image-generation-assets';
+        return `https://res.cloudinary.com/${cloudName}/image/upload/${folderPath}/${assetPath}`;
+    }
+  
+    static async generateForText(text, options = {}) {
+        if (!text || typeof text !== 'string' || !text.trim()) {
+        console.error("Error: Missing or invalid text content for image generation.");
+        throw new Error("Text content is required for generating an image.");
+        }
+    
+        console.log("Generating image with text:", text);
+    
+        try {
+        // Create empty analysis object if analyzer is not available
+        const analysis = this.analyzer ? await this.analyzer.analyzeText(text) : {};
+        
+        const imageBuffer = await ImageGenerationService.createImage(text, { 
+            ...options, 
+            analysis: analysis || {} // Ensure analysis is always defined
+        });
+    
+        if (!imageBuffer || !(imageBuffer instanceof Buffer)) {
+            throw new Error("Invalid image data generated.");
+        }
+    
+        const uploadResult = await uploadGeneratedImage(imageBuffer, {
+            folder: 'writings',
+            transformation: [{ width: 1200, crop: 'scale', quality: 'auto' }]
+        });
+    
+        return uploadResult;
+        } catch (error) {
+        console.error("Error generating image:", error.message);
+        throw new Error(`Failed to generate image: ${error.message}`);
+        }
+    }
+    
+    static  async generateForWriting(writingId) {
+        await connectDB();
+        const writing = await Writing.findById(writingId);
+        
+        if (!writing) {
+            throw new Error('Writing not found');
+        }
+    
+        const themeMap = {
+            poem: 'love',
+            philosophy: 'philosophical',
+            article: 'default',
+            'short story': 'emotional'
+        };
+    
+        const images = await TextEffects.generateForText(writing.body, {
+            title: writing.title,
+            themeName: themeMap[writing.category] || 'default',
+            category: writing.category
+        });
+        
+        writing.images = images;
+        await writing.save();
+        
+        return images;
+        }
+  
+   static  async addTextEffects(buffer, theme) {
+      // Add various text effects based on theme
+      const composite = [];
+      
+      if (theme.effects?.textShadow) {
+        composite.push({
+          input: await this.createShadowLayer(buffer),
+          blend: 'multiply',
+          opacity: 0.3
+        });
       }
-    });
-
-    return filters.join('\n');
-  }
-
-  // Apply filter to SVG element
-  applyFilter(element, effectType, id = null) {
-    const filterId = id || effectType;
-    return `${element.replace(/>/, ` filter="url(#${filterId})">`)}`;
-  }
-
-  // Utility method to validate effects
-  validateEffect(effect) {
-    return this.supportedEffects[effect.type] !== undefined;
-  }
+  
+      if (theme.effects?.glow) {
+        composite.push({
+          input: await this.createGlowLayer(buffer),
+          blend: 'screen',
+          opacity: 0.4
+        });
+      }
+  
+      return sharp(buffer)
+        .composite(composite)
+        .toBuffer();
+    }
+  
+    static async createShadowLayer(buffer) {
+      return sharp(buffer)
+        .blur(3)
+        .linear(-0.5, 1)
+        .toBuffer();
+    }
+  
+    static async createGlowLayer(buffer) {
+      return sharp(buffer)
+        .blur(10)
+        .linear(1, 0)
+        .toBuffer();
+    }
+    
 }
 
-export default new TextEffectProcessor();
+export default new TextEffects()
