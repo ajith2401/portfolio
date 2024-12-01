@@ -2,7 +2,12 @@ import ColorHelper from "./colorHelper";
 import { TextEffects } from "./textEffects";
 
 export class SvgGenerator {
+
     generateContentSVG(text, theme, analysis = {}) {
+      console.log('====================================');
+      console.log(">>>>>>>>", theme.layout);
+      console.log('====================================');
+     
         const lines = text.split('\n').filter(line => line.trim());
         const lineHeight = theme.layout.lineHeight || 2.0;
         // Enhanced positioning system

@@ -50,7 +50,9 @@ export async function POST(request) {
       style: {
         titleSize: writingData.style?.titleSize || 48,
         bodySize: writingData.style?.bodySize || 32,
-        lineHeight: writingData.style?.lineHeight || 1.6
+        lineHeight: writingData.style?.lineHeight || 1.6,
+        textAlign: writingData.style?.textAlign || "center",
+        position:  writingData.style?.position || "top-right"
       },
       createdAt: new Date()
     };

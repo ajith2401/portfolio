@@ -13,15 +13,11 @@ export class ImageGenerationService {
     this.themeSetup = ThemeSetup;
   }
 
-  async createImage(text, options = {}) {  // Remove static
-
-    console.log('====================================');
-    console.log({options});
-    console.log('====================================');
+  async createImage(text, options = {}) {
     const {
       width = TEXT_METRICS.CANVAS_WIDTH,
       height = TEXT_METRICS.CANVAS_HEIGHT,
-      themeMode: themeMode = 'backgroundImage',
+      themeMode = 'backgroundImage',
       theme: themeName = 'default',
       category = 'article',
       title = '',
@@ -29,23 +25,42 @@ export class ImageGenerationService {
       analysis = {},
       textureType = "waterDrops"
     } = options;
-     
-console.log(">>>>>>>>>>>>>>>>>>",{textureType});
 
     const metrics = TextMetricsCalculator.calculateDynamicTextMetrics(text, category);
     const formattedText = TextMetricsCalculator.textFormatter(text, category);
-    const theme = this.themeSetup.getTheme(themeName , themeMode );  // Now this.themeSetup will work
+    const theme = this.themeSetup.getTheme(themeName, themeMode);
+
+    // Merge style with theme layout
+    theme.layout = {
+      ...theme.layout,
+      ...(style.padding !== undefined && { padding: style.padding }),
+      ...(style.margins && { margins: { ...theme.layout.margins, ...style.margins } }),
+      ...(style.spacing && { spacing: { ...theme.layout.spacing, ...style.spacing } }),
+      ...(style.lineHeight !== undefined && { lineHeight: style.lineHeight }),
+      ...(style.textAlign !== undefined && { textAlign: style.textAlign }),
+      ...(style.position !== undefined && { position: style.position }),
+      ...(style.branding && { branding: { ...theme.layout.branding, ...style.branding } })
+    };
+
+    // Update font sizes if provided in style
+    if (style.titleSize) {
+      theme.fonts.title.size = style.titleSize;
+    }
+    if (style.bodySize) {
+      theme.fonts.body.size = style.bodySize;
+    }
 
     try {
-      let processedImage = await NoiseTextureGenerator.createTexturedBackground(width, height, theme,textureType);
+      let processedImage = await NoiseTextureGenerator.createTexturedBackground(width, height, theme, textureType);
       
       const textLineCount = TextMetricsCalculator.lineCounter(text, category);
       const layout = TextMetricsCalculator.calculateMetrics(textLineCount, category, Boolean(title));
       
+      // Update layout with text metrics while preserving style overrides
       theme.layout = {
         ...theme.layout,
-        bodySize: layout.fontSize,
-        lineHeight: layout.lineHeight
+        bodySize: style.bodySize || layout.fontSize,
+        lineHeight: style.lineHeight || layout.lineHeight
       };
 
       if (title) {
