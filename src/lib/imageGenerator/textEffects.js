@@ -97,7 +97,7 @@ export class TextEffects {
             article: 'default',
             'short story': 'emotional'
         };
-    
+
         const images = await this.generateForText(writing.body, {
             title: writing.title,
             themeName: themeMap[writing.category] || 'default',

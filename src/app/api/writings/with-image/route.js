@@ -38,6 +38,7 @@ export async function POST(request) {
       title: writingData.title,
       body: writingData.body,
       category: writingData.category,
+      themeMode : writingData.themeMode ||"backgroundImage",
       theme: writingData.theme || 'default',
       effects: {
         textShadow: writingData.effects?.textShadow ?? true,
@@ -63,6 +64,7 @@ export async function POST(request) {
     };
 
     if (!options.theme || options.theme === 'default') {
+
       options.theme = themeMap[options.category] || 'default';
     }
 

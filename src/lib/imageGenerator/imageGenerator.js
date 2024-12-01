@@ -17,6 +17,7 @@ export class ImageGenerationService {
     const {
       width = TEXT_METRICS.CANVAS_WIDTH,
       height = TEXT_METRICS.CANVAS_HEIGHT,
+      themeMode: themeMode = 'backgroundImage',
       theme: themeName = 'default',
       category = 'article',
       title = '',
@@ -26,7 +27,7 @@ export class ImageGenerationService {
 
     const metrics = TextMetricsCalculator.calculateDynamicTextMetrics(text, category);
     const formattedText = TextMetricsCalculator.textFormatter(text, category);
-    const theme = this.themeSetup.getTheme(themeName);  // Now this.themeSetup will work
+    const theme = this.themeSetup.getTheme(themeName , themeMode );  // Now this.themeSetup will work
 
     try {
       let processedImage = await NoiseTextureGenerator.createTexturedBackground(width, height, theme);
@@ -72,7 +73,7 @@ export class ImageGenerationService {
   }
 
   async createAndSaveWriting(options) {
-    const { title, body, category, theme = 'default', effects, style } = options;
+    const { title, body, category, theme = 'default', themeMode , effects, style } = options;
 
     if (!body || typeof body !== 'string' || !body.trim()) {
       throw new Error("Body content is required for generating an image.");
@@ -89,6 +90,7 @@ export class ImageGenerationService {
       const textEffects = new TextEffects();  // Create instance
       const images = await textEffects.generateForText(body, {
         title,
+        themeMode: themeMode || 'backgroundImage',
         theme: theme || themeMap[category] || 'default',
         effects,
         style

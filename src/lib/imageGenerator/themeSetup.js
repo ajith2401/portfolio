@@ -20,41 +20,49 @@ class ThemeSetup {
             };
             return;
         }
-    
-        this.themes = Object.entries(themeConfigs).reduce((acc, [key, config]) => {
-            const [backgroundColor, textColor] = config.baseColors; 
-          const OGtextColor =config.colors.text.color ;
-            const baseTheme = this.createTheme(backgroundColor, OGtextColor);
+
+        // Initialize themes object with mode categories
+        this.themes = {
+            backgroundImage: {},
+            solidColor: {},
+            gradient: {}
+        };
+
+        // Process each theme mode
+        Object.entries(themeConfigs).forEach(([mode, themesByMode]) => {
+            Object.entries(themesByMode).forEach(([themeName, config]) => {
+                const [backgroundColor, textColor] = config.baseColors;
+                const OGtextColor = config.colors?.text?.color;
+                const baseTheme = this.createTheme(backgroundColor, OGtextColor);
+                
+                const colors = createThemeColors(config.colors?.text?.color || OGtextColor || textColor);
+                const titleColors = createThemeColors(config.colors?.title?.color || OGtextColor || textColor);
+                const brandColors = createThemeColors(config.textColors?.brand || textColor);
             
-            const colors = createThemeColors(config.colors.text.color || OGtextColor || textColor);
-            const titleColors = createThemeColors(config.colors.title.color || OGtextColor || textColor);
-            const brandColors = createThemeColors(config.textColors?.brand ||textColor);
-        
-            acc[key] = {
-                ...baseTheme,
-                name: config.name,
-                backgroundImage: config.backgroundImage,
-                gradient: config.gradient,
-                fonts: defaultFonts,
-                colors: {
-                    title: titleColors.title,
-                    text: colors.text,
-                    branding: {
-                        background: config.brandingBg || backgroundColor,
-                        ...brandColors.branding
-                    }
-                },
-                effects: config.effects || baseTheme.effects,
-                layout: config.gradient ? defaultLayout : baseTheme.layout
-            };
-        
-            return acc;
-        }, {});
+                this.themes[mode][themeName] = {
+                    ...baseTheme,
+                    name: config.name,
+                    backgroundImage: config.backgroundImage,
+                    gradient: config.gradient,
+                    fonts: defaultFonts,
+                    colors: {
+                        title: titleColors.title,
+                        text: colors.text,
+                        branding: {
+                            background: config.brandingBg || backgroundColor,
+                            ...brandColors.branding
+                        }
+                    },
+                    effects: config.effects || baseTheme.effects,
+                    layout: config.gradient ? defaultLayout : baseTheme.layout
+                };
+            });
+        });
     }
 
 
+
     createTheme(backgroundColor, textColor, secondaryColor = null, backgroundImage = null) {
-      console.log({textColor,secondaryColor}); 
       return {
         colors: {
           background: backgroundColor,
@@ -165,8 +173,14 @@ class ThemeSetup {
       };
     }
 
-  getTheme(themeName) {
-    return this.themes[themeName] || this.themes.default;
+    getTheme(themeName, themeMode = 'backgroundImage') {
+      // First try to get theme by mode and name
+      const themesByMode = this.themes[themeMode];
+      if (themesByMode && themesByMode[themeName]) {
+          return themesByMode[themeName];
+      }
+      // Fallback to default theme in backgroundImage mode
+      return this.themes.backgroundImage.default || this.createTheme('#FFFFFF', '#000000');
   }
 
   getThemeDecorations(theme, analysis) {

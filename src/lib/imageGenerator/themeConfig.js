@@ -3,7 +3,9 @@ import { defaultFonts,defaultLayout} from "./themeConstants";
 
 export const themeConfigs = {
             // Light Themes
-            default: {
+            backgroundImage :{
+
+        default: {
               baseColors: ['#FFFFFF', '#000000'],
               name: 'default',
               backgroundImage: 'whiteIinedImg.jpg',
@@ -715,10 +717,10 @@ export const themeConfigs = {
                 social: { color: '#0D47A1', hoverColor: '#1565C0' }
               }
             }
-          },
-
+          }
+        },
           // solid colurs without image
-      
+         solidColor :{
           bluePastelHarmony: {
             baseColors: ['#FBEAEB', '#2F3C7E'],
             name: 'bluePastelHarmony',
@@ -1448,9 +1450,9 @@ export const themeConfigs = {
               }
             }
           },
-      
+        },
           //gradeint themes
-      
+          gradient :{
       sunsetGradient: {
         baseColors: ['#F09819', '#FFFFFF'],
         name: 'sunsetGradient',
@@ -6492,7 +6494,7 @@ export const themeConfigs = {
         }
     }
 
-
+          }
 
 };
 

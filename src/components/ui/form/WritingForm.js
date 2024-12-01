@@ -147,20 +147,21 @@ const POSITIONS = ["top-left", "top-right", "bottom-left", "bottom-right"];
 
 // Replace the Theme selection section in your form with this:
 const ThemeSelector = ({ formData, setFormField }) => {
-const [themeMode, setThemeMode] = useState('gradient'); // Default to gradient
-
+  const themeMode = formData.themeMode;
 const handleThemeModeChange = (mode) => {
-  setThemeMode(mode);
+  setFormField("themeMode",mode)
   // Set the first theme of the selected category as default
   setFormField("theme", THEME_CATEGORIES[mode].themes[0]);
 };
+
+
 
 return (
   <div className="space-y-4">
     <div>
       <label className="block text-sm font-medium mb-2">Theme Mode</label>
       <select
-        value={themeMode}
+        value={formData.themeMode}
         onChange={(e) => handleThemeModeChange(e.target.value)}
         className="w-full p-2 border rounded"
       >
