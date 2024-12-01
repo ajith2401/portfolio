@@ -202,6 +202,7 @@ export const themeConfigs = {
               }
             }
           },
+
           starSky: {
             baseColors: ['#1A237E', '#FFFFFF'],
             name: 'starSky',
@@ -227,6 +228,7 @@ export const themeConfigs = {
               }
             }
           },
+
           creamTan: {
             baseColors: ['#F3ECDA', '#94553D'],
             name: 'creamTan',
@@ -3541,12 +3543,2962 @@ export const themeConfigs = {
                     social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
                 }
             }
+        },
+    // 1. Inspired by the dawn prayers at temples and morning ragas
+    thiruppalliFlight: {
+        baseColors: ['#E8D5C4', '#2A2A2A'],
+        name: 'thiruppalliFlight',
+        gradient: {
+            type: 'linear',
+            angle: 135,
+            colors: ['#E8D5C4', '#C7B7A3', '#67595E']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
         }
+    },
 
+    // 2. Inspired by the deep philosophical teachings of Thirukkural
+    kuralamrit: {
+        baseColors: ['#1F2937', '#FFFFFF'],
+        name: 'kuralamrit',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#1F2937', '#374151', '#4B5563']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
 
+    // 3. Inspired by the colors of Kanchipuram silk sarees
+    pattuPrism: {
+        baseColors: ['#7C3AED', '#FFFFFF'],
+        name: 'pattuPrism',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#7C3AED', '#9D174D', '#DC2626']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 4. Inspired by the waters of Marina Beach at dusk
+    kadalkaviyam: {
+        baseColors: ['#0F172A', '#FFFFFF'],
+        name: 'kadalkaviyam',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#0F172A', '#1E3A8A', '#2563EB']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 5. Inspired by the red earth and green fields of Tamil Nadu
+    mannInMayil: {
+        baseColors: ['#92400E', '#FFFFFF'],
+        name: 'mannInMayil',
+        gradient: {
+            type: 'linear',
+            angle: 165,
+            colors: ['#92400E', '#854D0E', '#65A30D']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    // 1. Inspired by the mystical evening prayers and temple lamps
+    deepaRaagam: {
+        baseColors: ['#581C87', '#FFFFFF'],
+        name: 'deepaRaagam',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#581C87', '#9333EA', '#F59E0B']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 2. Inspired by the Mullai flowers and moonlight
+    mullaiNilavu: {
+        baseColors: ['#E2E8F0', '#2A2A2A'],
+        name: 'mullaiNilavu',
+        gradient: {
+            type: 'linear',
+            angle: 135,
+            colors: ['#E2E8F0', '#CBD5E1', '#94A3B8']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+
+    // 3. Inspired by the passion of Bharatanatyam
+    natyaJwala: {
+        baseColors: ['#991B1B', '#FFFFFF'],
+        name: 'natyaJwala',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#991B1B', '#DC2626', '#EA580C']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 4. Inspired by the monsoon rains and green hills
+    malaiMazhai: {
+        baseColors: ['#064E3B', '#FFFFFF'],
+        name: 'malaiMazhai',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#064E3B', '#047857', '#059669']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 5. Inspired by the lotus ponds at ancient temples
+    thamaraiKulam: {
+        baseColors: ['#831843', '#FFFFFF'],
+        name: 'thamaraiKulam',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#831843', '#9D174D', '#BE185D']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    // 1. Inspired by the Marutham landscape (agricultural lands)
+    nelVayal: {
+        baseColors: ['#166534', '#FFFFFF'],
+        name: 'nelVayal',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#166534', '#15803D', '#4D7C0F']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 2. Inspired by the dawn at Thirukadaiyur temple
+    brahmaWake: {
+        baseColors: ['#7E22CE', '#FFFFFF'],
+        name: 'brahmaWake',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#7E22CE', '#C026D3', '#DB2777']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 3. Inspired by the philosophical depths of Thiruvasagam
+    sivaGnanam: {
+        baseColors: ['#1E293B', '#FFFFFF'],
+        name: 'sivaGnanam',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#1E293B', '#334155', '#475569']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 4. Inspired by the coastal beauty of Neithal landscape
+    kadaloram: {
+        baseColors: ['#0C4A6E', '#FFFFFF'],
+        name: 'kadaloram',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#0C4A6E', '#0369A1', '#0EA5E9']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 5. Inspired by the sacred ash (Vibuthi)
+    thiruNeeru: {
+        baseColors: ['#E2E8F0', '#2A2A2A'],
+        name: 'thiruNeeru',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#E2E8F0', '#CBD5E1', '#94A3B8']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+
+    // 6. Inspired by the Kurinji flowers that bloom every 12 years
+    kurinjiMalai: {
+        baseColors: ['#4C1D95', '#FFFFFF'],
+        name: 'kurinjiMalai',
+        gradient: {
+            type: 'linear',
+            angle: 165,
+            colors: ['#4C1D95', '#6D28D9', '#8B5CF6']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 7. Inspired by the traditional palm leaf manuscripts
+    olaichuvadi: {
+        baseColors: ['#365314', '#FFFFFF'],
+        name: 'olaichuvadi',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#365314', '#3F6212', '#4D7C0F']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 8. Inspired by the Tanjore paintings
+    thanjavurOviyam: {
+        baseColors: ['#B45309', '#FFFFFF'],
+        name: 'thanjavurOviyam',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#B45309', '#D97706', '#F59E0B']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 9. Inspired by the Palani temple twilight
+    palaniSayam: {
+        baseColors: ['#3730A3', '#FFFFFF'],
+        name: 'palaniSayam',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#3730A3', '#4F46E5', '#6366F1']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 10. Inspired by the sacred Rudraksha beads
+    rudrakshaJapa: {
+        baseColors: ['#9F1239', '#FFFFFF'],
+        name: 'rudrakshaJapa',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#9F1239', '#BE123C', '#E11D48']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+        // 11. Inspired by the philosophical concept of Siddha medicine
+        siddhaVaidya: {
+            baseColors: ['#5B21B6', '#FFFFFF'],
+            name: 'siddhaVaidya',
+            gradient: {
+                type: 'linear',
+                angle: 140,
+                colors: ['#5B21B6', '#7C3AED', '#8B5CF6']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 12. Inspired by the majestic Thanjai Periya Kovil
+        thanjaiPerumai: {
+            baseColors: ['#B91C1C', '#FFFFFF'],
+            name: 'thanjaiPerumai',
+            gradient: {
+                type: 'linear',
+                angle: 150,
+                colors: ['#B91C1C', '#DC2626', '#EF4444']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 13. Inspired by the Madurai Meenakshi Temple's night atmosphere
+        meenakshiNilavu: {
+            baseColors: ['#0F172A', '#FFFFFF'],
+            name: 'meenakshiNilavu',
+            gradient: {
+                type: 'linear',
+                angle: 155,
+                colors: ['#0F172A', '#1E293B', '#334155']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+    // 14. Inspired by the ancient Sangam literature (completing previous theme)
+    sangaPuthir: {
+        baseColors: ['#FEF3C7', '#2A2A2A'],
+        name: 'sangaPuthir',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#FEF3C7', '#FDE68A', '#FCD34D']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+    
+    // 15. Inspired by the Carnatic music's depth
+    ragaAnubhuti: {
+        baseColors: ['#5B21B6', '#FFFFFF'],
+        name: 'ragaAnubhuti',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#5B21B6', '#7C3AED', '#9333EA']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 16. Inspired by the Kolam art patterns
+    kolamKaviyam: {
+        baseColors: ['#BE185D', '#FFFFFF'],
+        name: 'kolamKaviyam',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#BE185D', '#DB2777', '#EC4899']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 17. Inspired by the philosophical concept of Saivaite meditation
+    sivaDhyanam: {
+        baseColors: ['#0F172A', '#FFFFFF'],
+        name: 'sivaDhyanam',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#0F172A', '#1E293B', '#334155']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 18. Inspired by the Thanjavur style of painting
+    ratnaAlankaram: {
+        baseColors: ['#B45309', '#FFFFFF'],
+        name: 'ratnaAlankaram',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#B45309', '#D97706', '#F59E0B']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 19. Inspired by the sacred Kumkumam
+    kumkumaSandhya: {
+        baseColors: ['#DC2626', '#FFFFFF'],
+        name: 'kumkumaSandhya',
+        gradient: {
+            type: 'linear',
+            angle: 165,
+            colors: ['#DC2626', '#EF4444', '#F87171']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 20. Inspired by the Nilgiri mountains
+    neelaMalai: {
+        baseColors: ['#1E40AF', '#FFFFFF'],
+        name: 'neelaMalai',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#1E40AF', '#2563EB', '#3B82F6']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 1. Mystic Horizon
+    mysticHorizon: {
+        baseColors: ['#FFB347', '#FFFFFF'],
+        name: 'mysticHorizon',
+        gradient: {
+            type: 'linear',
+            angle: 135,
+            colors: ['#FFB347', '#FFCC33', '#FFC3A0']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 2. Celestial Grace
+    celestialGrace: {
+        baseColors: ['#8A2BE2', '#FFFFFF'],
+        name: 'celestialGrace',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#8A2BE2', '#6A5ACD', '#9370DB']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 3. Desert Bloom
+    desertBloom: {
+        baseColors: ['#D1A054', '#FFFFFF'],
+        name: 'desertBloom',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#D1A054', '#E6B89C', '#FFD700']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 4. Ocean Tranquility
+    oceanTranquility: {
+        baseColors: ['#00CED1', '#FFFFFF'],
+        name: 'oceanTranquility',
+        gradient: {
+            type: 'linear',
+            angle: 135,
+            colors: ['#00CED1', '#4682B4', '#5F9EA0']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 5. Philosophical Dusk
+    philosophicalDusk: {
+        baseColors: ['#3C3B6E', '#FFFFFF'],
+        name: 'philosophicalDusk',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#3C3B6E', '#836FFF', '#B0C4DE']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 6. Ethereal Sands
+    etherealSands: {
+        baseColors: ['#FFDAB9', '#FFFFFF'],
+        name: 'etherealSands',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#FFDAB9', '#FFE4C4', '#FFDEAD']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+    
+    // 7. Moonlit Journey
+    moonlitJourney: {
+        baseColors: ['#1C1C1C', '#FFFFFF'],
+        name: 'moonlitJourney',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#1C1C1C', '#4A4A4A', '#7B7B7B']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 8. Mystic Lagoon
+    mysticLagoon: {
+        baseColors: ['#76D7C4', '#FFFFFF'],
+        name: 'mysticLagoon',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#76D7C4', '#48C9B0', '#1ABC9C']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 9. Crimson Glow
+    crimsonGlow: {
+        baseColors: ['#FF4500', '#FFFFFF'],
+        name: 'crimsonGlow',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#FF4500', '#DC143C', '#FF6347']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+    // 10. Serene Frost
+    sereneFrost: {
+        baseColors: ['#AFEEEE', '#FFFFFF'],
+        name: 'sereneFrost',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#AFEEEE', '#B0E0E6', '#ADD8E6']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+    
+    anandaThandavam: {
+        baseColors: ['#4A044E', '#FFFFFF'],
+        name: 'anandaThandavam',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#4A044E', '#6D28D9', '#7E22CE']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    
+        // 1. Inspired by the Natarajar's cosmic dance
+        anandaThandavam: {
+            baseColors: ['#4A044E', '#FFFFFF'],
+            name: 'anandaThandavam',
+            gradient: {
+                type: 'linear',
+                angle: 145,
+                colors: ['#4A044E', '#6D28D9', '#7E22CE']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 2. Inspired by the sacred Pavazha Malli (Coral Jasmine) flowers
+        pavazhaMalligai: {
+            baseColors: ['#FEF2F2', '#2A2A2A'],
+            name: 'pavazhaMalligai',
+            gradient: {
+                type: 'linear',
+                angle: 150,
+                colors: ['#FEF2F2', '#FECDD3', '#FDA4AF']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                }
+            }
+        },
+    
+        // 3. Inspired by the Yaal instrument's melodies
+        yaalIsai: {
+            baseColors: ['#422006', '#FFFFFF'],
+            name: 'yaalIsai',
+            gradient: {
+                type: 'linear',
+                angle: 155,
+                colors: ['#422006', '#854D0E', '#A16207']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 4. Inspired by the Valluvar's wisdom
+        thirukkuralAmutham: {
+            baseColors: ['#134E4A', '#FFFFFF'],
+            name: 'thirukkuralAmutham',
+            gradient: {
+                type: 'linear',
+                angle: 160,
+                colors: ['#134E4A', '#0F766E', '#0D9488']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 5. Inspired by the Thirunelveli halwa's golden hue
+        halwaKanavugal: {
+            baseColors: ['#FBBF24', '#2A2A2A'],
+            name: 'halwaKanavugal',
+            gradient: {
+                type: 'linear',
+                angle: 145,
+                colors: ['#FBBF24', '#F59E0B', '#D97706']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                }
+            }
+        },
+    
+        // 6. Inspired by the Kaveri's flow
+        kaveriyinOsai: {
+            baseColors: ['#0369A1', '#FFFFFF'],
+            name: 'kaveriyinOsai',
+            gradient: {
+                type: 'linear',
+                angle: 150,
+                colors: ['#0369A1', '#0EA5E9', '#38BDF8']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 7. Inspired by the Chettinad mansions
+        chettinaduVaibhavam: {
+            baseColors: ['#7C2D12', '#FFFFFF'],
+            name: 'chettinaduVaibhavam',
+            gradient: {
+                type: 'linear',
+                angle: 155,
+                colors: ['#7C2D12', '#9A3412', '#C2410C']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 8. Inspired by the morning Suprabhatam
+        thiruPalli: {
+            baseColors: ['#FAF5FF', '#2A2A2A'],
+            name: 'thiruPalli',
+            gradient: {
+                type: 'linear',
+                angle: 160,
+                colors: ['#FAF5FF', '#F3E8FF', '#E9D5FF']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                }
+            }
+        },
+    
+        // 9. Inspired by the Mullaiperiyar Dam
+        mullaiPeriyar: {
+            baseColors: ['#064E3B', '#FFFFFF'],
+            name: 'mullaiPeriyar',
+            gradient: {
+                type: 'linear',
+                angle: 165,
+                colors: ['#064E3B', '#065F46', '#047857']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 10. Inspired by the Bharatanatyam's Sringara rasa
+        sringaraRasa: {
+            baseColors: ['#831843', '#FFFFFF'],
+            name: 'sringaraRasa',
+            gradient: {
+                type: 'linear',
+                angle: 140,
+                colors: ['#831843', '#9D174D', '#BE185D']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+
+        // Tamil Female Poets and Literary Figures Gradient Themes
+
+    avvaiyarWisdom: {
+        baseColors: ['#1E40AF', '#FFFFFF'],
+        name: 'avvaiyarWisdom',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#1E40AF', '#2563EB', '#3B82F6']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 2. Inspired by Bharathi Dasan's Female Muse - Strength and Resilience
+    bharathiMuse: {
+        baseColors: ['#9F1239', '#FFFFFF'],
+        name: 'bharathiMuse',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#9F1239', '#BE123C', '#E11D48']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 3. Inspired by Gnanasundari - Philosophical Depth
+    gnanaSundarReflection: {
+        baseColors: ['#4D7C0F', '#FFFFFF'],
+        name: 'gnanaSundarReflection',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#4D7C0F', '#65A30D', '#84CC16']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 4. Inspired by Subramanya Bharathi's Female Characters - Passionate Rebellion
+    bharathiRebellion: {
+        baseColors: ['#7E22CE', '#FFFFFF'],
+        name: 'bharathiRebellion',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#7E22CE', '#9333EA', '#A855F7']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 5. Inspired by Kavimani Desiga Vinayagam's Female Poetic Voice - Gentle Strength
+    kavimaniEchoes: {
+        baseColors: ['#0C4A6E', '#FFFFFF'],
+        name: 'kavimaniEchoes',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#0C4A6E', '#0369A1', '#0EA5E9']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+ 
+        // 21. Inspired by the mystical Siddha medicine tradition
+        siddhaChinthai: {
+            baseColors: ['#006064', '#FFFFFF'],
+            name: 'siddhaChinthai',
+            gradient: {
+                type: 'linear',
+                angle: 140,
+                colors: ['#006064', '#00838F', '#00ACC1']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 22. Capturing the essence of Tamil classical dance (Bharatanatyam)
+        natyaAnanda: {
+            baseColors: ['#C51162', '#FFFFFF'],
+            name: 'natyaAnanda',
+            gradient: {
+                type: 'linear',
+                angle: 150,
+                colors: ['#C51162', '#E91E63', '#F06292']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 23. Inspired by the ancient Tamil maritime trade and exploration
+        valaiKadal: {
+            baseColors: ['#1565C0', '#FFFFFF'],
+            name: 'valaiKadal',
+            gradient: {
+                type: 'linear',
+                angle: 135,
+                colors: ['#1565C0', '#1976D2', '#42A5F5']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 24. Reflecting the spiritual wisdom of Tamil Saivite philosophy
+        saivaSamadhi: {
+            baseColors: ['#37474F', '#FFFFFF'],
+            name: 'saivaSamadhi',
+            gradient: {
+                type: 'linear',
+                angle: 160,
+                colors: ['#37474F', '#455A64', '#607D8B']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 25. Inspired by the lush landscapes of Tamil Nadu
+        karuNilam: {
+            baseColors: ['#2E7D32', '#FFFFFF'],
+            name: 'karuNilam',
+            gradient: {
+                type: 'linear',
+                angle: 125,
+                colors: ['#2E7D32', '#43A047', '#66BB6A']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
 
       
-        }; 
+        // 26. Capturing the essence of Tamil mathematical and astronomical brilliance
+        ganitagaVeli: {
+            baseColors: ['#6A1B9A', '#FFFFFF'],
+            name: 'ganitagaVeli',
+            gradient: {
+                type: 'linear',
+                angle: 145,
+                colors: ['#6A1B9A', '#8E24AA', '#AB47BC']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 27. Inspired by the vibrant temple festivals of Tamil Nadu
+        utsavaVanam: {
+            baseColors: ['#C62828', '#FFFFFF'],
+            name: 'utsavaVanam',
+            gradient: {
+                type: 'linear',
+                angle: 155,
+                colors: ['#C62828', '#D32F2F', '#EF5350']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 28. Reflecting the poetic tradition of Sangam literature
+        sangamPaatu: {
+            baseColors: ['#4527A0', '#FFFFFF'],
+            name: 'sangamPaatu',
+            gradient: {
+                type: 'linear',
+                angle: 130,
+                colors: ['#4527A0', '#5E35B1', '#7E57C2']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 29. Inspired by the architectural marvel of Madurai Meenakshi Temple
+        meenakshiVasal: {
+            baseColors: ['#FF6F00', '#FFFFFF'],
+            name: 'meenakshiVasal',
+            gradient: {
+                type: 'linear',
+                angle: 140,
+                colors: ['#FF6F00', '#FFA000', '#FFB300']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+    
+        // 30. Capturing the spirit of Tamil agricultural abundance
+        unavuVayal: {
+            baseColors: ['#2E7D32', '#FFFFFF'],
+            name: 'unavuVayal',
+            gradient: {
+                type: 'linear',
+                angle: 150,
+                colors: ['#2E7D32', '#43A047', '#66BB6A']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                }
+            }
+        },
+
+            // 31. Inspired by ancient Tamil literary manuscripts
+    ezhuthuChuvadu: {
+        baseColors: ['#6D4C41', '#FFFFFF'],
+        name: 'ezhuthuChuvadu',
+        gradient: {
+            type: 'linear',
+            angle: 135,
+            colors: ['#6D4C41', '#8D6E63', '#A1887F']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 32. Capturing the essence of Sangam poetry and its landscape imagery
+    sangamNilam: {
+        baseColors: ['#2E7D32', '#FFFFFF'],
+        name: 'sangamNilam',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#2E7D32', '#43A047', '#66BB6A']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 33. Reflecting the spiritual depth of Tamil philosophical writings
+    gnanaVelicham: {
+        baseColors: ['#1A237E', '#FFFFFF'],
+        name: 'gnanaVelicham',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#1A237E', '#3F51B5', '#5C6BC0']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 34. Inspired by the rhythmic flow of Tamil literary language
+    mozhibhavam: {
+        baseColors: ['#00695C', '#FFFFFF'],
+        name: 'mozhibhavam',
+        gradient: {
+            type: 'linear',
+            angle: 125,
+            colors: ['#00695C', '#00897B', '#26A69A']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 35. Representing the passion of Tamil love poetry
+    anameghamPaatu: {
+        baseColors: ['#C62828', '#FFFFFF'],
+        name: 'anameghamPaatu',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#C62828', '#D32F2F', '#EF5350']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 36. Capturing the wisdom of ancient Tamil literary traditions
+    muraiMozhi: {
+        baseColors: ['#4A148C', '#FFFFFF'],
+        name: 'muraiMozhi',
+        gradient: {
+            type: 'linear',
+            angle: 135,
+            colors: ['#4A148C', '#7B1FA2', '#9C27B0']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 37. Inspired by the maritime poetry and trading history of Tamil Nadu
+    kadaloraVazhvu: {
+        baseColors: ['#1565C0', '#FFFFFF'],
+        name: 'kadaloraVazhvu',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#1565C0', '#1976D2', '#42A5F5']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 38. Reflecting the poetic exploration of human emotions
+    unarvilamBam: {
+        baseColors: ['#AD1457', '#FFFFFF'],
+        name: 'unarvilamBam',
+        gradient: {
+            type: 'linear',
+            angle: 130,
+            colors: ['#AD1457', '#D81B60', '#F06292']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 39. Capturing the rhythm of Tamil literary language
+    mozhinadai: {
+        baseColors: ['#37474F', '#FFFFFF'],
+        name: 'mozhinadai',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#37474F', '#455A64', '#607D8B']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+    // 40. Inspired by the introspective nature of Tamil literature
+    aatmaVazhvu: {
+        baseColors: ['#512DA8', '#FFFFFF'],
+        name: 'aatmaVazhvu',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#512DA8', '#673AB7', '#7E57C2']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+     // 6. Inspired by Akkamadevi - Spiritual Rebellion
+     soulFireAkkam: {
+        baseColors: ['#B45309', '#FFFFFF'],
+        name: 'soulFireAkkam',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#B45309', '#D97706', '#F59E0B']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 7. Inspired by Andal - Divine Feminine Devotion
+    andhalsDream: {
+        baseColors: ['#4C1D95', '#FFFFFF'],
+        name: 'andhalsDream',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#4C1D95', '#6D28D9', '#8B5CF6']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 8. Inspired by Rashmi Rekha - Modern Poetic Voice
+    rhythmOfRashmi: {
+        baseColors: ['#365314', '#FFFFFF'],
+        name: 'rhythmOfRashmi',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#365314', '#3F6212', '#4D7C0F']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 9. Inspired by Venmathi - Lyrical Elegance
+    venmathiSong: {
+        baseColors: ['#1E293B', '#FFFFFF'],
+        name: 'venmathiSong',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#1E293B', '#334155', '#475569']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 10. Inspired by Mangai Natarajan - Social Activist Poet
+    mangaiSpirit: {
+        baseColors: ['#3730A3', '#FFFFFF'],
+        name: 'mangaiSpirit',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#3730A3', '#4F46E5', '#6366F1']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 11. Inspired by Lakshmi Holmström - Literary Translator
+    holmstromBridge: {
+        baseColors: ['#5B21B6', '#FFFFFF'],
+        name: 'holmstromBridge',
+        gradient: {
+            type: 'linear',
+            angle: 140,
+            colors: ['#5B21B6', '#7C3AED', '#8B5CF6']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 12. Inspired by Punitha Palanisamy - Contemporary Poet
+    punithaWhispers: {
+        baseColors: ['#B91C1C', '#FFFFFF'],
+        name: 'punithaWhispers',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#B91C1C', '#DC2626', '#EF4444']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 13. Inspired by Sitara Ranganathan - Modern Feminist Voice
+    sitaraEchoes: {
+        baseColors: ['#0F172A', '#FFFFFF'],
+        name: 'sitaraEchoes',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#0F172A', '#1E293B', '#334155']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 14. Inspired by Chandra Bose - Revolutionary Poet
+    chandraFirelight: {
+        baseColors: ['#7E22CE', '#FFFFFF'],
+        name: 'chandraFirelight',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#7E22CE', '#9333EA', '#A855F7']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 15. Inspired by Baudhyanayaki - Classical Poet
+    baudhyaGrace: {
+        baseColors: ['#166534', '#FFFFFF'],
+        name: 'baudhyaGrace',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#166534', '#15803D', '#4D7C0F']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // Themes inspired by Sangam era descriptions of feminine beauty
+    thamaraiKann: {
+        baseColors: ['#FDF4FF', '#2A2A2A'],
+        name: 'thamaraiKann',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#FDF4FF', '#FAE8FF', '#F5D0FE']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+
+    // 2. Inspired by peacock-like gait (மயில் போன்ற நடை)
+    mayilNadai: {
+        baseColors: ['#1E40AF', '#FFFFFF'],
+        name: 'mayilNadai',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#1E40AF', '#3B82F6', '#60A5FA']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 3. Inspired by flower garlands (பூ மாலை)
+    pooMalai: {
+        baseColors: ['#BE185D', '#FFFFFF'],
+        name: 'pooMalai',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#BE185D', '#DB2777', '#EC4899']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 4. Inspired by dark hair like clouds (கருமேக கூந்தல்)
+    karuMegaKoonthal: {
+        baseColors: ['#020617', '#FFFFFF'],
+        name: 'karuMegaKoonthal',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#020617', '#0F172A', '#1E293B']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 5. Inspired by bamboo-like shoulders (மூங்கில் போன்ற தோள்)
+    moongiltholVannam: {
+        baseColors: ['#166534', '#FFFFFF'],
+        name: 'moongiltholVannam',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#166534', '#15803D', '#22C55E']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 6. Inspired by youthful radiance (இளமை ஒளி)
+    ilamaiOli: {
+        baseColors: ['#FEF9C3', '#2A2A2A'],
+        name: 'ilamaiOli',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#FEF9C3', '#FEF08A', '#FDE047']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+
+    // 7. Inspired by pearl-like smile (முத்து போன்ற புன்னகை)
+    muthuPunnagai: {
+        baseColors: ['#F8FAFC', '#2A2A2A'],
+        name: 'muthuPunnagai',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#F8FAFC', '#F1F5F9', '#E2E8F0']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+
+    // 8. Inspired by crescent brow (பிறை நுதல்)
+    piraiNuthal: {
+        baseColors: ['#0F172A', '#FFFFFF'],
+        name: 'piraiNuthal',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#0F172A', '#1E293B', '#334155']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 9. Inspired by parrot-like speech (கிளி மொழி)
+    kiliMozhi: {
+        baseColors: ['#166534', '#FFFFFF'],
+        name: 'kiliMozhi',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#166534', '#22C55E', '#4ADE80']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 10. Inspired by red coral lips (பவழ இதழ்)
+    pavazhaIthazh: {
+        baseColors: ['#BE123C', '#FFFFFF'],
+        name: 'pavazhaIthazh',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#BE123C', '#E11D48', '#F43F5E']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 11. Inspired by dark eyes with red edges (செங்கயல் விழி)
+    sengayalVizhi: {
+        baseColors: ['#881337', '#FFFFFF'],
+        name: 'sengayalVizhi',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#881337', '#9F1239', '#BE123C']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 12. Inspired by swan-like gait (அன்னநடை)
+    annaNadai: {
+        baseColors: ['#FAF5FF', '#2A2A2A'],
+        name: 'annaNadai',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#FAF5FF', '#F3E8FF', '#E9D5FF']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+
+    // 13. Inspired by jasmine-like fragrance (முல்லை நறுமணம்)
+    mullaiNarumanam: {
+        baseColors: ['#F0FDF4', '#2A2A2A'],
+        name: 'mullaiNarumanam',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#F0FDF4', '#DCFCE7', '#BBF7D0']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+
+    // 14. Inspired by golden complexion (பொன்னிற மேனி)
+    ponMeni: {
+        baseColors: ['#B45309', '#FFFFFF'],
+        name: 'ponMeni',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#B45309', '#D97706', '#F59E0B']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        },
+            // 1. Inspired by slender waist (நுண்ணிடை)
+            nunIdai: {
+                baseColors: ['#4338CA', '#FFFFFF'],
+                name: 'nunIdai',
+                gradient: {
+                    type: 'linear',
+                    angle: 145,
+                    colors: ['#4338CA', '#6366F1', '#818CF8']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                    }
+                }
+            },
+        
+            // 2. Inspired by shell-like bangles (வளை நிறை முன்கை)
+            valaiNiraiMunkai: {
+                baseColors: ['#FEF3C7', '#2A2A2A'],
+                name: 'valaiNiraiMunkai',
+                gradient: {
+                    type: 'linear',
+                    angle: 150,
+                    colors: ['#FEF3C7', '#FDE68A', '#FCD34D']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                    }
+                }
+            },
+        
+            // 3. Inspired by conch-like neck (சங்கு போல் கழுத்து)
+            sankuKandham: {
+                baseColors: ['#F9FAFB', '#2A2A2A'],
+                name: 'sankuKandham',
+                gradient: {
+                    type: 'linear',
+                    angle: 155,
+                    colors: ['#F9FAFB', '#F3F4F6', '#E5E7EB']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                    }
+                }
+            },
+        
+            // 4. Inspired by rounded shoulders (திரண்ட தோள்)
+            thirandaTholVannam: {
+                baseColors: ['#7C2D12', '#FFFFFF'],
+                name: 'thirandaTholVannam',
+                gradient: {
+                    type: 'linear',
+                    angle: 160,
+                    colors: ['#7C2D12', '#9A3412', '#C2410C']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                    }
+                }
+            },
+        
+            // 5. Inspired by young bamboo-like arms (மூங்கில் போன்ற கை)
+            mungirkai: {
+                baseColors: ['#166534', '#FFFFFF'],
+                name: 'mungirkai',
+                gradient: {
+                    type: 'linear',
+                    angle: 145,
+                    colors: ['#166534', '#15803D', '#22C55E']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                    }
+                }
+            },
+        
+            // 6. Inspired by elegant breasts (முலை அழகு)
+            MullaiAzhagu: {
+                baseColors: ['#831843', '#FFFFFF'],
+                name: 'MullaiAzhagu',
+                gradient: {
+                    type: 'linear',
+                    angle: 150,
+                    colors: ['#831843', '#9D174D', '#BE185D']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                    }
+                }
+            },
+        
+            // 7. Inspired by tender feet (மென்னடை)
+            menNadai: {
+                baseColors: ['#FDF4FF', '#2A2A2A'],
+                name: 'menNadai',
+                gradient: {
+                    type: 'linear',
+                    angle: 155,
+                    colors: ['#FDF4FF', '#FAE8FF', '#F5D0FE']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                    }
+                }
+            },
+        
+            // 8. Inspired by arrow-like glance (அம்பு போன்ற பார்வை)
+            ambuPaarvai: {
+                baseColors: ['#581C87', '#FFFFFF'],
+                name: 'ambuPaarvai',
+                gradient: {
+                    type: 'linear',
+                    angle: 160,
+                    colors: ['#581C87', '#7E22CE', '#9333EA']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                    }
+                }
+            },
+        
+            // 9. Inspired by doe-like steps (மான் போன்ற நடை)
+            maanNadai: {
+                baseColors: ['#713F12', '#FFFFFF'],
+                name: 'maanNadai',
+                gradient: {
+                    type: 'linear',
+                    angle: 145,
+                    colors: ['#713F12', '#854D0E', '#A16207']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                        social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+                    }
+                }
+            },
+        
+            // 10. Inspired by lightning-like beauty (மின்னல் போன்ற அழகு)
+            minnalAzhagu: {
+                baseColors: ['#FBBF24', '#2A2A2A'],
+                name: 'minnalAzhagu',
+                gradient: {
+                    type: 'linear',
+                    angle: 150,
+                    colors: ['#FBBF24', '#F59E0B', '#D97706']
+                },
+                layout: defaultLayout,
+                fonts: defaultFonts,
+                colors: {
+                    title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    branding: {
+                        background: 'transparent',
+                        name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                        social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                    }
+                }
+            }
+    },
+
+    // 15. Inspired by bashful glance (நாண் மலர் நோக்கு)
+    naanMalarNokku: {
+        baseColors: ['#7E22CE', '#FFFFFF'],
+        name: 'naanMalarNokku',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#7E22CE', '#9333EA', '#A855F7']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+        // 1. Inspired by கொங்கை - tender buds (முகிழ் போன்ற)
+        kongaiMugil: {
+            baseColors: ['#FDF2F8', '#2A2A2A'],
+            name: 'kongaiMugil',
+            gradient: {
+                type: 'linear',
+                angle: 145,
+                colors: ['#FDF2F8', '#FCE7F3', '#FBCFE8']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                }
+            }
+        },
+    
+        // 2. Inspired by முலை வனப்பு - beauty like fresh flowers
+        MullaiVanappu: {
+            baseColors: ['#FEF2F2', '#2A2A2A'],
+            name: 'MullaiVanappu',
+            gradient: {
+                type: 'linear',
+                angle: 150,
+                colors: ['#FEF2F2', '#FEE2E2', '#FECACA']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                }
+            }
+        },
+    
+        // 3. Inspired by கச்சு அணி முலை - adorned beauty
+        kachuAniMullai: {
+            baseColors: ['#FFFBEB', '#2A2A2A'],
+            name: 'kachuAniMullai',
+            gradient: {
+                type: 'linear',
+                angle: 155,
+                colors: ['#FFFBEB', '#FEF3C7', '#FDE68A']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                }
+            }
+        },
+    
+        // 4. Inspired by தளிர் போன்ற - tender like young leaves
+        thalirMullai: {
+            baseColors: ['#F0FDF4', '#2A2A2A'],
+            name: 'thalirMullai',
+            gradient: {
+                type: 'linear',
+                angle: 160,
+                colors: ['#F0FDF4', '#DCFCE7', '#BBF7D0']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                }
+            }
+        },
+    
+        // 5. Inspired by பால் போன்ற - milk-like softness
+        paalMullai: {
+            baseColors: ['#F8FAFC', '#2A2A2A'],
+            name: 'paalMullai',
+            gradient: {
+                type: 'linear',
+                angle: 145,
+                colors: ['#F8FAFC', '#F1F5F9', '#E2E8F0']
+            },
+            layout: defaultLayout,
+            fonts: defaultFonts,
+            colors: {
+                title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                branding: {
+                    background: 'transparent',
+                    name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                    social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+                }
+            }
+        },
+            // 1. Inspired by சிங்க இடை (Lion-like waist - signifying grace and strength)
+    singaIdai: {
+        baseColors: ['#78350F', '#FFFFFF'],
+        name: 'singaIdai',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#78350F', '#92400E', '#B45309']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 2. Inspired by மின்னிடை (Lightning-like slender waist)
+    minIdai: {
+        baseColors: ['#FBBF24', '#2A2A2A'],
+        name: 'minIdai',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#FBBF24', '#F59E0B', '#FBBF24']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+
+    // 3. Inspired by பூ நுசுப்பு (Flower-like delicate waist)
+    pooNusuppu: {
+        baseColors: ['#FDF4FF', '#2A2A2A'],
+        name: 'pooNusuppu',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#FDF4FF', '#FAE8FF', '#F5D0FE']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+                social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+            }
+        }
+    },
+
+    // 4. Inspired by கொடி இடை (Creeper-like slim waist)
+    kodiIdai: {
+        baseColors: ['#166534', '#FFFFFF'],
+        name: 'kodiIdai',
+        gradient: {
+            type: 'linear',
+            angle: 160,
+            colors: ['#166534', '#15803D', '#22C55E']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 5. Inspired by சாயல் இடை (Graceful waist)
+    sayalIdai: {
+        baseColors: ['#7E22CE', '#FFFFFF'],
+        name: 'sayalIdai',
+        gradient: {
+            type: 'linear',
+            angle: 145,
+            colors: ['#7E22CE', '#9333EA', '#A855F7']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 6. Inspired by பவள நிதம்பம் (Coral-like hips)
+    pavalanithambam: {
+        baseColors: ['#BE123C', '#FFFFFF'],
+        name: 'pavalanithambam',
+        gradient: {
+            type: 'linear',
+            angle: 150,
+            colors: ['#BE123C', '#E11D48', '#F43F5E']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    },
+
+    // 7. Inspired by பொன் அரை (Golden waist)
+    ponArai: {
+        baseColors: ['#B45309', '#FFFFFF'],
+        name: 'ponArai',
+        gradient: {
+            type: 'linear',
+            angle: 155,
+            colors: ['#B45309', '#D97706', '#F59E0B']
+        },
+        layout: defaultLayout,
+        fonts: defaultFonts,
+        colors: {
+            title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            branding: {
+                background: 'transparent',
+                name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+                social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+            }
+        }
+    }
+
+
+
+};
+
+// Extended Tamil Poetry Gradient Themes - Part 2
+
+
 
 export const createThemeColors = (textColor, hoverFactors = { title: 1.4, text: 1.1, brand: 1.2 }) => ({
     title: { 

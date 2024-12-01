@@ -54,7 +54,90 @@ const THEME_CATEGORIES = {
       "roseGarden", "morningBliss", "peachHarmony", "mintyFresh", "lavenderDream",
       "skyWhisper","cottonCandy","softSpring","sunsetGlow","oceanMist","dewDrop",
       "blossomPink","citrusBreeze","citrusBreeze","serenityBlue","lemonFrost","frostyLilac",
-      "softCoral","paleGold","powderBlue","morningMist","peachGlow"
+      "softCoral","paleGold","powderBlue","morningMist","peachGlow",
+      "thiruppalliFlight","kuralamrit","pattuPrism","kadalkaviyam","mannInMayil",
+      "deepaRaagam","mullaiNilavu","natyaJwala","malaiMazhai","thamaraiKulam",
+      'nelVayal',          // Agricultural landscape
+      'brahmaWake',        // Spiritual dawn
+      'sivaGnanam',        // Philosophical wisdom
+      'kadaloram',         // Coastal beauty
+      'thiruNeeru',        // Sacred ash
+      'kurinjiMalai',      // Mountain flowers
+      'olaichuvadi',       // Palm manuscripts
+      'thanjavurOviyam',   // Classical art
+      'palaniSayam',       // Temple twilight
+      'rudrakshaJapa',     // Sacred meditation
+      'siddhaVaidya',      // Traditional medicine
+      'thanjaiPerumai',    // Temple grandeur
+      'meenakshiNilavu',   // Temple moonlight
+      'sangaPuthir',       // Classical literature
+      'ragaAnubhuti',      // Musical experience
+      'kolamKaviyam',      // Traditional art
+      'sivaDhyanam',       // Divine meditation
+      'ratnaAlankaram',    // Jeweled decorations
+      'kumkumaSandhya',    // Sacred evening
+      'neelaMalai' ,        // Blue mountains
+      "mysticHorizon",
+      "celestialGrace",
+      "desertBloom",
+      "oceanTranquility",
+      "philosophicalDusk",
+      "etherealSands",
+      "moonlitJourney",
+      "mysticLagoon",
+      "crimsonGlow",
+      "sereneFrost",
+      'anandaThandavam',     // Cosmic dance
+    'pavazhaMalligai',     // Coral jasmine
+    'yaalIsai',           // Musical instrument
+    'thirukkuralAmutham', // Ancient wisdom
+    'halwaKanavugal',     // Sweet dreams
+    'kaveriyinOsai',      // River's sound
+    'chettinaduVaibhavam',// Architectural grandeur
+    'thiruPalli',         // Sacred awakening
+    'mullaiPeriyar',      // Dam and nature
+    'sringaraRasa'  ,      // Classical dance emotion
+     "avvaiyarWisdom","bharathiMuse","gnanaSundarReflection","bharathiRebellion","kavimaniEchoes","siddhaChinthai","natyaAnanda","valaiKadal","saivaSamadhi","karuNilam",
+        "ganitagaVeli","utsavaVanam","sangamPaatu","meenakshiVasal","unavuVayal","ezhuthuChuvadu","sangamNilam","gnanaVelicham","mozhibhavam","anameghamPaatu","muraiMozhi",
+        "kadaloraVazhvu","unarvilamBam","soulFireAkkam","venmathiSong","rhythmOfRashmi","andhalsDream","baudhyaGrace","chandraFirelight","sitaraEchoes",
+        "punithaWhispers","holmstromBridge","mangaiSpirit",
+        'thamaraiKann',      // தாமரை போன்ற கண்கள் - Lotus-like eyes
+        'mayilNadai',        // மயில் போன்ற நடை - Peacock-like gait
+        'pooMalai',          // பூ மாலை - Flower garland
+        'karuMegaKoonthal',  // கருமேக கூந்தல் - Cloud-like dark hair
+        'moongiltholVannam', // மூங்கில் போன்ற தோள் - Bamboo-like shoulders
+        'ilamaiOli',         // இளமை ஒளி - Youthful radiance
+        'muthuPunnagai',     // முத்து போன்ற புன்னகை - Pearl-like smile
+        'piraiNuthal',       // பிறை நுதல் - Crescent-like forehead
+        'kiliMozhi',         // கிளி மொழி - Parrot-like speech
+        'pavazhaIthazh',     // பவழ இதழ் - Coral-like lips
+        'sengayalVizhi',     // செங்கயல் விழி - Fish-like eyes with red edges
+        'annaNadai',         // அன்னநடை - Swan-like gait
+        'mullaiNarumanam',   // முல்லை நறுமணம் - Jasmine-like fragrance
+        'ponMeni',           // பொன்னிற மேனி - Golden complexion
+        'naanMalarNokku',     // நாண் மலர் நோக்கு - Bashful flower-like glance
+        'nunIdai',           // நுண்ணிடை - Slender waist
+        'valaiNiraiMunkai',  // வளை நிறை முன்கை - Bangle-adorned arms
+        'sankuKandham',      // சங்கு போல் கழுத்து - Conch-like neck
+        'thirandaTholVannam',// திரண்ட தோள் - Rounded shoulders
+        'mungirkai',         // மூங்கில் போன்ற கை - Bamboo-like arms
+        'MullaiAzhagu',       // முலை அழகு - Beautiful breasts
+        'menNadai',          // மென்னடை - Tender gait
+        'ambuPaarvai',       // அம்பு போன்ற பார்வை - Arrow-like glance
+        'maanNadai',         // மான் போன்ற நடை - Doe-like steps
+        'minnalAzhagu',       // மின்னல் போன்ற அழகு - Lightning-like beauty
+        'kongaiMugil',     // கொங்கை முகிழ் - Tender buds
+        'MullaiVanappu',    // முலை வனப்பு - Flower-like beauty
+        'kachuAniMullai',   // கச்சு அணி முலை - Adorned beauty
+        'thalirMullai',     // தளிர் முலை - Tender like young leaves
+        'paalMullai'  ,      // பால் முலை - Milk-like softness
+        'singaIdai',        // சிங்க இடை - Lion-like graceful waist
+        'minIdai',          // மின்னிடை - Lightning-like slender waist
+        'pooNusuppu',       // பூ நுசுப்பு - Flower-like delicate waist
+        'kodiIdai',         // கொடி இடை - Creeper-like slim waist
+        'sayalIdai',        // சாயல் இடை - Graceful waist
+        'pavalanithambam',  // பவள நிதம்பம் - Coral-like hips
+        'ponArai'           // பொன் அரை - Golden waist
     ]
   }
 };
