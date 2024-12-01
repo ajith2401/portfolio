@@ -6,10 +6,38 @@
 @layer base {
   :root {
     /* Light theme */
-    --background: #ffffff;
-    --foreground: #0f172a;
+    --background: #FCF6F5;
+    --foreground: #000000;
+    --vector-light: #FFF6E8;
+    --vector-dark: #2F2F2F;
     --font-great-vibes: "Great Vibes", cursive;
-    
+    --tw-shadow-colored: 6px 6px 10px rgba(209, 203, 203, 0.3),
+    -6px -6px 10px rgba(255, 255, 255, 0.8);
+
+    /* Shadow Colors */
+    --shadow-light-1: rgba(209, 203, 203, 0.3);
+    --shadow-light-2: rgba(255, 255, 255, 0.8);
+    --shadow-dark-1: rgba(0, 0, 0, 0.3);
+    --shadow-dark-2: rgba(51, 51, 51, 0.1);
+    --shadow-dark-3: rgba(0, 0, 0, 0.5);
+    --shadow-dark-4: rgba(51, 51, 51, 0.05);
+    --decorative-line-color: #021720;
+    --decorative-line-opacity: 0.19;
+
+    /* Form Input Colors */
+    --input-background: #FCF6F5;
+    --input-text: #606062;
+    --input-placeholder: #999999;
+
+    /* Shadow Configurations */
+    --shadow-outer: 6px 6px 10px var(--shadow-light-1),
+                    -6px -6px 10px var(--shadow-light-2);
+    --shadow-inner: inset 6px 6px 10px var(--shadow-light-1),
+                    inset -6px -6px 10px var(--shadow-light-2);
+    --shadow-input: 6px 6px 10px var(--shadow-light-1),
+                    -6px -6px 10px var(--shadow-light-2),
+                    inset 6px 6px 10px var(--shadow-light-1),
+                    inset -6px -6px 10px var(--shadow-light-2);
     /* Primary colors */
     --primary-50: #f0f9ff;
     --primary-100: #e0f2fe;
@@ -41,9 +69,24 @@
   }
 
   [data-theme='dark'] {
-    --background: #0f172a;
-    --foreground: #f8fafc;
-    
+    --background: #1C1C1C;
+    --foreground: #ffffff;
+    --input-background: #1C1C1C;
+    --input-text: #C2C2C2;
+    --input-placeholder: #999999;
+    --decorative-line-color: #EDEDED;
+    /* Shadow Configurations */
+    --shadow-outer: 4px 4px 8px var(--shadow-dark-1),
+                   -4px -4px 8px var(--shadow-dark-2);
+    --shadow-inner: inset 4px 4px 8px var(--shadow-dark-3),
+                   inset -4px -4px 8px var(--shadow-dark-4);
+    --shadow-input: 4px 4px 8px var(--shadow-dark-1),
+                   -4px -4px 8px var(--shadow-dark-2),
+                   inset 4px 4px 8px var(--shadow-dark-3),
+                   inset -4px -4px 8px var(--shadow-dark-4);
+    --tw-shadow-colored: 4px 4px 8px rgba(0, 0, 0, 0.3),
+    -4px -4px 8px rgba(51, 51, 51, 0.1);
+    /* #EDEDED */
     /* Primary colors (adjusted for dark mode) */
     --primary-50: #0c4a6e;
     --primary-100: #075985;
@@ -91,4 +134,36 @@
   font-style: normal;
   line-height: 30.05px;
   font-weight: 400;
+}
+
+.form-input-shadow {
+  box-shadow: var(--tw-shadow-colored),
+    inset var(--tw-shadow-colored);
+}
+
+/* Custom Classes */
+.glass-input {
+  background: var(--input-background);
+  color: var(--input-text);
+  box-shadow: var(--shadow-input);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.glass-input:focus {
+  box-shadow: var(--shadow-outer);
+  outline: none;
+}
+
+.glass-input::placeholder {
+  color: var(--input-placeholder);
+}
+
+.glass-container {
+  background: var(--background);
+  box-shadow: var(--shadow-outer);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }

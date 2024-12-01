@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme/themeProvider";
 import { Great_Vibes, Inter, Playfair_Display } from 'next/font/google';
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import BackgroundVectors from "@/components/layout/BackgroundVectors";
 
 const greatVibes = Great_Vibes({
   subsets: ['latin'],
@@ -58,6 +59,7 @@ export default function RootLayout({ children }) {
     >
       <ThemeProvider>
       <body className="items-center justify-items-center bg-background">
+      <BackgroundVectors />
       <Navbar/>
       {children} 
       <Footer/>

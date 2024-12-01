@@ -108,9 +108,9 @@ WritingSchema.methods.addRating = async function(name, email, rating) {
 // Use a try-catch to handle model registration
 let Writing;
 try {
-  Writing = mongoose.model('WritingTest');
+  Writing = mongoose.model('Writing');
 } catch {
-  Writing = mongoose.model('WritingTest', WritingSchema);
+  Writing = mongoose.model('Writing', WritingSchema);
 }
 
 export { Writing };

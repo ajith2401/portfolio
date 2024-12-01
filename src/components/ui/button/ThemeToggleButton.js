@@ -7,7 +7,7 @@ export const ThemeToggleAnimated = () => {
     return (
       <button 
         onClick={toggleTheme}
-        className="p-2 rounded-full bg-secondary/10 
+        className="p-2 rounded-full text-foreground bg-secondary/10 
                   hover:bg-secondary/20 transform hover:scale-110 
                   transition-all duration-200"
         aria-label="Toggle theme"

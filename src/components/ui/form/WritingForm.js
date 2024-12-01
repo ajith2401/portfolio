@@ -160,22 +160,22 @@ const handleThemeModeChange = (mode) => {
 
 
 return (
-  <div className="space-y-4">
+  <div className="space-y-4 bg-background">
     <div>
-      <label className="block text-sm font-medium mb-2">Theme Mode</label>
+      <label className="block text-foreground text-sm font-medium mb-2">Theme Mode</label>
       <select
         value={formData.themeMode}
         onChange={(e) => handleThemeModeChange(e.target.value)}
         className="w-full p-2 border rounded"
       >
-        <option value="backgroundImage">Background Image Themes</option>
+        <option value="backgroundImage" >Background Image Themes</option>
         <option value="solidColor">Solid Color Themes</option>
         <option value="gradient">Gradient Themes</option>
       </select>
     </div>
 
     <div>
-      <label className="block text-sm font-medium mb-2">Select Theme</label>
+      <label className="block text-foreground text-sm font-medium mb-2">Select Theme</label>
       <select
         value={formData.theme}
         onChange={(e) => setFormField("theme", e.target.value)}
@@ -200,7 +200,6 @@ export default function WritingForm() {
     formData,
     isLoading,
     error,
-    createdWriting,
     setFormField,
     setEffects,
     setStyle,
@@ -221,11 +220,11 @@ export default function WritingForm() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 bg-background">
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Title */}
         <div>
-          <label className="block text-sm font-medium mb-2">Title</label>
+          <label className="block text-foreground text-sm font-medium mb-2">Title</label>
           <input
             type="text"
             value={formData.title}
@@ -236,8 +235,8 @@ export default function WritingForm() {
         </div>
 
         {/* Body */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Content</label>
+        <div >
+          <label className="block text-foreground text-sm font-medium mb-2">Content</label>
           <textarea
             value={formData.body}
             onChange={(e) => setFormField("body", e.target.value)}
@@ -248,10 +247,10 @@ export default function WritingForm() {
 
         {/* Category */}
         <div>
-          <label className="block text-sm font-medium mb-2">Category</label>
+          <label className="block text-foreground text-sm font-medium mb-2">Category</label>
           <div className="flex gap-4">
             {CATEGORIES.map((category) => (
-              <label key={category} className="flex items-center">
+              <label key={category} className="flex text-foreground items-center">
                 <input
                   type="radio"
                   name="category"
@@ -272,13 +271,13 @@ export default function WritingForm() {
 
       {/* Texture Selector */}
       <div>
-      <label className="block text-sm font-medium mb-2">Texture</label>
+      <label className="block  text-foreground text-sm font-medium mb-2">Texture</label>
       <select
         value={formData.textureType}
         onChange={(e) => setFormField("textureType", e.target.value)}
         className="w-full p-2 border rounded"
       >
-        <option value="" disabled>Select a texture</option>
+        <option value="" className="text-foreground" disabled>Select a texture</option>
         {TEXTURES.map((texture) => (
           <option key={texture} value={texture}>
             {texture.charAt(0).toUpperCase() + texture.slice(1).replace(/([A-Z])/g, ' $1')}
@@ -290,9 +289,9 @@ export default function WritingForm() {
 
         {/* Effects */}
         <div>
-          <label className="block text-sm font-medium mb-2">Effects</label>
+          <label className="block text-foreground text-sm font-medium mb-2">Effects</label>
           <div className="grid grid-cols-2 gap-4">
-            <label className="flex items-center">
+            <label className="flex items-center text-foreground">
               <input
                 type="checkbox"
                 checked={formData.effects.textShadow}
@@ -301,16 +300,16 @@ export default function WritingForm() {
               />
               Text Shadow
             </label>
-            <label className="flex items-center">
+            <label className="flex items-center text-foreground">
               <input
                 type="checkbox"
                 checked={formData.effects.glow}
                 onChange={(e) => setEffects({ glow: e.target.checked })}
-                className="mr-2"
+                className="mr-2 text-foreground"
               />
               Glow
             </label>
-            <label className="flex items-center">
+            <label className="flex items-center text-foreground">
               <input
                 type="checkbox"
                 checked={formData.effects.decorativeElements}
@@ -319,7 +318,7 @@ export default function WritingForm() {
               />
               Decorative Elements
             </label>
-            <label className="flex items-center">
+            <label className="flex text-foreground items-center">
               <input
                 type="checkbox"
                 checked={formData.effects.backgroundTexture}
@@ -333,10 +332,10 @@ export default function WritingForm() {
 
         {/* Style */}
         <div>
-          <label className="block text-sm font-medium mb-2">Style</label>
+          <label className="block text-foreground text-sm font-medium mb-2">Style</label>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm mb-1">Text Align</label>
+              <label className="block text-foreground text-sm mb-1">Text Align</label>
               <select
                 value={formData.style.textAlign}
                 onChange={(e) => setStyle({ textAlign: e.target.value })}
@@ -364,7 +363,7 @@ export default function WritingForm() {
               </select>
             </div> */ }
             <div>
-              <label className="block text-sm mb-1">Title Size</label>
+              <label className="block text-foreground text-sm mb-1">Title Size</label>
               <input
                 type="number"
                 value={formData.style.titleSize}
@@ -375,7 +374,7 @@ export default function WritingForm() {
               />
             </div>
             <div>
-              <label className="block text-sm mb-1">Body Size</label>
+              <label className="block text-foreground text-sm mb-1">Body Size</label>
               <input
                 type="number"
                 value={formData.style.bodySize}
@@ -386,7 +385,7 @@ export default function WritingForm() {
               />
             </div>
             <div>
-              <label className="block text-sm mb-1">Line Height</label>
+              <label className="block text-foreground text-sm mb-1">Line Height</label>
               <input
                 type="number"
                 value={formData.style.lineHeight}
@@ -411,7 +410,7 @@ export default function WritingForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50"
+          className="w-full bg-blue-600 text-foreground py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50"
         >
           {isLoading ? "Creating..." : "Create Writing"}
         </button>
@@ -420,9 +419,9 @@ export default function WritingForm() {
       {/* Preview */}
       {preview && (
         <div className="mt-8">
-          <h3 className="text-lg font-medium mb-4">Preview</h3>
-          <div className="border rounded p-4">
-            <img src={preview} alt="Preview" className="max-w-full" />
+          <h3 className="text-lg text-foreground  font-medium mb-4">Preview</h3>
+          <div className="border text-foreground  rounded p-4">
+            <img src={preview} alt="Preview" className="max-w-full text-foreground" />
           </div>
         </div>
       )}

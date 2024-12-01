@@ -3,16 +3,16 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { ThemeToggleAnimated } from '../ui/button/ThemeToggleButton';
-import { Menu, X } from 'lucide-react'; // Import icons for mobile menu
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full py-4 bg-background border-b border-gray-200">
+    <nav className="w-full py-4 bg-background border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="ajith-logo text-[30px] font-great-vibes text-primary">
+        <Link href="/" className="ajith-logo text-[30px] font-great-vibes text-foreground">
           Ajith Kumar
         </Link>
 
@@ -35,7 +35,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/"
-                className="text-foreground/80 hover:text-primary transition-colors"
+                className="text-foreground hover:text-primary transition-colors"
               >
                 Home
               </Link>
@@ -43,7 +43,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/devfolio"
-                className="text-foreground/80 hover:text-primary transition-colors"
+                className="text-foreground hover:text-primary transition-colors"
               >
                 Devfolio
               </Link>
@@ -51,7 +51,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/quill"
-                className="text-foreground/80 hover:text-primary transition-colors"
+                className="text-foreground hover:text-primary transition-colors"
               >
                 Quill
               </Link>
@@ -59,19 +59,21 @@ const Navbar = () => {
             <li>
               <Link
                 href="/spotlight"
-                className="text-foreground/80 hover:text-primary transition-colors"
+                className="text-foreground hover:text-primary transition-colors"
               >
                 Spotlight
               </Link>
             </li>
+            <li>
+            <button className="ml-4 px-6 py-2 rounded-full bg-red-800 text-white hover:bg-red-700 transition-colors">
+            Contact Me
+          </button>
+            </li>
           </ul>
         </div>
         <div className="hidden md:flex items-center gap-8">
-        <button className="ml-4 px-6 py-2 rounded-full bg-red-800 text-white hover:bg-red-700 transition-colors text-primary">
-        Contact Me
-      </button>
-      <ThemeToggleAnimated/>
-      </div>
+          <ThemeToggleAnimated/>
+        </div>
       </div>
 
       {/* Mobile Dropdown Menu */}
@@ -81,7 +83,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/"
-                className="block text-foreground/80 hover:text-primary transition-colors"
+                className="block text-foreground hover:text-primary transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
@@ -90,7 +92,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/devfolio"
-                className="block text-foreground/80 hover:text-primary transition-colors"
+                className="block text-foreground hover:text-primary transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Devfolio
@@ -99,7 +101,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/quill"
-                className="block text-foreground/80 hover:text-primary transition-colors"
+                className="block text-foreground hover:text-primary transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Quill
@@ -108,7 +110,7 @@ const Navbar = () => {
             <li>
               <Link
                 href="/spotlight"
-                className="block text-foreground/80 hover:text-primary transition-colors"
+                className="block text-foreground hover:text-primary transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Spotlight
@@ -120,7 +122,7 @@ const Navbar = () => {
               </button>
             </li>
             <li>
-           <ThemeToggleAnimated/>
+              <ThemeToggleAnimated/>
             </li>
           </ul>
         </div>

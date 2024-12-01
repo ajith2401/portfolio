@@ -62,6 +62,9 @@ module.exports = {
         accent: "var(--accent)",
         muted: "var(--muted)",
         "muted-foreground": "var(--muted-foreground)",
+        'decorative-line': {
+          DEFAULT: 'var(--decorative-line-color)',
+        }
       },
 
       // Typography configuration
@@ -149,7 +152,7 @@ module.exports = {
         'hover': '0 8px 16px rgba(0,0,0,0.1)',
         'card': '0 4px 8px rgba(0,0,0,0.08)',
       },
-
+      
       // Animation durations
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
