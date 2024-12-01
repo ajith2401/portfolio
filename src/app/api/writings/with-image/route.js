@@ -38,6 +38,7 @@ export async function POST(request) {
       title: writingData.title,
       body: writingData.body,
       category: writingData.category,
+      textureType : writingData.textureType,
       themeMode : writingData.themeMode ||"backgroundImage",
       theme: writingData.theme || 'default',
       effects: {

@@ -14,6 +14,10 @@ export class ImageGenerationService {
   }
 
   async createImage(text, options = {}) {  // Remove static
+
+    console.log('====================================');
+    console.log({options});
+    console.log('====================================');
     const {
       width = TEXT_METRICS.CANVAS_WIDTH,
       height = TEXT_METRICS.CANVAS_HEIGHT,
@@ -22,15 +26,18 @@ export class ImageGenerationService {
       category = 'article',
       title = '',
       style = {},
-      analysis = {}
+      analysis = {},
+      textureType = "waterDrops"
     } = options;
+     
+console.log(">>>>>>>>>>>>>>>>>>",{textureType});
 
     const metrics = TextMetricsCalculator.calculateDynamicTextMetrics(text, category);
     const formattedText = TextMetricsCalculator.textFormatter(text, category);
     const theme = this.themeSetup.getTheme(themeName , themeMode );  // Now this.themeSetup will work
 
     try {
-      let processedImage = await NoiseTextureGenerator.createTexturedBackground(width, height, theme);
+      let processedImage = await NoiseTextureGenerator.createTexturedBackground(width, height, theme,textureType);
       
       const textLineCount = TextMetricsCalculator.lineCounter(text, category);
       const layout = TextMetricsCalculator.calculateMetrics(textLineCount, category, Boolean(title));
@@ -73,7 +80,7 @@ export class ImageGenerationService {
   }
 
   async createAndSaveWriting(options) {
-    const { title, body, category, theme = 'default', themeMode , effects, style } = options;
+    const { title, body, category, theme = 'default', themeMode ,textureType, effects, style } = options;
 
     if (!body || typeof body !== 'string' || !body.trim()) {
       throw new Error("Body content is required for generating an image.");
@@ -91,6 +98,7 @@ export class ImageGenerationService {
       const images = await textEffects.generateForText(body, {
         title,
         themeMode: themeMode || 'backgroundImage',
+        textureType : textureType || "starrySky",
         theme: theme || themeMap[category] || 'default',
         effects,
         style

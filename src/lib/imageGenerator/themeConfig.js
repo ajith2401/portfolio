@@ -5943,6 +5943,7 @@ export const themeConfigs = {
                 social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
             }
         },
+    },
             // 1. Inspired by slender waist (நுண்ணிடை)
             nunIdai: {
                 baseColors: ['#4338CA', '#FFFFFF'],
@@ -6181,8 +6182,8 @@ export const themeConfigs = {
                         social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
                     }
                 }
-            }
-    },
+            },
+  
 
     // 15. Inspired by bashful glance (நாண் மலர் நோக்கு)
     naanMalarNokku: {
@@ -6492,9 +6493,217 @@ export const themeConfigs = {
                 social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
             }
         }
-    }
+    },
 
-          }
+    // Van Gogh's Starry Night Inspired Themes
+starryNightDream: {
+    baseColors: ['#1a237e', '#FFFFFF'],
+    name: 'starryNightDream',
+    gradient: {
+        type: 'linear',
+        angle: 145,
+        colors: ['#1a237e', '#534bae', '#0d47a1']
+    },
+    layout: defaultLayout,
+    fonts: defaultFonts,
+    colors: {
+        title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        branding: {
+            background: 'transparent',
+            name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+        }
+    }
+},
+
+vanGoghWheat: {
+    baseColors: ['#FFB300', '#2A2A2A'],
+    name: 'vanGoghWheat',
+    gradient: {
+        type: 'linear',
+        angle: 135,
+        colors: ['#FFB300', '#FFA000', '#FF8F00']
+    },
+    layout: defaultLayout,
+    fonts: defaultFonts,
+    colors: {
+        title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+        text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+        branding: {
+            background: 'transparent',
+            name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+        }
+    }
+},
+
+sunflowerGlow: {
+    baseColors: ['#FDD835', '#2A2A2A'],
+    name: 'sunflowerGlow',
+    gradient: {
+        type: 'linear',
+        angle: 150,
+        colors: ['#FDD835', '#FFB300', '#FF8F00']
+    },
+    layout: defaultLayout,
+    fonts: defaultFonts,
+    colors: {
+        title: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+        text: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+        branding: {
+            background: 'transparent',
+            name: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            web: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            phone: { color: '#2A2A2A', hoverColor: '#1A1A1A' },
+            social: { color: '#2A2A2A', hoverColor: '#1A1A1A' }
+        }
+    }
+},
+
+irisGarden: {
+    baseColors: ['#5E35B1', '#FFFFFF'],
+    name: 'irisGarden',
+    gradient: {
+        type: 'linear',
+        angle: 140,
+        colors: ['#5E35B1', '#3949AB', '#1E88E5']
+    },
+    layout: defaultLayout,
+    fonts: defaultFonts,
+    colors: {
+        title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        branding: {
+            background: 'transparent',
+            name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+        }
+    }
+},
+
+// Starry Night Sky Window Themes
+midnightWindow: {
+    baseColors: ['#0D47A1', '#FFFFFF'],
+    name: 'midnightWindow',
+    gradient: {
+        type: 'linear',
+        angle: 155,
+        colors: ['#0D47A1', '#1565C0', '#0D47A1']
+    },
+    layout: defaultLayout,
+    fonts: defaultFonts,
+    colors: {
+        title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        branding: {
+            background: 'transparent',
+            name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+        }
+    }
+},
+
+celestialDance: {
+    baseColors: ['#311B92', '#FFFFFF'],
+    name: 'celestialDance',
+    gradient: {
+        type: 'linear',
+        angle: 145,
+        colors: ['#311B92', '#4527A0', '#1A237E']
+    },
+    layout: defaultLayout,
+    fonts: defaultFonts,
+    colors: {
+        title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        branding: {
+            background: 'transparent',
+            name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+        }
+    }
+},
+
+auroraGlow: {
+    baseColors: ['#1A237E', '#FFFFFF'],
+    name: 'auroraGlow',
+    gradient: {
+        type: 'linear',
+        angle: 160,
+        colors: ['#1A237E', '#0D47A1', '#4A148C']
+    },
+    layout: defaultLayout,
+    fonts: defaultFonts,
+    colors: {
+        title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        branding: {
+            background: 'transparent',
+            name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+        }
+    }
+},
+
+cosmicWindow: {
+    baseColors: ['#4A148C', '#FFFFFF'],
+    name: 'cosmicWindow',
+    gradient: {
+        type: 'linear',
+        angle: 140,
+        colors: ['#4A148C', '#311B92', '#1A237E']
+    },
+    layout: defaultLayout,
+    fonts: defaultFonts,
+    colors: {
+        title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        branding: {
+            background: 'transparent',
+            name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+        }
+    }
+},
+
+nightSkyReflection: {
+    baseColors: ['#283593', '#FFFFFF'],
+    name: 'nightSkyReflection',
+    gradient: {
+        type: 'linear',
+        angle: 150,
+        colors: ['#283593', '#1565C0', '#0277BD']
+    },
+    layout: defaultLayout,
+    fonts: defaultFonts,
+    colors: {
+        title: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        text: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+        branding: {
+            background: 'transparent',
+            name: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            web: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            phone: { color: '#FFFFFF', hoverColor: '#F5F5F5' },
+            social: { color: '#FFFFFF', hoverColor: '#F5F5F5' }
+        }
+    }
+}
+}
 
 };
 

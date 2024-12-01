@@ -4,39 +4,84 @@ import { GradientManager } from "./gradientManager";
 const { textureEffects, themeKeyMapping } = require("./themeKeyMapping");
 import path from 'path';
 import ThemeSetup from "./themeSetup";
+import CustomTextureGenerator from "./customTextureGenerator";
 
 export class NoiseTextureGenerator {
 
-    static async generateTextureNoise(type, width, height) {
-
-        const effect = textureEffects[type] || textureEffects.vintagePaper;
-        const buffers = await Promise.all(effect.layers.map(async layer => {
-        const buffer = await sharp({
-            create: {
-            width,
-            height,
-            channels: 4,
-            noise: layer.noise,
-            background: layer.background
-            }
-        })
-        .png()
-        .toBuffer();
-
-        return {
-            input: buffer,
-            blend: layer.blend,
-            opacity: layer.opacity
-        };
-        }));
-
-        return {
-        composite: buffers,
-        modulate: effect.modulate
-        };
+    static async generateTextureNoise(type, width, height, options = {}) {
+        // Handle custom texture types first
+        switch (type) {
+            case 'starrySky':
+                return await CustomTextureGenerator.generateStarrySky(width, height, {
+                    starCount: options.starCount || 200,
+                    starSize: options.starSize || 2,
+                    starBrightness: options.starBrightness || 0.8,
+                    backgroundDarkness: options.backgroundDarkness || 0.1
+                });
+                
+            case 'flyingBirds':
+                return await CustomTextureGenerator.generateFlyingBirds(width, height, {
+                    birdCount: options.birdCount || 50,
+                    minSize: options.minSize || 10,
+                    maxSize: options.maxSize || 30,
+                    opacity: options.opacity || 0.6
+                });
+    
+            case 'lacePattern':
+                return await CustomTextureGenerator.generateLacePattern(width, height, {
+                    scale: options.scale || 1,
+                    opacity: options.opacity || 0.8,
+                    color: options.color || 'white'
+                });
+    
+            case 'denimTexture':
+                return await CustomTextureGenerator.generateDenimTexture(width, height, {
+                    density: options.density || 0.8,
+                    color: options.color || '#1a365d',
+                    opacity: options.opacity || 0.9
+                });
+    
+            case 'waterDrops':
+                return await CustomTextureGenerator.generateWaterDrops(width, height, {
+                    dropCount: options.dropCount || 200,
+                    maxDropSize: options.maxDropSize || 20,
+                    opacity: options.opacity || 0.8
+                });
+                
+            default:
+                // Use existing texture effects for other types
+                const effect = textureEffects[type] || textureEffects.vintagePaper;
+                const buffers = await Promise.all(effect.layers.map(async layer => {
+                    const buffer = await sharp({
+                        create: {
+                            width,
+                            height,
+                            channels: 4,
+                            noise: layer.noise,
+                            background: layer.background
+                        }
+                    })
+                    .png()
+                    .toBuffer();
+    
+                    return {
+                        input: buffer,
+                        blend: layer.blend,
+                        opacity: layer.opacity
+                    };
+                }));
+    
+                return {
+                    composite: buffers,
+                    modulate: effect.modulate
+                };
+        }
     }
     
-    static async createTexturedBackground(width, height, theme) {
+    static async createTexturedBackground(width, height, theme,textureType) {
+        console.log('====================================');
+        console.log({textureType});
+        console.log('====================================');
         try {
         theme  = ThemeSetup.validateTheme(theme);(theme);
         const themeInfo = themeKeyMapping.find(t => t.keyName === theme.name) || {
@@ -48,9 +93,15 @@ export class NoiseTextureGenerator {
         
         // Handle gradient themes
         if (theme.gradient) {
+            const texture = await NoiseTextureGenerator.generateTextureNoise(textureType , width, height);
             const gradientSvg = GradientManager.createGradientSVG(width, height, theme.gradient);
             baseImage = await sharp(Buffer.from(gradientSvg))
             .png()
+            .composite(texture.composite.map(comp => ({
+                ...comp,
+                left: 0,
+                top: 0
+                })))
             .toBuffer();
             contentBgColor = 'transparent';
         } else {
@@ -95,9 +146,9 @@ export class NoiseTextureGenerator {
             .png()
             .toBuffer();
 
-            // Add texture if specified
+           // Add texture if specified
             if (theme.effects?.backgroundTexture) {
-            const texture = await NoiseTextureGenerator.generateTextureNoise('filmGrain', width, height);
+            const texture = await NoiseTextureGenerator.generateTextureNoise(textureType, width, height);
             baseImage = await sharp(baseImage)
                 .composite(texture.composite.map(comp => ({
                 ...comp,
@@ -166,7 +217,7 @@ export class NoiseTextureGenerator {
         } catch (textureError) {
             console.warn(`Background image not found: ${theme.backgroundImage}. Using base image.`);
             
-            const texture = await NoiseTextureGenerator.generateTextureNoise('denim', width, height);
+            const texture = await NoiseTextureGenerator.generateTextureNoise(textureType, width, height);
             return await sharp(baseImage)
             .composite(texture.composite.map(comp => ({
                 ...comp,

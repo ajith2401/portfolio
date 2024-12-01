@@ -7,6 +7,7 @@ import useWritingStore from "@/store/seWritingStore.js";
 
 // Constants for form options
 const CATEGORIES = ["article", "poem", "philosophy", "short story"];
+const TEXTURES = ["vintagePaper","denim","watercolor","concrete","canvas","filmGrain","marble","rustedMetal","parchment","chalkBoard","lacePattern","waterDrops","flyingBirds","starrySky"]
 const THEME_CATEGORIES = {
   backgroundImage: {
     label: "Background Image Themes",
@@ -29,8 +30,7 @@ const THEME_CATEGORIES = {
       "autumnSunset", "vintageMauve", "rusticCharm", "glacierMist", 
       "autumnHarmony", "industrialChic", "dustyRoseHarmony", "berryBurst", 
       "mistyMorning", "seafoamDream", "sunsetGlow", "desertSage", "moonlitNight", 
-      "sageGarden","dawnHarmony","velvetDesire","graniteWisdom","festiveFlare",
-      "emeraldSerenity","bharatanatyam","bayOfBengal","kanchipuram"
+      "sageGarden","bharatanatyam","bayOfBengal","kanchipuram"
     ]
   },
   gradient: {
@@ -137,7 +137,8 @@ const THEME_CATEGORIES = {
         'kodiIdai',         // கொடி இடை - Creeper-like slim waist
         'sayalIdai',        // சாயல் இடை - Graceful waist
         'pavalanithambam',  // பவள நிதம்பம் - Coral-like hips
-        'ponArai'           // பொன் அரை - Golden waist
+        'ponArai' ,
+        "starryNightDream","vanGoghWheat","sunflowerGlow","irisGarden","midnightWindow","celestialDance","auroraGlow","cosmicWindow","nightSkyReflection"          // பொன் அரை - Golden waist
     ]
   }
 };
@@ -265,6 +266,25 @@ export default function WritingForm() {
 
         {/* Theme */}
         <ThemeSelector formData={formData} setFormField={setFormField} />
+
+
+      {/* Texture Selector */}
+      <div>
+      <label className="block text-sm font-medium mb-2">Texture</label>
+      <select
+        value={formData.textureType}
+        onChange={(e) => setFormField("textureType", e.target.value)}
+        className="w-full p-2 border rounded"
+      >
+        <option value="" disabled>Select a texture</option>
+        {TEXTURES.map((texture) => (
+          <option key={texture} value={texture}>
+            {texture.charAt(0).toUpperCase() + texture.slice(1).replace(/([A-Z])/g, ' $1')}
+          </option>
+        ))}
+      </select>
+    </div>
+      
 
         {/* Effects */}
         <div>
