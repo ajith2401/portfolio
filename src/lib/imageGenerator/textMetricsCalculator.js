@@ -173,6 +173,22 @@ export class TextMetricsCalculator {
       return totalLines;
     }
 
+    static wordCounter(text, category = 'poem') {
+      if (!text) return 0;
+    
+      const maxWordsPerLine = category === 'poem' ? 4 : 8;
+      const lines = text.split('\n').filter(line => line.trim());
+      let totalWords = 0;
+    
+      lines.forEach(line => {
+        const words = line.split(' ').filter(word => word.trim());
+        totalWords += words.length; // Count all words in the line
+      });
+    
+      return totalWords;
+    }
+    
+
     static calculateDynamicTextMetrics(text, category) {
       const lines = text.split('\n').filter(line => line.trim());
       const totalChars = text.length;

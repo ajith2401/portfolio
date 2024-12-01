@@ -1,3 +1,4 @@
+//src/lib/ImageGenerator/textMextrcis.js
 export const TEXT_METRICS = {
     CANVAS_WIDTH: 1200,
     CANVAS_HEIGHT: 1200,
@@ -25,10 +26,10 @@ export const TEXT_METRICS = {
     
     // Dynamic adjustment thresholds - Recalculated for new minimum font size
     LINE_THRESHOLDS: [
-      { lines: 8,  fontSize: 32, lineHeight: 1.8 },  // 1-8 lines: largest font
-      { lines: 15, fontSize: 28, lineHeight: 1.6 },  // 9-15 lines: medium font
-      { lines: 20, fontSize: 26, lineHeight: 1.5 },  // 16-20 lines: smaller font
-      { lines: 28, fontSize: 24, lineHeight: 1.4 }   // 21+ lines: minimum font
+      { lines: 8,  fontSize: 32, lineHeight: 2 },  // 1-8 lines: largest font
+      { lines: 15, fontSize: 28, lineHeight: 2 },  // 9-15 lines: medium font
+      { lines: 20, fontSize: 26, lineHeight: 2 },  // 16-20 lines: smaller font
+      { lines: 28, fontSize: 24, lineHeight: 2 }   // 21+ lines: minimum font
     ],
     
     // Font reduction steps - Adjusted for new range

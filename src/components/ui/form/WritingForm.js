@@ -144,7 +144,9 @@ const THEME_CATEGORIES = {
 };
   
 const TEXT_ALIGN_OPTIONS = ["left", "center", "right"];
-const POSITIONS = ["top-left", "top-right", "bottom-left", "bottom-right"];
+
+// const POSITIONS = ["top-left", "top-right", "bottom-left", "bottom-right"];
+
 
 // Replace the Theme selection section in your form with this:
 const ThemeSelector = ({ formData, setFormField }) => {
@@ -347,7 +349,7 @@ export default function WritingForm() {
                 ))}
               </select>
             </div>
-            <div>
+{  /*   <div>
               <label className="block text-sm mb-1">Position</label>
               <select
                 value={formData.style.position}
@@ -360,7 +362,7 @@ export default function WritingForm() {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */ }
             <div>
               <label className="block text-sm mb-1">Title Size</label>
               <input

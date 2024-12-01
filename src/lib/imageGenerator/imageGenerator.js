@@ -54,11 +54,13 @@ export class ImageGenerationService {
       let processedImage = await NoiseTextureGenerator.createTexturedBackground(width, height, theme, textureType);
       
       const textLineCount = TextMetricsCalculator.lineCounter(text, category);
+      const WordCount = TextMetricsCalculator.wordCounter(text, category);
       const layout = TextMetricsCalculator.calculateMetrics(textLineCount, category, Boolean(title));
       
       // Update layout with text metrics while preserving style overrides
       theme.layout = {
         ...theme.layout,
+        // bodySize: (textLineCount > 10 || WordCount > 35) ? 16 :  style.bodySize || layout.fontSize,
         bodySize: style.bodySize || layout.fontSize,
         lineHeight: style.lineHeight || layout.lineHeight
       };

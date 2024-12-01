@@ -7,7 +7,7 @@ const useWritingStore = create((set) => ({
     body: "யாருமற்ற தனிமையில்\nநான் யாராகவும்\nவாழ முடிவதே\nயாருமற்ற தனிமை\nஎனக்கு தந்த\nயாரும் தர முடியாத\nபெருஞ் சுதந்திரம்.",
     category: 'article',
     themeMode :"gradient",
-    textureType :"waterDrops",
+    textureType :"starrySky",
     theme: 'etherealDream',
     effects: {
       textShadow: true,
@@ -16,11 +16,10 @@ const useWritingStore = create((set) => ({
       backgroundTexture: true
     },
     style: {
-      textAlign: 'right',
-      titleSize: 48,
-      bodySize: 32,
-      lineHeight: 1.6,
-      position: 'top-right'
+      textAlign: 'center',
+      titleSize: 36,
+      bodySize: 24,
+      lineHeight: 2,
     }
   },
   
