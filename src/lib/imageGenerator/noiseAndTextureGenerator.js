@@ -79,9 +79,6 @@ export class NoiseTextureGenerator {
     }
     
     static async createTexturedBackground(width, height, theme,textureType) {
-        console.log('====================================');
-        console.log({textureType});
-        console.log('====================================');
         try {
         theme  = ThemeSetup.validateTheme(theme);(theme);
         const themeInfo = themeKeyMapping.find(t => t.keyName === theme.name) || {
