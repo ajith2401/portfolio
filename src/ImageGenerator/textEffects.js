@@ -1,7 +1,9 @@
 import { Writing } from "@/models";
-import { uploadGeneratedImage } from "../cloudinary";
-import { TamilTextAnalyzer } from "../tamilAnalysis/analyzer";
+import { uploadGeneratedImage } from "@/lib/cloudinary";
+import { TamilTextAnalyzer } from "@/lib/tamilAnalysis/analyzer";
 import imageGenerator from "./imageGenerator";
+import sharp from "sharp";
+import connectDB from "@/lib/db";
 
 export class TextEffects {
   constructor () {
