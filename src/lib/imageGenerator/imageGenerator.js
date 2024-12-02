@@ -1,3 +1,4 @@
+//src/lib/ImageGenerator/imageGenerator.js
 import sharp from 'sharp';
 import { TEXT_METRICS } from './textMextrcis';
 import { TextMetricsCalculator } from './textMetricsCalculator';
