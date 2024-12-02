@@ -1,8 +1,6 @@
 //src/app/api/writings/with-image/route.js
-
 import connectDB from "@/lib/db";
-import { ImageGenerationService } from "../../../../lib/ImageGenerator/imageGenerator";
-
+import { ImageGenerationService } from "@/lib/ImageGenerator/imageGenerator";
 import { NextResponse } from "next/server";
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -283,28 +281,28 @@ export async function POST(request) {
 
 
 // Handle DELETE request to cleanup images if needed
-export async function DELETE(request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
+// export async function DELETE(request) {
+//   try {
+//     const { searchParams } = new URL(request.url);
+//     const id = searchParams.get('id');
 
-    if (!id) {
-      return NextResponse.json(
-        { error: 'Writing ID is required' },
-        { status: 400 }
-      );
-    }
+//     if (!id) {
+//       return NextResponse.json(
+//         { error: 'Writing ID is required' },
+//         { status: 400 }
+//       );
+//     }
 
-    await connectDB();
-    await imageGenerationService.deleteWritingWithImages(id);
+//     await connectDB();
+//     await imageGenerationService.deleteWritingWithImages(id);
 
-    return NextResponse.json({ success: true }, { status: 200 });
+//     return NextResponse.json({ success: true }, { status: 200 });
 
-  } catch (error) {
-    console.error('Error deleting writing and images:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete writing and images' },
-      { status: 500 }
-    );
-  }
-}
+//   } catch (error) {
+//     console.error('Error deleting writing and images:', error);
+//     return NextResponse.json(
+//       { error: 'Failed to delete writing and images' },
+//       { status: 500 }
+//     );
+//   }
+// }
