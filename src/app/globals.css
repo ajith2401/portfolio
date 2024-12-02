@@ -13,7 +13,7 @@
     --font-great-vibes: "Great Vibes", cursive;
     --tw-shadow-colored: 6px 6px 10px rgba(209, 203, 203, 0.3),
     -6px -6px 10px rgba(255, 255, 255, 0.8);
-
+    --logo-color: #1F6490;
     /* Shadow Colors */
     --shadow-light-1: rgba(209, 203, 203, 0.3);
     --shadow-light-2: rgba(255, 255, 255, 0.8);
@@ -75,6 +75,7 @@
     --input-text: #C2C2C2;
     --input-placeholder: #999999;
     --decorative-line-color: #EDEDED;
+    --logo-color: #D5FF06;
     /* Shadow Configurations */
     --shadow-outer: 4px 4px 8px var(--shadow-dark-1),
                    -4px -4px 8px var(--shadow-dark-2);

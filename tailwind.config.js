@@ -20,13 +20,20 @@ module.exports = {
       },
     },
     extend: {
-    fontFamily: {
+      fontFamily :{
         'great-vibes': ['var(--font-great-vibes)', 'cursive'],
-        // Remove duplicate fontFamily definitions
         'inter': ['var(--font-inter)', 'sans-serif'],
         'playfair': ['var(--font-playfair)', 'serif'],
         'geist-sans': ['var(--font-geist-sans)', 'sans-serif'],
         'geist-mono': ['var(--font-geist-mono)', 'monospace'],
+        'merriweather': ['var(--font-merriweather)', 'serif'],
+        'dm-sans': ['var(--font-dm-sans)', 'sans-serif'],
+        'work-sans': ['var(--font-work-sans)', 'sans-serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
+        mono: ['var(--font-mono)', 'monospace'],
+        heading: ['var(--font-heading)', 'serif'],
+        'poppins': ['var(--font-poppins)', 'sans-serif'], 
       },
       // Color palette
       colors: {
@@ -67,20 +74,13 @@ module.exports = {
         }
       },
 
-      // Typography configuration
-      fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-serif)', 'Georgia', 'serif'],
-        mono: ['var(--font-mono)', 'monospace'],
-        heading: ['var(--font-heading)', 'serif'],
-      },
-
       // Font sizes with line heights
       fontSize: {
         // For headings
         'display-1': ['4.5rem', { lineHeight: '1.15', letterSpacing: '-0.02em' }],
         'display-2': ['3.75rem', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
         'display-3': ['3rem', { lineHeight: '1.25', letterSpacing: '-0.02em' }],
+        'custom-56': ['56px', { lineHeight: '72.91px' }],
         // For body text
         'body-lg': ['1.125rem', { lineHeight: '1.75' }],
         'body-base': ['1rem', { lineHeight: '1.75' }],
@@ -128,6 +128,9 @@ module.exports = {
         }],
       },
 
+      lineHeight: {
+        '34': '34px',  // This will create a 'leading-34' class
+      },
       // Spacing scale
       spacing: {
         '4.5': '1.125rem',

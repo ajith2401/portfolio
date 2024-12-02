@@ -4,15 +4,38 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { ThemeToggleAnimated } from '../ui/button/ThemeToggleButton';
 import { Menu, X } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (path) => pathname === path;
+
+  const NavLink = ({ href, children }) => (
+    <Link
+      href={href}
+      className={`relative text-foreground hover:text-primary transition-colors group ${
+        isActive(href) ? 'text-primary' : ''
+      }`}
+    >
+      {children}
+      <span
+        className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full
+        ${isActive(href) ? 'w-full' : ''}`}
+      />
+    </Link>
+  );
 
   return (
     <nav className="w-full py-4 bg-background border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="ajith-logo text-[30px] font-great-vibes text-foreground">
+        <Link 
+          href="/" 
+          style={{ color: 'var(--logo-color)' }}
+          className="flex items-start p-0 w-[200px] h-[30px] font-great-vibes text-logo leading-[30px]"
+        >
           Ajith Kumar
         </Link>
 
@@ -33,46 +56,26 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-8">
           <ul className="flex items-center gap-8 text-lg">
             <li>
-              <Link
-                href="/"
-                className="text-foreground hover:text-primary transition-colors"
-              >
-                Home
-              </Link>
+              <NavLink href="/">Home</NavLink>
             </li>
             <li>
-              <Link
-                href="/devfolio"
-                className="text-foreground hover:text-primary transition-colors"
-              >
-                Devfolio
-              </Link>
+              <NavLink href="/devfolio">Devfolio</NavLink>
             </li>
             <li>
-              <Link
-                href="/quill"
-                className="text-foreground hover:text-primary transition-colors"
-              >
-                Quill
-              </Link>
+              <NavLink href="/quill">Quill</NavLink>
             </li>
             <li>
-              <Link
-                href="/spotlight"
-                className="text-foreground hover:text-primary transition-colors"
-              >
-                Spotlight
-              </Link>
+              <NavLink href="/spotlight">Spotlight</NavLink>
             </li>
             <li>
-            <button className="ml-4 px-6 py-2 rounded-full bg-red-800 text-white hover:bg-red-700 transition-colors">
-            Contact Me
-          </button>
+              <button className="ml-4 px-6 py-2 rounded-full bg-red-800 text-white hover:bg-red-700 transition-colors">
+                Contact Me
+              </button>
             </li>
           </ul>
         </div>
         <div className="hidden md:flex items-center gap-8">
-          <ThemeToggleAnimated/>
+          <ThemeToggleAnimated />
         </div>
       </div>
 
@@ -81,40 +84,16 @@ const Navbar = () => {
         <div className="md:hidden mt-4 px-6">
           <ul className="flex flex-col gap-4 text-lg">
             <li>
-              <Link
-                href="/"
-                className="block text-foreground hover:text-primary transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
+              <NavLink href="/">Home</NavLink>
             </li>
             <li>
-              <Link
-                href="/devfolio"
-                className="block text-foreground hover:text-primary transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Devfolio
-              </Link>
+              <NavLink href="/devfolio">Devfolio</NavLink>
             </li>
             <li>
-              <Link
-                href="/quill"
-                className="block text-foreground hover:text-primary transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Quill
-              </Link>
+              <NavLink href="/quill">Quill</NavLink>
             </li>
             <li>
-              <Link
-                href="/spotlight"
-                className="block text-foreground hover:text-primary transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Spotlight
-              </Link>
+              <NavLink href="/spotlight">Spotlight</NavLink>
             </li>
             <li>
               <button className="w-full px-4 py-2 rounded-full bg-red-800 text-white hover:bg-red-700 transition-colors">
@@ -122,7 +101,7 @@ const Navbar = () => {
               </button>
             </li>
             <li>
-              <ThemeToggleAnimated/>
+              <ThemeToggleAnimated />
             </li>
           </ul>
         </div>

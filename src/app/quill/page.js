@@ -70,6 +70,23 @@ const QuillPage = () => {
     return range;
   };
 
+  const truncateBody = (text) => {
+    if (!text) return '';
+    
+    // Remove special characters and multiple spaces
+    const cleanText = text
+      .replace(/[!,.?":;]/g, '') // Remove special characters
+      .replace(/\n/g, ' ') // Remove newlines
+      .replace(/\s+/g, ' ') // Remove multiple spaces
+      .trim(); // Remove leading/trailing spaces
+  
+    // Get first 5 words
+    const words = cleanText.split(' ').slice(0, 6);
+    
+    // Only add ... if there are more words
+    const hasMoreWords = cleanText.split(' ').length > 5;
+    return `${words.join(' ')}${hasMoreWords ? ' ...' : ''}`;
+  };
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -78,17 +95,16 @@ const QuillPage = () => {
     });
   };
 
-  return (
-    
+  return ( 
     <main className="min-h-screen bg-background">
       {/* Hero Section */}
       <div className="w-full py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h1 className="md:text-5xl font-dm-sans text-custom-56 font-bold text-foreground mb-4">
             A <span className="text-red-600">Canvas</span> for My{' '}
             <span className="text-red-600">Boundless</span> Expressions
           </h1>
-          <p className="text-foreground text-lg">
+          <p className="text-foreground  font-work-sans text-lg">
             This page is my sanctuary for creativity, where emotions take shape and
             individuality finds its voice. Dive in, and explore the unfiltered me.
           </p>
@@ -97,7 +113,7 @@ const QuillPage = () => {
 
       {/* Writings Section */}
       <section className="max-w-7xl mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold text-center text-foreground mb-8">
+        <h2 className="text-2xl font-bold-500 text-center font-poppins text-foreground mb-8">
           Uncover My Writings
         </h2>
         
@@ -135,46 +151,54 @@ const QuillPage = () => {
         {loading ? (
           <div className="text-center py-12">Loading...</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 text-foreground">
             {writings.map((writing) => (
               <Link 
-                  href={`/quill/${writing._id}`} 
-                  key={writing._id}
-                  className="bg-background border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
-                >
-              <div
-                key={writing._id}
-                className="bg-background border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="relative h-48">
+              href={`/quill/${writing._id}`} 
+              key={writing._id}
+              className="w-full md:w-[410.67px]"
+            >
+              <div className="flex flex-col gap-6">
+                {/* Image Container */}
+                <div className="relative w-full h-[231.38px] rounded-lg overflow-hidden">
                   <Image
-                    src={writing.images.medium || categoryImages.default}
+                    src={writing.images?.large || '/placeholder.jpg'}
                     alt={writing.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 410px"
                     className="object-cover"
                     priority={false}
                     quality={75}
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold text-foreground mb-2">
-                    {writing.title}
-                  </h3>
-                  <p className="text-foreground text-sm mb-4 line-clamp-3">
-                    {writing.body}
-                  </p>
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-foreground/60 capitalize px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full">
-                      {writing.category}
-                    </span>
-                    <span className="text-foreground">
-                      {formatDate(writing.createdAt)}
+  
+                {/* Title */}
+                <h3 className="font-work-sans text-lg font-medium leading-[21px]">
+                  {writing.title}
+                </h3>
+               
+              <p className="font-merriweather text-sm text-foreground leading-[21px] mb-4">
+                {truncateBody(writing.body)}
+              </p>
+                {/* Category and Date Container */}
+                <div className="flex justify-between items-center">
+                  {/* Category Tag */}
+                  <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded">
+                    <span className="font-work-sans text-xs font-medium leading-[14px]">
+                      Article
                     </span>
                   </div>
+  
+                  {/* Date */}
+                  <span className="font-work-sans text-xs font-medium leading-[14px]">
+                    {formatDate(writing.createdAt)}
+                  </span>
                 </div>
+  
+                {/* Divider Line */}
+                <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
               </div>
-              </Link>
+            </Link>
             ))}
           </div>
         )}
