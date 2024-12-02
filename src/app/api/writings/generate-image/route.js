@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ImageGenerationService } from '@/lib/ImageGenerator/imageGenerator';
+import { ImageGenerationService } from '../../../../lib/ImageGenerator/imageGenerator';
 import { Writing } from '@/models';
 import connectDB from '@/lib/db';
 
