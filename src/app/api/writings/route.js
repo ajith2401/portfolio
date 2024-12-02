@@ -165,11 +165,3 @@ export async function POST(request) {
     );
   }
 }
-
-// Increase payload size limit for the route
-export const config = {
-  api: {
-    bodyParser: false, // Disable the default body parser
-    sizeLimit: '10mb', // Set maximum request size
-  },
-};
