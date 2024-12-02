@@ -99,18 +99,21 @@ const QuillPage = () => {
   return ( 
     <main className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="w-full py-16 px-4 mb-8">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="md:text-5xl font-dm-sans text-custom-56 font-semibold text-foreground mb-4">
-            A <span className="text-red-600">Canvas</span> for My{' '}
-            <span className="text-red-600">Boundless</span> Expressions
-          </h1>
-          <p className=" w-full max-w-[874px] left-1/2 mx-auto px-4 sm:px-6 
-          text-center font-work-sans text-[22px] leading-[26px] font-normal text-secondary-600">
-            This page is my sanctuary for creativity, where emotions take shape and individuality finds its voice. Dive in, and explore the unfiltered me.
-          </p>
-        </div>
+      <div className="w-full py-8 sm:py-12 lg:py-16 px-4 mb-4 sm:mb-6 lg:mb-8">
+      <div className="max-w-6xl mx-auto text-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-custom-56 font-dm-sans font-semibold text-foreground mb-3 sm:mb-4 lg:mb-6 px-2 sm:px-4">
+          A <span className="text-red-600">Canvas</span> for My{' '}
+          <span className="text-red-600">Boundless</span> Expressions
+        </h1>
+        <p className="w-full max-w-[874px] mx-auto px-4 sm:px-6 lg:px-8 
+           text-center font-work-sans 
+           text-base sm:text-lg lg:text-[22px] 
+           leading-[20px] sm:leading-[24px] lg:leading-[26px] 
+           font-normal text-secondary-600">
+          This page is my sanctuary for creativity, where emotions take shape and individuality finds its voice. Dive in, and explore the unfiltered me.
+        </p>
       </div>
+    </div>
 
       <div className="w-full border-b border-dashed border-[#949494] opacity-50" />
 

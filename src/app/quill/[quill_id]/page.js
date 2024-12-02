@@ -88,9 +88,9 @@ export default function WritingDetailPage({ params }) {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Back Button and Share Section */}
-        <div className="py-4 sm:py-6">
+        <div className="py-4 sm:py-6 md:py-8">
           <Link href="/quill" className="inline-flex items-center text-xs sm:text-sm hover:text-primary">
             <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
             Back
@@ -101,37 +101,34 @@ export default function WritingDetailPage({ params }) {
         <QuillPageHeader writing={writing} />
 
         {/* Decorative Line */}
-        <div className="w-full mx-auto lg:mt-8 sm:-mt-8 mb-8 sm:mb-16">
+        <div className="w-full mx-auto mt-4 md:mt-8 mb-8 sm:mb-12 md:mb-16">
           <DecorativeLine />
         </div>
 
         {/* Content Section */}
-        <div className="w-full max-w-[1064px] mx-auto mb-36 px-4 sm:px-6 lg:px-8 relative font-merriweather text-lg leading-[34px]">
-        <div className="prose prose-lg w-full">
-          {writing.body.split('\n').map((paragraph, index) => (
-            <p 
-              key={index} 
-              className="mb-4 text-foreground font-normal"
-            >
-              {paragraph}
-            </p>
-          ))}
+        <div className="w-full max-w-[1064px] mx-auto mb-16 md:mb-36 px-4 sm:px-6 relative">
+          <div className="prose prose-lg max-w-none">
+            {writing.body.split('\n').map((paragraph, index) => (
+              <p key={index} className="mb-4 text-foreground font-normal font-merriweather text-base sm:text-lg leading-[34px]">
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="w-full border-b border-dashed border-[#949494] opacity-50" />
+        <div className="w-full border-b border-dashed border-[#949494] opacity-50 my-8 md:my-12" />
 
         {/* Reviews Section */}
-        <section className="left-20 mt-36 mb-8 sm:mb-14">
-          <div className="flex justify-between items-center mb-4 sm:mb-8">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold">Words About My Words</h2>
+        <section className="mb-8 md:mb-14 mt-16 md:mt-36">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6 sm:mb-8">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold">Words About My Words</h2>
             <div className="flex gap-2">
               <button className="p-1.5 sm:p-2 rounded-full border border-gray-700">&larr;</button>
               <button className="p-1.5 sm:p-2 rounded-full border border-gray-700">&rarr;</button>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {comments ? comments.slice(0, 3).map((comment, index) => (
               <WordCard
                 key={index}
@@ -139,67 +136,62 @@ export default function WritingDetailPage({ params }) {
                 content={comment.comment}
                 rating={5}
               />
-            )) : " "}
+            )) : null}
           </div>
         </section>
 
-        <RatingForm/>
+        <RatingForm />
 
-        <div className="w-full border-b border-dashed border-[#949494] opacity-50" />
+        <div className="w-full border-b border-dashed border-[#949494] opacity-50 my-8 md:my-12" />
 
         {/* Related Articles */}
-        <section className="left-20 mb-8 sm:mb-16 mt-28">
-          <h2 className="lg:text-5xl sm:text-2xl font-bold mb-4 sm:mb-8">You Might Also Like</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <section className="mb-8 md:mb-16 mt-16 md:mt-28">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">You Might Also Like</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[1, 2, 3].map((_, index) => (
               <Link 
                 href={`/quill/${writing._id}`} 
-                key={writing._id}
-                className="w-full md:w-[410.67px] group"
+                key={index}
+                className="w-full group"
               >
-                <div className="flex flex-col gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
+                <div className="flex flex-col gap-4 sm:gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
                   hover:shadow-[var(--card-hover-shadow)] 
                   hover:translate-y-[var(--card-hover-transform)] 
                   hover:bg-[var(--card-hover-bg)]"
                 >
                   {/* Image Container */}
-                  <div className="relative w-full h-[231.38px] rounded-lg overflow-hidden">
+                  <div className="relative w-full aspect-[16/9] sm:h-[231.38px] rounded-lg overflow-hidden">
                     <Image
                       src={writing.images?.large || '/placeholder.jpg'}
                       alt={writing.title}
                       fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 410px"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                       priority={false}
                       quality={75}
                     />
                   </div>
 
-                  {/* Title */}
-                  <h3 className="font-work-sans text-lg font-medium leading-[21px] transition-colors duration-300 group-hover:text-primary">
+                  <h3 className="font-work-sans text-base sm:text-lg font-medium leading-tight sm:leading-[21px] transition-colors duration-300 group-hover:text-primary">
                     {writing.title}
                   </h3>
                 
-                  <p className="font-merriweather text-sm text-foreground leading-[21px] mb-4">
+                  <p className="font-merriweather text-sm text-foreground leading-relaxed sm:leading-[21px]">
                     {truncateBody(writing.body)}
                   </p>
 
-                  {/* Category and Date Container */}
-                  <div className="flex justify-between items-center">
-                    {/* Category Tag */}
+                  <div className="flex justify-between items-center mt-auto">
                     <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
                       <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
                         {writing.category}
                       </span>
                     </div>
 
-                    {/* Date */}
                     <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
                       {formatDate(writing.createdAt)}
                     </span>
                   </div>
 
-                  {/* Divider Line */}
                   <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
                 </div>
               </Link>

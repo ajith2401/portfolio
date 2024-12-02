@@ -4,6 +4,9 @@ import connectDB from '@/lib/db';
 import { Writing, Comment } from '@/models';
 import { uploadImage } from '@/lib/cloudinary';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   try {
     await connectDB();

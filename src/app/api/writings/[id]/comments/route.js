@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { Writing, Comment } from '@/models';
-
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 export async function GET(request, { params }) {
   try {
     await connectDB();

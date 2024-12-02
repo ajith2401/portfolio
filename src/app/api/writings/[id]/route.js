@@ -3,6 +3,9 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { Writing, Comment } from '@/models';
 import { deleteImage, uploadImage } from '@/lib/cloudinary';
+// New route configuration
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET(request, { params }) {
 try {
