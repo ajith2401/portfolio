@@ -45,29 +45,39 @@ const QuillPage = () => {
   };
 
   const generatePaginationArray = () => {
-    const delta = 2;
+    const delta = 1; // Number of pages to show before and after current page
     const range = [];
-    for (
-      let i = Math.max(2, currentPage - delta);
-      i <= Math.min(totalPages - 1, currentPage + delta);
-      i++
-    ) {
-      range.push(i);
+    const rangeWithDots = [];
+
+    // Always show first page
+    range.push(1);
+
+    for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+      if (i > 1 && i < totalPages) {
+        range.push(i);
+      }
     }
 
-    if (currentPage - delta > 2) {
-      range.unshift('...');
-    }
-    if (currentPage + delta < totalPages - 1) {
-      range.push('...');
-    }
-
-    range.unshift(1);
-    if (totalPages !== 1) {
+    // Always show last page
+    if (totalPages > 1) {
       range.push(totalPages);
     }
 
-    return range;
+    // Add dots and numbers
+    let prev = 0;
+    for (const i of range) {
+      if (prev > 0) {
+        if (i - prev === 2) {
+          rangeWithDots.push(prev + 1);
+        } else if (i - prev !== 1) {
+          rangeWithDots.push('...');
+        }
+      }
+      rangeWithDots.push(i);
+      prev = i;
+    }
+
+    return rangeWithDots;
   };
 
   const truncateBody = (text) => {
