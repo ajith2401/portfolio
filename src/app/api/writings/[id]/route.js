@@ -3,22 +3,8 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { Writing, Comment } from '@/models';
 import { deleteImage, uploadImage } from '@/lib/cloudinary';
-// New route configuration
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-
-export async function GET(request, { params }) {
-try {
-  await connectDB();
-  const writing = await Writing.findById(params.id).populate('comments');
-  if (!writing) {
-    return NextResponse.json({ error: 'Writing not found' }, { status: 404 });
-  }
-  return NextResponse.json(writing);
-} catch (error) {
-  return NextResponse.json({ error: error.message }, { status: 500 });
-}
-}
 
 export async function PUT(request, { params }) {
   try {
@@ -104,6 +90,19 @@ export async function PUT(request, { params }) {
   }
 }
 
+export async function GET(request, { params }) {
+  try {
+    await connectDB();
+    const writing = await Writing.findById(params.id).populate('comments');
+    if (!writing) {
+      return NextResponse.json({ error: 'Writing not found' }, { status: 404 });
+    }
+    return NextResponse.json(writing);
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  }
+
 export async function DELETE(request, { params }) {
   try {
     await connectDB();
@@ -144,11 +143,3 @@ export async function DELETE(request, { params }) {
     );
   }
 }
-
-// Increase payload size limit for the route
-export const config = {
-  api: {
-    bodyParser: false,
-    sizeLimit: '10mb',
-  },
-};
