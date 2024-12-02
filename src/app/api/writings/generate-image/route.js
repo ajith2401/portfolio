@@ -1,8 +1,11 @@
 // src/app/api/writings/generate-image/route.js
 import { NextResponse } from 'next/server';
-import imageGenerationService from '@/lib/imageGeneration/imageGenerationService';
+import { ImageGenerationService } from '@/lib/ImageGenerator/imageGenerator';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+// // Initialize the service
+const imageGenerationService = new ImageGenerationService();
 export async function POST(request) {
   try {
     const { text, writingId } = await request.json();
