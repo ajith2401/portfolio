@@ -215,37 +215,49 @@ const QuillPage = () => {
         )}
 
         {/* Pagination */}
-        <div className="flex justify-center items-center mt-12 gap-2">
-          <button
-            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-            disabled={currentPage === 1}
-            className="p-2 rounded-md border border-gray-300 disabled:opacity-50 text-foreground"
-          >
-            ←
-          </button>
-          
-          {generatePaginationArray().map((page, index) => (
-            <button
-              key={index}
-              onClick={() => typeof page === 'number' && setCurrentPage(page)}
-              className={`px-3 py-1 rounded-md ${
-                currentPage === page
-                  ? 'bg-red-600 text-white'
-                  : 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
-              } ${typeof page !== 'number' ? 'cursor-default' : ''}`}
-            >
-              {page}
-            </button>
-          ))}
+         <div className="flex justify-center items-center mt-8 md:mt-12">
+            <div className="flex items-center gap-1 sm:gap-2 px-2 py-1 rounded-lg bg-background">
+              {/* Previous Button */}
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Previous page"
+              >
+                <span className="text-sm sm:text-base">←</span>
+              </button>
 
-          <button
-            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-            disabled={currentPage === totalPages}
-            className="p-2 rounded-md border border-gray-300 disabled:opacity-50 text-foreground"
-          >
-            →
-          </button>
-        </div>
+              {/* Page Numbers */}
+              <div className="flex items-center gap-1 sm:gap-2">
+                {generatePaginationArray().map((page, index) => (
+                  <button
+                    key={index}
+                    onClick={() => typeof page === 'number' && setCurrentPage(page)}
+                    disabled={typeof page !== 'number'}
+                    className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-md text-sm sm:text-base transition-colors ${
+                      currentPage === page
+                        ? 'bg-red-600 text-white'
+                        : typeof page === 'number'
+                        ? 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
+                        : 'text-gray-500 cursor-default'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Next page"
+              >
+                <span className="text-sm sm:text-base">→</span>
+              </button>
+            </div>
+       </div>
       </section>
     </main>
   );
