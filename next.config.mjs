@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 import path from 'path';
 import { fileURLToPath } from 'url';
-import fs from 'fs';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-console.log('Files in ImageGenerator:', fs.readdirSync(path.join(__dirname, 'src/lib/ImageGenerator')));
+
 const nextConfig = {
   webpack: (config) => {
     config.resolve.alias['@'] = path.resolve(__dirname, 'src');
