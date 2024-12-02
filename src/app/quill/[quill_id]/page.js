@@ -24,6 +24,24 @@ const WordCard = ({ author, content, rating = 5 }) => (
   </div>
 );
 
+const truncateBody = (text) => {
+  if (!text) return '';
+  
+  // Remove special characters and multiple spaces
+  const cleanText = text
+    .replace(/[!,.?":;]/g, '') // Remove special characters
+    .replace(/\n/g, ' ') // Remove newlines
+    .replace(/\s+/g, ' ') // Remove multiple spaces
+    .trim(); // Remove leading/trailing spaces
+
+  // Get first 5 words
+  const words = cleanText.split(' ').slice(0, 3);
+  
+  // Only add ... if there are more words
+  const hasMoreWords = cleanText.split(' ').length > 5;
+  return `${words.join(' ')}${hasMoreWords ? ' ...' : ''}`;
+};
+
 export default function WritingDetailPage({ params }) {
   const [writing, setWriting] = useState(null);
   const [comments, setComments] = useState([]);
@@ -83,25 +101,30 @@ export default function WritingDetailPage({ params }) {
         <QuillPageHeader writing={writing} />
 
         {/* Decorative Line */}
-        <div className="w-full mx-auto -mt-4 sm:-mt-8 mb-8 sm:mb-16">
+        <div className="w-full mx-auto lg:mt-8 sm:-mt-8 mb-8 sm:mb-16">
           <DecorativeLine />
         </div>
 
         {/* Content Section */}
-        <div className="max-w-3xl mb-8 px-4 lg:px-20 sm:mb-16 font-merriweather leading-34">
-          <div className="prose prose-invert prose-sm sm:prose">
-            {writing.body.split('\n').map((paragraph, index) => (
-              <p key={index} className="mb-4 text-xl sm:text-base text-foreground">
-                {paragraph}
-              </p>
-            ))}
-          </div>
+        <div className="w-full max-w-[1064px] mx-auto mb-36 px-4 sm:px-6 lg:px-8 relative font-merriweather text-lg leading-[34px]">
+        <div className="prose prose-lg w-full">
+          {writing.body.split('\n').map((paragraph, index) => (
+            <p 
+              key={index} 
+              className="mb-4 text-foreground font-normal"
+            >
+              {paragraph}
+            </p>
+          ))}
         </div>
+      </div>
+
+      <div className="w-full border-b border-dashed border-[#949494] opacity-50" />
 
         {/* Reviews Section */}
-        <section className="mb-8 sm:mb-16">
+        <section className="left-20 mt-36 mb-8 sm:mb-14">
           <div className="flex justify-between items-center mb-4 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold">Words About My Words</h2>
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold">Words About My Words</h2>
             <div className="flex gap-2">
               <button className="p-1.5 sm:p-2 rounded-full border border-gray-700">&larr;</button>
               <button className="p-1.5 sm:p-2 rounded-full border border-gray-700">&rarr;</button>
@@ -109,42 +132,77 @@ export default function WritingDetailPage({ params }) {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {comments.slice(0, 3).map((comment, index) => (
+            {comments ? comments.slice(0, 3).map((comment, index) => (
               <WordCard
                 key={index}
                 author={comment.name}
                 content={comment.comment}
                 rating={5}
               />
-            ))}
+            )) : " "}
           </div>
         </section>
 
-        <RatingForm />
+        <RatingForm/>
+
+        <div className="w-full border-b border-dashed border-[#949494] opacity-50" />
 
         {/* Related Articles */}
-        <section className="mb-8 sm:mb-16">
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-8">You Might Also Like</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+        <section className="left-20 mb-8 sm:mb-16 mt-28">
+          <h2 className="lg:text-5xl sm:text-2xl font-bold mb-4 sm:mb-8">You Might Also Like</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {[1, 2, 3].map((_, index) => (
-              <div key={index} className="group">
-              <div className="relative aspect-[4/3] w-full">
-              <Image
-                src="/placeholder.jpg"
-                alt="Related article"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover rounded-lg"
-              />
-            </div>
-                <h3 className="text-base sm:text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
-                  Title
-                </h3>
-                <div className="flex justify-between text-xs sm:text-sm text-gray-400">
-                  <span>Article</span>
-                  <span>15 November 2024</span>
+              <Link 
+                href={`/quill/${writing._id}`} 
+                key={writing._id}
+                className="w-full md:w-[410.67px] group"
+              >
+                <div className="flex flex-col gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
+                  hover:shadow-[var(--card-hover-shadow)] 
+                  hover:translate-y-[var(--card-hover-transform)] 
+                  hover:bg-[var(--card-hover-bg)]"
+                >
+                  {/* Image Container */}
+                  <div className="relative w-full h-[231.38px] rounded-lg overflow-hidden">
+                    <Image
+                      src={writing.images?.large || '/placeholder.jpg'}
+                      alt={writing.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 410px"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      priority={false}
+                      quality={75}
+                    />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="font-work-sans text-lg font-medium leading-[21px] transition-colors duration-300 group-hover:text-primary">
+                    {writing.title}
+                  </h3>
+                
+                  <p className="font-merriweather text-sm text-foreground leading-[21px] mb-4">
+                    {truncateBody(writing.body)}
+                  </p>
+
+                  {/* Category and Date Container */}
+                  <div className="flex justify-between items-center">
+                    {/* Category Tag */}
+                    <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
+                      <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
+                        {writing.category}
+                      </span>
+                    </div>
+
+                    {/* Date */}
+                    <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
+                      {formatDate(writing.createdAt)}
+                    </span>
+                  </div>
+
+                  {/* Divider Line */}
+                  <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>

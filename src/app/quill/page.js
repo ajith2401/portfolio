@@ -81,12 +81,13 @@ const QuillPage = () => {
       .trim(); // Remove leading/trailing spaces
   
     // Get first 5 words
-    const words = cleanText.split(' ').slice(0, 6);
+    const words = cleanText.split(' ').slice(0, 3);
     
     // Only add ... if there are more words
     const hasMoreWords = cleanText.split(' ').length > 5;
     return `${words.join(' ')}${hasMoreWords ? ' ...' : ''}`;
   };
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -98,18 +99,20 @@ const QuillPage = () => {
   return ( 
     <main className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="w-full py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="md:text-5xl font-dm-sans text-custom-56 font-bold text-foreground mb-4">
+      <div className="w-full py-16 px-4 mb-8">
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="md:text-5xl font-dm-sans text-custom-56 font-semibold text-foreground mb-4">
             A <span className="text-red-600">Canvas</span> for My{' '}
             <span className="text-red-600">Boundless</span> Expressions
           </h1>
-          <p className="text-foreground  font-work-sans text-lg">
-            This page is my sanctuary for creativity, where emotions take shape and
-            individuality finds its voice. Dive in, and explore the unfiltered me.
+          <p className=" w-full max-w-[874px] left-1/2 mx-auto px-4 sm:px-6 
+          text-center font-work-sans text-[22px] leading-[26px] font-normal text-secondary-600">
+            This page is my sanctuary for creativity, where emotions take shape and individuality finds its voice. Dive in, and explore the unfiltered me.
           </p>
         </div>
       </div>
+
+      <div className="w-full border-b border-dashed border-[#949494] opacity-50" />
 
       {/* Writings Section */}
       <section className="max-w-7xl mx-auto px-4 py-8">
@@ -140,7 +143,7 @@ const QuillPage = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="w-full md:w-64 pl-10 pr-4 py-2 bg-background border border-gray-300 rounded-md text-foreground"
+              className="w-full md:w-64 pl-10 pr-4 py-2 bg-background rounded-md text-gray-400"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -154,51 +157,56 @@ const QuillPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 text-foreground">
             {writings.map((writing) => (
               <Link 
-              href={`/quill/${writing._id}`} 
-              key={writing._id}
-              className="w-full md:w-[410.67px]"
-            >
-              <div className="flex flex-col gap-6">
-                {/* Image Container */}
-                <div className="relative w-full h-[231.38px] rounded-lg overflow-hidden">
-                  <Image
-                    src={writing.images?.large || '/placeholder.jpg'}
-                    alt={writing.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 410px"
-                    className="object-cover"
-                    priority={false}
-                    quality={75}
-                  />
-                </div>
-  
-                {/* Title */}
-                <h3 className="font-work-sans text-lg font-medium leading-[21px]">
-                  {writing.title}
-                </h3>
-               
-              <p className="font-merriweather text-sm text-foreground leading-[21px] mb-4">
-                {truncateBody(writing.body)}
-              </p>
-                {/* Category and Date Container */}
-                <div className="flex justify-between items-center">
-                  {/* Category Tag */}
-                  <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded">
-                    <span className="font-work-sans text-xs font-medium leading-[14px]">
-                      Article
+                href={`/quill/${writing._id}`} 
+                key={writing._id}
+                className="w-full md:w-[410.67px] group"
+              >
+                <div className="flex flex-col gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
+                  hover:shadow-[var(--card-hover-shadow)] 
+                  hover:translate-y-[var(--card-hover-transform)] 
+                  hover:bg-[var(--card-hover-bg)]"
+                >
+                  {/* Image Container */}
+                  <div className="relative w-full h-[231.38px] rounded-lg overflow-hidden">
+                    <Image
+                      src={writing.images?.large || '/placeholder.jpg'}
+                      alt={writing.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 410px"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      priority={false}
+                      quality={75}
+                    />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="font-work-sans text-lg font-medium leading-[21px] transition-colors duration-300 group-hover:text-primary">
+                    {writing.title}
+                  </h3>
+                
+                  <p className="font-merriweather text-sm text-foreground leading-[21px] mb-4">
+                    {truncateBody(writing.body)}
+                  </p>
+
+                  {/* Category and Date Container */}
+                  <div className="flex justify-between items-center">
+                    {/* Category Tag */}
+                    <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
+                      <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
+                        {writing.category}
+                      </span>
+                    </div>
+
+                    {/* Date */}
+                    <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
+                      {formatDate(writing.createdAt)}
                     </span>
                   </div>
-  
-                  {/* Date */}
-                  <span className="font-work-sans text-xs font-medium leading-[14px]">
-                    {formatDate(writing.createdAt)}
-                  </span>
+
+                  {/* Divider Line */}
+                  <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
                 </div>
-  
-                {/* Divider Line */}
-                <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
-              </div>
-            </Link>
+              </Link>
             ))}
           </div>
         )}

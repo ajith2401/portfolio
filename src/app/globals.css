@@ -66,6 +66,9 @@
     --accent: #f59e0b;
     --muted: #f1f5f9;
     --muted-foreground: #64748b;
+    --card-hover-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --card-hover-transform: translateY(-4px);
+    --card-hover-bg: rgba(0, 0, 0, 0.1);
   }
 
   [data-theme='dark'] {
@@ -116,6 +119,9 @@
     --accent: #fbbf24;
     --muted: #1e293b;
     --muted-foreground: #94a3b8;
+    --card-hover-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --card-hover-transform: translateY(-4px);
+    --card-hover-bg: rgba(255, 255, 255, 0.05);
   }
 
   .logo-text {
