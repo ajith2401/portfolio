@@ -135,5 +135,8 @@ export class ImageGenerationService {
     }
   }
 }
+// Create a named instance
+const imageGenerationService = new ImageGenerationService();
 
-export default new ImageGenerationService();
+// Export both the class and the instance
+export default imageGenerationService;

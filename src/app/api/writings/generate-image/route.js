@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
-import { ImageGenerationService } from '@/lib/ImageGenerator/imageGenerator';
+import imageGenerationService from '@/lib/ImageGenerator/imageGenerator'; 
 import { Writing } from '@/models';
 import connectDB from '@/lib/db';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-
-const imageGenerationService = new ImageGenerationService();
 
 export async function POST(request) {
   try {

@@ -1,11 +1,9 @@
 //src/app/api/writings/with-image/route.js
 import connectDB from "@/lib/db";
-import { ImageGenerationService } from '@/lib/ImageGenerator/imageGenerator';
+import imageGenerationService from '@/lib/ImageGenerator/imageGenerator'; 
 import { NextResponse } from "next/server";
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-// // Initialize the service
-const imageGenerationService = new ImageGenerationService();
 
 export async function POST(request) {
   try {
