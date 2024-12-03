@@ -2,7 +2,8 @@ import { create } from 'zustand';
 
 const DEFAULT_CANVAS = {
   width: 1200,
-  height: 1200
+  height: 1200,
+  brandingHeight:150
 };
 
 const DEFAULT_COLORS = {
@@ -29,12 +30,20 @@ const DEFAULT_BRANDING = {
   name: "அஜித்குமார்",
   website: "www.ajithkumar.dev",
   phone: "9944154823",
-  social: "@vaanawill"
+  social: "@vaanawill",
+  font: '"Tamil Sangam MN"',
+  colors: {
+    name: "#FFFFFF",
+    web: "#FFFFFF",
+    phone: "#FFFFFF",
+    social: "#FFFFFF"
+  }
 };
 
 const DEFAULT_POSITION = {
-  title: { x: 600, y: 40 },
-  content: { x: 600, y: 200 }
+  global: { x: 400, y: 400 },
+  title: { x: 400, y: 400 },
+  content: { x: 400, y: 200}
 };
 
 const useWritingStore = create((set, get) => ({
@@ -64,7 +73,14 @@ const useWritingStore = create((set, get) => ({
     colors: { ...DEFAULT_COLORS },
     fonts: { ...DEFAULT_FONTS },
     branding: { ...DEFAULT_BRANDING },
-    position: { ...DEFAULT_POSITION }
+    position: { ...DEFAULT_POSITION },
+    effects: {
+      shadow: {
+        blur: 4,
+        opacity: 0.4,
+        offset: { x: 2, y: 2 }
+      }
+    }
   },
 
   isLoading: false,
