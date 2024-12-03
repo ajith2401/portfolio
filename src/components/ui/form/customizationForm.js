@@ -86,8 +86,8 @@ const PreviewComponent = ({ formData, customSettings }) => {
       textContainerStyle.filter = 'drop-shadow(0 0 10px rgba(255,255,255,0.5))';
     }
 
-          // Content style
-          const contentStyle = {
+        // Content style
+        const contentStyle = {
             position: 'relative',
             fontFamily: fonts.body.family || '"Annai MN"',
             fontSize: `${fonts.body.size || 32}px`,
@@ -96,22 +96,24 @@ const PreviewComponent = ({ formData, customSettings }) => {
             lineHeight: lineHeight || 1.5,
             textAlign: textAlign || 'center',
             transform: position.content ?
-              `translate(${position.content.x}px, ${position.content.y}px)` :
-              'none',
+                `translate(${position.content.x}px, ${position.content.y}px)` :
+                'none',
             transition: 'all 0.3s ease',
             whiteSpace: 'pre-line',
             zIndex: 2
-          };
-
+        };
+console.log('====================================');
+console.log(colors.branding?.background);
+console.log('====================================');
       // Branding style
       const brandingStyle = {
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
-        height: '75px',
-        padding: '10px',
-        backgroundColor: colors.branding?.background || 'transparent',
+        height: '150px',
+        padding: '40px',
+        backgroundColor: colors.branding || 'transparent',
         borderTop: '1px solid rgba(255,255,255,0.1)',
         display: 'flex',
         justifyContent: 'space-between',
