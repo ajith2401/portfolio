@@ -182,7 +182,7 @@ const QuillPage = () => {
                   {/* Image Container */}
                   <div className="relative w-full h-[231.38px] rounded-lg overflow-hidden">
                     <Image
-                      src={writing.images?.large || '/placeholder.jpg'}
+                      src={writing.images?.small || '/placeholder.jpg'}
                       alt={writing.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 410px"

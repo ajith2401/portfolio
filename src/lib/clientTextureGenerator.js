@@ -2,6 +2,8 @@
 // src/lib/clientTextureGenerator.js
 
 export const generateTextureSVG = (type, width, height, options = {}) => {
+  // console.log(options);
+  
   switch (type) {
     case 'starrySky':
       return generateStarrySky(width, height, options);

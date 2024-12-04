@@ -41,9 +41,14 @@ const DEFAULT_BRANDING = {
 };
 
 const DEFAULT_POSITION = {
-  global: { x: 400, y: 400 },
-  title: { x: 400, y: 400 },
-  content: { x: 400, y: 200}
+  global: { x: 0, y: 0 },
+  title: { x: 0, y: 0 },
+  content: { x: 0, y: 0}
+};
+const DEFAULT_GRADIENT = {
+  startColor: "#FF0000",
+  endColor: "#0000FF",
+  angle: 45
 };
 
 const useWritingStore = create((set, get) => ({
@@ -52,6 +57,7 @@ const useWritingStore = create((set, get) => ({
     body: "யாருமற்ற தனிமையில்\nநான் யாராகவும்\nவாழ முடிவதே\nயாருமற்ற தனிமை\nஎனக்கு தந்த\nயாரும் தர முடியாத\nபெருஞ் சுதந்திரம்.",
     category: 'article',
     themeMode: "gradient",
+    isCustomStyles:true,
     textureType: "starrySky",
     theme: 'etherealDream',
     effects: {
@@ -73,6 +79,7 @@ const useWritingStore = create((set, get) => ({
     colors: { ...DEFAULT_COLORS },
     fonts: { ...DEFAULT_FONTS },
     branding: { ...DEFAULT_BRANDING },
+    gradient: { ...DEFAULT_GRADIENT },
     position: { ...DEFAULT_POSITION },
     effects: {
       shadow: {

@@ -1,32 +1,77 @@
 "use client";
-
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { SketchPicker } from "react-color";
 import useWritingStore from "@/store/customStoreForm";
 import { generateTextureSVG } from "@/lib/clientTextureGenerator";
 
-// Custom Preview Component
 const PreviewComponent = ({ formData, customSettings }) => {
-  const getStyles = () => {
-    const { colors, fonts, position } = customSettings;
-    const { textAlign, lineHeight } = formData.style;
-    const { textureType, themeMode } = formData;
-    // Base container style
-    const containerStyle = {
-    width: customSettings.canvas.width || 1200 ,
-    height: customSettings.canvas.height  || 1200 ,
-    backgroundColor: colors.background || '#FFFFFF',
-    position: 'relative',
-    overflow: 'hidden',
-    transition: 'all 0.3s ease'
-    };
-    // Add texture effect if enabled
+    const [scale, setScale] = useState(1);
+    const containerRef = React.useRef(null);
+  
+    useEffect(() => {
+      const updateScale = () => {
+        if (containerRef.current) {
+          const containerWidth = containerRef.current.offsetWidth;
+          const canvasWidth = customSettings.canvas.width;
+          const newScale = containerWidth / canvasWidth;
+          setScale(newScale);
+        }
+      };
+  
+      updateScale();
+      window.addEventListener('resize', updateScale);
+      return () => window.removeEventListener('resize', updateScale);
+    }, [customSettings.canvas.width]);
+  
+    const getStyles = () => {
+      const { colors, fonts, position } = customSettings;
+      const { textAlign, lineHeight } = formData.style;
+      const { textureType, themeMode } = formData;
+  
+      // Outer container style
+      const outerContainerStyle = {
+        width: '100%',
+        height: 0,
+        paddingBottom: `${(customSettings.canvas.height / customSettings.canvas.width) * 100}%`,
+        position: 'relative',
+        overflow: 'hidden'
+      };
+  
+      // Scale container style
+      const scaleContainerStyle = {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: `${100 / scale}%`,
+        height: `${100 / scale}%`,
+        transform: `scale(${scale})`,
+        transformOrigin: '0 0'
+      };
+  
+      // Main container style
+      const containerStyle = {
+        width: '100%',
+        height: '100%',
+        backgroundColor: colors.background,
+        position: 'relative',
+        transition: 'all 0.3s ease'
+      };
+  
+      // Apply gradient if in gradient mode
+      if (themeMode === 'gradient' && formData.gradient) {
+        const { type, angle, colors: gradientColors } = formData.gradient;
+        containerStyle.background = type === 'radial'
+          ? `radial-gradient(circle, ${gradientColors.join(', ')})`
+          : `linear-gradient(${angle}deg, ${gradientColors.join(', ')})`;
+      }
+  
+      // Apply texture if enabled
       if (formData.effects.backgroundTexture) {
         const textureSvg = generateTextureSVG(
           textureType,
-          containerStyle.width ,
-          containerStyle.height 
+          customSettings.canvas.width,
+          customSettings.canvas.height
         );
         
         if (textureSvg) {
@@ -35,297 +80,287 @@ const PreviewComponent = ({ formData, customSettings }) => {
             .replace(/"/g, '%22');
           
           containerStyle.backgroundImage = `url("data:image/svg+xml;charset=utf-8,${encodedSVG}")`;
-        } else {
-          containerStyle.backgroundImage = `url(/textures/${textureType}.png)`;
-        }
-        containerStyle.backgroundBlend = 'multiply';
-        containerStyle.backgroundSize = 'cover';
-        containerStyle.backgroundPosition = 'center';
-      }
-
-      // Add gradient if in gradient mode
-      if (themeMode === 'gradient' && formData.gradient) {
-        const { type, angle, colors: gradientColors = [] } = formData.gradient;
-        if (type === 'radial') {
-          containerStyle.background = `radial-gradient(circle, ${gradientColors.join(', ')})`;
-        } else {
-          containerStyle.background = `linear-gradient(${angle}deg, ${gradientColors.join(', ')})`;
+          containerStyle.backgroundBlendMode = 'multiply';
+          containerStyle.backgroundSize = 'cover';
+          containerStyle.backgroundPosition = 'center';
         }
       }
-
-    // Text container style
-    const textContainerStyle = {
-      padding: '20px',
-      position: 'absolute',
-      top: position.content.y ,
-      left: position.content.x ,
-      transform: 'translate(-50%, -50%)',
-      textAlign,
-      color: colors.text,
-      width: '80%',
-      fontFamily: fonts.body.family,
-      fontSize: `${fonts.body.size }px`,
-      fontWeight: fonts.body.weight ,
-      lineHeight
-    };
-
-    // Title style
-    const titleStyle = {
-      fontFamily: fonts.title.family,
-      fontSize: `${fonts.title.size }px`,
-      fontWeight: fonts.title.weight ,
-      color: colors.title,
-      marginBottom: '10px'
-    };
-
-    // Apply text effects
-    if (formData.effects.textShadow) {
-      textContainerStyle.textShadow = '2px 2px 4px rgba(0,0,0,0.3)';
-    }
-    if (formData.effects.glow) {
-      textContainerStyle.filter = 'drop-shadow(0 0 10px rgba(255,255,255,0.5))';
-    }
-
-        // Content style
-        const contentStyle = {
-            position: 'relative',
-            fontFamily: fonts.body.family || '"Annai MN"',
-            fontSize: `${fonts.body.size || 32}px`,
-            fontWeight: fonts.body.weight || 400,
-            color: colors.text || '#000000',
-            lineHeight: lineHeight || 1.5,
-            textAlign: textAlign || 'center',
-            transform: position.content ?
-                `translate(${position.content.x}px, ${position.content.y}px)` :
-                'none',
-            transition: 'all 0.3s ease',
-            whiteSpace: 'pre-line',
-            zIndex: 2
-        };
-console.log('====================================');
-console.log(colors.branding?.background);
-console.log('====================================');
-      // Branding style
+  
+      // Content wrapper style
+      const contentWrapperStyle = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        width: '80%',
+        transform: `translate(-50%, -50%) translate(${position.global.x}px, ${position.global.y}px)`,
+        textAlign,
+        zIndex: 2
+      };
+  
+      // Title style
+      const titleStyle = {
+        position: 'relative',
+        fontFamily: fonts.title.family,
+        fontSize: `${fonts.title.size}px`,
+        fontWeight: fonts.title.weight,
+        color: colors.title,
+        marginBottom: '10px',
+        transform: `translate(${position.title.x}px, ${position.title.y}px)`,
+        transition: 'all 0.3s ease'
+      };
+  
+      // Content style
+      const contentStyle = {
+        position: 'relative',
+        fontFamily: fonts.body.family,
+        fontSize: `${fonts.body.size}px`,
+        fontWeight: fonts.body.weight,
+        color: colors.text,
+        lineHeight,
+        transform: `translate(${position.content.x}px, ${position.content.y}px)`,
+        transition: 'all 0.3s ease',
+        whiteSpace: 'pre-line'
+      };
+  
+      // Branding section style
       const brandingStyle = {
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
-        height: '150px',
-        padding: '40px',
-        backgroundColor: colors.branding || 'transparent',
+        height: `${customSettings.canvas.brandingHeight}px`,
+        backgroundColor: colors.branding,
         borderTop: '1px solid rgba(255,255,255,0.1)',
+        padding: '20px 40px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        transition: 'all 0.3s ease',
         zIndex: 3
       };
   
-      // Branding element style
-      const brandingElementStyle = (type) => ({
-        fontFamily: customSettings.branding.font || '"Tamil Sangam MN"',
+      // Branding element style generator
+      const getBrandingElementStyle = (type) => ({
+        fontFamily: customSettings.branding.font,
         fontSize: '24px',
         fontWeight: 500,
-        color: customSettings.branding.colors?.[type] || '#FFFFFF',
+        color: customSettings.branding.colors[type],
         transition: 'all 0.3s ease'
       });
   
+      // Effects
+      if (formData.effects.textShadow) {
+        titleStyle.textShadow = '2px 2px 4px rgba(0,0,0,0.3)';
+        contentStyle.textShadow = '2px 2px 4px rgba(0,0,0,0.3)';
+      }
+  
+      if (formData.effects.glow) {
+        contentWrapperStyle.filter = 'drop-shadow(0 0 10px rgba(255,255,255,0.5))';
+      }
+  
       return {
+        outerContainerStyle,
+        scaleContainerStyle,
         containerStyle,
-        textContainerStyle,
+        contentWrapperStyle,
         titleStyle,
         contentStyle,
         brandingStyle,
-        brandingElementStyle
+        getBrandingElementStyle
       };
-
-    
-  };
-
-    
-  const styles = getStyles();
+    };
   
-  // Debug logging
-  console.log('Preview Styles:', {
-    titleColor: styles.titleStyle.color,
-    contentColor: styles.contentStyle.color,
-    backgroundColor: styles.containerStyle.backgroundColor,
-    gradient: formData.themeMode === 'gradient' ? formData.gradient : null
-  });
-
-  return (
-    <div className="preview-container relative" style={styles.containerStyle}>
-      {/* Main Content Container */}
-      <div style={styles.textContainerStyle}>
-        {/* Title */}
-        <h1 style={styles.titleStyle}>
-          {formData.title || 'Your Title Here'}
-        </h1>
-
-        {/* Content */}
-        <div style={styles.contentStyle}>
-          {formData.body || 'Your content here...'}
-        </div>
-      </div>
-
-      {/* Decorative Elements */}
-      {formData.effects.decorativeElements && (
-        <div className="decorative-elements absolute inset-0 pointer-events-none">
-          {/* Add your decorative SVG elements here */}
-        </div>
-      )}
-
-      {/* Branding Section */}
-      <div style={styles.brandingStyle}>
-        <div style={styles.brandingElementStyle('name')}>
-          {customSettings.branding.name || 'Brand Name'}
-        </div>
-        <div style={styles.brandingElementStyle('web')}>
-          {customSettings.branding.website || 'website.com'}
-        </div>
-        <div style={styles.brandingElementStyle('phone')}>
-          {customSettings.branding.phone || '123-456-7890'}
-        </div>
-        <div style={styles.brandingElementStyle('social')}>
-          {customSettings.branding.social || '@social'}
-        </div>
-      </div>
-
-      {/* Optional Overlay for Effects */}
-      {(formData.effects.textShadow || formData.effects.glow) && (
-        <div 
-          className="absolute inset-0 pointer-events-none" 
-          style={{
-            background: 'linear-gradient(rgba(0,0,0,0.02), rgba(0,0,0,0.05))',
-            mixBlendMode: 'multiply',
-            zIndex: 1
-          }}
-        />
-      )}
-    </div>
-  );
-};
-
-const TextPositionControls = ({ position, onChange }) => {
+    const styles = getStyles();
+  
     return (
-      <div className="space-y-4">
-        <h4 className="text-sm font-medium">Text Position</h4>
-        
-        {/* Global Position Controls */}
-        <div className="space-y-2">
-          <label className="block text-sm">Whole Text Block</label>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs">X Offset</label>
-              <input
-                type="number"
-                value={position.global.x}
-                onChange={(e) => onChange({
-                  ...position,
-                  global: { ...position.global, x: parseInt(e.target.value) }
-                })}
-                className="w-full p-2 border rounded"
-                min="-500"
-                max="500"
-              />
+      <div ref={containerRef} style={styles.outerContainerStyle}>
+        <div style={styles.scaleContainerStyle}>
+          <div style={styles.containerStyle}>
+            {/* Main content */}
+            <div style={styles.contentWrapperStyle}>
+              <h1 style={styles.titleStyle}>
+                {formData.title || 'Your Title Here'}
+              </h1>
+              <div style={styles.contentStyle}>
+                {formData.body || 'Your content here...'}
+              </div>
             </div>
-            <div>
-              <label className="block text-xs">Y Offset</label>
-              <input
-                type="number"
-                value={position.global.y}
-                onChange={(e) => onChange({
-                  ...position,
-                  global: { ...position.global, y: parseInt(e.target.value) }
-                })}
-                className="w-full p-2 border rounded"
-                min="-500"
-                max="500"
-              />
-            </div>
-          </div>
-        </div>
   
-        {/* Title Position */}
-        <div className="space-y-2">
-          <label className="block text-sm">Title Position</label>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs">X Position</label>
-              <input
-                type="number"
-                value={position.title.x}
-                onChange={(e) => onChange({
-                  ...position,
-                  title: { ...position.title, x: parseInt(e.target.value) }
-                })}
-                className="w-full p-2 border rounded"
-              />
-            </div>
-            <div>
-              <label className="block text-xs">Y Position</label>
-              <input
-                type="number"
-                value={position.title.y}
-                onChange={(e) => onChange({
-                  ...position,
-                  title: { ...position.title, y: parseInt(e.target.value) }
-                })}
-                className="w-full p-2 border rounded"
-              />
-            </div>
-          </div>
-        </div>
+            {/* Decorative elements */}
+            {formData.effects.decorativeElements && (
+              <div className="absolute inset-0 pointer-events-none">
+                {/* Add your decorative elements here */}
+              </div>
+            )}
   
-        {/* Content Position */}
-        <div className="space-y-2">
-          <label className="block text-sm">Content Position</label>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs">X Position</label>
-              <input
-                type="number"
-                value={position.content.x}
-                onChange={(e) => onChange({
-                  ...position,
-                  content: { ...position.content, x: parseInt(e.target.value) }
-                })}
-                className="w-full p-2 border rounded"
-              />
+            {/* Branding section */}
+            <div style={styles.brandingStyle}>
+              <div style={styles.getBrandingElementStyle('name')}>
+                {customSettings.branding.name}
+              </div>
+              <div style={styles.getBrandingElementStyle('web')}>
+                {customSettings.branding.website}
+              </div>
+              <div style={styles.getBrandingElementStyle('phone')}>
+                {customSettings.branding.phone}
+              </div>
+              <div style={styles.getBrandingElementStyle('social')}>
+                {customSettings.branding.social}
+              </div>
             </div>
-            <div>
-              <label className="block text-xs">Y Position</label>
-              <input
-                type="number"
-                value={position.content.y}
-                onChange={(e) => onChange({
-                  ...position,
-                  content: { ...position.content, y: parseInt(e.target.value) }
-                })}
-                className="w-full p-2 border rounded"
+  
+            {/* Effects overlay */}
+            {(formData.effects.textShadow || formData.effects.glow) && (
+              <div 
+                className="absolute inset-0 pointer-events-none" 
+                style={{
+                  background: 'linear-gradient(rgba(0,0,0,0.02), rgba(0,0,0,0.05))',
+                  mixBlendMode: 'multiply',
+                  zIndex: 1
+                }}
               />
-            </div>
+            )}
           </div>
         </div>
       </div>
     );
   };
+  
+  const TextPositionControls = ({ position, onChange }) => {
+    const handleChange = (type, axis, value) => {
+      const numValue = parseInt(value) || 0;
+      onChange({
+        ...position,
+        [type]: {
+          ...position[type],
+          [axis]: numValue
+        }
+      });
+    };
+  
+    const PositionInput = ({ type, axis, label, value, min = -500, max = 500, step = 10 }) => (
+      <div>
+        <label className="block text-xs">{label}</label>
+        <div className="flex items-center gap-2">
+          <input
+            type="range"
+            value={value}
+            onChange={(e) => handleChange(type, axis, e.target.value)}
+            className="w-full"
+            min={min}
+            max={max}
+            step={step}
+          />
+          <input
+            type="number"
+            value={value}
+            onChange={(e) => handleChange(type, axis, e.target.value)}
+            className="w-20 p-2 border rounded"
+            min={min}
+            max={max}
+            step={step}
+          />
+        </div>
+      </div>
+    );
+  
+    return (
+      <div className="space-y-6">
+        <h4 className="text-sm font-medium">Text Position</h4>
+        
+        {/* Global Position Controls */}
+        <div className="space-y-3">
+          <label className="block text-sm font-medium">Whole Text Block</label>
+          <div className="space-y-4">
+            <PositionInput
+              type="global"
+              axis="x"
+              label="Horizontal Offset"
+              value={position.global.x}
+              min={-300}
+              max={300}
+              step={5}
+            />
+            <PositionInput
+              type="global"
+              axis="y"
+              label="Vertical Offset"
+              value={position.global.y}
+              min={-300}
+              max={300}
+              step={5}
+            />
+          </div>
+        </div>
+  
+        {/* Title Position
+        <div className="space-y-3">
+          <label className="block text-sm font-medium">Title Position</label>
+          <div className="space-y-4">
+            <PositionInput
+              type="title"
+              axis="x"
+              label="Horizontal Position"
+              value={position.title.x}
+              min={-200}
+              max={200}
+              step={5}
+            />
+            <PositionInput
+              type="title"
+              axis="y"
+              label="Vertical Position"
+              value={position.title.y}
+              min={-200}
+              max={200}
+              step={5}
+            />
+          </div>
+        </div>
+  
+
+        <div className="space-y-3">
+          <label className="block text-sm font-medium">Content Position</label>
+          <div className="space-y-4">
+            <PositionInput
+              type="content"
+              axis="x"
+              label="Horizontal Position"
+              value={position.content.x}
+              min={-200}
+              max={200}
+              step={5}
+            />
+            <PositionInput
+              type="content"
+              axis="y"
+              label="Vertical Position"
+              value={position.content.y}
+              min={-200}
+              max={200}
+              step={5}
+            />
+          </div>
+        </div>
+        */}
+      </div>
+    );
+  };
+
   // Initial gradient settings
-  const defaultGradient = {
+const defaultGradient = {
     type: 'linear',
     angle: 45,
     colors: ['#FF512F', '#F09819', '#DD2476'],
     selectedColorIndex: null
   };
 
-
 // Constants
 const CATEGORIES = ['poem', 'article', 'short story', 'philosophy', 'letter'];
 const TEXTURES = [
-  "vintagePaper", "denim", "watercolor", "concrete", "canvas", 
-  "filmGrain", "marble", "rustedMetal", "parchment", "chalkBoard"
-];
+    "vintagePaper", "denim", "watercolor", "concrete", "canvas", 
+    "filmGrain", "marble", "rustedMetal", "parchment", "chalkBoard",
+    "lacePattern", "waterDrops", "flyingBirds", "starrySky"
+  ];
 const TEXT_ALIGN_OPTIONS = ["left", "center", "right"];
 
 const FONT_FAMILIES = [
@@ -336,21 +371,25 @@ const FONT_FAMILIES = [
 ];
 
 const THEME_MODES = {
-  backgroundImage: "Background Image",
   solidColor: "Solid Color",
   gradient: "Gradient"
 };
 
 // Components
-const GradientControls = ({ gradientSettings, onChange }) => {
-    
+const GradientControls = ({ gradientSettings, onChange, formData, setFormField }) => {
+    const handleChange = (newSettings) => {
+      onChange(newSettings);
+      setFormField('gradient', newSettings);
+      setFormField('themeMode', 'gradient');
+    };
+  
     return (
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium">Gradient Type</label>
           <select
             value={gradientSettings.type}
-            onChange={(e) => onChange({ ...gradientSettings, type: e.target.value })}
+            onChange={(e) => handleChange({ ...gradientSettings, type: e.target.value })}
             className="p-2 border rounded"
           >
             <option value="linear">Linear</option>
@@ -358,17 +397,22 @@ const GradientControls = ({ gradientSettings, onChange }) => {
           </select>
         </div>
   
-        <div className="flex items-center justify-between">
-          <label className="text-sm font-medium">Angle</label>
-          <input
-            type="number"
-            value={gradientSettings.angle}
-            onChange={(e) => onChange({ ...gradientSettings, angle: parseInt(e.target.value) })}
-            className="p-2 border rounded w-24"
-            min="0"
-            max="360"
-          />
-        </div>
+        {gradientSettings.type === 'linear' && (
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-medium">Angle</label>
+            <input
+              type="number"
+              value={gradientSettings.angle}
+              onChange={(e) => handleChange({ 
+                ...gradientSettings, 
+                angle: parseInt(e.target.value) 
+              })}
+              className="p-2 border rounded w-24"
+              min="0"
+              max="360"
+            />
+          </div>
+        )}
   
         <div className="space-y-2">
           <label className="block text-sm font-medium">Colors</label>
@@ -377,27 +421,23 @@ const GradientControls = ({ gradientSettings, onChange }) => {
               <div
                 className="w-8 h-8 border rounded cursor-pointer"
                 style={{ backgroundColor: color }}
-                onClick={() => onChange({
-                  ...gradientSettings,
-                  selectedColorIndex: index
-                })}
               />
               <input
-                type="text"
+                type="color"
                 value={color}
                 onChange={(e) => {
                   const newColors = [...gradientSettings.colors];
                   newColors[index] = e.target.value;
-                  onChange({ ...gradientSettings, colors: newColors });
+                  handleChange({ ...gradientSettings, colors: newColors });
                 }}
-                className="p-2 border rounded flex-1"
+                className="flex-1"
               />
-              {index > 1 && (
+              {gradientSettings.colors.length > 2 && (
                 <button
                   type="button"
                   onClick={() => {
                     const newColors = gradientSettings.colors.filter((_, i) => i !== index);
-                    onChange({ ...gradientSettings, colors: newColors });
+                    handleChange({ ...gradientSettings, colors: newColors });
                   }}
                   className="text-red-500 hover:text-red-700"
                 >
@@ -409,7 +449,7 @@ const GradientControls = ({ gradientSettings, onChange }) => {
           {gradientSettings.colors.length < 5 && (
             <button
               type="button"
-              onClick={() => onChange({
+              onClick={() => handleChange({
                 ...gradientSettings,
                 colors: [...gradientSettings.colors, '#FFFFFF']
               })}
@@ -544,6 +584,9 @@ export default function CustomizationForm() {
     };
 
     try {
+        console.log('====================================');
+        console.log({submissionData});
+        console.log('====================================');
       const writing = await createWriting(submissionData);
       router.push(`/quill/${writing._id}`);
     } catch (error) {
@@ -599,40 +642,30 @@ export default function CustomizationForm() {
             </div>
           </div>
 
-          {/* Theme Mode Selection */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium">Theme Mode</h3>
-            <select
-              value={formData.themeMode}
-              onChange={(e) => setFormField("themeMode", e.target.value)}
-              className="w-full p-2 border rounded"
-            >
-              {Object.entries(THEME_MODES).map(([value, label]) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-            </select>
-          </div>
 
-                      {/* Theme Mode and Gradient Settings */}
-                      <div className="space-y-4">
-                      <h3 className="text-lg font-medium">Theme Mode</h3>
-                      <select
-                        value={formData.themeMode}
-                        onChange={(e) => setFormField("themeMode", e.target.value)}
-                        className="w-full p-2 border rounded"
-                      >
-                        {Object.entries(THEME_MODES).map(([value, label]) => (
-                          <option key={value} value={value}>{label}</option>
-                        ))}
-                      </select>
-        
-                      {formData.themeMode === 'gradient' && (
-                        <GradientControls
-                          gradientSettings={gradientSettings}
-                          onChange={setGradientSettings}
-                        />
-                      )}
-                    </div>
+
+        {/* Theme Mode and Gradient Settings */}
+        <div className="space-y-4">
+                <h3 className="text-lg font-medium">Theme Mode</h3>
+                <select
+                value={formData.themeMode}
+                onChange={(e) => setFormField("themeMode", e.target.value)}
+                className="w-full p-2 border rounded"
+                >
+                {Object.entries(THEME_MODES).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                ))}
+                </select>
+
+                {formData.themeMode === 'gradient' && (
+                    <GradientControls
+                    gradientSettings={gradientSettings}
+                    onChange={setGradientSettings}
+                    formData={formData}
+                    setFormField={setFormField}
+                  />
+                )}
+        </div>
 
           {/* Texture Selection */}
           <div className="space-y-4">
