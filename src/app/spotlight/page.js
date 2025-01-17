@@ -1,11 +1,222 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { ExternalLink, Book, Music, Video, ChevronRight } from 'lucide-react';
 
-const Spotlight = () => {
+const publications = [
+  {
+    id: 1,
+    title: "அன்புடையவளுக்கும் அன்புக்குரியவளுக்கும்",
+    publisher: "விஜய பதிப்பகம்",
+    year: "2017",
+    price: "100",
+    image: "/api/placeholder/300/400",
+    description: "A collection of poems exploring themes of love and feminism"
+  },
+  {
+    id: 2,
+    title: "சிப்பிக்குள் சிந்தா மழை",
+    publisher: "கரங்கள் பதிப்பகம்",
+    price: "100",
+    image: "/api/placeholder/300/400",
+    description: "Poetry that delves into social justice and equality"
+  },
+  {
+    id: 3,
+    title: "ஒரு பைத்தியக்காரனின் டைரிக் குறிப்புகள்",
+    publisher: "நாடோடி பதிப்பகம்",
+    price: "150",
+    image: "/api/placeholder/300/400",
+    description: "A unique perspective on life through poetry"
+  },
+  {
+    id: 4,
+    title: "முற்றிய பிரியத்தின் வற்றாத துளி",
+    publisher: "கரங்கள் பதிப்பகம்",
+    price: "50",
+    image: "/api/placeholder/300/400",
+    description: "Exploring the depths of human emotions"
+  },
+  {
+    id: 5,
+    title: "ஆண்டெனா மீதமர்ந்த காக்கை",
+    publisher: "மகிழினி பதிப்பகம்",
+    price: "120",
+    image: "/api/placeholder/300/400",
+    description: "Contemporary poetry with a modern perspective"
+  }
+];
+
+const musicVideos = [
+  {
+    title: "நாளும் புதிது",
+    link: "https://youtu.be/CC_1fzAUmUc",
+    thumbnail: "/api/placeholder/300/200"
+  },
+  {
+    title: "தாலாட்டு",
+    link: "https://youtu.be/3YlqopnlVXA",
+    thumbnail: "/api/placeholder/300/200"
+  },
+  {
+    title: "அன்பின் கீர்த்தனை",
+    link: "https://youtu.be/TWW-VgZMrYs",
+    thumbnail: "/api/placeholder/300/200"
+  },
+  {
+    title: "காட்டுச் சிறுக்கி",
+    link: "https://youtu.be/zGxt7DU9Sl4",
+    thumbnail: "/api/placeholder/300/200"
+  }
+];
+
+const SpotlightPage = () => {
+  const [selectedBook, setSelectedBook] = useState(null);
+
   return (
-    <div>
-    Spotlight
-    </div>
-  )
-}
+    <main className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative h-96 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-primary-800/90">
+          <div className="absolute inset-0 bg-[url('/api/placeholder/1920/600')] mix-blend-overlay opacity-30"></div>
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+              Creative <span className="text-primary-400">Spotlight</span>
+            </h1>
+            <p className="text-lg md:text-xl text-white/90">
+              Exploring themes of feminism, social justice, and love through poetry, music, and visual arts.
+            </p>
+          </div>
+        </div>
+      </section>
 
-export default Spotlight;
+      {/* Publications Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-4 mb-12">
+            <Book className="w-8 h-8 text-primary-500" />
+            <h2 className="text-3xl font-bold text-foreground">Publications</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {publications.map((book) => (
+              <article 
+                key={book.id}
+                className="group glass-container p-6 rounded-xl hover:shadow-lg transition-all duration-300
+                  hover:translate-y-[-4px] cursor-pointer"
+                onClick={() => setSelectedBook(book)}
+              >
+                <div className="relative h-80 mb-6 overflow-hidden rounded-lg">
+                  <Image
+                    src={book.image}
+                    alt={book.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <p className="text-white text-sm">Click to view details</p>
+                    </div>
+                  </div>
+                </div>
+
+                <h3 className="text-xl font-semibold text-foreground mb-2 line-clamp-2">
+                  {book.title}
+                </h3>
+                <div className="space-y-2 text-secondary-600">
+                  <p><span className="font-medium">Publisher:</span> {book.publisher}</p>
+                  <p><span className="font-medium">Price:</span> ₹{book.price}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Music & Videos Section */}
+      <section className="py-16 px-4 bg-secondary-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-4 mb-12">
+            <Music className="w-8 h-8 text-primary-500" />
+            <h2 className="text-3xl font-bold text-foreground">Lyrics & Direction</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {musicVideos.map((video, index) => (
+              <a
+                key={index}
+                href={video.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative overflow-hidden rounded-xl aspect-video glass-container"
+              >
+                <Image
+                  src={video.thumbnail}
+                  alt={video.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent 
+                  flex items-end p-4">
+                  <div className="w-full">
+                    <h3 className="text-white font-medium mb-2">{video.title}</h3>
+                    <div className="flex items-center text-primary-400 text-sm">
+                      <span>Watch on YouTube</span>
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Book Details Modal */}
+      {selectedBook && (
+        <div 
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedBook(null)}
+        >
+          <div 
+            className="glass-container rounded-xl max-w-4xl w-full p-6 md:p-8"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="relative h-96 rounded-lg overflow-hidden">
+                <Image
+                  src={selectedBook.image}
+                  alt={selectedBook.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-foreground mb-4">
+                  {selectedBook.title}
+                </h3>
+                <div className="space-y-4 text-secondary-600">
+                  <p><span className="font-medium">Publisher:</span> {selectedBook.publisher}</p>
+                  <p><span className="font-medium">Price:</span> ₹{selectedBook.price}</p>
+                  <p><span className="font-medium">Description:</span></p>
+                  <p>{selectedBook.description}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedBook(null)}
+                  className="mt-8 px-6 py-2 bg-primary-500 text-white rounded-lg 
+                    hover:bg-primary-600 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
+  );
+};
+
+export default SpotlightPage;
