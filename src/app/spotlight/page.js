@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { ExternalLink, Book, Music, Video, ChevronRight } from 'lucide-react';
+import { ExternalLink, Book, Music, Video, ChevronRight, ShoppingCart } from 'lucide-react';
 
 const publications = [
   {
@@ -11,7 +11,8 @@ const publications = [
     year: "2017",
     price: "100",
     image: "/api/placeholder/300/400",
-    description: "A collection of poems exploring themes of love and feminism"
+    description: "A collection of poems exploring themes of love and feminism",
+    purchaseLinks: null
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ const publications = [
     publisher: "கரங்கள் பதிப்பகம்",
     price: "100",
     image: "/api/placeholder/300/400",
-    description: "Poetry that delves into social justice and equality"
+    description: "Poetry that delves into social justice and equality",
+    purchaseLinks: null
   },
   {
     id: 3,
@@ -27,7 +29,10 @@ const publications = [
     publisher: "நாடோடி பதிப்பகம்",
     price: "150",
     image: "/api/placeholder/300/400",
-    description: "A unique perspective on life through poetry"
+    description: "A unique perspective on life through poetry",
+    purchaseLinks: [
+      { name: "Panuval", url: "https://www.panuval.com/oru-paithiyakkaranin-dairy-kurippukal-10026753" },
+    ]
   },
   {
     id: 4,
@@ -35,7 +40,8 @@ const publications = [
     publisher: "கரங்கள் பதிப்பகம்",
     price: "50",
     image: "/api/placeholder/300/400",
-    description: "Exploring the depths of human emotions"
+    description: "Exploring the depths of human emotions",
+    purchaseLinks: null
   },
   {
     id: 5,
@@ -43,7 +49,11 @@ const publications = [
     publisher: "மகிழினி பதிப்பகம்",
     price: "120",
     image: "/api/placeholder/300/400",
-    description: "Contemporary poetry with a modern perspective"
+    description: "Contemporary poetry with a modern perspective",
+    purchaseLinks: [
+      { name: "Amazon", url: "https://www.amazon.in/Antenna-Meedhamarndha-Kakkai-Vaanawill/dp/B0DCZVKSFZ" },
+      { name: "Books Grub", url: "https://booksgrub.com/product/antenna-meedhamarndha-kakkai" }
+    ]
   }
 ];
 
@@ -82,10 +92,10 @@ const SpotlightPage = () => {
         </div>
         <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-custom-56 font-dm-sans font-semibold text-foreground mb-3 sm:mb-4 lg:mb-6 px-2 sm:px-4">
               Creative <span className="text-primary-400">Spotlight</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/90">
+            <p className="text-lg md:text-xl text-secondary-600">
               Exploring themes of feminism, social justice, and love through poetry, music, and visual arts.
             </p>
           </div>
@@ -203,6 +213,32 @@ const SpotlightPage = () => {
                   <p><span className="font-medium">Description:</span></p>
                   <p>{selectedBook.description}</p>
                 </div>
+
+                {selectedBook.purchaseLinks && selectedBook.purchaseLinks.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-secondary-200">
+                    <p className="text-sm font-medium text-secondary-600 mb-2">
+                      Available at:
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedBook.purchaseLinks.map((link, index) => (
+                        <a
+                          key={index}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 
+                            bg-primary-50 text-primary-600 rounded-full
+                            hover:bg-primary-100 transition-colors text-sm"
+                        >
+                          <ShoppingCart className="w-4 h-4" />
+                          {link.name}
+                          <ExternalLink className="w-3 h-3 ml-1" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <button
                   onClick={() => setSelectedBook(null)}
                   className="mt-8 px-6 py-2 bg-primary-500 text-white rounded-lg 
