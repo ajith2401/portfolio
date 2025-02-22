@@ -62,6 +62,9 @@ const Navbar = () => {
               <NavLink href="/devfolio">Devfolio</NavLink>
             </li>
             <li>
+            <NavLink href="/techblog">Tech Blog</NavLink>
+          </li>
+            <li>
               <NavLink href="/quill">Quill</NavLink>
             </li>
             <li>
@@ -88,6 +91,9 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink href="/devfolio">Devfolio</NavLink>
+            </li>
+            <li>
+              <NavLink href="/techblog">Tech Blog</NavLink>
             </li>
             <li>
               <NavLink href="/quill">Quill</NavLink>

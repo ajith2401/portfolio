@@ -6,7 +6,7 @@ import { Great_Vibes, Inter, Playfair_Display ,Merriweather, DM_Sans, Work_Sans,
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BackgroundVectors from "@/components/layout/BackgroundVectors";
-import Hero from "./home/Hero";
+
 
 // Initialize the fonts
 const merriweather = Merriweather({
