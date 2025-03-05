@@ -126,7 +126,7 @@ export const metadata = {
     }
   },
 verification: {
-  google: "ffpfIbA-LsiuIJAI_nAWzLI5TZ_o4jAQoyiMG-2CC1Po",
+  google: "ZQmUyyc_YFdaL87F16F0RyC5i2dRIYENA478ZwUSZx4",
   yandex: "your-yandex-verification-code"  // Replace with your actual Yandex code if you have one
 }
 };
