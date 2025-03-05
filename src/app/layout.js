@@ -67,9 +67,69 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+// src/app/layout.js
 export const metadata = {
-  title: "Ajithkumar",
-  description: "Ajithkumar's portfolio",
+  metadataBase: new URL('https://ajithkumar.com'), // Replace with your actual domain
+  title: {
+    default: "Ajithkumar | Poet, Writer & Lyricist",
+    template: "%s | Ajithkumar"
+  },
+  description: "Poet, writer, and lyricist exploring themes of feminism, social justice, and human emotions through Tamil poetry and creative works.",
+  keywords: ["Tamil poetry", "Tamil writer", "Indian poet", "feminist poetry", "social justice poetry", "Tamil literature"],
+  authors: [{ name: "Ajithkumar" }],
+  creator: "Ajithkumar",
+  publisher: "Ajithkumar",
+  alternates: {
+    canonical: "/"
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png' },
+    ],
+  },
+  openGraph: {
+    title: "Ajithkumar | Poet, Writer & Lyricist",
+    description: "Explore the poetic works, writings, and creative projects of Ajithkumar - Tamil poet, writer and lyricist.",
+    url: "https://ajithkumar.com",
+    siteName: "Ajithkumar Portfolio",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Ajithkumar - Poet, Writer & Lyricist"
+      }
+    ],
+    locale: "en_US",
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ajithkumar | Poet, Writer & Lyricist",
+    description: "Explore the poetic works, writings, and creative projects of Ajithkumar.",
+    images: ["/twitter-image.jpg"], // Create a specific Twitter image (1200x628px)
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1
+    }
+  },
+  verification: {
+    // Add verification codes if you have them
+    google: "google-site-verification-code",
+    yandex: "yandex-verification-code"
+  }
 };
 
 export default function RootLayout({ children }) {
