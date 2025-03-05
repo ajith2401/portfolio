@@ -125,11 +125,10 @@ export const metadata = {
       'max-video-preview': -1
     }
   },
-  verification: {
-    // Add verification codes if you have them
-    google: "google-site-verification-code",
-    yandex: "yandex-verification-code"
-  }
+verification: {
+  google: "ffpfIbA-LsiuIJAI_nAWzLI5TZ_o4jAQoyiMG-2CC1Po",
+  yandex: "your-yandex-verification-code"  // Replace with your actual Yandex code if you have one
+}
 };
 
 export default function RootLayout({ children }) {
