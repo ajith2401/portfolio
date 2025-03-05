@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useWritingStore from "@/store/seWritingStore.js";
+import Image from "next/image";
 
 
 // Constants for form options
@@ -419,9 +420,18 @@ export default function WritingForm() {
       {/* Preview */}
       {preview && (
         <div className="mt-8">
-          <h3 className="text-lg text-foreground  font-medium mb-4">Preview</h3>
-          <div className="border text-foreground  rounded p-4">
-            <img src={preview} alt="Preview" className="max-w-full text-foreground" />
+          <h3 className="text-lg text-foreground font-medium mb-4">Preview</h3>
+          <div className="border text-foreground rounded p-4">
+            <div className="relative w-full" style={{ height: 'auto', aspectRatio: '16/9' }}>
+              <Image 
+                src={preview} 
+                alt="Preview" 
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-contain"
+                priority={false}
+              />
+            </div>
           </div>
         </div>
       )}

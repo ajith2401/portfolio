@@ -153,4 +153,5 @@ export class TextEffects {
     
 }
 
-export default new TextEffects()
+const textEffectsInstance = new TextEffects();
+export default textEffectsInstance;

@@ -133,4 +133,5 @@ export class TamilTextAnalyzer {
   }
 }
 
-export default new TamilTextAnalyzer();
+const analyzerInstance = new TamilTextAnalyzer();
+export default analyzerInstance;

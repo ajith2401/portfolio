@@ -103,4 +103,5 @@ export class GradientManager {
 
 }
 
-export default new GradientManager();
+const managerInstance = new GradientManager();
+export default managerInstance;

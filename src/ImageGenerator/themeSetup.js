@@ -261,4 +261,5 @@ class ThemeSetup {
   }
 }
 
-export default new ThemeSetup();
+const themeSetupInstance = new ThemeSetup();
+export default themeSetupInstance;

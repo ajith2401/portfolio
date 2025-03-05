@@ -91,4 +91,5 @@ export class BrandingGenerator {
 
 }
 
-export default new BrandingGenerator();
+const brandingGeneratorInstance = new BrandingGenerator();
+export default brandingGeneratorInstance;

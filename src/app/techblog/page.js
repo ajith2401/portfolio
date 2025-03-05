@@ -159,7 +159,7 @@ export default function TechBlogPage() {
           <div className="text-center py-16">
             <h3 className="text-xl font-semibold mb-2">No posts found</h3>
             <p className="text-gray-600">
-              Try adjusting your search or filter to find what you're looking for.
+              Try adjusting your search or filter to find what you&apos;re looking for.
             </p>
           </div>
         )}

@@ -185,4 +185,5 @@ export class SvgGenerator {
      }
 }
 
-export default new SvgGenerator();
+const svgGeneratorInstance = new SvgGenerator();
+export default svgGeneratorInstance;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search } from 'lucide-react';
@@ -26,11 +26,7 @@ const QuillPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Writings');
 
-  useEffect(() => {
-    fetchWritings();
-  }, [currentPage, selectedCategory]);
-
-  const fetchWritings = async () => {
+  const fetchWritings = useCallback(async () => {
     try {
       const categoryParam = selectedCategory !== 'All Writings' ? `&category=${selectedCategory.toLowerCase()}` : '';
       const response = await fetch(`/api/writings?page=${currentPage}${categoryParam}`);
@@ -42,7 +38,12 @@ const QuillPage = () => {
       console.error('Error fetching writings:', error);
       setLoading(false);
     }
-  };
+  }, [currentPage, selectedCategory]); // Add dependencies here
+
+  useEffect(() => {
+    fetchWritings();
+  }, [fetchWritings]);
+  
 
   const generatePaginationArray = () => {
     const delta = 1; // Number of pages to show before and after current page

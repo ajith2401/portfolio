@@ -1,7 +1,8 @@
 import sharp from 'sharp';
-import { NoiseTextureGenerator } from './noiseAndTextureGenerator';
+// import generatorInstance from './noiseAndTextureGenerator';
 import { TextEffects } from './textEffects';
 import { uploadGeneratedImage } from '@/lib/cloudinary';
+import generatorInstance from './noiseAndTextureGenerator';
 
 export class CustomImageGenerationService {
   generateBrandingSvg(width, height, branding, colors) {
@@ -133,7 +134,7 @@ ${textElements}
       } = options;
 
       // Create base image
-      let processedImage = await NoiseTextureGenerator.createCustomTexturedBackground(
+      let processedImage = await generatorInstance.createCustomTexturedBackground(
         width,
         height,
         { theme, themeMode, effects, customSettings },
@@ -248,4 +249,5 @@ ${textElements}
   }
 }
 
-export default new CustomImageGenerationService();
+const serviceInstance = new CustomImageGenerationService();
+export default serviceInstance;

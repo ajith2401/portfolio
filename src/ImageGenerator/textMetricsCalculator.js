@@ -345,4 +345,5 @@ export class TextMetricsCalculator {
 
   }
 
-export default new TextMetricsCalculator();
+  const textMetricsCalculatorInstance = new TextMetricsCalculator();
+  export default textMetricsCalculatorInstance;

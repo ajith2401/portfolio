@@ -232,4 +232,5 @@ export class NoiseTextureGenerator {
   
 }
 
-export default new NoiseTextureGenerator()
+const generatorInstance = new NoiseTextureGenerator();
+export default generatorInstance;
