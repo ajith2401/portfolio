@@ -17,7 +17,7 @@ const projects = [
     • Built an admin dashboard for scheme management and analytics
     • Implemented secure user authentication and data protection measures
     • Achieved 95% accuracy in scheme recommendations`,
-    image: "/api/placeholder/400/300",
+    image: "https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741200667/devfolio/woxbsuhep9cxv8ytzzr7.jpg",
     category: "AI/ML",
     stack: ["Python", "Flask", "React", "MongoDB", "NLP"],
     achievement: "₹1 lakh prize winner",
@@ -57,7 +57,7 @@ const projects = [
     • Daily verse notifications with explanations
     • Integration with Telegram for easy access
     • Multilingual support for broader reach`,
-    image: "/api/placeholder/400/300",
+    image: "https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741201007/devfolio/i3t0920clpcgnuivugz2.jpg",
     category: "NLP",
     stack: ["Node.js", "MongoDB", "Python", "NLP", "Telegram API"],
     achievement: "1000+ daily active users",
@@ -97,7 +97,7 @@ const projects = [
     • Prescription renewal requests
     • Medical record access
     • Appointment reminders and follow-ups`,
-    image: "/api/placeholder/400/300",
+    image: "https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741200546/devfolio/imp1o2apzgzrz4ryysjq.png",
     category: "Healthcare",
     stack: ["Python", "Flask", "MongoDB", "WhatsApp API", "JWT"],
     achievement: "40% reduction in manual work",
@@ -137,7 +137,7 @@ const projects = [
     • Media upload and management
     • Interactive cooking guides
     • Community features and discussions`,
-    image: "/api/placeholder/400/300",
+    image: "https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741200526/devfolio/prn0r3tfqgspfqeqmvo4.jpg",
     category: "Web Apps",
     stack: ["React", "Node.js", "MongoDB", "Socket.io", "AWS"],
     achievement: "5K+ active users",

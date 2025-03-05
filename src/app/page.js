@@ -61,7 +61,7 @@ const Hero = () => {
                 Core Technologies
               </h3>
               <div className="flex flex-wrap gap-3">
-                {['JavaScript', 'React.js', 'Next.js', 'Python', 'Flask', 'Node.js'].map((tech) => (
+                {['JavaScript', 'React.js', 'Next.js', 'Python', 'Flask', 'Node.js','Express.js', 'MongoDB','SQL'].map((tech) => (
                   <span 
                     key={tech}
                     className="glass-container px-4 py-2 rounded-full text-sm text-secondary-600 dark:text-secondary-400"

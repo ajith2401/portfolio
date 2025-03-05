@@ -42,10 +42,10 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="mailto:contact@example.com"
+                  href="mailto:ajith24ram@gmail.com"
                   className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                 >
-                  contact@example.com
+                  ajith24ram@gmail.com
                 </a>
               </li>
             </ul>
