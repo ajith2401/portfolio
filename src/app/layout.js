@@ -35,6 +35,7 @@ const workSans = Work_Sans({
   variable: '--font-work-sans',
   display: 'swap',
 });
+
 const greatVibes = Great_Vibes({
   subsets: ['latin'],
   weight: '400',
