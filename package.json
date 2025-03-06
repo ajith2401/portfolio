@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.64",
+    "@vercel/og": "^0.6.5",
     "@vercel/speed-insights": "^1.2.0",
     "cloudinary": "^2.5.1",
     "html-to-image": "^1.11.11",
