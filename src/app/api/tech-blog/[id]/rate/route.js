@@ -1,3 +1,4 @@
+// src/app/api/tech-blog/[id]/rate/route.js
 import connectDB from "@/lib/db";
 import { TechBlog } from "@/models";
 import { NextResponse } from "next/server";

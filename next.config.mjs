@@ -21,7 +21,13 @@ const nextConfig = {
         protocol: 'https',
         hostname: '64.media.tumblr.com',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        pathname: '/**',
+      },
+     
     ],
   },
   experimental: {

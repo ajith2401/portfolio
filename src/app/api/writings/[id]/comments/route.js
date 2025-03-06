@@ -1,3 +1,4 @@
+// src/app/api/writings/[id]/comments/route.js
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { Writing, Comment } from '@/models';

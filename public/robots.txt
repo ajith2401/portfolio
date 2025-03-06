@@ -1,4 +1,13 @@
+# public/robots.txt
 User-agent: *
 Allow: /
 
-Sitemap: https://ajithkumar.com/sitemap.xml
+# Optimize crawl budget
+Disallow: /api/
+Disallow: /_next/static/
+
+# Sitemaps
+Sitemap: https://www.ajithkumarr.com/sitemap.xml
+
+# Crawl delay for bots to avoid server overload
+Crawl-delay: 1
