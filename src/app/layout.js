@@ -91,19 +91,28 @@ export const metadata = {
       { url: '/apple-touch-icon.png' },
     ],
   },
-  openGraph: {
-    title: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
-    description: "Explore the creative projects, poetic works, and writings of Ajithkumar - Tamil poet, writer and lyricist.",
-    url: "https://ajithkumar.com",
-    siteName: "Ajithkumar Portfolio",
-    locale: "en_US",
-    type: "website"
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
-    description: "Explore the creative projects, poetic works and writings of Ajithkumar.",
-  },
+openGraph: {
+  title: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
+  description: "Explore the creative projects, poetic works, and writings of Ajithkumar - Tamil poet, writer and lyricist.",
+  url: "https://ajithkumar.com",
+  siteName: "Ajithkumar Portfolio",
+  images: [
+    {
+      url: "/opengraph-image.jpg", // This points to your public/opengraph-image.jpg
+      width: 1200,
+      height: 630,
+      alt: "Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist"
+    }
+  ],
+  locale: "en_US",
+  type: "website"
+},
+twitter: {
+  card: "summary_large_image",
+  title: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
+  description: "Explore the creative projects, poetic works and writings of Ajithkumar.",
+  images: ["/twitter-image.jpg"], // This points to your public/twitter-image.jpg
+},
   robots: {
     index: true,
     follow: true,
