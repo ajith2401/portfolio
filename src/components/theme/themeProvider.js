@@ -1,4 +1,3 @@
-// src/components/theme/themeProvider.js
 'use client';
 
 import { createContext, useEffect, useState } from 'react';
@@ -9,19 +8,44 @@ export const ThemeContext = createContext({
 });
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
+  const [mounted, setMounted] = useState(false);
 
+  // Initialize theme from localStorage or system preference
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    setMounted(true);
+    
+    // Get saved theme or use system preference
+    const savedTheme = localStorage.getItem('theme');
+    
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else {
+      // Check system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
   }, []);
 
+  // Apply theme changes to DOM
+  useEffect(() => {
+    if (!mounted) return;
+    
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    
+    // Add/remove class for animation transitions
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+    } else {
+      document.documentElement.classList.add('light-mode');
+      document.documentElement.classList.remove('dark-mode');
+    }
+  }, [theme, mounted]);
+
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
   };
 
   return (

@@ -5,8 +5,8 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  // Enable dark mode using class strategy
-  darkMode: 'class',
+  // Enable dark mode using class strategy (we're controlling it via data-theme attributes)
+  darkMode: ["class", '[data-theme="dark"]'],
   theme: {
     // Container configurations
     container: {
@@ -20,7 +20,7 @@ module.exports = {
       },
     },
     extend: {
-      fontFamily :{
+      fontFamily: {
         'great-vibes': ['var(--font-great-vibes)', 'cursive'],
         'inter': ['var(--font-inter)', 'sans-serif'],
         'playfair': ['var(--font-playfair)', 'serif'],
@@ -73,7 +73,6 @@ module.exports = {
           DEFAULT: 'var(--decorative-line-color)',
         }
       },
-
       // Font sizes with line heights
       fontSize: {
         // For headings
@@ -156,27 +155,16 @@ module.exports = {
         'card': '0 4px 8px rgba(0,0,0,0.08)',
       },
       
-      // Animation durations
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.5s ease-out',
-        'slide-down': 'slideDown 0.5s ease-out',
-      },
 
-      // Keyframes for animations
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        slideDown: {
-          '0%': { transform: 'translateY(-10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
+      // Animation durations and keyframes
+      animation: {
+        'pulse': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'float': 'float 8s ease-in-out infinite',
+        'twinkle': 'twinkle 3s ease-in-out infinite',
+        'spin-slow': 'spin 10s linear infinite',
+        'slide-up': 'slideUp 0.3s ease-out forwards',
+        'slide-down': 'slideDown 0.3s ease-out forwards',
+        'fade-in': 'fadeIn 0.3s ease-in-out forwards',
       },
 
       // Screen breakpoints
@@ -187,6 +175,14 @@ module.exports = {
         'lg': '1024px',
         'xl': '1280px',
         '2xl': '1536px',
+      },
+      
+      // Box shadow for cards and interactive elements
+      boxShadow: {
+        'card': 'var(--shadow-card)',
+        'card-hover': 'var(--shadow-card-hover)',
+        'outer': 'var(--shadow-outer)',
+        'inner': 'var(--shadow-inner)',
       },
     },
   },

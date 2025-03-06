@@ -3,7 +3,7 @@ import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <div className="min-h-screen flex items-center bg-background">
+    <div className="min-h-screen flex items-center">
       <div className="container mx-auto px-4 py-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
@@ -17,7 +17,7 @@ const Hero = () => {
               </h2>
             </div>
 
-            <p className="text-lg md:text-xl text-secondary-600 dark:text-secondary-400 max-w-2xl">
+            <p className="text-lg md:text-xl text-secondary-600 dark:text-secondary-500 max-w-2xl">
               Award-winning developer specializing in innovative solutions. GovTechThon winner with expertise in building scalable applications and chatbots that make a real impact.
             </p>
 
@@ -57,14 +57,14 @@ const Hero = () => {
             </div>
 
             <div className="pt-8">
-              <h3 className="text-sm font-medium text-secondary-600 dark:text-secondary-400 mb-4">
+              <h3 className="text-sm font-medium text-secondary-600 dark:text-secondary-500 mb-4">
                 Core Technologies
               </h3>
               <div className="flex flex-wrap gap-3">
                 {['JavaScript', 'React.js', 'Next.js', 'Python', 'Flask', 'Node.js','Express.js', 'MongoDB','SQL'].map((tech) => (
                   <span 
                     key={tech}
-                    className="glass-container px-4 py-2 rounded-full text-sm text-secondary-600 dark:text-secondary-400"
+                    className="glass-container px-4 py-2 rounded-full text-sm text-secondary-600 dark:text-secondary-500"
                   >
                     {tech}
                   </span>
@@ -78,21 +78,21 @@ const Hero = () => {
             <div className="grid gap-6">
               <div className="glass-container p-6 rounded-xl space-y-4">
                 <h3 className="text-xl font-bold text-foreground">GovTechThon Winner</h3>
-                <p className="text-secondary-600 dark:text-secondary-400">
+                <p className="text-secondary-600 dark:text-secondary-600">
                   Led the development of Indias first WhatsApp bot for government scheme dissemination, beating 520+ teams.
                 </p>
               </div>
 
               <div className="glass-container p-6 rounded-xl space-y-4">
                 <h3 className="text-xl font-bold text-foreground">Full Stack Innovation</h3>
-                <p className="text-secondary-600 dark:text-secondary-400">
+                <p className="text-secondary-600 dark:text-secondary-500">
                   Built comprehensive web and WhatsApp chatbot solutions with multilingual capabilities for banking and healthcare sectors.
                 </p>
               </div>
 
               <div className="glass-container p-6 rounded-xl space-y-4">
                 <h3 className="text-xl font-bold text-foreground">Proven Leadership</h3>
-                <p className="text-secondary-600 dark:text-secondary-400">
+                <p className="text-secondary-600 dark:text-secondary-500">
                   Successfully managed large-scale data migration (19,000+ users) and mentored junior developers in chatbot development.
                 </p>
               </div>

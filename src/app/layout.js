@@ -6,7 +6,7 @@ import { Great_Vibes, Inter, Playfair_Display, Merriweather, DM_Sans, Work_Sans,
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BackgroundVectors from "@/components/layout/BackgroundVectors";
-
+import { Toaster } from 'react-hot-toast';
 
 // Initialize the fonts
 const merriweather = Merriweather({
@@ -123,10 +123,10 @@ export const metadata = {
       'max-video-preview': -1
     }
   },
-verification: {
-  google: "ZQmUyyc_YFdaL87F16F0RyC5i2dRIYENA478ZwUSZx4",
-  yandex: "your-yandex-verification-code"  // Replace with your actual Yandex code if you have one
-}
+  verification: {
+    google: "ZQmUyyc_YFdaL87F16F0RyC5i2dRIYENA478ZwUSZx4",
+    yandex: "your-yandex-verification-code"  // Replace with your actual Yandex code if you have one
+  }
 };
 
 export default function RootLayout({ children }) {
@@ -144,18 +144,34 @@ export default function RootLayout({ children }) {
         ${poppins.variable}
       `}
     >
-      <ThemeProvider>
-        <body className="min-h-screen bg-background">
-          <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+      <body className="min-h-screen transition-colors duration-300">
+        <ThemeProvider>
+          <Toaster 
+            position="bottom-center"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: '#333',
+                color: '#fff',
+                borderRadius: '8px',
+                padding: '12px 16px'
+              },
+              success: {
+                iconTheme: {
+                  primary: '#10B981',
+                  secondary: '#FFFFFF'
+                }
+              }
+            }}
+          />
           <BackgroundVectors />
-            <Navbar />
-            <main className="w-full">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </body>
-      </ThemeProvider> 
+          <Navbar />
+          <main className="w-full">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

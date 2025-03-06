@@ -1,29 +1,15 @@
+// src/app/quill/[id]/WritingDetailClient.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Star } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import RatingForm from '@/components/ui/form/RatingForm';
 import DecorativeLine from '@/components/ui/DecorativeLine';
-import QuillPageHeader from '@/components/layout/QuillPageHeader';
 import WritingSchema from '@/components/schema/WritingSchema';
-
-const WordCard = ({ author, content, rating = 5 }) => (
-  <div className="p-4 sm:p-6 rounded-lg bg-[#1A1A1A] hover:bg-[#242424] transition-colors">
-    <div className="flex gap-1 mb-4">
-      {[...Array(5)].map((_, i) => (
-        <Star
-          key={i}
-          className={`w-3 h-3 sm:w-4 sm:h-4 ${i < rating ? 'text-yellow-400' : 'text-gray-400'}`}
-          fill={i < rating ? 'currentColor' : 'none'}
-        />
-      ))}
-    </div>
-    <p className="text-xs sm:text-sm text-gray-300 mb-4">{content}</p>
-    <p className="text-xs sm:text-sm text-gray-400">{author}</p>
-  </div>
-);
+import SharedContentHeader from '@/components/layout/QuillPageHeader';
+import WordCard from '@/components/ui/card/WordCard'; 
 
 const truncateBody = (text) => {
   if (!text) return '';
@@ -107,7 +93,7 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen text-foreground">
       <WritingSchema writing={writing} />
       
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
@@ -120,7 +106,7 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
         </div>
 
         {/* Header Section */}
-        <QuillPageHeader writing={writing} />
+        <SharedContentHeader content={writing} contentType="Writing" />
 
         {/* Decorative Line */}
         <div className="w-full mx-auto mt-4 md:mt-8 mb-8 sm:mb-12 md:mb-16">
@@ -157,6 +143,7 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
                 author={comment.name}
                 content={comment.comment}
                 rating={comment.rating || 5}
+                date={formatDate(comment.createdAt)}
               />
             )) : (
               <p className="text-gray-500">No comments yet.</p>

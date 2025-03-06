@@ -84,7 +84,7 @@ const SpotlightPage = () => {
   const [selectedBook, setSelectedBook] = useState(null);
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-96 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-primary-800/90">
@@ -150,7 +150,7 @@ const SpotlightPage = () => {
       </section>
 
       {/* Music & Videos Section */}
-      <section className="py-16 px-4 bg-secondary-50">
+      <section className="py-16 px-4 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-12">
             <Music className="w-8 h-8 text-primary-500" />

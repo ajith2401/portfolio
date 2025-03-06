@@ -109,7 +109,7 @@ const QuillPage = () => {
   };
 
   return ( 
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen">
       {/* Hero Section */}
       <div className="w-full py-8 sm:py-12 lg:py-16 px-4 mb-4 sm:mb-6 lg:mb-8">
       <div className="max-w-6xl mx-auto text-center">
@@ -176,7 +176,7 @@ const QuillPage = () => {
                 key={writing._id}
                 className="w-full md:w-[410.67px] group"
               >
-                <div className="flex flex-col gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
+                <div className="flex flex-col gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out bg-background
                   hover:shadow-[var(--card-hover-shadow)] 
                   hover:translate-y-[var(--card-hover-transform)] 
                   hover:bg-[var(--card-hover-bg)]"

@@ -350,7 +350,7 @@ const DevfolioPage = () => {
   }, [selectedCategory, searchQuery]);
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen">
       {/* Hero Section */}
       <div className="w-full py-8 sm:py-12 lg:py-16 px-4 mb-4 sm:mb-6 lg:mb-8">
         <div className="max-w-6xl mx-auto text-center">
