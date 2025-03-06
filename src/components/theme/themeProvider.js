@@ -1,3 +1,4 @@
+// src/components/theme/themeProvider.js
 'use client';
 
 import { createContext, useEffect, useState } from 'react';

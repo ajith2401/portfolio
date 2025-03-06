@@ -100,12 +100,6 @@ export default async function WritingDetailPage({ params }) {
       totalRatings: writing.totalRatings
     };
     
-    console.log("Rendering WritingDetailPage with data:", {
-      id: safeWriting._id,
-      createdAt: safeWriting.createdAt,
-      updatedAt: safeWriting.updatedAt
-    });
-    
     // Pass the safely serialized data to the client component
     return <WritingDetailClient 
       initialWriting={safeWriting} 

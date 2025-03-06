@@ -584,9 +584,6 @@ export default function CustomizationForm() {
     };
 
     try {
-        console.log('====================================');
-        console.log({submissionData});
-        console.log('====================================');
       const writing = await createWriting(submissionData);
       router.push(`/quill/${writing._id}`);
     } catch (error) {

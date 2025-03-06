@@ -142,7 +142,6 @@ export default function TechBlogPostClient({ blog, blogId }) {
         
         {/* Divider */}
         <div className="w-full border-b border-dashed border-gray-300 my-12 max-w-3xl mx-auto" />
-{console.log(comments)}
         {comments && comments.length > 0 && (
           <div className="max-w-3xl mx-auto mb-12">
             <h2 className="text-2xl font-bold mb-6">Reader Comments</h2>

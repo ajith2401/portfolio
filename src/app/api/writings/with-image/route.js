@@ -104,9 +104,6 @@ export async function POST(request) {
         options.theme = themeMap[options.category] || 'default';
       }
     }
-
-    // console.log('Processing with options:', options);
-
     // Generate image and save writing
     const writing = await imageGenerationService.createAndSaveWriting(options);
 

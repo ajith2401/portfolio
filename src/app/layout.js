@@ -2,7 +2,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/themeProvider";
-import { Great_Vibes, Inter, Playfair_Display ,Merriweather, DM_Sans, Work_Sans, Poppins } from 'next/font/google';
+import { Great_Vibes, Inter, Playfair_Display, Merriweather, DM_Sans, Work_Sans, Poppins } from 'next/font/google';
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BackgroundVectors from "@/components/layout/BackgroundVectors";
@@ -22,7 +22,6 @@ const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   display: 'swap',
 });
-
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -67,7 +66,6 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-// src/app/layout.js
 export const metadata = {
   metadataBase: new URL('https://ajithkumar.com'), // Replace with your actual domain
   title: {
@@ -143,18 +141,18 @@ export default function RootLayout({ children }) {
         ${merriweather.variable}
         ${dmSans.variable}
         ${workSans.variable}
-         ${poppins.variable}
+        ${poppins.variable}
       `}
     >
       <ThemeProvider>
         <body className="min-h-screen bg-background">
           <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
-            <BackgroundVectors />
-             <Navbar/>
+          <BackgroundVectors />
+            <Navbar />
             <main className="w-full">
               {children}
             </main>
-            <Footer/>
+            <Footer />
           </div>
         </body>
       </ThemeProvider> 

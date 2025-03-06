@@ -9,9 +9,6 @@ const customImageGenerationService = new CustomImageGenerationService()
 export async function POST(req) {
   try {
     const data = await req.json();
-    // console.log("cosole log form // src/app/api/writings/custom-image/route.js")
-    // console.dir( {data}, { depth: null, colors: true });
-    // console.log('====================================');
     const {
       title,
       body,
