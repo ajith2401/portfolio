@@ -25,10 +25,10 @@ export default function Image() {
         }}
       >
         <div style={{ fontSize: '72px', fontWeight: 'bold', marginBottom: '20px' }}>
-          Ajithkumar
+          Ajithkumar R
         </div>
         <div style={{ fontSize: '36px', opacity: 0.9 }}>
-          Poet, Writer & Lyricist
+        Full stack developer, Poet, Writer & Lyricist
         </div>
       </div>
     ),
