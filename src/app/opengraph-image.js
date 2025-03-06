@@ -1,7 +1,8 @@
 // app/opengraph-image.js
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Ajithkumar - Poet, Writer & Lyricist'
+export const runtime = 'edge'
+export const alt = 'Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist'
 export const size = {
   width: 1200,
   height: 630,
@@ -28,7 +29,7 @@ export default function Image() {
           Ajithkumar R
         </div>
         <div style={{ fontSize: '36px', opacity: 0.9 }}>
-        Full stack developer, Poet, Writer & Lyricist
+          Full Stack Developer, Poet, Writer & Lyricist
         </div>
       </div>
     ),
