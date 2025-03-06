@@ -68,12 +68,12 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://ajithkumar.com'), // Replace with your actual domain
+  metadataBase: new URL('https://ajithkumarr.com'),
   title: {
     default: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
     template: "%s | Ajithkumar"
   },
-  description: "Poet, writer, and lyricist exploring themes of feminism, social justice, and human emotions through Tamil poetry and creative works.",
+ description: "Full stack developer, poet, writer, and lyricist creating innovative tech solutions and exploring themes of feminism, social justice, and human emotions through Tamil poetry and creative works.",
   keywords: ["Tamil poetry", "Tamil writer", "Indian poet", "feminist poetry", "social justice poetry", "Tamil literature"],
   authors: [{ name: "Ajithkumar" }],
   creator: "Ajithkumar",
@@ -93,8 +93,8 @@ export const metadata = {
   },
 openGraph: {
   title: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
-  description: "Explore the creative projects, poetic works, and writings of Ajithkumar - Tamil poet, writer and lyricist.",
-  url: "https://ajithkumar.com",
+ description: "Award-winning full stack developer specializing in React, Node.js and innovative solutions, while also exploring themes of social justice and human emotions as a Tamil poet, writer and lyricist.",
+  url: "https://ajithkumarr.com",
   siteName: "Ajithkumar Portfolio",
   images: [
     {
