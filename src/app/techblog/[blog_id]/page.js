@@ -46,6 +46,9 @@ export async function generateMetadata({ params }) {
     keywords: [...(blog.tags || []), blog.category, 'web development', 'technical writing'].filter(Boolean),
     authors: [{ name: blog.author?.name || 'Ajithkumar' }],
     category: blog.category,
+    alternates: {
+      canonical: `https://www.ajithkumarr.com/techblog/${params.blog_id}`,
+    },
     openGraph: {
       title: blog.title,
       description: description,

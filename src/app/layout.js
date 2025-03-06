@@ -127,7 +127,15 @@ export const metadata = {
   verification: {
     google: "ZQmUyyc_YFdaL87F16F0RyC5i2dRIYENA478ZwUSZx4",
     yandex: "your-yandex-verification-code"  // Replace with your actual Yandex code if you have one
-  }
+  },
+  links: [
+    {
+      rel: 'alternate',
+      type: 'application/rss+xml',
+      title: 'Ajithkumar RSS Feed',
+      href: '/api/rss'
+    }
+  ],
 };
 
 export default function RootLayout({ children }) {

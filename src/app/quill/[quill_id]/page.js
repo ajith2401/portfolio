@@ -47,6 +47,9 @@ export async function generateMetadata({ params }) {
     keywords: [writing.category, 'Tamil writing', 'poetry', 'Ajithkumar', 'Tamil literature'].filter(Boolean),
     authors: [{ name: 'Ajithkumar' }],
     category: writing.category,
+    alternates: {
+      canonical: `https://www.ajithkumarr.com/quill/${params.quill_id}`,
+    },
     openGraph: {
       title: writing.title,
       description: description,
