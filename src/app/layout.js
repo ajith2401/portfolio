@@ -92,15 +92,15 @@ export const metadata = {
   },
   openGraph: {
     title: "Ajithkumar | Poet, Writer & Lyricist",
-    description: "Explore the poetic works, writings, and creative projects of Ajithkumar - Tamil poet, writer and lyricist.",
+    description: "Explore the creative projects, poetic works, and writings  of Ajithkumar - Tamil poet, writer and lyricist.",
     url: "https://ajithkumar.com",
     siteName: "Ajithkumar Portfolio",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/opengraph-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Ajithkumar - Poet, Writer & Lyricist"
+        alt: "Ajithkumar -Full stack developer, Poet, Writer & Lyricist"
       }
     ],
     locale: "en_US",
@@ -109,7 +109,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Ajithkumar | Poet, Writer & Lyricist",
-    description: "Explore the poetic works, writings, and creative projects of Ajithkumar.",
+    description: "Explore the creative projects, poetic works and writings of Ajithkumar.",
     images: ["/twitter-image.jpg"], // Create a specific Twitter image (1200x628px)
   },
   robots: {

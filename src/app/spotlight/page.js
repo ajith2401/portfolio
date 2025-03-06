@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { ExternalLink, Book, Music, Video, ChevronRight, ShoppingCart } from 'lucide-react';
+import { ExternalLink, Book, Music, Video, ChevronRight, ShoppingCart, X } from 'lucide-react';
 
 const publications = [
   {
@@ -191,65 +191,80 @@ const SpotlightPage = () => {
       {/* Book Details Modal */}
       {selectedBook && (
         <div 
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
           onClick={() => setSelectedBook(null)}
         >
           <div 
-            className="glass-container rounded-xl max-w-4xl w-full p-6 md:p-8"
+            className="glass-container rounded-2xl max-w-5xl w-full my-8 relative"
             onClick={e => e.stopPropagation()}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="relative h-96 rounded-lg overflow-hidden">
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedBook(null)}
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-background/50 hover:bg-background/70 transition-colors"
+              aria-label="Close"
+            >
+            <X className="w-6 h-6 text-foreground" />
+            </button>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-10">
+              {/* Book Image */}
+              <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-lg">
                 <Image
                   src={selectedBook.image}
                   alt={selectedBook.title}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform duration-300 hover:scale-105"
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
-              <div>
-                <h3 className="text-2xl font-bold text-foreground mb-4">
-                  {selectedBook.title}
-                </h3>
-                <div className="space-y-4 text-secondary-600">
-                  <p><span className="font-medium">Publisher:</span> {selectedBook.publisher}</p>
-                  <p><span className="font-medium">Price:</span> ₹{selectedBook.price}</p>
-                  <p><span className="font-medium">Description:</span></p>
-                  <p>{selectedBook.description}</p>
+
+              {/* Book Details */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-3xl font-bold text-foreground mb-4 leading-tight">
+                    {selectedBook.title}
+                  </h3>
+                  <div className="flex items-center space-x-4 mb-4">
+                    <span className="text-xl font-semibold text-primary-600">
+                      ₹{selectedBook.price}
+                    </span>
+                    <span className="text-secondary-600">
+                      • {selectedBook.publisher}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="prose prose-secondary max-w-full">
+                  <p className="text-secondary-700">{selectedBook.description}</p>
                 </div>
 
                 {selectedBook.purchaseLinks && selectedBook.purchaseLinks.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-secondary-200">
-                    <p className="text-sm font-medium text-secondary-600 mb-2">
-                      Available at:
+                  <div className="pt-4 border-t border-secondary-200">
+                    <p className="text-sm font-medium text-secondary-600 mb-3">
+                      Available for Purchase:
                     </p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-3">
                       {selectedBook.purchaseLinks.map((link, index) => (
                         <a
                           key={index}
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 px-3 py-1.5 
-                            bg-primary-50 text-primary-600 rounded-full
-                            hover:bg-primary-100 transition-colors text-sm"
+                          className="inline-flex items-center gap-2 px-4 py-2 
+                            bg-primary-50 text-primary-700 rounded-full
+                            hover:bg-primary-100 transition-colors text-sm
+                            shadow-sm hover:shadow-md"
                         >
                           <ShoppingCart className="w-4 h-4" />
                           {link.name}
-                          <ExternalLink className="w-3 h-3 ml-1" />
+                          <ExternalLink className="w-3 h-3" />
                         </a>
                       ))}
                     </div>
                   </div>
                 )}
-
-                <button
-                  onClick={() => setSelectedBook(null)}
-                  className="mt-8 px-6 py-2 bg-primary-500 text-white rounded-lg 
-                    hover:bg-primary-600 transition-colors"
-                >
-                  Close
-                </button>
               </div>
             </div>
           </div>

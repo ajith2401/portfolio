@@ -30,7 +30,7 @@ const Hero = () => {
                 <ArrowRight className="w-4 h-4" />
               </a>
               
-              <div className="flex gap-4">
+              <div className="flex gap-4 text-foreground">
                 <a 
                   href="https://github.com/ajith2401" 
                   target="_blank" 

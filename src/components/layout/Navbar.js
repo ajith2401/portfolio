@@ -43,27 +43,31 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link 
-        href="/" 
-        style={{ color: 'var(--logo-color)' }}
-        className="flex items-start p-0 w-[200px] h-[30px] font-great-vibes text-logo leading-[30px]"
-      >
-        Ajith Kumar
-      </Link>
-
-
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden p-2 rounded-md transition-colors bg-background/20 hover:bg-background/30"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-          aria-expanded={isMenuOpen}
+          href="/" 
+          style={{ color: 'var(--logo-color)' }}
+          className="flex items-start p-0 w-[200px] h-[30px] font-great-vibes text-logo leading-[30px]"
         >
-          {isMenuOpen ? (
-            <X className="h-6 w-6 text-foreground" />
-          ) : (
-            <Menu className="h-6 w-6 text-foreground" />
-          )}
-        </button>
+          Ajith Kumar
+        </Link>
+
+        {/* Mobile Menu Section */}
+        <div className="md:hidden flex items-center space-x-2">
+          {/* Mobile Menu Button */}
+           {/* Theme Toggle for Mobile */}
+          <ThemeToggleAnimated />
+          <button
+            className="p-2 rounded-md transition-colors bg-background/20 hover:bg-background/30"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6 text-foreground" />
+            ) : (
+              <Menu className="h-6 w-6 text-foreground" />
+            )}
+          </button>    
+        </div>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
@@ -100,11 +104,11 @@ const Navbar = () => {
           backdrop-blur-md
         `}>
           <ul className="flex flex-col gap-6">
-            <li><NavLink href="/">Home</NavLink></li>
-            <li><NavLink href="/devfolio">Devfolio</NavLink></li>
-            <li><NavLink href="/techblog">Tech Blog</NavLink></li>
-            <li><NavLink href="/quill">Quill</NavLink></li>
-            <li><NavLink href="/spotlight">Spotlight</NavLink></li>
+            <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/">Home</NavLink></li>
+            <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/devfolio">Devfolio</NavLink></li>
+            <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/techblog">Tech Blog</NavLink></li>
+            <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/quill">Quill</NavLink></li>
+            <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/spotlight">Spotlight</NavLink></li>
             <li>
               <button className={`
                 w-full px-6 py-3 rounded-full transition-all duration-300
@@ -115,9 +119,6 @@ const Navbar = () => {
               `}>
                 Contact Me
               </button>
-            </li>
-            <li className="flex justify-start mt-2">
-              <ThemeToggleAnimated />
             </li>
           </ul>
         </div>

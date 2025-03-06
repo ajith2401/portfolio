@@ -17,7 +17,7 @@ const TechBlogCard = ({ post }) => {
 
   return (
     <Link href={`/techblog/${post._id}`} className="group">
-      <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+      <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-background">
         <div className="relative w-full aspect-video overflow-hidden">
           <Image
             src={post.images?.medium || '/placeholder.jpg'}
@@ -162,7 +162,7 @@ export default function TechBlogClient({ initialPosts }) {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-foreground">
             {filteredPosts.map(post => (
               <TechBlogCard key={post._id} post={post} />
             ))}

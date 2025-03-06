@@ -40,10 +40,10 @@ const BackgroundVectors = () => {
   const generateShootingStars = () => {
     return Array.from({ length: 5 }, (_, i) => ({
       id: i,
+      right: `${Math.random() * 100}%`,
       top: `${Math.random() * 50}%`,
-      right: `${100 + Math.random() * 300}%`, // Start beyond the right edge
-      duration: `${2 + Math.random() * 2}s`,
-      delay: `${Math.random() * 5}s`,
+      duration: `${1 + Math.random() * 3}s`,
+      delay: `${Math.random() * 2}s`,
       trailLength: 300 + Math.random() * 200,
     }));
   };
@@ -140,7 +140,7 @@ const BackgroundVectors = () => {
         ))}
 
         {/* Shooting stars */}
-        {shootingStars.map((star) => (
+        {shootingStars.map((star, index) => (
           <span
             key={star.id}
             style={{
