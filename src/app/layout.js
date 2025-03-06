@@ -7,6 +7,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BackgroundVectors from "@/components/layout/BackgroundVectors";
 import { Toaster } from 'react-hot-toast';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 // Initialize the fonts
 const merriweather = Merriweather({
@@ -171,6 +172,7 @@ export default function RootLayout({ children }) {
           </main>
           <Footer />
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
