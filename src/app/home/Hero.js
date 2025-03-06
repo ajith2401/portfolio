@@ -13,7 +13,7 @@ const Hero = () => {
                 Full Stack Developer
               </h1>
               <h2 className="text-xl md:text-2xl text-primary-600 dark:text-primary-400 font-medium">
-                Ajithkumar Rangappan
+                Ajithkumar R
               </h2>
             </div>
 

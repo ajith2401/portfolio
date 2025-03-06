@@ -21,7 +21,7 @@ export async function GET() {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ajithkumar - Poet, Writer & Lyricist</title>
+    <title>Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist</title>
     <link>${baseUrl}</link>
     <description>Exploring themes of feminism, social justice, and human emotions through Tamil poetry and creative works</description>
     <language>en</language>

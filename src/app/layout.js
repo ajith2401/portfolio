@@ -70,7 +70,7 @@ const geistMono = localFont({
 export const metadata = {
   metadataBase: new URL('https://ajithkumar.com'), // Replace with your actual domain
   title: {
-    default: "Ajithkumar | Poet, Writer & Lyricist",
+    default: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
     template: "%s | Ajithkumar"
   },
   description: "Poet, writer, and lyricist exploring themes of feminism, social justice, and human emotions through Tamil poetry and creative works.",
