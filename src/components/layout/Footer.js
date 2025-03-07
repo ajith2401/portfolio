@@ -82,6 +82,7 @@ const Footer = () => {
           <p className="text-body-sm text-secondary-600 dark:text-secondary-400">
             © {currentYear} Ajith Kumar. All rights reserved.
           </p>
+          
            {/* 
           <div className="flex items-center gap-4">
             <a
