@@ -8,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 import BackgroundVectors from "@/components/layout/BackgroundVectors";
 import { Toaster } from 'react-hot-toast';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import OfflineNotice from "@/components/ui/OfflineNotice";
 
 // Initialize the fonts
 const merriweather = Merriweather({
@@ -83,7 +84,7 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico' },
+      { url: 'https://www.ajithkumarr.com/favicon.ico' },  // Static favicon
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
@@ -134,6 +135,10 @@ twitter: {
       type: 'application/rss+xml',
       title: 'Ajithkumar RSS Feed',
       href: '/api/rss'
+    },
+    {
+      rel: 'manifest',
+      href: '/manifest.json'
     }
   ],
 };
@@ -175,6 +180,7 @@ export default function RootLayout({ children }) {
           />
           <BackgroundVectors />
           <Navbar />
+          <OfflineNotice />
           <main className="w-full">
             {children}
           </main>

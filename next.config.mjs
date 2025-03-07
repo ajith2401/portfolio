@@ -1,9 +1,17 @@
 /** @type {import('next').NextConfig} */
 import path from 'path';
 import { fileURLToPath } from 'url';
+import nextPWA from 'next-pwa';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const withPWA = nextPWA({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true
+});
 
 const nextConfig = {
   webpack: (config) => {
@@ -27,7 +35,6 @@ const nextConfig = {
         hostname: 'example.com',
         pathname: '/**',
       },
-     
     ],
   },
   experimental: {
@@ -50,4 +57,4 @@ const nextConfig = {
   }
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);
