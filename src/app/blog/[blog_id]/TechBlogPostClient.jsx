@@ -209,7 +209,7 @@ export default function TechBlogPostClient({ blog, blogId }) {
     // Fetch comments using the unified API
     async function fetchComments() {
       try {
-        const res = await fetch(`/api/comments/blog/${blogId}`);
+        const res = await fetch(`/api/comments/TechBlog/${blogId}`);
         if (res.ok) {
           const data = await res.json();
           setComments(data);

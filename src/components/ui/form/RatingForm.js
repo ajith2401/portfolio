@@ -47,7 +47,7 @@ const RatingForm = ({ contentType = 'Writing', contentId }) => {
           comment: formData.comment,
           rating: rating,
           parentId: id,
-          parentModel: contentType === 'techblog' ? 'TechBlog' : 'Writing'
+          parentModel: contentType === 'TechBlog' ? 'TechBlog' : 'Writing'
         }),
       });
       
