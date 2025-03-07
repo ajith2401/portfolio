@@ -96,18 +96,20 @@ export default async function ProjectDetailPage({ params }) {
       longDescription: project.longDescription,
       category: project.category,
       technologies: project.technologies,
-      liveUrl: project.liveUrl,
-      githubUrl: project.githubUrl,
+      achievement: project.achievement,
+      subtitle: project.subtitle,
+      stack: project.stack,
       images: project.images || {},
       featured: project.featured,
       status: project.status,
-      // Convert dates to ISO strings explicitly
+      stats: project.stats,
+      links : project.links,
+      features: project.features,
+      challenges: project.challenges,
       createdAt: project.createdAt ? project.createdAt.toISOString() : null,
       updatedAt: project.updatedAt ? project.updatedAt.toISOString() : null,
-      // Include other fields as needed
       demoVideo: project.demoVideo,
       teamMembers: project.teamMembers,
-      challenges: project.challenges,
       solutions: project.solutions
     };
     
