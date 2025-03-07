@@ -99,7 +99,7 @@ openGraph: {
   siteName: "Ajithkumar Portfolio",
   images: [
     {
-      url: "/opengraph-image.jpg", // This points to your public/opengraph-image.jpg
+      url: "/opengraph-image.jpg", // This points public/opengraph-image.jpg
       width: 1200,
       height: 630,
       alt: "Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist"
