@@ -190,7 +190,7 @@
 /* Custom Utility Classes */
 @layer components {
   /* Glass container */
-  .glass-container {
+  .clean-container {
     @apply backdrop-blur-lg relative;
     background-color: rgb(var(--background) / 0.75);
     box-shadow: var(--shadow-outer);
@@ -293,6 +293,15 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+
+
+.clean-container {
+  background: var(--background);
+  border-radius: 10px; /* Smooth rounded corners */
+  padding: 20px; /* Add some spacing */
+  box-shadow: none !important;
+}
+
 
 /* Shooting Star Animations */
 .shooting-star {

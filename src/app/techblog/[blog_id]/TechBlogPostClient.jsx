@@ -11,6 +11,177 @@ import BlogSchema from '@/components/schema/BlogSchema';
 import RatingForm from '@/components/ui/form/RatingForm';
 import WordCard from '@/components/ui/card/WordCard'; 
 
+// Create a custom component for rendering markdown content
+const MarkdownRenderer = ({ content }) => {
+  // Only process if we have content
+  if (!content) return null;
+
+  // Fix broken image markdown syntax (handles line breaks)
+  const fixBrokenImageMarkdown = (text) => {
+    // Fix common issue: line breaks between [] and ()
+    let fixed = text.replace(/!\[(.*?)\][ \t\r\n]*\([ \t\r\n]*(https?:\/\/[^)]+)[ \t\r\n]*\)/g, '![$1]($2)');
+    
+    // Fix extra closing parenthesis on separate line
+    fixed = fixed.replace(/!\[(.*?)\]\((https?:\/\/[^)]+)\n\)/g, '![$1]($2)');
+    
+    // Convert bare image URLs to proper markdown
+    fixed = fixed.replace(/^(https?:\/\/\S+\.(jpg|jpeg|png|gif|webp))$/gim, '![Image]($1)');
+    
+    return fixed;
+  };
+  
+  // Process markdown content
+  const processMarkdown = (mdContent) => {
+    // First fix any broken image markdown
+    let processedContent = fixBrokenImageMarkdown(mdContent);
+    
+    let html = processedContent;
+    
+    // Process code blocks first to avoid conflicts with other formatting
+    html = html.replace(/```([\s\S]*?)```/g, (match, codeContent) => {
+      return `<pre class="bg-gray-500 p-3 my-3 rounded overflow-x-auto"><code>${codeContent.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
+    });
+    
+    // Inline code
+    html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-1 rounded font-mono text-sm">$1</code>');
+    
+    // Process headings (match at line beginning)
+    html = html.replace(/^# (.*)$/gm, '<h1 class="text-3xl font-bold mt-6 mb-3">$1</h1>');
+    html = html.replace(/^## (.*)$/gm, '<h2 class="text-2xl font-bold mt-5 mb-2">$1</h2>');
+    html = html.replace(/^### (.*)$/gm, '<h3 class="text-xl font-bold mt-4 mb-2">$1</h3>');
+    
+    // Process blockquotes - handle multi-line blockquotes
+    html = html.replace(/^> (.*)(?:\n^> (.*))*$/gm, (match) => {
+      const content = match.split('\n')
+        .map(line => line.replace(/^> (.*)$/, '$1'))
+        .join('<br>');
+      return `<blockquote class="border-l-4 border-gray-300 pl-4 py-1 my-4 italic text-gray-700">${content}</blockquote>`;
+    });
+    
+    // Process ordered lists - match consecutive numbered lines
+    html = html.replace(/^(\d+)\. (.*)(?:\n^(\d+)\. (.*))*$/gm, (match) => {
+      const items = match.split('\n')
+        .map(line => {
+          const itemMatch = line.match(/^(\d+)\. (.*)$/);
+          return itemMatch ? `<li>${itemMatch[2]}</li>` : line;
+        })
+        .join('');
+      return `<ol class="list-decimal pl-6 my-4">${items}</ol>`;
+    });
+    
+    // Process unordered lists - match consecutive bulleted lines
+    html = html.replace(/^- (.*)(?:\n^- (.*))*$/gm, (match) => {
+      const items = match.split('\n')
+        .map(line => {
+          const itemMatch = line.match(/^- (.*)$/);
+          return itemMatch ? `<li>${itemMatch[1]}</li>` : line;
+        })
+        .join('');
+      return `<ul class="list-disc pl-6 my-4">${items}</ul>`;
+    });
+    
+    // Process text formatting
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+    
+    // Process links with styling
+    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" class="text-blue-600 hover:underline">$1</a>');
+    
+    // Process horizontal rule
+    html = html.replace(/^---$/gm, '<hr class="my-6 border-t border-gray-300" />');
+    
+    // Process paragraphs and line breaks
+    // Split into paragraphs on double newlines
+    const paragraphs = html.split(/\n\n+/);
+    
+    html = paragraphs.map(para => {
+      // Skip wrapping if paragraph already contains block-level HTML
+      if (
+        para.startsWith('<h1') || 
+        para.startsWith('<h2') || 
+        para.startsWith('<h3') || 
+        para.startsWith('<ul') || 
+        para.startsWith('<ol') || 
+        para.startsWith('<blockquote') || 
+        para.startsWith('<pre') ||
+        para.startsWith('<hr')
+      ) {
+        return para;
+      }
+      
+      // Regular paragraph handling
+      const withLineBreaks = para.replace(/\n/g, '<br>');
+      return `<p class="my-3">${withLineBreaks}</p>`;
+    }).join('\n\n');
+    
+    return html;
+  };
+  
+  // We need to detect URLs and render them as images directly
+  const renderContent = () => {
+    // Process the markdown to HTML
+    const processedHtml = processMarkdown(content);
+    
+    // Replace image markdown with actual image tags
+    // This is a safer approach than using dangerouslySetInnerHTML
+    const parts = [];
+    const regex = /!\[(.*?)\]\((https?:\/\/[^)]+)\)/g;
+    let lastIndex = 0;
+    let match;
+    
+    while ((match = regex.exec(content)) !== null) {
+      // Add the text before the image
+      if (match.index > lastIndex) {
+        parts.push(
+          <span key={`text-${lastIndex}`} dangerouslySetInnerHTML={{ 
+            __html: processMarkdown(content.substring(lastIndex, match.index)) 
+          }} />
+        );
+      }
+      
+      // Extract the alt text and image URL
+      const [, altText, imageUrl] = match;
+      
+      // Add the image component
+      parts.push(
+        <div key={`img-${match.index}`} className="my-4 text-center">
+          <img 
+            src={imageUrl} 
+            alt={altText} 
+            className="max-w-full h-auto rounded mx-auto" 
+            style={{ display: 'block' }}
+          />
+        </div>
+      );
+      
+      lastIndex = match.index + match[0].length;
+    }
+    
+    // Add any remaining content after the last image
+    if (lastIndex < content.length) {
+      parts.push(
+        <span key={`text-${lastIndex}`} dangerouslySetInnerHTML={{ 
+          __html: processMarkdown(content.substring(lastIndex)) 
+        }} />
+      );
+    }
+    
+    // If no images were found, just render the processed HTML
+    if (parts.length === 0) {
+      return <div dangerouslySetInnerHTML={{ __html: processedHtml }} />;
+    }
+    
+    return parts;
+  };
+  
+  return (
+    <div className="prose prose-lg max-w-none font-merriweather text-base sm:text-lg leading-[34px] text-foreground">
+      {renderContent()}
+    </div>
+  );
+};
+
 const truncateBody = (text) => {
   if (!text) return '';
   
@@ -96,12 +267,8 @@ export default function TechBlogPostClient({ blog, blogId }) {
         
         {/* Content Section */}
         <div className="w-full max-w-[1064px] mx-auto mb-16 md:mb-36 px-4 sm:px-6 relative">
-          <div className="prose prose-lg max-w-none">
-            <div 
-              className="font-merriweather text-base sm:text-lg leading-[34px] text-foreground"
-              dangerouslySetInnerHTML={{ __html: blog.content }} 
-            />
-          </div>
+          {/* Replace the original dangerouslySetInnerHTML with our MarkdownRenderer */}
+          <MarkdownRenderer content={blog.content} />
         </div>
         
         {/* Tags */}

@@ -114,7 +114,7 @@ const SpotlightPage = () => {
             {publications.map((book) => (
               <article 
                 key={book.id}
-                className="group glass-container p-6 rounded-xl hover:shadow-lg transition-all duration-300
+                className="group clean-container p-6 rounded-xl hover:shadow-lg transition-all duration-300
                   hover:translate-y-[-4px] cursor-pointer"
                 onClick={() => setSelectedBook(book)}
               >
@@ -164,7 +164,7 @@ const SpotlightPage = () => {
               href={video.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden rounded-xl aspect-video glass-container"
+              className="group relative overflow-hidden rounded-xl aspect-video clean-container"
             >
               <Image
                 src={video.thumbnail}
@@ -195,7 +195,7 @@ const SpotlightPage = () => {
           onClick={() => setSelectedBook(null)}
         >
           <div 
-            className="glass-container rounded-2xl max-w-5xl w-full my-8 relative"
+            className="clean-container rounded-2xl max-w-5xl w-full my-8 relative"
             onClick={e => e.stopPropagation()}
           >
             {/* Close Button */}

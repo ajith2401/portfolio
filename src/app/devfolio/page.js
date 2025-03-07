@@ -182,7 +182,7 @@ const ProjectModal = ({ project, onClose, projectOpen }) => {
   >
       <div className="min-h-screen px-4 flex items-center justify-center">
         <div 
-          className="glass-container rounded-lg w-full max-w-4xl my-8 relative"
+          className="clean-container rounded-lg w-full max-w-4xl my-8 relative"
           onClick={handleContentClick}  // Prevent closing when clicking modal content
         >
         <button 
@@ -271,7 +271,7 @@ const ProjectModal = ({ project, onClose, projectOpen }) => {
                 <h3 className="text-lg font-semibold text-foreground mb-3">Impact</h3>
                 <div className="grid grid-cols-3 gap-4">
                   {Object.entries(project.stats).map(([key, value]) => (
-                    <div key={key} className="text-center p-4 glass-container rounded-lg">
+                    <div key={key} className="text-center p-4 clean-container rounded-lg">
                       <div className="text-xl font-semibold text-primary-500">{value}</div>
                       <div className="text-sm text-secondary-500 capitalize">{key}</div>
                     </div>
@@ -408,7 +408,7 @@ const DevfolioPage = () => {
             key={project.id} 
             onClick={() => handleOpenModal(project)}
             
-            className="glass-container rounded-lg overflow-hidden group transition-all duration-300
+            className="clean-container rounded-lg overflow-hidden group transition-all duration-300
               hover:shadow-[var(--card-hover-shadow)] 
               hover:translate-y-[var(--card-hover-transform)]
               cursor-pointer"

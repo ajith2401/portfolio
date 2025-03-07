@@ -65,7 +65,7 @@ const Footer = () => {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass-container px-4 py-2 rounded-md text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all hover:-translate-y-1"
+                  className="clean-container px-4 py-2 rounded-md text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all hover:-translate-y-1"
                 >
                   {social.name}
                 </a>
@@ -82,6 +82,7 @@ const Footer = () => {
           <p className="text-body-sm text-secondary-600 dark:text-secondary-400">
             © {currentYear} Ajith Kumar. All rights reserved.
           </p>
+           {/* 
           <div className="flex items-center gap-4">
             <a
               href="/privacy"
@@ -97,6 +98,7 @@ const Footer = () => {
               Terms of Service
             </a>
           </div>
+           */}
         </div>
       </div>
     </footer>
