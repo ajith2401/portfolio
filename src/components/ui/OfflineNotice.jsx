@@ -27,10 +27,11 @@ export default function OfflineNotice() {
 
   if (!isOffline) return null;
   
-  return (
-    <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
-      <p className="font-bold">You&apos;re offline</p>
-      <p>Some content may not be available. Please check your connection.</p>
-    </div>
+  return ( 
+    <div className="flex flex-col items-center justify-center min-h-screen p-5 text-center border-yellow-500 text-yellow-700">
+        <h1 className="text-3xl font-bold mb-4">You&apos;re currently offline</h1>
+        <p className="mb-6">It seems you&apos;ve lost your internet connection. Some content might not be available.</p>
+        <p>You can still browse previously visited pages while we wait for your connection to return.</p>
+      </div>
   );
 }
