@@ -1,8 +1,17 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
+import ContactForm from '@/components/ui/ContactForm';
 
 const Hero = () => {
+    const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+
+  const openContactForm = () => {
+    setIsContactFormOpen(true);
+  };
+
   return (
+    <>
     <div className="min-h-screen flex items-center">
       <div className="container mx-auto px-4 py-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -22,13 +31,13 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <a 
-                href="#contact" 
+              <button 
+                onClick={openContactForm}
                 className="clean-container inline-flex items-center gap-2 px-6 py-3 rounded-lg text-foreground hover:-translate-y-1 transition-all"
               >
                 Get in Touch
                 <ArrowRight className="w-4 h-4" />
-              </a>
+              </button>
               
               <div className="flex gap-4 text-foreground">
                 <a 
@@ -101,6 +110,13 @@ const Hero = () => {
         </div>
       </div>
     </div>
+
+    <ContactForm 
+    isOpen={isContactFormOpen} 
+    onClose={() => setIsContactFormOpen(false)} 
+  />
+
+ </>
   );
 };
 
