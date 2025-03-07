@@ -9,8 +9,10 @@ export const metadata = {
 // Fetch projects data on the server
 async function getProjects() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/projects?status=published&limit=100`, { 
-      cache: 'no-store'
+    // Use absolute URL with origin
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const res = await fetch(`${baseUrl}/api/projects?status=published&limit=100`, { 
+      next: { revalidate: 3600 } 
     });
     
     if (!res.ok) {

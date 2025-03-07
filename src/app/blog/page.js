@@ -1,8 +1,7 @@
-// src/app/techblog/page.js
+// src/app/blog/page.js
 import { TechBlog } from '@/models';
 import connectDB from '@/lib/db';
 import TechBlogClient from './TechBlogClient';
-
 
 // Static metadata for SEO
 export const metadata = {

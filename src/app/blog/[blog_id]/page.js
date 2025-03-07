@@ -1,4 +1,4 @@
-// src/app/techblog/[blog_id]/page.js
+// src/app/blog/[blog_id]/page.js
 import { TechBlog } from '@/models';
 import connectDB from '@/lib/db';
 import TechBlogPostClient from './TechBlogPostClient';
@@ -47,12 +47,12 @@ export async function generateMetadata({ params }) {
     authors: [{ name: blog.author?.name || 'Ajithkumar' }],
     category: blog.category,
     alternates: {
-      canonical: `https://www.ajithkumarr.com/techblog/${params.blog_id}`,
+      canonical: `https://www.ajithkumarr.com/blog/${params.blog_id}`,
     },
     openGraph: {
       title: blog.title,
       description: description,
-      url: `https://www.ajithkumarr.com/techblog/${params.blog_id}`,
+      url: `https://www.ajithkumarr.com/blog/${params.blog_id}`,
       type: 'article',
       publishedTime,
       modifiedTime,
@@ -109,7 +109,6 @@ export default async function TechBlogPostPage({ params }) {
     
     return <TechBlogPostClient 
       blog={serialize(blog)} 
-      relatedPosts={serialize(relatedPosts)}
       blogId={params.blog_id}
     />;
   } catch (error) {

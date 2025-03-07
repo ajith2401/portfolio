@@ -1,15 +1,14 @@
 import { NextResponse } from 'next/server';
 import { Project } from '@/models/project.model';
 import connectDB from '@/lib/db';
-
+export const dynamic = 'force-dynamic';
 // Helper function to parse query parameters
 function parseQueryParams(request) {
-  const searchParams = new URL(request.url).searchParams;
+  const searchParams = request.nextUrl.searchParams;
   
-  // Pagination
+  // Rest of your function remains the same
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '10');
-  
   // Sorting
   const sortField = searchParams.get('sortBy') || 'createdAt';
   const sortOrder = searchParams.get('sortOrder') || 'desc';

@@ -74,7 +74,7 @@ const Navbar = () => {
           <ul className="flex items-center gap-8">
             <li><NavLink href="/">Home</NavLink></li>
             <li><NavLink href="/devfolio">Devfolio</NavLink></li>
-            <li><NavLink href="/techblog">Tech Blog</NavLink></li>
+            <li><NavLink href="/blog">Blog</NavLink></li>
             <li><NavLink href="/quill">Quill</NavLink></li>
             <li><NavLink href="/spotlight">Spotlight</NavLink></li>
             <li>
@@ -106,7 +106,7 @@ const Navbar = () => {
           <ul className="flex flex-col gap-6">
             <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/">Home</NavLink></li>
             <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/devfolio">Devfolio</NavLink></li>
-            <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/techblog">Tech Blog</NavLink></li>
+            <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/blog">Tech Blog</NavLink></li>
             <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/quill">Quill</NavLink></li>
             <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/spotlight">Spotlight</NavLink></li>
             <li>

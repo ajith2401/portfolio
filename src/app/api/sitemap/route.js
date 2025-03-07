@@ -1,9 +1,6 @@
-// src/app/api/sitemap/route.js
-
 import connectDB from "@/lib/db";
-import { TechBlog, Writing } from "@/models";
+import { TechBlog, Writing, Project } from "@/models";
 import { NextResponse } from "next/server";
-
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -24,13 +21,19 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .lean();
     
+    // Fetch all published projects
+    const projects = await Project.find({ status: 'published' })
+      .select('_id title slug category updatedAt createdAt')
+      .sort({ createdAt: -1 })
+      .lean();
+    
     const baseUrl = 'https://www.ajithkumarr.com';
     
     // Define static routes with their properties
     const staticRoutes = [
       { url: '/', changefreq: 'daily', priority: 1.0, lastmod: new Date().toISOString() },
-      { url: '/devfolio', changefreq: 'weekly', priority: 0.8, lastmod: new Date().toISOString() },
-      { url: '/techblog', changefreq: 'daily', priority: 0.9, lastmod: techBlogs[0]?.updatedAt?.toISOString() || new Date().toISOString() },
+      { url: '/devfolio', changefreq: 'weekly', priority: 0.8, lastmod: projects[0]?.updatedAt?.toISOString() || new Date().toISOString() },
+      { url: '/blog', changefreq: 'daily', priority: 0.9, lastmod: techBlogs[0]?.updatedAt?.toISOString() || new Date().toISOString() },
       { url: '/quill', changefreq: 'daily', priority: 0.9, lastmod: writings[0]?.updatedAt?.toISOString() || new Date().toISOString() },
       { url: '/spotlight', changefreq: 'weekly', priority: 0.8, lastmod: new Date().toISOString() },
       { url: '/about', changefreq: 'monthly', priority: 0.7, lastmod: new Date().toISOString() }
@@ -38,7 +41,7 @@ export async function GET() {
     
     // Tech blog routes
     const techBlogRoutes = techBlogs.map(blog => ({
-      url: `/techblog/${blog._id}`,
+      url: `/blog/${blog._id}`,
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: (blog.updatedAt || blog.createdAt)?.toISOString() || new Date().toISOString()
@@ -52,8 +55,16 @@ export async function GET() {
       lastmod: (writing.updatedAt || writing.createdAt)?.toISOString() || new Date().toISOString()
     }));
     
+    // Project routes - use either slug or ID based on your URL structure
+    const projectRoutes = projects.map(project => ({
+      url: `/devfolio/${project.slug || project._id}`,
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: (project.updatedAt || project.createdAt)?.toISOString() || new Date().toISOString()
+    }));
+    
     // Combine all routes
-    const allRoutes = [...staticRoutes, ...techBlogRoutes, ...writingRoutes];
+    const allRoutes = [...staticRoutes, ...techBlogRoutes, ...writingRoutes, ...projectRoutes];
     
     // Generate XML
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -87,7 +98,13 @@ export async function GET() {
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>${baseUrl}/techblog</loc>
+    <loc>${baseUrl}/devfolio</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/blog</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>

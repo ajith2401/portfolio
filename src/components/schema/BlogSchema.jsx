@@ -51,7 +51,7 @@ export default function BlogSchema({ blog }) {
       },
       mainEntityOfPage: {
         '@type': 'WebPage',
-        '@id': `https://www.ajithkumarr.com/techblog/${blog._id || ''}`
+        '@id': `https://www.ajithkumarr.com/blog/${blog._id || ''}`
       },
       keywords: blog.tags?.join(', ') || 'Tamil poetry, Tamil literature',
       articleSection: blog.category,

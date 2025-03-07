@@ -55,7 +55,7 @@ const BackgroundVectors = () => {
     setMounted(true);
     setCloudPositions(clouds.map((cloud) => cloud.initialLeft));
     setShootingStars(generateShootingStars());
-  }, []);
+  }, [clouds]);
 
   // Animate clouds when in light mode
   useEffect(() => {

@@ -1,4 +1,4 @@
-// src/app/techblog/TechBlogClient.jsx
+// src/app/blog/blogClient.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -16,7 +16,7 @@ const TechBlogCard = ({ post }) => {
   };
 
   return (
-    <Link href={`/techblog/${post._id}`} className="group">
+    <Link href={`/blog/${post._id}`} className="group">
       <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-background">
         <div className="relative w-full aspect-video overflow-hidden">
           <Image

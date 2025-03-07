@@ -1,4 +1,4 @@
-// src/app/techblog/[blog_id]/TechBlogPostClient.jsx
+// src/app/blog/[blog_id]/blogPostClient.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -209,7 +209,7 @@ export default function TechBlogPostClient({ blog, blogId }) {
     // Fetch comments using the unified API
     async function fetchComments() {
       try {
-        const res = await fetch(`/api/comments/TechBlog/${blogId}`);
+        const res = await fetch(`/api/comments/blog/${blogId}`);
         if (res.ok) {
           const data = await res.json();
           setComments(data);
@@ -251,7 +251,7 @@ export default function TechBlogPostClient({ blog, blogId }) {
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Back Button */}
         <div className="py-4 sm:py-6 md:py-8">
-          <Link href="/techblog" className="inline-flex items-center text-xs sm:text-sm hover:text-primary">
+          <Link href="/blog" className="inline-flex items-center text-xs sm:text-sm hover:text-primary">
             <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
             Back
           </Link>
@@ -323,7 +323,7 @@ export default function TechBlogPostClient({ blog, blogId }) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {relatedPosts.map((post) => (
                 <Link 
-                  href={`/techblog/${post._id}`} 
+                  href={`/blog/${post._id}`} 
                   key={post._id}
                   className="w-full group"
                 >

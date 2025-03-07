@@ -31,8 +31,8 @@ export async function GET() {
     ${techBlogs.map(blog => `
     <item>
       <title><![CDATA[${blog.title}]]></title>
-      <link>${baseUrl}/techblog/${blog._id}</link>
-      <guid>${baseUrl}/techblog/${blog._id}</guid>
+      <link>${baseUrl}/blog/${blog._id}</link>
+      <guid>${baseUrl}/blog/${blog._id}</guid>
       <pubDate>${new Date(blog.publishedAt || blog.createdAt).toUTCString()}</pubDate>
       <description><![CDATA[${blog.subtitle || blog.content.substring(0, 160)}]]></description>
       <category>${blog.category}</category>

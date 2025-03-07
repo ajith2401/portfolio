@@ -1,7 +1,7 @@
 // src/app/api/tech-blog/route.js
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
-import { TechBlog } from '@/models/techblog.model';
+import { TechBlog } from '@/models';
 
 
 // GET all tech blogs

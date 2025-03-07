@@ -10,7 +10,7 @@ export default function NavLinks() {
   
   const links = [
     { href: '/', label: 'Home' },
-    { href: '/techblog', label: 'Tech Blog' },
+    { href: '/blog', label: 'Tech Blog' },
     { href: '/quill', label: 'Writings' },
     { href: '/devfolio', label: 'Portfolio' },
     { href: '/spotlight', label: 'Spotlight' },

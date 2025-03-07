@@ -1,5 +1,5 @@
 import connectDB from "@/lib/db";
-import { TechBlog } from "@/models/techblog.model";
+import { TechBlog } from "@/models";
 import { NextResponse } from "next/server";
 
 // src/app/api/tech-blog/category/[category]/route.js
