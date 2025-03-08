@@ -58,7 +58,7 @@ export async function GET() {
     
     // Project routes - use either slug or ID based on your URL structure
     const projectRoutes = projects.map(project => ({
-      url: `/devfolio/${project.slug || project._id}`,
+      url: `/devfolio/${project._id}`,
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: (project.updatedAt || project.createdAt)?.toISOString() || new Date().toISOString()
