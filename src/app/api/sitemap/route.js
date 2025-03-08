@@ -1,3 +1,4 @@
+// src/app/api/sitemap/route.js
 import connectDB from "@/lib/db";
 import { TechBlog, Writing, Project } from "@/models";
 import { NextResponse } from "next/server";
