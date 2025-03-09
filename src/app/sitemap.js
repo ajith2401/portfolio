@@ -1,5 +1,5 @@
 import connectDB from "@/lib/db";
-import { TechBlog, Writing, Project } from "@/models";
+import { TechBlog, Writing, Project, Book } from "@/models";
 
 export default async function sitemap() {
   await connectDB();
@@ -21,6 +21,12 @@ export default async function sitemap() {
     .select('_id title slug updatedAt createdAt')
     .sort({ createdAt: -1 })
     .lean();
+
+      // Fetch all published projects
+      const books = await Book.find({})
+      .select('_id title coverImage publisher publishYear price')
+      .sort({ createdAt: -1 })
+      .lean();
   
   const baseUrl = 'https://www.ajithkumarr.com';
   
@@ -87,7 +93,16 @@ export default async function sitemap() {
     changeFrequency: 'weekly',
     priority: 0.7,
   }));
+
+  // book routes
+  const bookRoutes = books.map((book) => ({
+    url: `${baseUrl}/spotlight/${book._id}`,
+    lastModified: new Date(book.updatedAt || book.createdAt || new Date()),
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
+    
   
   // Combine all routes
-  return [...staticRoutes, ...blogRoutes, ...writingRoutes, ...projectRoutes];
+  return [...staticRoutes, ...blogRoutes, ...writingRoutes, ...projectRoutes,...bookRoutes];
 }
