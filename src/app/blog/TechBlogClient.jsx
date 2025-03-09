@@ -180,26 +180,21 @@ export default function TechBlogClient({ initialPosts }) {
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <Link href="/" className="inline-flex items-center text-gray-600 hover:text-primary transition-colors mb-12">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
-        </Link>
-
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-medium mb-6">
-            A {' '}
-            <span className="text-primary">Technical</span>
-            {' '}Journey Through
-            {' '}
-            <span className="text-primary">Code</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-custom-56 font-dm-sans font-semibold text-foreground mb-3 sm:mb-4 lg:mb-6 px-2 sm:px-4">
+            A <span className="text-primary-500">Technical</span> Journey Through{' '}
+            <span className="text-primary-500">Code</span>
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="w-full max-w-[874px] mx-auto px-4 sm:px-6 lg:px-8 
+            text-center font-work-sans 
+            text-base sm:text-lg lg:text-[22px] 
+            leading-[20px] sm:leading-[24px] lg:leading-[26px] 
+            font-normal text-secondary-600">
             Deep dives into software development, architecture patterns, and engineering best practices.
             Join me in exploring the ever-evolving world of technology.
           </p>
         </div>
-
+ 
         {/* Filters and Search */}
         <div className="max-w-5xl mx-auto mb-12">
           <div className="flex flex-col md:flex-row justify-between gap-6 items-center">

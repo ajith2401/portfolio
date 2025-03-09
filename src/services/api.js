@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-  tagTypes: ['Writing', 'Comment', 'TechBlog', 'Project'],
+  tagTypes: ['Writing', 'Comment', 'TechBlog', 'Project', 'Book'],
   endpoints: (builder) => ({
     // Get all writings with pagination, filtering, sorting and date ranges
     getWritings: builder.query({
@@ -106,7 +106,6 @@ export const api = createApi({
       ]
     }),
     
-
     // New endpoints for tech blog
     getTechBlogs: builder.query({
       query: ({ 
@@ -236,6 +235,76 @@ export const api = createApi({
             ]
           : [{ type: 'Project', id: 'RELATED' }]
     }),
+
+    // Book endpoints
+    getBooks: builder.query({
+      query: (arg = {}) => {
+        const { page = 1, search = '', sortBy = 'publishYear' } = arg;
+        const params = new URLSearchParams();
+        
+        params.append('page', page.toString());
+        
+        if (search) {
+          params.append('search', search);
+        }
+        
+        if (sortBy) {
+          params.append('sortBy', sortBy);
+        }
+        
+        return `books?${params.toString()}`;
+      },
+      transformResponse: (response) => {
+        if (response && typeof response === 'object' && 'data' in response) {
+          return response.data || [];
+        }
+        return [];
+      },
+      providesTags: (result) => {
+        if (!result || !Array.isArray(result)) {
+          return [{ type: 'Book', id: 'LIST' }];
+        }
+        
+        return [
+          ...result.map(book => ({ type: 'Book', id: book._id })),
+          { type: 'Book', id: 'LIST' }
+        ];
+      }
+    }),
+
+    // Get a single book by ID
+    getBookById: builder.query({
+      query: (id) => `books/${id}`,
+      transformResponse: (response) => {
+        if (response && typeof response === 'object' && 'data' in response) {
+          return response.data || null;
+        }
+        return null;
+      },
+      providesTags: (result, error, id) => [{ type: 'Book', id }]
+    }),
+
+    // Get related books
+    getRelatedBooks: builder.query({
+      query: (id) => `books/${id}/related`,
+      transformResponse: (response) => {
+        if (response && typeof response === 'object' && 'data' in response) {
+          return response.data || [];
+        }
+        return [];
+      },
+      providesTags: (result) => {
+        if (!result || !Array.isArray(result)) {
+          return [{ type: 'Book', id: 'RELATED' }];
+        }
+        
+        return [
+          ...result.map(book => ({ type: 'Book', id: book._id })),
+          { type: 'Book', id: 'RELATED' }
+        ];
+      }
+    })
+
   })
 });
 
@@ -251,6 +320,9 @@ export const {
   useGetProjectsQuery,
   useGetProjectQuery,
   useGetRelatedProjectsQuery,
+  useGetBooksQuery,
+  useGetBookByIdQuery,
+  useGetRelatedBooksQuery,
   util: { getRunningQueriesThunk }
 } = api;
 
@@ -259,5 +331,8 @@ export const {
   getWritings,
   getWriting,
   getRelatedWritings,
-  getComments
+  getComments,
+  getBooks,
+  getBookById,
+  getRelatedBooks
 } = api.endpoints;

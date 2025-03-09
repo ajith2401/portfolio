@@ -1,3 +1,4 @@
+// src/app/devfolio/page.js
 import DevfolioClient from "./DevfolioClient";
 import { Project } from '@/models/project.model';
 import connectDB from '@/lib/db';

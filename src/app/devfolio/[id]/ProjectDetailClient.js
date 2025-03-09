@@ -1,3 +1,4 @@
+// src/app/devfolio/[id]/ProjectDetailClient.js
 'use client';
 
 import { useState, useEffect } from 'react';
