@@ -6,13 +6,47 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   tagTypes: ['Writing', 'Comment', 'TechBlog', 'Project'],
   endpoints: (builder) => ({
-    // Get all writings with pagination and filtering
+    // Get all writings with pagination, filtering, sorting and date ranges
     getWritings: builder.query({
-      query: ({ page = 1, category = '' }) => {
-        const categoryParam = category && category !== 'All Writings' 
-          ? `&category=${category.toLowerCase()}` 
-          : '';
-        return `writings?page=${page}${categoryParam}`;
+      query: ({ 
+        page = 1, 
+        category = '', 
+        search = '',
+        sortBy = 'date',
+        startDate = '',
+        endDate = ''
+      }) => {
+        // Build query parameters
+        const params = new URLSearchParams();
+        
+        // Add page parameter
+        params.append('page', page);
+        
+        // Add category if specified
+        if (category && category !== 'All Writings') {
+          params.append('category', category);
+        }
+        
+        // Add search query if specified
+        if (search && search.trim() !== '') {
+          params.append('search', search);
+        }
+        
+        // Add sort option if specified
+        if (sortBy) {
+          params.append('sortBy', sortBy);
+        }
+        
+        // Add date filters if specified
+        if (startDate) {
+          params.append('startDate', startDate);
+        }
+        
+        if (endDate) {
+          params.append('endDate', endDate);
+        }
+        
+        return `writings?${params.toString()}`;
       },
       providesTags: (result) => 
         result 
@@ -66,30 +100,50 @@ export const api = createApi({
       }),
       // Invalidate the cache for this content's comments to trigger a refresh
       invalidatesTags: (result, error, { contentType, contentId }) => [
-        { type: 'Comment', id: `${contentType}-${contentId}` }
+        { type: 'Comment', id: `${contentType}-${contentId}` },
+        // Also invalidate the parent item to refresh rating data
+        { type: contentType, id: contentId }
       ]
     }),
     
 
     // New endpoints for tech blog
     getTechBlogs: builder.query({
-      query: ({ page = 1, category = '', search = '' }) => {
-        let queryParams = [];
+      query: ({ 
+        page = 1, 
+        category = '', 
+        search = '',
+        sortBy = 'date',
+        startDate = '',
+        endDate = '' 
+      }) => {
+        const params = new URLSearchParams();
         
         if (page) {
-          queryParams.push(`page=${page}`);
+          params.append('page', page);
         }
         
         if (category && category !== 'all') {
-          queryParams.push(`category=${encodeURIComponent(category)}`);
+          params.append('category', category);
         }
         
         if (search) {
-          queryParams.push(`search=${encodeURIComponent(search)}`);
+          params.append('search', search);
         }
         
-        const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
-        return `tech-blog${queryString}`;
+        if (sortBy) {
+          params.append('sortBy', sortBy);
+        }
+        
+        if (startDate) {
+          params.append('startDate', startDate);
+        }
+        
+        if (endDate) {
+          params.append('endDate', endDate);
+        }
+        
+        return `tech-blog?${params.toString()}`;
       },
       providesTags: (result) => 
         result 
@@ -118,25 +172,43 @@ export const api = createApi({
           : [{ type: 'TechBlog', id: 'RELATED' }]
     }),
 
-    // New endpoints for projects
+    // Project endpoints with similar parameters
     getProjects: builder.query({
-      query: ({ page = 1, category = '', search = '' }) => {
-        let queryParams = [];
+      query: ({ 
+        page = 1, 
+        category = '', 
+        search = '',
+        sortBy = 'date',
+        startDate = '',
+        endDate = ''
+      }) => {
+        const params = new URLSearchParams();
         
         if (page) {
-          queryParams.push(`page=${page}`);
+          params.append('page', page);
         }
         
         if (category && category !== 'All Projects') {
-          queryParams.push(`category=${encodeURIComponent(category)}`);
+          params.append('category', category);
         }
         
         if (search) {
-          queryParams.push(`search=${encodeURIComponent(search)}`);
+          params.append('search', search);
         }
         
-        const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
-        return `projects${queryString}`;
+        if (sortBy) {
+          params.append('sortBy', sortBy);
+        }
+        
+        if (startDate) {
+          params.append('startDate', startDate);
+        }
+        
+        if (endDate) {
+          params.append('endDate', endDate);
+        }
+        
+        return `projects?${params.toString()}`;
       },
       providesTags: (result) => 
         result 
@@ -146,7 +218,6 @@ export const api = createApi({
             ]
           : [{ type: 'Project', id: 'LIST' }]
     }),
-
     
     // Get a single project
     getProject: builder.query({
@@ -185,8 +256,8 @@ export const {
 
 // For SSR prefetching
 export const {
-    getWritings,
-    getWriting,
-    getRelatedWritings,
-    getComments
-  } = api.endpoints;
+  getWritings,
+  getWriting,
+  getRelatedWritings,
+  getComments
+} = api.endpoints;

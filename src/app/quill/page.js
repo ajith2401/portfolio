@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Search } from 'lucide-react';
+import { Search, CalendarIcon, SortAsc, SortDesc } from 'lucide-react';
 import { useGetWritingsQuery } from '@/services/api';
 
 // Safe localStorage access functions
@@ -21,6 +21,32 @@ const setLocalStorage = (key, value) => {
   }
 };
 
+// Date picker component
+const DatePicker = ({ label, value, onChange, onClear }) => {
+  return (
+    <div className="flex flex-col">
+      <label className="text-xs text-gray-500 mb-1">{label}</label>
+      <div className="relative">
+        <input
+          type="date"
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full px-3 py-2 bg-background border border-gray-300 rounded-md text-foreground text-sm"
+        />
+        {value && (
+          <button 
+            onClick={onClear}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            aria-label="Clear date"
+          >
+            ×
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // Components that use useSearchParams
 const QuillPageContent = () => {
   const router = useRouter();
@@ -31,7 +57,11 @@ const QuillPageContent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Writings');
+  const [sortBy, setSortBy] = useState('date');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [isInitialized, setIsInitialized] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   // Initialize state from URL/localStorage only after component mounts
   useEffect(() => {
@@ -42,11 +72,22 @@ const QuillPageContent = () => {
     
     const initialCategory = searchParams.get('category') || getLocalStorage('quillCategory', 'All Writings');
     const initialSearch = searchParams.get('search') || getLocalStorage('quillSearch', '');
+    const initialSortBy = searchParams.get('sortBy') || getLocalStorage('quillSortBy', 'date');
+    const initialStartDate = searchParams.get('startDate') || getLocalStorage('quillStartDate', '');
+    const initialEndDate = searchParams.get('endDate') || getLocalStorage('quillEndDate', '');
 
     setCurrentPage(isNaN(initialPage) ? 1 : initialPage);
     setSelectedCategory(initialCategory);
     setSearchQuery(initialSearch);
+    setSortBy(initialSortBy);
+    setStartDate(initialStartDate);
+    setEndDate(initialEndDate);
     setIsMounted(true);
+    
+    // Show filters if any are active
+    if (initialStartDate || initialEndDate || initialSortBy !== 'date') {
+      setShowFilters(true);
+    }
     
     // Mark as initialized after setting initial values
     setIsInitialized(true);
@@ -56,7 +97,10 @@ const QuillPageContent = () => {
   const { data, error, isLoading } = useGetWritingsQuery({
     page: currentPage,
     category: selectedCategory !== 'All Writings' ? selectedCategory : '',
-    search: searchQuery
+    search: searchQuery,
+    sortBy,
+    startDate,
+    endDate
   }, { skip: !isMounted }); // Skip the query until mounted
 
   const writings = data?.writings || [];
@@ -72,23 +116,40 @@ const QuillPageContent = () => {
     setLocalStorage('quillPage', currentPage.toString());
     setLocalStorage('quillCategory', selectedCategory);
     setLocalStorage('quillSearch', searchQuery);
+    setLocalStorage('quillSortBy', sortBy);
+    setLocalStorage('quillStartDate', startDate);
+    setLocalStorage('quillEndDate', endDate);
 
     // Update URL params without navigation
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams();
       params.set('page', currentPage.toString());
+      
       if (selectedCategory !== 'All Writings') {
         params.set('category', selectedCategory);
       }
+      
       if (searchQuery) {
         params.set('search', searchQuery);
+      }
+      
+      if (sortBy !== 'date') {
+        params.set('sortBy', sortBy);
+      }
+      
+      if (startDate) {
+        params.set('startDate', startDate);
+      }
+      
+      if (endDate) {
+        params.set('endDate', endDate);
       }
 
       // Replace state without reloading
       const newUrl = `${window.location.pathname}?${params.toString()}`;
       window.history.replaceState({ path: newUrl }, '', newUrl);
     }
-  }, [currentPage, selectedCategory, searchQuery, isInitialized, isMounted]);
+  }, [currentPage, selectedCategory, searchQuery, sortBy, startDate, endDate, isInitialized, isMounted]);
 
   // Handle category change
   const handleCategoryChange = (category) => {
@@ -100,6 +161,31 @@ const QuillPageContent = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     setCurrentPage(1); // Reset to first page when search changes
+  };
+  
+  // Handle sort change
+  const handleSortChange = (newSortBy) => {
+    setSortBy(newSortBy);
+    setCurrentPage(1); // Reset to first page when sort changes
+  };
+  
+  // Handle date changes
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    setCurrentPage(1);
+  };
+  
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+    setCurrentPage(1);
+  };
+  
+  // Clear all filters
+  const clearFilters = () => {
+    setSortBy('date');
+    setStartDate('');
+    setEndDate('');
+    setCurrentPage(1);
   };
 
   const generatePaginationArray = () => {
@@ -202,8 +288,9 @@ const QuillPageContent = () => {
           Uncover My Writings
         </h2>
         
+        {/* Main Filter Row */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
-          <div className="w-full md:w-auto">
+          <div className="w-full md:w-auto flex flex-wrap gap-2 items-center">
             <select 
               className="w-full md:w-auto px-4 py-2 bg-background border border-gray-300 rounded-md text-foreground"
               value={selectedCategory}
@@ -219,6 +306,17 @@ const QuillPageContent = () => {
               <option>Letter</option>
               <option>Joke</option>
             </select>
+            
+            <button 
+              onClick={() => setShowFilters(!showFilters)}
+              className="px-4 py-2 bg-background border border-gray-300 rounded-md text-foreground flex items-center gap-2"
+            >
+              <CalendarIcon size={16} />
+              <span>Filters</span>
+              {(startDate || endDate || sortBy !== 'date') && 
+                <span className="ml-1 px-1.5 py-0.5 bg-red-600 text-white text-xs rounded-full">!</span>
+              }
+            </button>
           </div>
 
           <form onSubmit={handleSearch} className="relative w-full md:w-auto">
@@ -234,12 +332,66 @@ const QuillPageContent = () => {
             </button>
           </form>
         </div>
+        
+        {/* Advanced Filters Row */}
+        {showFilters && (
+          <div className="mb-6 p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex flex-col md:flex-row gap-4 items-end justify-between">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <DatePicker 
+                  label="From Date" 
+                  value={startDate} 
+                  onChange={handleStartDateChange}
+                  onClear={() => handleStartDateChange('')}
+                />
+                
+                <DatePicker 
+                  label="To Date" 
+                  value={endDate} 
+                  onChange={handleEndDateChange}
+                  onClear={() => handleEndDateChange('')}
+                />
+                
+                <div className="flex flex-col">
+                  <label className="text-xs text-gray-500 mb-1">Sort By</label>
+                  <div className="flex">
+                    <button 
+                      onClick={() => handleSortChange('date')}
+                      className={`px-3 py-2 border ${sortBy === 'date' ? 'bg-red-600 text-white border-red-600' : 'bg-background border-gray-300 text-foreground'} rounded-l-md text-sm flex items-center gap-1`}
+                    >
+                      <SortDesc size={14} />
+                      <span>Latest</span>
+                    </button>
+                    <button 
+                      onClick={() => handleSortChange('rating')}
+                      className={`px-3 py-2 border ${sortBy === 'rating' ? 'bg-red-600 text-white border-red-600' : 'bg-background border-gray-300 text-foreground'} rounded-r-md text-sm flex items-center gap-1`}
+                    >
+                      <SortAsc size={14} />
+                      <span>Highest Rated</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <button 
+                onClick={clearFilters}
+                className="text-sm text-gray-600 hover:text-red-600 px-4 py-2 border border-gray-300 rounded-md"
+              >
+                Clear Filters
+              </button>
+            </div>
+          </div>
+        )}
 
         {isLoading ? (
           <div className="text-center py-12">Loading...</div>
         ) : error ? (
           <div className="text-center py-12 text-red-500">
             Error loading writings. Please try again later.
+          </div>
+        ) : writings.length === 0 ? (
+          <div className="text-center py-12 text-foreground">
+            No writings found matching your filters.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 text-foreground">
@@ -290,6 +442,27 @@ const QuillPageContent = () => {
                       {formatDate(writing.createdAt)}
                     </span>
                   </div>
+                  
+                  {/* Rating if available */}
+                  {writing.averageRating > 0 && (
+                    <div className="flex items-center gap-1 text-yellow-500">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <span key={i}>
+                          {i < Math.floor(writing.averageRating) ? (
+                            '★'
+                          ) : i < Math.ceil(writing.averageRating) && 
+                             i >= Math.floor(writing.averageRating) ? (
+                            '⯪'
+                          ) : (
+                            '☆'
+                          )}
+                        </span>
+                      ))}
+                      <span className="text-xs text-gray-500 ml-1">
+                        ({writing.totalRatings || 0})
+                      </span>
+                    </div>
+                  )}
 
                   {/* Divider Line */}
                   <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
