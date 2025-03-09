@@ -1,37 +1,106 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { useGetWritingsQuery } from '@/services/api';
 
-const categoryImages = {
-  philosophy: '/images/philosophy.jpg',
-  poem: '/images/poem.jpg',
-  article: '/images/article.jpg',
-  'short story': '/images/story.jpg',
-  'short writings': '/images/writings.jpg',
-  politics: '/images/politics.jpg',
-  cinema: '/images/cinema.jpg',
-  letter: '/images/letter.jpg',
-  joke: '/images/joke.jpg',
-  default: '/images/default.jpg'
+// Safe localStorage access functions
+const getLocalStorage = (key, fallback) => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem(key) || fallback;
+  }
+  return fallback;
 };
 
-const QuillPage = () => {
+const setLocalStorage = (key, value) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(key, value);
+  }
+};
+
+// Components that use useSearchParams
+const QuillPageContent = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Initial state placeholders
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Writings');
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize state from URL/localStorage only after component mounts
+  useEffect(() => {
+    // Get initial values from URL or localStorage
+    const pageFromUrl = searchParams.get('page');
+    const pageFromStorage = getLocalStorage('quillPage', '1');
+    const initialPage = pageFromUrl ? parseInt(pageFromUrl) : parseInt(pageFromStorage);
+    
+    const initialCategory = searchParams.get('category') || getLocalStorage('quillCategory', 'All Writings');
+    const initialSearch = searchParams.get('search') || getLocalStorage('quillSearch', '');
+
+    setCurrentPage(isNaN(initialPage) ? 1 : initialPage);
+    setSelectedCategory(initialCategory);
+    setSearchQuery(initialSearch);
+    setIsMounted(true);
+    
+    // Mark as initialized after setting initial values
+    setIsInitialized(true);
+  }, [searchParams]);
 
   // Use RTK Query hook
   const { data, error, isLoading } = useGetWritingsQuery({
     page: currentPage,
-    category: selectedCategory
-  });
+    category: selectedCategory !== 'All Writings' ? selectedCategory : '',
+    search: searchQuery
+  }, { skip: !isMounted }); // Skip the query until mounted
 
   const writings = data?.writings || [];
   const totalPages = data?.pagination?.pages || 0;
+
+  // Store current state in localStorage and URL when it changes
+  useEffect(() => {
+    if (!isInitialized || !isMounted) {
+      return;
+    }
+
+    // Update localStorage
+    setLocalStorage('quillPage', currentPage.toString());
+    setLocalStorage('quillCategory', selectedCategory);
+    setLocalStorage('quillSearch', searchQuery);
+
+    // Update URL params without navigation
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams();
+      params.set('page', currentPage.toString());
+      if (selectedCategory !== 'All Writings') {
+        params.set('category', selectedCategory);
+      }
+      if (searchQuery) {
+        params.set('search', searchQuery);
+      }
+
+      // Replace state without reloading
+      const newUrl = `${window.location.pathname}?${params.toString()}`;
+      window.history.replaceState({ path: newUrl }, '', newUrl);
+    }
+  }, [currentPage, selectedCategory, searchQuery, isInitialized, isMounted]);
+
+  // Handle category change
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setCurrentPage(1); // Reset to first page when category changes
+  };
+
+  // Handle search
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setCurrentPage(1); // Reset to first page when search changes
+  };
 
   const generatePaginationArray = () => {
     const delta = 1; // Number of pages to show before and after current page
@@ -95,24 +164,35 @@ const QuillPage = () => {
     });
   };
 
-  return ( 
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Loading Writings...</h2>
+          <p className="text-gray-500">Please wait while we fetch the content.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
     <main className="min-h-screen">
       {/* Hero Section */}
       <div className="w-full py-8 sm:py-12 lg:py-16 px-4 mb-4 sm:mb-6 lg:mb-8">
-      <div className="max-w-6xl mx-auto text-center">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-custom-56 font-dm-sans font-semibold text-foreground mb-3 sm:mb-4 lg:mb-6 px-2 sm:px-4">
-          A <span className="text-red-600">Canvas</span> for My{' '}
-          <span className="text-red-600">Boundless</span> Expressions
-        </h1>
-        <p className="w-full max-w-[874px] mx-auto px-4 sm:px-6 lg:px-8 
-           text-center font-work-sans 
-           text-base sm:text-lg lg:text-[22px] 
-           leading-[20px] sm:leading-[24px] lg:leading-[26px] 
-           font-normal text-secondary-600">
-          This page is my sanctuary for creativity, where emotions take shape and individuality finds its voice. Dive in, and explore the unfiltered me.
-        </p>
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-custom-56 font-dm-sans font-semibold text-foreground mb-3 sm:mb-4 lg:mb-6 px-2 sm:px-4">
+            A <span className="text-red-600">Canvas</span> for My{' '}
+            <span className="text-red-600">Boundless</span> Expressions
+          </h1>
+          <p className="w-full max-w-[874px] mx-auto px-4 sm:px-6 lg:px-8 
+             text-center font-work-sans 
+             text-base sm:text-lg lg:text-[22px] 
+             leading-[20px] sm:leading-[24px] lg:leading-[26px] 
+             font-normal text-secondary-600">
+            This page is my sanctuary for creativity, where emotions take shape and individuality finds its voice. Dive in, and explore the unfiltered me.
+          </p>
+        </div>
       </div>
-    </div>
 
       <div className="w-full border-b border-dashed border-[#949494] opacity-50" />
 
@@ -127,7 +207,7 @@ const QuillPage = () => {
             <select 
               className="w-full md:w-auto px-4 py-2 bg-background border border-gray-300 rounded-md text-foreground"
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e) => handleCategoryChange(e.target.value)}
             >
               <option>All Writings</option>
               <option>Philosophy</option>
@@ -141,7 +221,7 @@ const QuillPage = () => {
             </select>
           </div>
 
-          <div className="relative w-full md:w-auto">
+          <form onSubmit={handleSearch} className="relative w-full md:w-auto">
             <input
               type="text"
               placeholder="Search..."
@@ -149,8 +229,10 @@ const QuillPage = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          </div>
+            <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <Search className="w-4 h-4" />
+            </button>
+          </form>
         </div>
 
         {isLoading ? (
@@ -163,7 +245,7 @@ const QuillPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 text-foreground">
             {writings.map((writing) => (
               <Link 
-                href={`/quill/${writing._id}`} 
+                href={`/quill/${writing._id}?returnPage=${currentPage}`} 
                 key={writing._id}
                 className="w-full md:w-[410.67px] group"
               >
@@ -263,6 +345,22 @@ const QuillPage = () => {
         </div>
       </section>
     </main>
+  );
+};
+
+// Main component that wraps the content in Suspense
+const QuillPage = () => {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Loading Writings...</h2>
+          <p className="text-gray-500">Please wait while we fetch the content.</p>
+        </div>
+      </div>
+    }>
+      <QuillPageContent />
+    </Suspense>
   );
 };
 

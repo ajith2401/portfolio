@@ -1,7 +1,23 @@
 // src/app/quill/[quill_id]/page.js
 import { Writing } from '@/models';
 import connectDB from '@/lib/db';
-import WritingDetailClient from './WritingDetailClient';
+import dynamic from 'next/dynamic';
+
+// Loading component for Suspense fallback
+const WritingDetailLoading = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-center">
+      <h2 className="text-2xl font-bold mb-4">Loading Content...</h2>
+      <p className="text-gray-500">Please wait while we prepare the writing for you.</p>
+    </div>
+  </div>
+);
+
+// Use dynamic import with ssr: false to prevent localStorage errors
+const WritingDetailClient = dynamic(() => import('./WritingDetailClient'), {
+  ssr: false,
+  loading: WritingDetailLoading
+});
 
 export async function generateMetadata({ params }) {
   await connectDB();
@@ -103,11 +119,13 @@ export default async function WritingDetailPage({ params }) {
       totalRatings: writing.totalRatings
     };
     
-    // Pass the safely serialized data to the client component
-    return <WritingDetailClient 
-      initialWriting={safeWriting} 
-      quillId={params.quill_id} 
-    />;
+    // Use the dynamically imported client component
+    return (
+      <WritingDetailClient 
+        initialWriting={safeWriting} 
+        quillId={params.quill_id} 
+      />
+    );
   } catch (error) {
     console.error("Error in WritingDetailPage:", error);
     return <div className="min-h-screen flex items-center justify-center text-red-500">

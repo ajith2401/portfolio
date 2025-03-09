@@ -1,9 +1,9 @@
-// src/app/quill/[id]/WritingDetailClient.jsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import RatingForm from '@/components/ui/form/RatingForm';
 import DecorativeLine from '@/components/ui/DecorativeLine';
@@ -11,6 +11,64 @@ import WritingSchema from '@/components/schema/WritingSchema';
 import SharedContentHeader from '@/components/layout/QuillPageHeader';
 import WordCard from '@/components/ui/card/WordCard'; 
 import { useGetCommentsQuery, useGetRelatedWritingsQuery } from '@/services/api';
+
+// Safe localStorage access functions
+const getLocalStorage = (key, fallback) => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem(key) || fallback;
+  }
+  return fallback;
+};
+
+const setLocalStorage = (key, value) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(key, value);
+  }
+};
+
+// Components that need useSearchParams
+const BackButtonWithParams = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // Get the returnPage from URL params or localStorage (safely)
+  const returnPage = searchParams.get('returnPage') || getLocalStorage('quillPage', '1');
+  const category = getLocalStorage('quillCategory', '');
+  const search = getLocalStorage('quillSearch', '');
+  
+  const handleBack = () => {
+    // Construct the back URL with all preserved parameters
+    const backUrl = new URL('/quill', window.location.origin);
+    
+    // Add page parameter
+    backUrl.searchParams.set('page', returnPage);
+    
+    // Add category if it exists and isn't the default
+    if (category && category !== 'All Writings') {
+      backUrl.searchParams.set('category', category);
+    }
+    
+    // Add search if it exists
+    if (search) {
+      backUrl.searchParams.set('search', search);
+    }
+    
+    // Navigate to the constructed URL
+    router.push(backUrl.toString());
+  };
+  
+  return (
+    <div className="py-4 sm:py-6 md:py-8">
+      <button 
+        onClick={handleBack}
+        className="inline-flex items-center text-xs sm:text-sm hover:text-primary"
+      >
+        <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+        Back to Writings
+      </button>
+    </div>
+  );
+};
 
 // Markdown Renderer Component
 const MarkdownRenderer = ({ content }) => {
@@ -201,10 +259,78 @@ const truncateBody = (text) => {
   return `${words.join(' ')}${hasMoreWords ? ' ...' : ''}`;
 };
 
+// Related writings component that uses searchParams
+const RelatedWritings = ({ relatedWritings, formatDate }) => {
+  const searchParams = useSearchParams();
+  const returnPage = searchParams.get('returnPage') || getLocalStorage('quillPage', '1');
+
+  if (!relatedWritings || relatedWritings.length === 0) {
+    return <p className="text-gray-500 col-span-3 text-center">No related articles found.</p>;
+  }
+
+  return (
+    <>
+      {relatedWritings.map((relatedWriting) => (
+        <Link 
+          href={`/quill/${relatedWriting._id}?returnPage=${returnPage}`} 
+          key={relatedWriting._id}
+          className="w-full group"
+        >
+          <div className="flex flex-col gap-4 sm:gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
+            hover:shadow-[var(--card-hover-shadow)] 
+            hover:translate-y-[var(--card-hover-transform)] 
+            hover:bg-[var(--card-hover-bg)]"
+          >
+            {/* Image Container */}
+            <div className="relative w-full aspect-[16/9] sm:h-[231.38px] rounded-lg overflow-hidden">
+              <Image
+                src={relatedWriting.images?.large || '/placeholder.jpg'}
+                alt={relatedWriting.title}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                priority={false}
+                quality={75}
+              />
+            </div>
+
+            <h3 className="font-work-sans text-base sm:text-lg font-medium leading-tight sm:leading-[21px] transition-colors duration-300 group-hover:text-primary">
+              {relatedWriting.title}
+            </h3>
+          
+            <p className="font-merriweather text-sm text-foreground leading-relaxed sm:leading-[21px]">
+              {truncateBody(relatedWriting.body)}
+            </p>
+
+            <div className="flex justify-between items-center mt-auto">
+              <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
+                <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
+                  {relatedWriting.category}
+                </span>
+              </div>
+
+              <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
+                {formatDate(relatedWriting.createdAt)}
+              </span>
+            </div>
+
+            <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
+          </div>
+        </Link>
+      ))}
+    </>
+  );
+};
 
 export default function WritingDetailClient({ initialWriting, quillId }) {
   // Initialize with pre-fetched writing data
   const [writing] = useState(initialWriting);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Mount check to ensure we're running in the browser
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   // Use RTK Query hooks
   const { data: comments = [] } = useGetCommentsQuery({
@@ -239,13 +365,26 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
       <WritingSchema writing={writing} />
       
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        {/* Back Button */}
-        <div className="py-4 sm:py-6 md:py-8">
-          <Link href="/quill" className="inline-flex items-center text-xs sm:text-sm hover:text-primary">
-            <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-            Back
-          </Link>
-        </div>
+        {/* Back Button - Wrapped in Suspense and only render on client-side */}
+        {isMounted ? (
+          <Suspense fallback={
+            <div className="py-4 sm:py-6 md:py-8">
+              <span className="inline-flex items-center text-xs sm:text-sm">
+                <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                Back
+              </span>
+            </div>
+          }>
+            <BackButtonWithParams />
+          </Suspense>
+        ) : (
+          <div className="py-4 sm:py-6 md:py-8">
+            <span className="inline-flex items-center text-xs sm:text-sm">
+              <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+              Back
+            </span>
+          </div>
+        )}
 
         {/* Header Section */}
         <SharedContentHeader content={writing} contentType="Writing" />
@@ -290,68 +429,25 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
           </div>
         </section>
 
-        {/* Use our updated RatingForm component with explicit contentType */}
+        {/* Rating Form */}
         <RatingForm contentType="Writing" contentId={quillId} />
 
         <div className="w-full border-b border-dashed border-[#949494] opacity-50 my-8 md:my-12" />
 
-        {/* Related Articles */}
+        {/* Related Articles - Wrapped in Suspense */}
         <section className="mb-8 md:mb-16 mt-16 md:mt-28">
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">You Might Also Like</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {relatedWritings.length > 0 ? relatedWritings.map((relatedWriting) => (
-              <Link 
-                href={`/quill/${relatedWriting._id}`} 
-                key={relatedWriting._id}
-                className="w-full group"
-              >
-              <div className="flex flex-col gap-4 sm:gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
-              hover:shadow-[var(--card-hover-shadow)] 
-              hover:translate-y-[var(--card-hover-transform)] 
-              hover:bg-[var(--card-hover-bg)]"
-            >
-              {/* Image Container */}
-              <div className="relative w-full aspect-[16/9] sm:h-[231.38px] rounded-lg overflow-hidden">
-                <Image
-                  src={relatedWriting.images?.large || '/placeholder.jpg'}
-                  alt={relatedWriting.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  priority={false}
-                  quality={75}
-                />
-              </div>
-
-              <h3 className="font-work-sans text-base sm:text-lg font-medium leading-tight sm:leading-[21px] transition-colors duration-300 group-hover:text-primary">
-                {relatedWriting.title}
-              </h3>
-            
-              <p className="font-merriweather text-sm text-foreground leading-relaxed sm:leading-[21px]">
-                {truncateBody(relatedWriting.body)}
-              </p>
-
-              <div className="flex justify-between items-center mt-auto">
-                <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
-                  <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                    {relatedWriting.category}
-                  </span>
-                </div>
-
-                <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                  {formatDate(relatedWriting.createdAt)}
-                </span>
-              </div>
-
-              <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
-            </div>
-          </Link>
-        )) : (
-          <p className="text-gray-500 col-span-3 text-center">No related articles found.</p>
-        )}
+            {isMounted ? (
+              <Suspense fallback={<p className="text-gray-500 col-span-3 text-center">Loading related articles...</p>}>
+                <RelatedWritings relatedWritings={relatedWritings} formatDate={formatDate} />
+              </Suspense>
+            ) : (
+              <p className="text-gray-500 col-span-3 text-center">Loading related articles...</p>
+            )}
+          </div>
+        </section>
       </div>
-    </section>
-  </div>
-</div>
-);
+    </div>
+  );
 }
