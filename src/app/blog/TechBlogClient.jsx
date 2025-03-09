@@ -1,10 +1,12 @@
+// src/app/blog/TechBlogClient.jsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Search } from 'lucide-react';
 import { useGetTechBlogsQuery } from '@/services/api';
+import { useSearchParams } from 'next/navigation';
 
 const TechBlogCard = ({ post }) => {
   const formatDate = (date) => {
@@ -47,23 +49,64 @@ const TechBlogCard = ({ post }) => {
 };
 
 export default function TechBlogClient({ initialPosts }) {
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const searchParams = useSearchParams();
   
-  // Use RTK Query hook without initialData
+  // Get pagination and filter state from URL or use defaults
+  const initialPage = parseInt(searchParams.get('page') || '1', 10);
+  const initialCategory = searchParams.get('category') || 'all';
+  const initialSearchQuery = searchParams.get('search') || '';
+  
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [activeFilter, setActiveFilter] = useState(initialCategory);
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
+  const [totalPages, setTotalPages] = useState(1);
+  
+  // Use RTK Query hook for fetching tech blogs
   const { data, isLoading } = useGetTechBlogsQuery(
     { 
+      page: currentPage,
       category: activeFilter === 'all' ? '' : activeFilter, 
       search: searchQuery 
     },
     {
-      // Skip the query if we're showing all posts and have no search query
-      skip: activeFilter === 'all' && searchQuery === ''
+      // Skip the query only if we're on page 1, showing all posts, have no search query,
+      // and have initialPosts
+      skip: currentPage === 1 && activeFilter === 'all' && 
+            searchQuery === '' && initialPosts?.length > 0
     }
   );
-  
+
+  // Update URL when filter or pagination changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    if (currentPage > 1) {
+      params.set('page', currentPage.toString());
+    }
+    
+    if (activeFilter !== 'all') {
+      params.set('category', activeFilter);
+    }
+    
+    if (searchQuery) {
+      params.set('search', searchQuery);
+    }
+    
+    const newUrl = params.toString() ? `?${params.toString()}` : '/blog';
+    
+    // Use replaceState to avoid adding browser history entries for pagination changes
+    window.history.replaceState({}, '', newUrl);
+  }, [currentPage, activeFilter, searchQuery]);
+
+  // Extract posts and pagination data
+  useEffect(() => {
+    if (data) {
+      setTotalPages(data.pagination?.pages || 1);
+    }
+  }, [data]);
+
   // Use the data from RTK Query or fall back to initial posts
-  const posts = (activeFilter === 'all' && searchQuery === '')
+  const posts = (currentPage === 1 && activeFilter === 'all' && searchQuery === '' && !data)
     ? initialPosts
     : data?.techBlogs || [];
 
@@ -76,6 +119,63 @@ export default function TechBlogClient({ initialPosts }) {
     'devops',
     'cloud'
   ];
+
+  // Generate pagination array for rendering
+  const generatePaginationArray = () => {
+    const delta = 1; // Number of pages to show before and after current page
+    const range = [];
+    const rangeWithDots = [];
+
+    // Always show first page
+    range.push(1);
+
+    for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+      if (i > 1 && i < totalPages) {
+        range.push(i);
+      }
+    }
+
+    // Always show last page
+    if (totalPages > 1) {
+      range.push(totalPages);
+    }
+
+    // Add dots and numbers
+    let prev = 0;
+    for (const i of range) {
+      if (prev > 0) {
+        if (i - prev === 2) {
+          rangeWithDots.push(prev + 1);
+        } else if (i - prev !== 1) {
+          rangeWithDots.push('...');
+        }
+      }
+      rangeWithDots.push(i);
+      prev = i;
+    }
+
+    return rangeWithDots;
+  };
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // Handle category selection
+  const handleCategoryChange = (category) => {
+    setActiveFilter(category);
+    setCurrentPage(1); // Reset to page 1 when category changes
+  };
+
+  // Handle search input
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset to page 1 when search changes
+  };
 
   return (
     <div className="min-h-screen">
@@ -107,7 +207,7 @@ export default function TechBlogClient({ initialPosts }) {
               {categories.map(category => (
                 <button
                   key={category}
-                  onClick={() => setActiveFilter(category)}
+                  onClick={() => handleCategoryChange(category)}
                   className={`whitespace-nowrap px-4 py-2 rounded-full text-sm transition-all font-work-sans
                     ${activeFilter === category 
                       ? 'bg-primary text-white' 
@@ -124,7 +224,7 @@ export default function TechBlogClient({ initialPosts }) {
                 type="text"
                 placeholder="Search posts..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
                 className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-primary text-sm"
               />
             </div>
@@ -151,6 +251,53 @@ export default function TechBlogClient({ initialPosts }) {
             <p className="text-gray-600">
               Try adjusting your search or filter to find what you&apos;re looking for.
             </p>
+          </div>
+        )}
+        
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center mt-8 md:mt-12">
+            <div className="flex items-center gap-1 sm:gap-2 px-2 py-1 rounded-lg bg-background">
+              {/* Previous Button */}
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Previous page"
+              >
+                <span className="text-sm sm:text-base">←</span>
+              </button>
+
+              {/* Page Numbers */}
+              <div className="flex items-center gap-1 sm:gap-2">
+                {generatePaginationArray().map((page, index) => (
+                  <button
+                    key={index}
+                    onClick={() => typeof page === 'number' && handlePageChange(page)}
+                    disabled={typeof page !== 'number'}
+                    className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-md text-sm sm:text-base transition-colors ${
+                      currentPage === page
+                        ? 'bg-primary text-white'
+                        : typeof page === 'number'
+                        ? 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
+                        : 'text-gray-500 cursor-default'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Next page"
+              >
+                <span className="text-sm sm:text-base">→</span>
+              </button>
+            </div>
           </div>
         )}
       </div>

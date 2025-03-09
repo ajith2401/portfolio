@@ -6,11 +6,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Github, ExternalLink, Search } from 'lucide-react';
 import { useGetProjectsQuery } from '@/services/api';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const DevfolioClient = ({ initialProjects = [] }) => {
-  const [selectedCategory, setSelectedCategory] = useState('All Projects');
-  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // Get pagination and filter state from URL or use defaults
+  const initialPage = parseInt(searchParams.get('page') || '1', 10);
+  const initialCategory = searchParams.get('category') || 'All Projects';
+  const initialSearchQuery = searchParams.get('search') || '';
+  
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [categories, setCategories] = useState(['All Projects']);
+  const [totalPages, setTotalPages] = useState(1);
 
   // Extract unique categories from projects on mount
   useEffect(() => {
@@ -23,36 +34,108 @@ const DevfolioClient = ({ initialProjects = [] }) => {
   // Use RTK Query hook with appropriate parameters
   const { data, isLoading } = useGetProjectsQuery(
     { 
+      page: currentPage,
       category: selectedCategory === 'All Projects' ? '' : selectedCategory, 
       search: searchQuery 
     },
     {
-      // Skip the query if we're showing all projects and have no search query
-      skip: selectedCategory === 'All Projects' && searchQuery === ''
+      // Skip the query only if we're on page 1, showing all projects, have no search query,
+      // and have initialProjects
+      skip: currentPage === 1 && selectedCategory === 'All Projects' && 
+            searchQuery === '' && initialProjects.length > 0
     }
   );
 
-  // Use the data from RTK Query or fall back to initial projects if needed
-  const projects = (selectedCategory === 'All Projects' && searchQuery === '')
-    ? initialProjects
-    : data || [];
-
-  // Filter projects client-side
-  const filteredProjects = projects.filter(project => {
-    // If search query is empty, just filter by category (which is already done by the API)
-    if (!searchQuery) {
-      return true;
+  // Update URL when filter or pagination changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    if (currentPage > 1) {
+      params.set('page', currentPage.toString());
     }
     
-    // If we have a search query, filter locally too
-    const query = searchQuery.toLowerCase();
-    return (
-      project.title.toLowerCase().includes(query) ||
-      project.shortDescription.toLowerCase().includes(query) ||
-      (project.stack && project.stack.some(tech => tech.toLowerCase().includes(query))) ||
-      project.category.toLowerCase().includes(query)
-    );
-  });
+    if (selectedCategory !== 'All Projects') {
+      params.set('category', selectedCategory);
+    }
+    
+    if (searchQuery) {
+      params.set('search', searchQuery);
+    }
+    
+    const newUrl = params.toString() ? `?${params.toString()}` : '/devfolio';
+    
+    // Use replaceState to avoid adding browser history entries for pagination changes
+    window.history.replaceState({}, '', newUrl);
+  }, [currentPage, selectedCategory, searchQuery]);
+
+  // Extract projects and pagination data
+  useEffect(() => {
+    if (data) {
+      setTotalPages(data.pagination?.pages || 1);
+    }
+  }, [data]);
+
+  // Use the data from RTK Query or fall back to initial projects if needed
+  const projects = (currentPage === 1 && selectedCategory === 'All Projects' && searchQuery === '' && !data)
+    ? initialProjects
+    : data?.projects || [];
+
+  // Generate pagination array for rendering
+  const generatePaginationArray = () => {
+    const delta = 1; // Number of pages to show before and after current page
+    const range = [];
+    const rangeWithDots = [];
+
+    // Always show first page
+    range.push(1);
+
+    for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+      if (i > 1 && i < totalPages) {
+        range.push(i);
+      }
+    }
+
+    // Always show last page
+    if (totalPages > 1) {
+      range.push(totalPages);
+    }
+
+    // Add dots and numbers
+    let prev = 0;
+    for (const i of range) {
+      if (prev > 0) {
+        if (i - prev === 2) {
+          rangeWithDots.push(prev + 1);
+        } else if (i - prev !== 1) {
+          rangeWithDots.push('...');
+        }
+      }
+      rangeWithDots.push(i);
+      prev = i;
+    }
+
+    return rangeWithDots;
+  };
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // Handle category selection
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setCurrentPage(1); // Reset to page 1 when category changes
+  };
+
+  // Handle search input
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset to page 1 when search changes
+  };
 
   return (
     <main className="min-h-screen">
@@ -84,7 +167,7 @@ const DevfolioClient = ({ initialProjects = [] }) => {
             <select 
               className="glass-input px-4 py-2 rounded-md w-full md:w-48"
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e) => handleCategoryChange(e.target.value)}
             >
               {categories.map((category) => (
                 <option key={category}>{category}</option>
@@ -98,7 +181,7 @@ const DevfolioClient = ({ initialProjects = [] }) => {
               placeholder="Search projects..."
               className="glass-input w-full pl-10 pr-4 py-2 rounded-md"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
             />
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-400 w-4 h-4" />
           </div>
@@ -114,7 +197,7 @@ const DevfolioClient = ({ initialProjects = [] }) => {
         {/* Projects Grid */}
         {!isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
+            {projects.map((project) => (
               <article 
                 key={project._id} 
                 className="clean-container rounded-lg overflow-hidden group transition-all duration-300
@@ -122,7 +205,10 @@ const DevfolioClient = ({ initialProjects = [] }) => {
                   hover:translate-y-[var(--card-hover-transform)]
                   cursor-pointer"
               >
-                <Link href={`/devfolio/${project._id}`} className="block">
+                <Link 
+                  href={`/devfolio/${project._id}`}
+                  className="block"
+                >
                   <div className="relative w-full h-48 overflow-hidden">
                     <Image
                       src={project.images?.medium || '/placeholder.jpg'}
@@ -221,9 +307,56 @@ const DevfolioClient = ({ initialProjects = [] }) => {
         )}
 
         {/* No results message */}
-        {!isLoading && filteredProjects.length === 0 && (
+        {!isLoading && projects.length === 0 && (
           <div className="text-center py-12">
             <p className="text-secondary-600">No projects found matching your criteria.</p>
+          </div>
+        )}
+        
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center mt-8 md:mt-12">
+            <div className="flex items-center gap-1 sm:gap-2 px-2 py-1 rounded-lg bg-background">
+              {/* Previous Button */}
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Previous page"
+              >
+                <span className="text-sm sm:text-base">←</span>
+              </button>
+
+              {/* Page Numbers */}
+              <div className="flex items-center gap-1 sm:gap-2">
+                {generatePaginationArray().map((page, index) => (
+                  <button
+                    key={index}
+                    onClick={() => typeof page === 'number' && handlePageChange(page)}
+                    disabled={typeof page !== 'number'}
+                    className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-md text-sm sm:text-base transition-colors ${
+                      currentPage === page
+                        ? 'bg-primary-500 text-white'
+                        : typeof page === 'number'
+                        ? 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
+                        : 'text-gray-500 cursor-default'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Next page"
+              >
+                <span className="text-sm sm:text-base">→</span>
+              </button>
+            </div>
           </div>
         )}
       </section>

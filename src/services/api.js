@@ -61,26 +61,40 @@ export const api = createApi({
       query: (data) => ({
         url: 'comments',
         method: 'POST',
-        body: data
+        body: {
+          name: data.name,
+          email: data.email,
+          comment: data.comment,
+          rating: data.rating,
+          parentId: data.contentId,  // Renamed from contentId to parentId to match the API
+          parentModel: data.contentType === 'TechBlog' ? 'TechBlog' : 'Writing'
+        }
       }),
-      invalidatesTags: (result, error, { contentId }) => [
-        { type: 'Comment', id: 'LIST' },
-        { type: 'Writing', id: contentId }
+      // Invalidate any cached comments for this content
+      invalidatesTags: (result, error, { contentId, contentType }) => [
+        { type: 'Comment', id: `${contentType}-${contentId}` }
       ]
     }),
 
     // New endpoints for tech blog
     getTechBlogs: builder.query({
-      query: ({ category = '', search = '' }) => {
-        let queryString = '';
-        if (category && category !== 'all') {
-          queryString += `category=${category}`;
-        }
-        if (search) {
-          queryString += queryString ? `&search=${encodeURIComponent(search)}` : `search=${encodeURIComponent(search)}`;
+      query: ({ page = 1, category = '', search = '' }) => {
+        let queryParams = [];
+        
+        if (page) {
+          queryParams.push(`page=${page}`);
         }
         
-        return `tech-blog${queryString ? `?${queryString}` : ''}`;
+        if (category && category !== 'all') {
+          queryParams.push(`category=${encodeURIComponent(category)}`);
+        }
+        
+        if (search) {
+          queryParams.push(`search=${encodeURIComponent(search)}`);
+        }
+        
+        const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+        return `tech-blog${queryString}`;
       },
       providesTags: (result) => 
         result 
@@ -90,7 +104,7 @@ export const api = createApi({
             ]
           : [{ type: 'TechBlog', id: 'LIST' }]
     }),
-    
+
     // Get a single tech blog post
     getTechBlog: builder.query({
       query: (id) => `tech-blog/${id}`,
@@ -111,25 +125,33 @@ export const api = createApi({
 
     // New endpoints for projects
     getProjects: builder.query({
-      query: ({ category = '', search = '' }) => {
-        let queryString = '';
-        if (category && category !== 'All Projects') {
-          queryString += `category=${category}`;
-        }
-        if (search) {
-          queryString += queryString ? `&search=${encodeURIComponent(search)}` : `search=${encodeURIComponent(search)}`;
+      query: ({ page = 1, category = '', search = '' }) => {
+        let queryParams = [];
+        
+        if (page) {
+          queryParams.push(`page=${page}`);
         }
         
-        return `projects${queryString ? `?${queryString}` : ''}`;
+        if (category && category !== 'All Projects') {
+          queryParams.push(`category=${encodeURIComponent(category)}`);
+        }
+        
+        if (search) {
+          queryParams.push(`search=${encodeURIComponent(search)}`);
+        }
+        
+        const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+        return `projects${queryString}`;
       },
       providesTags: (result) => 
         result 
           ? [
-              ...(result || []).map(({ _id }) => ({ type: 'Project', id: _id })),
+              ...(result.projects || []).map(({ _id }) => ({ type: 'Project', id: _id })),
               { type: 'Project', id: 'LIST' }
             ]
           : [{ type: 'Project', id: 'LIST' }]
     }),
+
     
     // Get a single project
     getProject: builder.query({

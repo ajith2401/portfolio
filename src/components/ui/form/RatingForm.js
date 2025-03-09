@@ -36,13 +36,13 @@ const RatingForm = ({ contentType = 'Writing', contentId }) => {
     }
     
     try {
-      // Use RTK Query mutation
+      // Use RTK Query mutation with corrected field names
       await addComment({
         name: formData.name,
         email: formData.email,
         comment: formData.comment,
         rating: rating,
-        contentId: id,
+        contentId: id,  // This will be mapped to parentId in the API service
         contentType: contentType === 'TechBlog' ? 'TechBlog' : 'Writing'
       }).unwrap();
       

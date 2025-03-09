@@ -57,7 +57,7 @@ const Footer = () => {
             <div className="flex flex-wrap gap-4">
               {[
                 { name: 'GitHub', url: 'https://github.com/ajith2401' },
-                { name: 'LinkedIn', url: 'https://linkedin.com/in/ajithkumar-r-85b72016a' },
+                { name: 'LinkedIn', url: 'https://www.linkedin.com/in/ajithkumar-r-a6531a232/' },
                 { name: 'Twitter', url: 'https://twitter.com' }
               ].map((social) => (
                 <a

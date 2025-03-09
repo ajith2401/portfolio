@@ -8,7 +8,6 @@ import DecorativeLine from '@/components/ui/DecorativeLine';
 import ShareButtons from '@/components/layout/ShareButtons';
 import ProjectSchema from '@/components/schema/ProjectSchema';
 
-// Import the MarkdownRenderer from TechBlogPostClient
 const MarkdownRenderer = ({ content }) => {
   // Only process if we have content
   if (!content) return null;

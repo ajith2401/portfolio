@@ -86,16 +86,6 @@ export default async function TechBlogPostPage({ params }) {
       return <div className="min-h-screen flex items-center justify-center">Blog post not found</div>;
     }
     
-    // Get related posts
-    const relatedPosts = await TechBlog.find({
-      _id: { $ne: params.blog_id },
-      category: blog.category,
-      status: 'published'
-    })
-    .select('_id title subtitle content images category createdAt')
-    .limit(3)
-    .lean();
-    
     // Safe serialization with structured error handling
     const serialize = (obj) => {
       try {
@@ -106,7 +96,6 @@ export default async function TechBlogPostPage({ params }) {
         return { error: true };
       }
     };
-    
     return <TechBlogPostClient 
       blog={serialize(blog)} 
       blogId={params.blog_id}

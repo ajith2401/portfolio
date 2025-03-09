@@ -205,6 +205,7 @@ const truncateBody = (text) => {
 };
 
 export default function TechBlogPostClient({ blog, blogId }) {
+  console.log({ blog, blogId })
   // Initialize with server-fetched blog
   const [blogPost] = useState(blog);
   
