@@ -9,6 +9,7 @@ import BackgroundVectors from "@/components/layout/BackgroundVectors";
 import { Toaster } from 'react-hot-toast';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import OfflineNotice from "@/components/ui/OfflineNotice";
+import { Providers } from "./providers";
 
 // Initialize the fonts
 const merriweather = Merriweather({
@@ -182,7 +183,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <OfflineNotice />
           <main className="w-full">
-            {children}
+          <Providers>{children}</Providers>
           </main>
           <Footer />
         </ThemeProvider>

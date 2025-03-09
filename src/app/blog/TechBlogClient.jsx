@@ -1,10 +1,10 @@
-// src/app/blog/blogClient.jsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Search } from 'lucide-react';
+import { useGetTechBlogsQuery } from '@/services/api';
 
 const TechBlogCard = ({ post }) => {
   const formatDate = (date) => {
@@ -47,10 +47,25 @@ const TechBlogCard = ({ post }) => {
 };
 
 export default function TechBlogClient({ initialPosts }) {
-  const [posts, setPosts] = useState(initialPosts || []);
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(false);
+  
+  // Use RTK Query hook without initialData
+  const { data, isLoading } = useGetTechBlogsQuery(
+    { 
+      category: activeFilter === 'all' ? '' : activeFilter, 
+      search: searchQuery 
+    },
+    {
+      // Skip the query if we're showing all posts and have no search query
+      skip: activeFilter === 'all' && searchQuery === ''
+    }
+  );
+  
+  // Use the data from RTK Query or fall back to initial posts
+  const posts = (activeFilter === 'all' && searchQuery === '')
+    ? initialPosts
+    : data?.techBlogs || [];
 
   const categories = [
     'all',
@@ -61,46 +76,6 @@ export default function TechBlogClient({ initialPosts }) {
     'devops',
     'cloud'
   ];
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      if (activeFilter !== 'all' || searchQuery !== '') {
-        setLoading(true);
-        try {
-          const categoryParam = activeFilter !== 'all' ? `category=${activeFilter}` : '';
-          const searchParam = searchQuery ? `search=${encodeURIComponent(searchQuery)}` : '';
-          const queryString = [categoryParam, searchParam].filter(Boolean).join('&');
-          
-          const response = await fetch(`/api/tech-blog?${queryString}`);
-          if (!response.ok) throw new Error('Failed to fetch posts');
-          
-          const data = await response.json();
-          setPosts(data.techBlogs || []);
-        } catch (error) {
-          console.error('Error fetching posts:', error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    // Debounce fetch for search
-    const handler = setTimeout(() => {
-      fetchPosts();
-    }, 300);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [activeFilter, searchQuery]);
-
-  const filteredPosts = posts
-    .filter(post => activeFilter === 'all' || post.category === activeFilter)
-    .filter(post => 
-      searchQuery === '' || 
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.content?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
 
   return (
     <div className="min-h-screen">
@@ -157,20 +132,20 @@ export default function TechBlogClient({ initialPosts }) {
         </div>
 
         {/* Grid of Posts */}
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center py-20">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-foreground">
-            {filteredPosts.map(post => (
+            {posts.map(post => (
               <TechBlogCard key={post._id} post={post} />
             ))}
           </div>
         )}
 
         {/* Empty State */}
-        {!loading && filteredPosts.length === 0 && (
+        {!isLoading && posts.length === 0 && (
           <div className="text-center py-16">
             <h3 className="text-xl font-semibold mb-2">No posts found</h3>
             <p className="text-gray-600">

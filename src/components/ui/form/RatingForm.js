@@ -4,20 +4,23 @@
 import { useState } from 'react';
 import { Star } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useAddCommentMutation } from '@/services/api';
 
 const RatingForm = ({ contentType = 'Writing', contentId }) => {
   const params = useParams();
   // Use provided contentId or get it from route params
-  const id = contentId || params.blog_id || params.quillId || '';
+  const id = contentId || params.blog_id || params.quill_id || '';
   
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
   const [rating, setRating] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     comment: ''
   });
+  const [submitMessage, setSubmitMessage] = useState('');
+  
+  // RTK Query mutation hook
+  const [addComment, { isLoading: isSubmitting }] = useAddCommentMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,48 +35,33 @@ const RatingForm = ({ contentType = 'Writing', contentId }) => {
       return;
     }
     
-    setIsSubmitting(true);
-    
     try {
-      // Use unified API endpoint
-      const response = await fetch('/api/comments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          comment: formData.comment,
-          rating: rating,
-          parentId: id,
-          parentModel: contentType === 'TechBlog' ? 'TechBlog' : 'Writing'
-        }),
+      // Use RTK Query mutation
+      await addComment({
+        name: formData.name,
+        email: formData.email,
+        comment: formData.comment,
+        rating: rating,
+        contentId: id,
+        contentType: contentType === 'TechBlog' ? 'TechBlog' : 'Writing'
+      }).unwrap();
+      
+      setSubmitMessage('Thank you for your feedback!');
+      setRating(0);
+      setFormData({
+        name: '',
+        email: '',
+        comment: ''
       });
       
-      if (response.ok) {
-        setSubmitMessage('Thank you for your feedback!');
-        setRating(0);
-        setFormData({
-          name: '',
-          email: '',
-          comment: ''
-        });
-        
-        // Reset message after 3 seconds
-        setTimeout(() => {
-          setSubmitMessage('');
-        }, 3000);
-        
-      } else {
-        const error = await response.json();
-        setSubmitMessage(`Error: ${error.message || 'Failed to submit'}`);
-      }
+      // Reset message after 3 seconds
+      setTimeout(() => {
+        setSubmitMessage('');
+      }, 3000);
+      
     } catch (error) {
       console.error('Error submitting rating:', error);
       setSubmitMessage('An error occurred. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

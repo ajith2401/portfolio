@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.64",
+    "@reduxjs/toolkit": "^2.6.1",
     "@vercel/og": "^0.6.5",
     "@vercel/speed-insights": "^1.2.0",
     "autoprefixer": "^10.4.20",
@@ -24,6 +25,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^18",
     "react-hot-toast": "^2.5.2",
+    "react-redux": "^9.2.0",
     "resend": "^4.1.2",
     "sharp": "^0.33.5",
     "stream-browserify": "^3.0.0",

@@ -1,7 +1,7 @@
 // src/app/blog/[blog_id]/blogPostClient.jsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
@@ -10,8 +10,11 @@ import DecorativeLine from '@/components/ui/DecorativeLine';
 import BlogSchema from '@/components/schema/BlogSchema';
 import RatingForm from '@/components/ui/form/RatingForm';
 import WordCard from '@/components/ui/card/WordCard'; 
+import { 
+  useGetRelatedTechBlogsQuery,
+  useGetCommentsQuery
+} from '@/services/api';
 
-// Create a custom component for rendering markdown content
 const MarkdownRenderer = ({ content }) => {
   // Only process if we have content
   if (!content) return null;
@@ -202,39 +205,16 @@ const truncateBody = (text) => {
 };
 
 export default function TechBlogPostClient({ blog, blogId }) {
-  const [comments, setComments] = useState([]);
-  const [relatedPosts, setRelatedPosts] = useState([]);
+  // Initialize with server-fetched blog
+  const [blogPost] = useState(blog);
   
-  useEffect(() => {
-    // Fetch comments using the unified API
-    async function fetchComments() {
-      try {
-        const res = await fetch(`/api/comments/TechBlog/${blogId}`);
-        if (res.ok) {
-          const data = await res.json();
-          setComments(data);
-        }
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
-    }
-    
-    // Fetch related tech blogs
-    async function fetchRelatedPosts() {
-      try {
-        const res = await fetch(`/api/tech-blog/${blogId}/related`);
-        if (res.ok) {
-          const data = await res.json();
-          setRelatedPosts(data);
-        }
-      } catch (error) {
-        console.error('Error fetching related posts:', error);
-      }
-    }
-    
-    fetchComments();
-    fetchRelatedPosts();
-  }, [blogId]);
+  // Use RTK Query hooks for comments and related posts
+  const { data: comments = [] } = useGetCommentsQuery({
+    contentType: 'TechBlog',
+    contentId: blogId
+  });
+  
+  const { data: relatedPosts = [] } = useGetRelatedTechBlogsQuery(blogId);
   
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
@@ -244,9 +224,13 @@ export default function TechBlogPostClient({ blog, blogId }) {
     });
   };
   
+  if (!blogPost) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+  
   return (
     <div className="min-h-screen text-foreground">
-      <BlogSchema blog={blog} />
+      <BlogSchema blog={blogPost} />
       
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Back Button */}
@@ -258,7 +242,7 @@ export default function TechBlogPostClient({ blog, blogId }) {
         </div>
         
         {/* Header Section */}
-        <SharedContentHeader content={blog} contentType="TechBlog" />
+        <SharedContentHeader content={blogPost} contentType="TechBlog" />
         
         {/* Decorative Line */}
         <div className="w-full mx-auto mt-4 md:mt-8 mb-8 sm:mb-12 md:mb-16">
@@ -267,15 +251,15 @@ export default function TechBlogPostClient({ blog, blogId }) {
         
         {/* Content Section */}
         <div className="w-full max-w-[1064px] mx-auto mb-16 md:mb-36 px-4 sm:px-6 relative">
-          {/* Replace the original dangerouslySetInnerHTML with our MarkdownRenderer */}
-          <MarkdownRenderer content={blog.content} />
+          {/* Keep your MarkdownRenderer component */}
+          <MarkdownRenderer content={blogPost.content} />
         </div>
         
         {/* Tags */}
-        {blog.tags && blog.tags.length > 0 && (
+        {blogPost.tags && blogPost.tags.length > 0 && (
           <div className="max-w-[1064px] mx-auto mb-8">
             <div className="flex flex-wrap gap-2">
-              {blog.tags.map((tag, index) => (
+              {blogPost.tags.map((tag, index) => (
                 <span key={index} className="px-3 py-1.5 bg-[rgba(140,140,140,0.1)] rounded-full text-sm text-gray-400 font-work-sans">
                   {tag}
                 </span>
@@ -299,7 +283,7 @@ export default function TechBlogPostClient({ blog, blogId }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {comments && comments.length > 0 ? comments.slice(0, 3).map((comment) => (
               <WordCard
-                key={comment._id}
+                key={comment._id || comment.id}
                 author={comment.name}
                 content={comment.comment}
                 rating={comment.rating || 5}

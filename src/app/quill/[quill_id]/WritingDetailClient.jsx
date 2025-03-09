@@ -10,6 +10,7 @@ import DecorativeLine from '@/components/ui/DecorativeLine';
 import WritingSchema from '@/components/schema/WritingSchema';
 import SharedContentHeader from '@/components/layout/QuillPageHeader';
 import WordCard from '@/components/ui/card/WordCard'; 
+import { useGetCommentsQuery, useGetRelatedWritingsQuery } from '@/services/api';
 
 // Markdown Renderer Component
 const MarkdownRenderer = ({ content }) => {
@@ -200,48 +201,18 @@ const truncateBody = (text) => {
   return `${words.join(' ')}${hasMoreWords ? ' ...' : ''}`;
 };
 
+
 export default function WritingDetailClient({ initialWriting, quillId }) {
   // Initialize with pre-fetched writing data
-  const [writing, setWriting] = useState(initialWriting);
-  const [comments, setComments] = useState([]);
-  const [relatedWritings, setRelatedWritings] = useState([]);
-
-  useEffect(() => {
-    // Fetch comments using new unified API
-    const fetchComments = async () => {
-      try {
-        const commentsRes = await fetch(`/api/comments/Writing/${quillId}`);
-        
-        if (!commentsRes.ok) {
-          throw new Error('Failed to fetch comments');
-        }
-
-        const commentsData = await commentsRes.json();
-        setComments(commentsData);
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
-    };
-
-    // Fetch related writings
-    const fetchRelatedWritings = async () => {
-      try {
-        const relatedRes = await fetch(`/api/writings/${quillId}/related`);
-        
-        if (!relatedRes.ok) {
-          throw new Error('Failed to fetch related writings');
-        }
-
-        const relatedData = await relatedRes.json();
-        setRelatedWritings(relatedData);
-      } catch (error) {
-        console.error('Error fetching related writings:', error);
-      }
-    };
-
-    fetchComments();
-    fetchRelatedWritings();
-  }, [quillId]);
+  const [writing] = useState(initialWriting);
+  
+  // Use RTK Query hooks
+  const { data: comments = [] } = useGetCommentsQuery({
+    contentType: 'Writing',
+    contentId: quillId
+  });
+  
+  const { data: relatedWritings = [] } = useGetRelatedWritingsQuery(quillId);
 
   // Format date function
   const formatDate = (dateString) => { 
@@ -268,7 +239,7 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
       <WritingSchema writing={writing} />
       
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        {/* Back Button and Share Section */}
+        {/* Back Button */}
         <div className="py-4 sm:py-6 md:py-8">
           <Link href="/quill" className="inline-flex items-center text-xs sm:text-sm hover:text-primary">
             <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
@@ -334,53 +305,53 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
                 key={relatedWriting._id}
                 className="w-full group"
               >
-                <div className="flex flex-col gap-4 sm:gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
-                  hover:shadow-[var(--card-hover-shadow)] 
-                  hover:translate-y-[var(--card-hover-transform)] 
-                  hover:bg-[var(--card-hover-bg)]"
-                >
-                  {/* Image Container */}
-                  <div className="relative w-full aspect-[16/9] sm:h-[231.38px] rounded-lg overflow-hidden">
-                    <Image
-                      src={relatedWriting.images?.large || '/placeholder.jpg'}
-                      alt={relatedWriting.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      priority={false}
-                      quality={75}
-                    />
-                  </div>
+              <div className="flex flex-col gap-4 sm:gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
+              hover:shadow-[var(--card-hover-shadow)] 
+              hover:translate-y-[var(--card-hover-transform)] 
+              hover:bg-[var(--card-hover-bg)]"
+            >
+              {/* Image Container */}
+              <div className="relative w-full aspect-[16/9] sm:h-[231.38px] rounded-lg overflow-hidden">
+                <Image
+                  src={relatedWriting.images?.large || '/placeholder.jpg'}
+                  alt={relatedWriting.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  priority={false}
+                  quality={75}
+                />
+              </div>
 
-                  <h3 className="font-work-sans text-base sm:text-lg font-medium leading-tight sm:leading-[21px] transition-colors duration-300 group-hover:text-primary">
-                    {relatedWriting.title}
-                  </h3>
-                
-                  <p className="font-merriweather text-sm text-foreground leading-relaxed sm:leading-[21px]">
-                    {truncateBody(relatedWriting.body)}
-                  </p>
+              <h3 className="font-work-sans text-base sm:text-lg font-medium leading-tight sm:leading-[21px] transition-colors duration-300 group-hover:text-primary">
+                {relatedWriting.title}
+              </h3>
+            
+              <p className="font-merriweather text-sm text-foreground leading-relaxed sm:leading-[21px]">
+                {truncateBody(relatedWriting.body)}
+              </p>
 
-                  <div className="flex justify-between items-center mt-auto">
-                    <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
-                      <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                        {relatedWriting.category}
-                      </span>
-                    </div>
-
-                    <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                      {formatDate(relatedWriting.createdAt)}
-                    </span>
-                  </div>
-
-                  <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
+              <div className="flex justify-between items-center mt-auto">
+                <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
+                  <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
+                    {relatedWriting.category}
+                  </span>
                 </div>
-              </Link>
-            )) : (
-              <p className="text-gray-500 col-span-3 text-center">No related articles found.</p>
-            )}
-          </div>
-        </section>
+
+                <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
+                  {formatDate(relatedWriting.createdAt)}
+                </span>
+              </div>
+
+              <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
+            </div>
+          </Link>
+        )) : (
+          <p className="text-gray-500 col-span-3 text-center">No related articles found.</p>
+        )}
       </div>
-    </div>
-  );
+    </section>
+  </div>
+</div>
+);
 }

@@ -1,10 +1,10 @@
-// src/app/quill/page.js
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search } from 'lucide-react';
+import { useGetWritingsQuery } from '@/services/api';
 
 const categoryImages = {
   philosophy: '/images/philosophy.jpg',
@@ -20,31 +20,18 @@ const categoryImages = {
 };
 
 const QuillPage = () => {
-  const [writings, setWritings] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Writings');
 
-  const fetchWritings = useCallback(async () => {
-    try {
-      const categoryParam = selectedCategory !== 'All Writings' ? `&category=${selectedCategory.toLowerCase()}` : '';
-      const response = await fetch(`/api/writings?page=${currentPage}${categoryParam}`);
-      const data = await response.json();
-      setWritings(data.writings);
-      setTotalPages(data.pagination.pages);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching writings:', error);
-      setLoading(false);
-    }
-  }, [currentPage, selectedCategory]); // Add dependencies here
+  // Use RTK Query hook
+  const { data, error, isLoading } = useGetWritingsQuery({
+    page: currentPage,
+    category: selectedCategory
+  });
 
-  useEffect(() => {
-    fetchWritings();
-  }, [fetchWritings]);
-  
+  const writings = data?.writings || [];
+  const totalPages = data?.pagination?.pages || 0;
 
   const generatePaginationArray = () => {
     const delta = 1; // Number of pages to show before and after current page
@@ -166,8 +153,12 @@ const QuillPage = () => {
           </div>
         </div>
 
-        {loading ? (
+        {isLoading ? (
           <div className="text-center py-12">Loading...</div>
+        ) : error ? (
+          <div className="text-center py-12 text-red-500">
+            Error loading writings. Please try again later.
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 text-foreground">
             {writings.map((writing) => (
@@ -227,49 +218,49 @@ const QuillPage = () => {
         )}
 
         {/* Pagination */}
-         <div className="flex justify-center items-center mt-8 md:mt-12">
-            <div className="flex items-center gap-1 sm:gap-2 px-2 py-1 rounded-lg bg-background">
-              {/* Previous Button */}
-              <button
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                aria-label="Previous page"
-              >
-                <span className="text-sm sm:text-base">←</span>
-              </button>
+        <div className="flex justify-center items-center mt-8 md:mt-12">
+          <div className="flex items-center gap-1 sm:gap-2 px-2 py-1 rounded-lg bg-background">
+            {/* Previous Button */}
+            <button
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Previous page"
+            >
+              <span className="text-sm sm:text-base">←</span>
+            </button>
 
-              {/* Page Numbers */}
-              <div className="flex items-center gap-1 sm:gap-2">
-                {generatePaginationArray().map((page, index) => (
-                  <button
-                    key={index}
-                    onClick={() => typeof page === 'number' && setCurrentPage(page)}
-                    disabled={typeof page !== 'number'}
-                    className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-md text-sm sm:text-base transition-colors ${
-                      currentPage === page
-                        ? 'bg-red-600 text-white'
-                        : typeof page === 'number'
-                        ? 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
-                        : 'text-gray-500 cursor-default'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
-              </div>
-
-              {/* Next Button */}
-              <button
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                aria-label="Next page"
-              >
-                <span className="text-sm sm:text-base">→</span>
-              </button>
+            {/* Page Numbers */}
+            <div className="flex items-center gap-1 sm:gap-2">
+              {generatePaginationArray().map((page, index) => (
+                <button
+                  key={index}
+                  onClick={() => typeof page === 'number' && setCurrentPage(page)}
+                  disabled={typeof page !== 'number'}
+                  className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-md text-sm sm:text-base transition-colors ${
+                    currentPage === page
+                      ? 'bg-red-600 text-white'
+                      : typeof page === 'number'
+                      ? 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
+                      : 'text-gray-500 cursor-default'
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
             </div>
-       </div>
+
+            {/* Next Button */}
+            <button
+              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+              className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Next page"
+            >
+              <span className="text-sm sm:text-base">→</span>
+            </button>
+          </div>
+        </div>
       </section>
     </main>
   );

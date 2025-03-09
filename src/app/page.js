@@ -49,7 +49,7 @@ const Hero = () => {
                   <Github className="w-5 h-5" />
                 </a>
                 <a 
-                  href="https://linkedin.com/in/ajithkumar-r-85b72016a" 
+                  href="https://www.linkedin.com/in/ajithkumar-r-a6531a232/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="clean-container p-3 rounded-lg hover:-translate-y-1 transition-all"
