@@ -1,6 +1,7 @@
 import DevfolioClient from "./DevfolioClient";
 import { Project } from '@/models/project.model';
 import connectDB from '@/lib/db';
+import { Suspense } from "react";
 
 // Enhanced metadata for better SEO
 export const metadata = {
@@ -27,6 +28,15 @@ export const metadata = {
   }
 };
 
+
+// Loading component for Suspense
+function DevfolioLoading() {
+  return <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-500"></div>
+  </div>
+}
+
+
 // Server component for better SEO
 export default async function DevfolioPage() {
   await connectDB();
@@ -38,5 +48,9 @@ export default async function DevfolioPage() {
     .lean();
 
   // Convert MongoDB documents to plain objects
-  return <DevfolioClient initialProjects={JSON.parse(JSON.stringify(projects))} />;
+  return (
+    <Suspense fallback={<DevfolioLoading />}>
+      <DevfolioClient initialProjects={JSON.parse(JSON.stringify(projects))} />
+    </Suspense>
+  );
 }

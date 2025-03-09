@@ -43,20 +43,14 @@ export const api = createApi({
     
     // Get comments for a writing
     getComments: builder.query({
-      query: (params) => `comments/${params.contentType}/${params.contentId}`,
-      providesTags: (result) => 
-        result 
-          ? [
-              ...result.map((comment, index) => ({ 
-                type: 'Comment', 
-                id: comment._id || `INDEX:${index}` 
-              })),
-              { type: 'Comment', id: 'LIST' }
-            ]
-          : [{ type: 'Comment', id: 'LIST' }]
+      query: ({ contentType, contentId }) => `comments/${contentType}/${contentId}`,
+      // Provide a tag for this specific content's comments
+      providesTags: (result, error, { contentType, contentId }) => [
+        { type: 'Comment', id: `${contentType}-${contentId}` }
+      ]
     }),
     
-    // Add a comment/rating
+    // Add comment/rating endpoint
     addComment: builder.mutation({
       query: (data) => ({
         url: 'comments',
@@ -66,15 +60,16 @@ export const api = createApi({
           email: data.email,
           comment: data.comment,
           rating: data.rating,
-          parentId: data.contentId,  // Renamed from contentId to parentId to match the API
+          parentId: data.contentId,
           parentModel: data.contentType === 'TechBlog' ? 'TechBlog' : 'Writing'
         }
       }),
-      // Invalidate any cached comments for this content
-      invalidatesTags: (result, error, { contentId, contentType }) => [
+      // Invalidate the cache for this content's comments to trigger a refresh
+      invalidatesTags: (result, error, { contentType, contentId }) => [
         { type: 'Comment', id: `${contentType}-${contentId}` }
       ]
     }),
+    
 
     // New endpoints for tech blog
     getTechBlogs: builder.query({

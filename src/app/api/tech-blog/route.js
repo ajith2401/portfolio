@@ -1,7 +1,10 @@
-// src/app/api/tech-blog/route.js
+// src/app/api/tech-blog/route.js 
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { TechBlog } from '@/models';
+
+// Add this to prevent static generation attempts
+export const dynamic = 'force-dynamic';
 
 // GET all tech blogs with pagination
 export async function GET(request) {

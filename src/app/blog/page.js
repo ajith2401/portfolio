@@ -2,6 +2,7 @@
 import { TechBlog } from '@/models';
 import connectDB from '@/lib/db';
 import TechBlogClient from './TechBlogClient';
+import { Suspense } from 'react';
 
 // Static metadata for SEO
 export const metadata = {
@@ -28,6 +29,15 @@ export const metadata = {
   }
 };
 
+
+// Loading component for Suspense
+function BlogLoading() {
+  return <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+  </div>
+}
+
+
 // Server component for better SEO
 export default async function TechBlogPage() {
   await connectDB();
@@ -37,5 +47,9 @@ export default async function TechBlogPage() {
     .limit(12)
     .lean();
 
-  return <TechBlogClient initialPosts={JSON.parse(JSON.stringify(initialPosts))} />;
-}
+    return (
+      <Suspense fallback={<BlogLoading />}>
+        <TechBlogClient initialPosts={JSON.parse(JSON.stringify(initialPosts))} />
+      </Suspense>
+    );
+  }
