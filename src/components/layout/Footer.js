@@ -82,24 +82,35 @@ const Footer = () => {
           <p className="text-body-sm text-secondary-600 dark:text-secondary-400">
             © {currentYear} Ajith Kumar. All rights reserved.
           </p>
-          
-           {/* 
+    
           <div className="flex items-center gap-4">
             <a
-              href="/privacy"
+              href="/privacy-policy"
               className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             >
               Privacy Policy
             </a>
             <span className="text-secondary-400">•</span>
             <a
-              href="/terms"
+              href="/terms-conditions"
               className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             >
               Terms of Service
             </a>
+            <a
+            href="/shipping-delivery"
+            className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+          >
+            Shipping Delivery
+          </a>
+          <a
+          href="/cancellation-refund"
+          className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        >
+          Cancellation Refund
+        </a>
           </div>
-           */}
+           
         </div>
       </div>
     </footer>
