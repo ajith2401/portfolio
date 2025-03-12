@@ -1,7 +1,7 @@
 // src/app/photography/page.js
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -97,7 +97,15 @@ const CategoryFilter = ({ categories, activeCategory, onChange }) => {
   );
 };
 
-export default function PhotographyPage() {
+// Loading component
+const LoadingServices = () => (
+  <div className="flex justify-center items-center py-20">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+  </div>
+);
+
+// Main content component that uses search params
+const PhotographyContent = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const searchParams = useSearchParams();
 
@@ -116,7 +124,7 @@ export default function PhotographyPage() {
 
   const services = data?.services || [];
   
-  // Extract unique categories from services
+  // Extract unique categories from services - fix for the lint warning
   const categories = React.useMemo(() => {
     if (!services.length) return [];
     return [...new Set(services.map(service => service.category))];
@@ -127,15 +135,7 @@ export default function PhotographyPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
-      <div className="text-center mb-10">
-        <h1 className="text-3xl font-bold mb-2">Photography Services</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Professional photography services for all occasions - weddings, portraits, and more.
-          Capture your special moments with high-quality photography.
-        </p>
-      </div>
-      
+    <>
       {/* Category Filter */}
       <CategoryFilter 
         categories={categories} 
@@ -145,9 +145,7 @@ export default function PhotographyPage() {
       
       {/* Services Grid */}
       {isLoading ? (
-        <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
-        </div>
+        <LoadingServices />
       ) : error ? (
         <div className="text-center py-10">
           <p className="text-red-500">Error loading services: {error.message || 'Something went wrong'}</p>
@@ -163,6 +161,24 @@ export default function PhotographyPage() {
           <p className="text-gray-500">No services found in this category.</p>
         </div>
       )}
+    </>
+  );
+};
+
+export default function PhotographyPage() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
+      <div className="text-center mb-10">
+        <h1 className="text-3xl font-bold mb-2">Photography Services</h1>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Professional photography services for all occasions - weddings, portraits, and more.
+          Capture your special moments with high-quality photography.
+        </p>
+      </div>
+      
+      <Suspense fallback={<LoadingServices />}>
+        <PhotographyContent />
+      </Suspense>
     </div>
   );
 }
