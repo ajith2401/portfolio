@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-  tagTypes: ['Writing', 'Comment', 'TechBlog', 'Project', 'Book'],
+  tagTypes: ['Writing', 'Comment', 'TechBlog', 'Project', 'Book', 'PhotoService', 'Order'],
   endpoints: (builder) => ({
     // Get all writings with pagination, filtering, sorting and date ranges
     getWritings: builder.query({
@@ -303,8 +303,123 @@ export const api = createApi({
           { type: 'Book', id: 'RELATED' }
         ];
       }
-    })
+    }),
 
+    // Photography E-commerce Endpoints
+    // ===============================
+
+    // Get all photography services
+    getPhotoServices: builder.query({
+      query: ({ 
+        page = 1, 
+        category = '', 
+        search = '',
+        featured = '',
+        sortBy = 'createdAt'
+      }) => {
+        const params = new URLSearchParams();
+        
+        params.append('page', page);
+        
+        if (category && category !== 'all') {
+          params.append('category', category);
+        }
+        
+        if (search && search.trim() !== '') {
+          params.append('search', search);
+        }
+        
+        if (featured === 'true') {
+          params.append('featured', 'true');
+        }
+        
+        if (sortBy) {
+          params.append('sortBy', sortBy);
+        }
+        
+        return `photography?${params.toString()}`;
+      },
+      providesTags: (result) => 
+        result 
+          ? [
+              ...(result.services || []).map(({ _id }) => ({ type: 'PhotoService', id: _id })),
+              { type: 'PhotoService', id: 'LIST' }
+            ]
+          : [{ type: 'PhotoService', id: 'LIST' }]
+    }),
+
+    // Get a single photography service by slug
+    getPhotoServiceBySlug: builder.query({
+      query: (slug) => `photography/${slug}`,
+      providesTags: (result, error, slug) => [{ type: 'PhotoService', id: slug }]
+    }),
+
+    // Get a single photography service by ID
+    getPhotoServiceById: builder.query({
+      query: (id) => `photography/id/${id}`,
+      providesTags: (result, error, id) => [{ type: 'PhotoService', id }]
+    }),
+
+    // Create an order for a photography service
+    createOrder: builder.mutation({
+      query: (orderData) => ({
+        url: 'orders',
+        method: 'POST',
+        body: orderData
+      }),
+      invalidatesTags: [{ type: 'Order', id: 'LIST' }]
+    }),
+
+    // Get an order by ID
+    getOrderById: builder.query({
+      query: (id) => `orders/${id}`,
+      providesTags: (result, error, id) => [{ type: 'Order', id }]
+    }),
+
+    // Get orders for a specific customer (by email)
+    getCustomerOrders: builder.query({
+      query: (email) => `orders?email=${encodeURIComponent(email)}`,
+      providesTags: (result) => 
+        result 
+          ? [
+              ...(result.orders || []).map(({ _id }) => ({ type: 'Order', id: _id })),
+              { type: 'Order', id: 'LIST' }
+            ]
+          : [{ type: 'Order', id: 'LIST' }]
+    }),
+
+    // Update payment information for an order
+    updateOrderPayment: builder.mutation({
+      query: ({ orderId, paymentInfo }) => ({
+        url: `orders/${orderId}/updatePayment`,
+        method: 'POST',
+        body: paymentInfo
+      }),
+      invalidatesTags: (result, error, { orderId }) => [
+        { type: 'Order', id: orderId }
+      ]
+    }),
+
+    // Create Razorpay order
+    createRazorpayOrder: builder.mutation({
+      query: ({ orderId }) => ({
+        url: 'razorpay',
+        method: 'POST',
+        body: { orderId }
+      })
+    }),
+
+    // Verify Razorpay payment
+    verifyRazorpayPayment: builder.mutation({
+      query: (verificationData) => ({
+        url: 'razorpay/verify',
+        method: 'POST',
+        body: verificationData
+      }),
+      invalidatesTags: (result, error, { orderId }) => [
+        { type: 'Order', id: orderId }
+      ]
+    })
   })
 });
 
@@ -323,6 +438,16 @@ export const {
   useGetBooksQuery,
   useGetBookByIdQuery,
   useGetRelatedBooksQuery,
+  // Photography E-commerce hooks
+  useGetPhotoServicesQuery,
+  useGetPhotoServiceBySlugQuery,
+  useGetPhotoServiceByIdQuery,
+  useCreateOrderMutation,
+  useGetOrderByIdQuery,
+  useGetCustomerOrdersQuery,
+  useUpdateOrderPaymentMutation,
+  useCreateRazorpayOrderMutation,
+  useVerifyRazorpayPaymentMutation,
   util: { getRunningQueriesThunk }
 } = api;
 
@@ -334,5 +459,9 @@ export const {
   getComments,
   getBooks,
   getBookById,
-  getRelatedBooks
+  getRelatedBooks,
+  // Photography E-commerce SSR prefetching
+  getPhotoServices,
+  getPhotoServiceBySlug,
+  getOrderById
 } = api.endpoints;
