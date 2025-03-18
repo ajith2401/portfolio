@@ -95,7 +95,7 @@ const Hero = () => {
             </div>
   
             <p className="text-lg md:text-xl text-secondary-700 max-w-2xl">
-              Award-winning developer specializing in innovative solutions. GovTechThon winner with expertise in building scalable applications and chatbots that make a real impact.
+              From poetry to programming, I transform constraints into innovation. GovTechThon winner who builds scalable applications and chatbots that make real-world impact with both creativity and technical precision.
             </p>
   
             <div className="flex flex-col sm:flex-row gap-4">
@@ -198,7 +198,7 @@ const Hero = () => {
                 </h3>
                 
                 <p className="text-secondary-700 mb-2 transition-all duration-300 group-hover:translate-x-1">
-                  From award-winning chatbots to full-stack web solutions – see how my code solves real-world problems.
+                  From government chatbots to healthcare systems – see how my code solves real problems and transforms workflows from 30 minutes to 5.
                 </p>
                 
                 <span className="inline-flex items-center text-primary-600 text-sm font-medium transition-all duration-300 group-hover:translate-x-2 relative">
@@ -232,23 +232,23 @@ const Hero = () => {
           {/* Right Column - Achievements */}
           <div className="space-y-6">
             <div className="clean-container p-6 rounded-xl space-y-4">
-              <h3 className="text-xl font-bold text-foreground">GovTechThon Winner</h3>
+              <h3 className="text-xl font-bold text-foreground">From Poetry to Programming</h3>
               <p className="text-secondary-700">
-                Led the development of Indias first WhatsApp bot for government scheme dissemination, beating 520+ teams.
+                Self-taught developer who pivoted from mechanical engineering during the pandemic, learning to code on a borrowed government laptop while publishing five Tamil poetry books.
               </p>
             </div>
 
             <div className="clean-container p-6 rounded-xl space-y-4">
-              <h3 className="text-xl font-bold text-foreground">Full Stack Innovation</h3>
+              <h3 className="text-xl font-bold text-foreground">GovTechThon Champion</h3>
               <p className="text-secondary-700">
-                Built comprehensive web and WhatsApp chatbot solutions with multilingual capabilities for banking and healthcare sectors.
+                Led the development of India&apos;s first WhatsApp bot for government scheme dissemination, beating 520+ teams and launching my tech career.
               </p>
             </div>
 
             <div className="clean-container p-6 rounded-xl space-y-4">
-              <h3 className="text-xl font-bold text-foreground">Proven Leadership</h3>
+              <h3 className="text-xl font-bold text-foreground">Technical Innovation</h3>
               <p className="text-secondary-700">
-                Successfully managed large-scale data migration (19,000+ users) and mentored junior developers in chatbot development.
+                Built comprehensive web solutions and multilingual chatbots for banking and healthcare sectors, streamlining processes and automating workflows.
               </p>
             </div>
           </div>

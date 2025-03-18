@@ -185,6 +185,7 @@ export default function RootLayout({ children }) {
           <main className="w-full">
           <Providers>{children}</Providers>
           </main>
+          <div className="w-full h-px bg-decorative-line opacity-20 my-6"></div>
           <Footer />
         </ThemeProvider>
         <SpeedInsights />

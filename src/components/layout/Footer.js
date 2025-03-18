@@ -38,7 +38,7 @@ const Footer = () => {
             <h4 className="font-playfair text-h4 text-foreground">Contact</h4>
             <ul className="space-y-2">
               <li className="text-body-sm text-secondary-600 dark:text-secondary-400">
-                Chennai, Tamil Nadu, India
+                Bangalore, Karnataka, India
               </li>
               <li>
                 <a
