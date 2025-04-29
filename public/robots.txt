@@ -1,13 +1,59 @@
-# public/robots.txt
 User-agent: *
+# Allow crawling of all content by default
 Allow: /
 
-# Optimize crawl budget
+# Important content areas (explicitly allow for clarity)
+Allow: /blog/
+Allow: /quill/
+Allow: /devfolio/
+Allow: /spotlight/
+Allow: /about/
+
+# Optimize crawl budget by preventing crawling of non-essential paths
 Disallow: /api/
 Disallow: /_next/static/
+Disallow: /_vercel/
+Disallow: /checkout/
+Disallow: /create-writing/
+Disallow: /custom-writing/
+
+# Prevent duplicate content issues
+Disallow: /*?page=*
+Disallow: /*?category=*
+Disallow: /*?search=*
+Disallow: /*?sortBy=*
+
+# Specific directives for Google
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+# Allow Google to index JavaScript resources
+Allow: /*.js$
+
+# Specific directives for Google Images
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /backgrounds/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+
+# Specific directives for Bing
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Crawl-delay: 1
+
+# Specific directives for Yahoo
+User-agent: Slurp
+Allow: /
+Disallow: /api/
+Crawl-delay: 1
+
+# Recommended crawl delay for other bots to avoid server overload
+Crawl-delay: 2
 
 # Sitemaps
 Sitemap: https://www.ajithkumarr.com/sitemap.xml
-
-# Crawl delay for bots to avoid server overload
-Crawl-delay: 1
+Sitemap: https://www.ajithkumarr.com/api/sitemap

@@ -72,49 +72,84 @@ const geistMono = localFont({
 export const metadata = {
   metadataBase: new URL('https://ajithkumarr.com'),
   title: {
-    default: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
-    template: "%s | Ajithkumar"
+    default: "Ajithkumar |Full Stack Developer, Poet, Writer & Lyricist",
+    template: "%s | Ajithkumar - Tamil Writer & MERN Developer"
   },
- description: "Full stack developer, poet, writer, and lyricist creating innovative tech solutions and exploring themes of feminism, social justice, and human emotions through Tamil poetry and creative works.",
-  keywords: ["Tamil poetry", "Tamil writer", "Indian poet", "feminist poetry", "social justice poetry", "Tamil literature"],
-  authors: [{ name: "Ajithkumar" }],
+  description: "Ajithkumar - Published Tamil writer with 5 poetry books and Full Stack MERN Developer, exploring themes of feminism and social justice through captivating poetry while creating innovative web applications.",
+  keywords: [
+    "Ajithkumar writer", 
+    "Tamil poet", 
+    "Tamil literature", 
+    "MERN stack developer",
+    "Full stack developer",
+    "Tamil poetry books",
+    "published Tamil author",
+    "feminist poetry", 
+    "social justice poetry", 
+    "web developer poet",
+    "Tamil developer",
+    "modern Tamil writer",
+    "contemporary Tamil poetry",
+    "Tamil poetry", 
+    "Tamil writer", 
+    "Indian poet", 
+    "feminist poetry", 
+    "social justice poetry", 
+    "Tamil literature"
+  ],
+  authors: [{ 
+    name: "Ajithkumar",
+    url: "https://www.ajithkumarr.com"
+  }],
   creator: "Ajithkumar",
   publisher: "Ajithkumar",
   alternates: {
-    canonical: "/"
+    canonical: "/",
+    languages: {
+      'en-US': 'https://ajithkumarr.com',
+      'ta-IN': 'https://ajithkumarr.com/ta'
+    }
   },
   icons: {
     icon: [
-      { url: 'https://www.ajithkumarr.com/favicon.ico' },  // Static favicon
+      { url: '/favicon.ico' },
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
     apple: [
       { url: '/apple-touch-icon.png' },
     ],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/favicon.svg',
+        color: '#0ea5e9'
+      }
+    ]
   },
-openGraph: {
-  title: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
- description: "Award-winning full stack developer specializing in React, Node.js and innovative solutions, while also exploring themes of social justice and human emotions as a Tamil poet, writer and lyricist.",
-  url: "https://ajithkumarr.com",
-  siteName: "Ajithkumar Portfolio",
-  images: [
-    {
-      url: "/opengraph-image.jpg", // This points public/opengraph-image.jpg
-      width: 1200,
-      height: 630,
-      alt: "Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist"
-    }
-  ],
-  locale: "en_US",
-  type: "website"
-},
-twitter: {
-  card: "summary_large_image",
-  title: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
-  description: "Explore the creative projects, poetic works and writings of Ajithkumar.",
-  images: ["/twitter-image.jpg"], // This points to your public/twitter-image.jpg
-},
+  openGraph: {
+    title: "Ajithkumar | Tamil Writer & Full Stack Developer",
+    description: "Explore the work of Ajithkumar - published Tamil poet with 5 books who also creates innovative web applications as a Full Stack MERN Developer.",
+    url: "https://ajithkumarr.com",
+    siteName: "Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist",
+    images: [
+      {
+        url: "/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist" 
+      }
+    ],
+    locale: "en_US",
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ajithkumar |Full Stack Developer, Poet, Writer & Lyricist",
+    description: "Explore the captivating Tamil poetry books and MERN stack projects of Ajithkumar - where literature meets technology.",
+    images: ["/twitter-image.jpg"],
+    creator: "@ajithkumarr"
+  },
   robots: {
     index: true,
     follow: true,
@@ -128,8 +163,34 @@ twitter: {
   },
   verification: {
     google: "ZQmUyyc_YFdaL87F16F0RyC5i2dRIYENA478ZwUSZx4",
-    yandex: "your-yandex-verification-code"  // Replace with your actual Yandex code if you have one
+    yandex: "your-yandex-verification-code",
+    bing: "1234567890ABCDEF",
+    yahoo: "1234567890ABCDEF"
   },
+  appLinks: {
+    ios: {
+      url: "https://ajithkumarr.com/",
+      app_store_id: "123456789"
+    },
+    android: {
+      package: "com.ajithkumarr.app",
+      app_name: "Ajithkumar"
+    },
+    web: {
+      url: "https://ajithkumarr.com/",
+      should_fallback: true
+    }
+  },
+  category: "literature",
+  other: {
+    "pinterest": "nopin",
+  },
+  archives: [
+    "https://ajithkumarr.com/archive/2024",
+    "https://ajithkumarr.com/archive/2023",
+    "https://ajithkumarr.com/archive/2022"
+  ],
+  bookmarks: ["https://ajithkumarr.com/featured"],
   links: [
     {
       rel: 'alternate',
@@ -140,6 +201,14 @@ twitter: {
     {
       rel: 'manifest',
       href: '/manifest.json'
+    },
+    {
+      rel: 'author',
+      href: '/about'
+    },
+    {
+      rel: 'me',
+      href: 'https://www.goodreads.com/author/show/ajithkumarr'
     }
   ],
 };
@@ -159,6 +228,116 @@ export default function RootLayout({ children }) {
         ${poppins.variable}
       `}
     >
+      <head>
+        {/* Schema.org structured data for personal identity as a writer */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "@id": "https://ajithkumarr.com/#identity",
+              "name": "Ajithkumar",
+              "alternateName": "Ajith Kumar",
+              "givenName": "Ajith",
+              "familyName": "Kumar",
+              "description": "Award-winning Tamil writer, poet, and lyricist exploring themes of feminism, social justice, and human emotions through captivating poetry and creative works.",
+              "url": "https://ajithkumarr.com",
+              "image": "https://ajithkumarr.com/images/ajithkumar-portrait.jpg",
+              "sameAs": [
+                "https://www.goodreads.com/author/show/ajithkumarr",
+                "https://twitter.com/ajithkumarr",
+                "https://www.instagram.com/ajithkumarr",
+                "https://github.com/ajith2401"
+              ],
+              "jobTitle": "Writer and Poet",
+              "worksFor": {
+                "@type": "Organization",
+                "name": "Self-Employed Writer"
+              },
+              "knowsLanguage": ["Tamil", "English"],
+              "alumniOf": {
+                "@type": "CollegeOrUniversity",
+                "name": "Your University Name"
+              },
+              "award": [
+                "Award 1",
+                "Award 2"
+              ],
+              "mainEntityOfPage": "https://ajithkumarr.com"
+            })
+          }}
+        />
+
+        {/* Website organization schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": "https://ajithkumarr.com/#website",
+              "url": "https://ajithkumarr.com",
+              "name": "Ajithkumar - Tamil Writer & Poet",
+              "description": "Award-winning Tamil writer, poet and lyricist",
+              "publisher": {
+                "@type": "Person",
+                "@id": "https://ajithkumarr.com/#identity"
+              },
+              "inLanguage": "en-US",
+              "potentialAction": [{
+                "@type": "SearchAction",
+                "target": "https://ajithkumarr.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }]
+            })
+          }}
+        />
+
+        {/* BreadcrumbList schema for navigation */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://ajithkumarr.com"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Poetry",
+                  "item": "https://ajithkumarr.com/quill"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Technical Blog",
+                  "item": "https://ajithkumarr.com/blog"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 4,
+                  "name": "Books",
+                  "item": "https://ajithkumarr.com/spotlight"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 5,
+                  "name": "About",
+                  "item": "https://ajithkumarr.com/about"
+                }
+              ]
+            })
+          }}
+        />
+      </head>
+
       <body className="min-h-screen transition-colors duration-300">
         <ThemeProvider>
           <Toaster 
@@ -183,7 +362,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <OfflineNotice />
           <main className="w-full">
-          <Providers>{children}</Providers>
+            <Providers>{children}</Providers>
           </main>
           <div className="w-full h-px bg-decorative-line opacity-20 my-6"></div>
           <Footer />

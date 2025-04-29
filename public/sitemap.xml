@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+                            http://www.google.com/schemas/sitemap-image/1.1
+                            http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
+
+  <!-- Home Page with language alternates -->
+  <url>
+    <loc>https://www.ajithkumarr.com/</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ajithkumarr.com/" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://www.ajithkumarr.com/ta/" />
+  </url>
+
+  <!-- Writer Portfolio Pages -->
+  <url>
+    <loc>https://www.ajithkumarr.com/quill</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ajithkumarr.com/quill" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://www.ajithkumarr.com/ta/quill" />
+  </url>
+
+  <!-- Book Showcase Pages -->
+  <url>
+    <loc>https://www.ajithkumarr.com/spotlight</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ajithkumarr.com/spotlight" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://www.ajithkumarr.com/ta/spotlight" />
+  </url>
+
+  <!-- Technical Blogs -->
+  <url>
+    <loc>https://www.ajithkumarr.com/blog</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ajithkumarr.com/blog" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://www.ajithkumarr.com/ta/blog" />
+  </url>
+
+  <!-- Projects -->
+  <url>
+    <loc>https://www.ajithkumarr.com/devfolio</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ajithkumarr.com/devfolio" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://www.ajithkumarr.com/ta/devfolio" />
+  </url>
+
+  <!-- About Page - Important for writers -->
+  <url>
+    <loc>https://www.ajithkumarr.com/about</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.ajithkumarr.com/about" />
+    <xhtml:link rel="alternate" hreflang="ta" href="https://www.ajithkumarr.com/ta/about" />
+  </url>
+
+  <!-- Sample Writing Entry with image -->
+  <url>
+    <loc>https://www.ajithkumarr.com/quill/example-poem-id</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741197427/writings/example-poem-image.jpg</image:loc>
+      <image:title>Example Poem Title</image:title>
+      <image:caption>Tamil poem by Ajithkumar</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Sample Book Entry with image -->
+  <url>
+    <loc>https://www.ajithkumarr.com/spotlight/example-book-id</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741197427/books/example-book-cover.jpg</image:loc>
+      <image:title>Example Book Title</image:title>
+      <image:caption>Tamil poetry book by Ajithkumar</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Sample Blog Entry with image -->
+  <url>
+    <loc>https://www.ajithkumarr.com/blog/example-blog-id</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741197427/techblog/example-blog-image.jpg</image:loc>
+      <image:title>Example Blog Title</image:title>
+      <image:caption>Technical article by Ajithkumar</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Sample Project Entry with image -->
+  <url>
+    <loc>https://www.ajithkumarr.com/devfolio/example-project-id</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741197427/projects/example-project-image.jpg</image:loc>
+      <image:title>Example Project Title</image:title>
+      <image:caption>Technical project by Ajithkumar</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Category Pages -->
+  <url>
+    <loc>https://www.ajithkumarr.com/category/poem</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ajithkumarr.com/category/tamil-literature</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ajithkumarr.com/category/feminism</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Tag Pages -->
+  <url>
+    <loc>https://www.ajithkumarr.com/tag/social-justice</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ajithkumarr.com/tag/love-poetry</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ajithkumarr.com/tag/tamil-writer</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Archive Pages by Year -->
+  <url>
+    <loc>https://www.ajithkumarr.com/archive/2025</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ajithkumarr.com/archive/2024</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ajithkumarr.com/archive/2023</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Legal Pages -->
+  <url>
+    <loc>https://www.ajithkumarr.com/privacy-policy</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ajithkumarr.com/terms-conditions</loc>
+    <lastmod>2025-04-29T00:00:00+00:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>

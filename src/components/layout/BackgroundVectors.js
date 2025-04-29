@@ -81,7 +81,7 @@ const BackgroundVectors = () => {
         className="absolute inset-0 w-full h-full transition-colors duration-1000"
         style={{
           background: isDark
-            ? '#0f172a'
+            ? '#002147'
             : 'linear-gradient(to bottom, #a4d4fa, #ffffff)',
         }}
       />
