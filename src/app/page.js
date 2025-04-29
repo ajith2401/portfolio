@@ -4,6 +4,9 @@ import { ArrowRight, Github, Linkedin, Mail, FolderOpen, ChevronDown } from 'luc
 import ContactForm from '@/components/ui/ContactForm';
 import Link from 'next/link';
 import Image from 'next/image';
+import TechnicalKeywords from '@/components/SEO/TechnicalKeywords';
+import DeveloperSchema from '@/components/schema/DeveloperSchema';
+import PersonSchema from '@/components/schema/PersonSchema';
 
 // Writer-focused homepage with enhanced SEO
 const Hero = () => {
@@ -124,7 +127,69 @@ const Hero = () => {
           })
         }}
       />
-    
+      <>
+      {/* Schema for "ajithkumar writer" searches */}
+      <PersonSchema includeFullBio={true} />
+      
+      {/* Schema for "ajithkumar developer" searches */}
+      <DeveloperSchema includedSkills={[
+        'JavaScript',
+        'React.js',
+        'Node.js',
+        'Express.js',
+        'MongoDB',
+        'MERN Stack',
+        'Full Stack Development',
+        'Web Application Development'
+      ]} />
+      
+      {/* Additional technical keywords targeting */}
+      <TechnicalKeywords />
+      
+      {/* Hidden SEO content for search engines */}
+      <div className="sr-only">
+        <h1>Ajithkumar - Tamil Writer & Full Stack MERN Developer</h1>
+        <p>
+          Published Tamil author with 5 poetry books and experienced Full Stack Developer specializing in 
+          MERN stack (MongoDB, Express.js, React.js, Node.js). Combining literary creativity with 
+          technical expertise in JavaScript, React.js, and Node.js development.
+        </p>
+        <div>
+          <h2>Published Tamil Writer</h2>
+          <p>Author of 5 acclaimed Tamil poetry books exploring themes of feminism, social justice, and cultural identity.</p>
+        </div>
+        <div>
+          <h2>Full Stack MERN Developer</h2>
+          <p>
+            Specializing in JavaScript, React.js, Node.js, MongoDB, and Express.js development.
+            Creating responsive, scalable web applications and RESTful APIs.
+          </p>
+        </div>
+        <div>
+          <h2>Technical Skills</h2>
+          <ul>
+            <li>MERN Stack Development</li>
+            <li>JavaScript Development</li>
+            <li>React.js Development</li>
+            <li>Node.js Development</li>
+            <li>MongoDB</li>
+            <li>Express.js</li>
+            <li>RESTful APIs</li>
+            <li>Full Stack Development</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Published Works</h2>
+          <ul>
+            <li>Tamil Poetry Book 1</li>
+            <li>Tamil Poetry Book 2</li>
+            <li>Tamil Poetry Book 3</li>
+            <li>Tamil Poetry Book 4</li>
+            <li>Tamil Poetry Book 5</li>
+          </ul>
+        </div>
+      </div>
+    </>
       {/* Hero Section with auto height instead of min-h-screen */}
       <div className="min-h-[calc(100vh-80px)] flex flex-col justify-between">
         {/* Main Hero Content */}

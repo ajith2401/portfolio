@@ -1,67 +1,153 @@
 // src/components/schema/BlogSchema.jsx
+import React from 'react';
+
 export default function BlogSchema({ blog }) {
-    if (!blog) {
-      return null;
+  // Skip the schema entirely if blog is not available
+  if (!blog) return null;
+  
+  // Format dates safely
+  const formatDate = (dateValue) => {
+    if (!dateValue) return undefined;
+    try {
+      return new Date(dateValue).toISOString();
+    } catch (error) {
+      console.error("Date formatting error:", error);
+      return undefined;
     }
+  };
   
-    // Safe date formatter to handle any date format
-    const safeISODate = (dateValue) => {
-      if (!dateValue) return undefined;
-      
-      try {
-        // If it's already a string, return it
-        if (typeof dateValue === 'string') {
-          return dateValue;
-        }
-        
-        // Try to create a Date and get ISO string
-        const date = new Date(dateValue);
-        return !isNaN(date.getTime()) ? date.toISOString() : undefined;
-      } catch (error) {
-        console.error("Date conversion error:", error);
-        return undefined;
+  // Get safe ISO dates
+  const publishedDate = formatDate(blog.publishedAt || blog.createdAt);
+  const modifiedDate = formatDate(blog.updatedAt);
+  
+  // Extract tags or categories as keywords
+  const keywordArray = [
+    'Ajithkumar writer',
+    'Tamil writer',
+    'MERN stack',
+    'Full stack developer',
+    blog.category,
+    ...(blog.tags || [])
+  ].filter(Boolean);
+  
+  // Create schema object
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `https://ajithkumarr.com/blog/${blog._id}#blogpost`,
+    'headline': blog.title,
+    'name': blog.title,
+    'description': blog.subtitle || (blog.content ? blog.content.substring(0, 160).replace(/[\r\n]+/g, ' ') : ''),
+    'image': blog.images?.medium || blog.images?.large || 'https://ajithkumarr.com/opengraph-image.jpg',
+    'inLanguage': 'en',
+    'datePublished': publishedDate,
+    'dateModified': modifiedDate,
+    'author': {
+      '@type': 'Person',
+      '@id': 'https://ajithkumarr.com/#ajithkumar',
+      'name': blog.author?.name || 'Ajithkumar',
+      'url': 'https://ajithkumarr.com/',
+      'description': 'Tamil writer with 5 published poetry books and Full Stack MERN Developer, creating compelling literature that explores themes of feminism, social justice, and human emotions.',
+      'jobTitle': ['Writer and Poet', 'Full Stack Developer'],
+      'sameAs': [
+        'https://github.com/ajith2401',
+        'https://www.linkedin.com/in/ajithkumar-r-a6531a232/',
+        'https://www.instagram.com/ajithkumarr'
+      ]
+    },
+    'publisher': {
+      '@type': 'Person',
+      '@id': 'https://ajithkumarr.com/#ajithkumar',
+      'name': 'Ajithkumar',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://ajithkumarr.com/images/logo.png'
       }
+    },
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': `https://ajithkumarr.com/blog/${blog._id}`
+    },
+    'keywords': keywordArray.join(', '),
+    'articleSection': blog.category || 'Technology',
+    'wordCount': blog.content ? blog.content.split(/\s+/).length : 0,
+    'articleBody': blog.content ? blog.content.substring(0, 500).replace(/[\r\n]+/g, ' ') + '...' : '',
+    'speakable': {
+      '@type': 'SpeakableSpecification',
+      'cssSelector': ['.blog-content', 'h1', 'h2', 'h3']
+    },
+    'isPartOf': {
+      '@type': 'Blog',
+      'name': 'Ajithkumar Tech Blog',
+      'description': 'Technical blog by Ajithkumar - Tamil writer and Full Stack MERN Developer',
+      'url': 'https://ajithkumarr.com/blog/'
+    }
+  };
+  
+  // Add ratings if available
+  if (blog.averageRating && blog.averageRating > 0) {
+    schema.aggregateRating = {
+      '@type': 'AggregateRating',
+      'ratingValue': blog.averageRating,
+      'ratingCount': blog.totalRatings || 0,
+      'bestRating': 5,
+      'worstRating': 1
     };
-  
-    // Get safe ISO dates
-    const publishedDate = safeISODate(blog.publishedAt) || safeISODate(blog.createdAt);
-    const modifiedDate = safeISODate(blog.updatedAt);
-  
-    const schema = {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: blog.title,
-      description: blog.subtitle || (blog.content ? blog.content.substring(0, 160) : ''),
-      image: blog.images?.medium || 'https://www.ajithkumarr.com/og-image.jpg',
-      // Use the safe date values
-      ...(publishedDate && { datePublished: publishedDate }),
-      ...(modifiedDate && { dateModified: modifiedDate }),
-      author: {
-        '@type': 'Person',
-        name: blog.author?.name || 'Ajithkumar',
-        url: 'https://www.ajithkumarr.com/'
-      },
-      publisher: {
-        '@type': 'Organization',
-        name: 'Ajithkumar',
-        logo: {
-          '@type': 'ImageObject',
-          url: 'https://www.ajithkumarr.com/images/logo.png'
-        }
-      },
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': `https://www.ajithkumarr.com/blog/${blog._id || ''}`
-      },
-      keywords: blog.tags?.join(', ') || 'Tamil poetry, Tamil literature',
-      articleSection: blog.category,
-      wordCount: blog.content ? blog.content.split(/\s+/).length : 0
-    };
-  
-    return (
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-    );
   }
+  
+  // Add comments if available
+  if (blog.ratings && blog.ratings.length > 0) {
+    schema.comment = blog.ratings
+      .filter(rating => rating.comment)
+      .map(rating => ({
+        '@type': 'Comment',
+        'author': {
+          '@type': 'Person',
+          'name': rating.name || 'Reader'
+        },
+        'text': rating.comment || '',
+        'dateCreated': formatDate(rating.createdAt)
+      }));
+  }
+  
+  // Add breadcrumb
+  schema.breadcrumb = {
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      {
+        '@type': 'ListItem',
+        'position': 1,
+        'name': 'Home',
+        'item': 'https://ajithkumarr.com'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 2,
+        'name': 'Tech Blog',
+        'item': 'https://ajithkumarr.com/blog'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 3,
+        'name': blog.category || 'Article',
+        'item': `https://ajithkumarr.com/blog/category/${blog.category?.toLowerCase().replace(/\s+/g, '-') || 'article'}`
+      },
+      {
+        '@type': 'ListItem',
+        'position': 4,
+        'name': blog.title,
+        'item': `https://ajithkumarr.com/blog/${blog._id}`
+      }
+    ]
+  };
+  
+  // Clean up undefined properties
+  const cleanSchema = JSON.parse(JSON.stringify(schema));
+  
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(cleanSchema) }}
+    />
+  );
+}
