@@ -4,13 +4,17 @@
 import { usePathname } from 'next/navigation';
 import Head from 'next/head';
 
-export default function CanonicalUrl({ path }) {
+export default function CanonicalUrl({ path, domain = 'https://www.ajithkumarr.com' }) {
   const pathname = usePathname();
-  const baseUrl = 'https://www.ajithkumarr.com';
   
   // Use provided path or current pathname
   const canonicalPath = path || pathname;
-  const canonicalUrl = `${baseUrl}${canonicalPath}`;
+  
+  // Ensure path starts with a slash
+  const formattedPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
+  
+  // Construct full canonical URL
+  const canonicalUrl = `${domain}${formattedPath}`;
   
   return (
     <Head>
