@@ -276,11 +276,11 @@ const QuillClientPage = () => {
         <div>
           <h2>Published Tamil Poetry Books</h2>
           <ul>
-            <li>Book 1 - Tamil Poetry Collection</li>
-            <li>Book 2 - Tamil Poetry Collection</li>
-            <li>Book 3 - Tamil Poetry Collection</li>
-            <li>Book 4 - Tamil Poetry Collection</li>
-            <li>Book 5 - Tamil Poetry Collection</li>
+          <li>1. அன்புடையவளுக்கும் அன்புக்குரியவளுக்கும் Anbudaiyavalukkum Anbukkuriyavalukkum</li>
+          <li> 2. சிப்பிக்குள் சிந்தா மழை || Sippikkul Sinthaa Mazhai</li>
+          <li> 3. ஒரு பைத்தியக்காரனின் டைரிக் குறிப்புகள் ||  Oru Paithiyakkaaranin Diary Kurippugal </li>
+          <li> 4. முற்றிய பிரியத்தின் வற்றாத துளி || Mutriya Priyaththin Vatraadha Thuli</li>
+          <li>5. ஆண்டெனா மீதமர்ந்த காக்கை || Antenna Meedhamarntha Kaakkai</li>
           </ul>
         </div>
       </div>
