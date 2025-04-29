@@ -10,7 +10,7 @@ import { Toaster } from 'react-hot-toast';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import OfflineNotice from "@/components/ui/OfflineNotice";
 import { Providers } from "./providers";
-
+import { Analytics } from "@vercel/analytics/react"
 // Initialize the fonts
 const merriweather = Merriweather({
   subsets: ['latin'],
@@ -368,6 +368,7 @@ export default function RootLayout({ children }) {
           <Footer />
         </ThemeProvider>
         <SpeedInsights />
+        <Analytics/>
       </body>
     </html>
   );
