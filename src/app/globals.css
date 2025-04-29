@@ -125,6 +125,13 @@
     --card-hover-bg: rgba(255, 255, 255, 0.03);
   }
 
+  /* Lazy load non-critical styles */
+@layer components {
+  /* Most used utility classes */
+  .theme-transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
+}
   /* Base animations */
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
@@ -196,6 +203,14 @@
     box-shadow: var(--shadow-outer);
     transition: all 500ms ease;
   }
+
+  /* Critical rendering path optimizations */
+html, body {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
   /* Card */
   .theme-card {

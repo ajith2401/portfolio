@@ -2,6 +2,9 @@
 import { TechBlog } from '@/models';
 import connectDB from '@/lib/db';
 import TechBlogPostClient from './TechBlogPostClient';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import { Suspense } from 'react';
+import BlogPostLoading from '@/components/ui/BlogPostLoading';
 
 export async function generateMetadata({ params }) {
   await connectDB();
@@ -96,10 +99,16 @@ export default async function TechBlogPostPage({ params }) {
         return { error: true };
       }
     };
-    return <TechBlogPostClient 
-      blog={serialize(blog)} 
-      blogId={params.blog_id}
-    />;
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<BlogPostLoading />}>
+          <TechBlogPostClient 
+            blog={serialize(blog)} 
+            blogId={params.blog_id} 
+          />
+        </Suspense>
+      </ErrorBoundary>
+    );
   } catch (error) {
     console.error("Error in TechBlogPostPage:", error);
     return <div className="min-h-screen flex items-center justify-center text-red-500">
