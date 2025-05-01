@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { ThemeContext } from '../theme/themeProvider';
 import { ThemeToggleAnimated } from '../ui/button/ThemeToggleButton';
 import ContactForm from '../ui/ContactForm';
+import eventEmitter from '@/lib/eventEmitter';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +15,13 @@ const Navbar = () => {
   const pathname = usePathname();
   const { theme } = useContext(ThemeContext);
   const isDark = theme === 'dark';
+
+  // Add handleSubscribe function
+  const handleSubscribe = () => {
+    if (eventEmitter) {
+      eventEmitter.emit('showSubscriptionModal');
+    }
+  };
 
   const isActive = (path) => pathname === path;
 
@@ -63,8 +71,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Section */}
           <div className="md:hidden flex items-center space-x-2">
-            {/* Mobile Menu Button */}
-             {/* Theme Toggle for Mobile */}
+            {/* Theme Toggle for Mobile */}
             <ThemeToggleAnimated />
             <button
               className="p-2 rounded-md transition-colors bg-background/20 hover:bg-background/30"
@@ -102,6 +109,20 @@ const Navbar = () => {
                   Contact Me
                 </button>
               </li>
+              
+              {/* Add Subscribe button */}
+              <li>
+                <button 
+                  onClick={handleSubscribe}
+                  className={`
+                    px-4 py-1.5 rounded-full transition-all duration-300
+                    border border-primary-400 text-primary-600
+                    hover:bg-primary-50 dark:hover:bg-primary-900/30
+                  `}
+                >
+                  Subscribe
+                </button>
+              </li>
             </ul>
           </div>
           
@@ -135,6 +156,20 @@ const Navbar = () => {
                   `}
                 >
                   Contact Me
+                </button>
+              </li>
+              
+              {/* Add Subscribe button for mobile menu */}
+              <li>
+                <button 
+                  onClick={handleSubscribe}
+                  className={`
+                    w-full px-6 py-2 mt-2 rounded-full transition-all duration-300
+                    border border-primary-400 text-primary-600
+                    hover:bg-primary-50 dark:hover:bg-primary-900/30
+                  `}
+                >
+                  Subscribe to Updates
                 </button>
               </li>
             </ul>

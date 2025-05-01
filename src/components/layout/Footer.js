@@ -1,7 +1,18 @@
+'use client';
+
 import React from 'react';
+import Link from 'next/link';
+import eventEmitter from '@/lib/eventEmitter';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  
+  // Add this function to handle subscription button click
+  const handleSubscribe = () => {
+    if (eventEmitter) {
+      eventEmitter.emit('showSubscriptionModal');
+    }
+  };
 
   return (
     <footer className="w-full py-8 mt-16">
@@ -30,6 +41,15 @@ const Footer = () => {
                   </a>
                 </li>
               ))}
+              {/* Add Subscribe link */}
+              <li>
+                <button
+                  onClick={handleSubscribe}
+                  className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >
+                  Subscribe
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -70,6 +90,14 @@ const Footer = () => {
                   {social.name}
                 </a>
               ))}
+              
+              {/* Add Subscribe button */}
+              <button
+                onClick={handleSubscribe}
+                className="clean-container px-4 py-2 rounded-md text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all hover:-translate-y-1 border border-primary-400"
+              >
+                Subscribe
+              </button>
             </div>
           </div>
         </div>
@@ -83,34 +111,28 @@ const Footer = () => {
             © {currentYear} Ajith Kumar. All rights reserved.
           </p>
     
-          <div className="flex items-center gap-4">
-            <a
+          <div className="flex items-center gap-4 flex-wrap justify-center">
+            <Link
               href="/privacy-policy"
               className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             >
               Privacy Policy
-            </a>
+            </Link>
             <span className="text-secondary-400">•</span>
-            <a
+            <Link
               href="/terms-conditions"
               className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             >
               Terms of Service
-            </a>
-            <a
-            href="/shipping-delivery"
-            className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-          >
-            Shipping Delivery
-          </a>
-          <a
-          href="/cancellation-refund"
-          className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-        >
-          Cancellation Refund
-        </a>
+            </Link>
+            <span className="text-secondary-400">•</span>
+            <button
+              onClick={handleSubscribe}
+              className="text-body-sm text-primary-600 dark:text-primary-400 hover:underline transition-colors"
+            >
+              Subscribe to Updates
+            </button>
           </div>
-           
         </div>
       </div>
     </footer>

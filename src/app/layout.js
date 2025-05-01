@@ -11,6 +11,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import OfflineNotice from "@/components/ui/OfflineNotice";
 import { Providers } from "./providers";
 import { Analytics } from "@vercel/analytics/react"
+import SubscriptionModal from "@/components/ui/form/SubscriptionModal";
 // Initialize the fonts
 const merriweather = Merriweather({
   subsets: ['latin'],
@@ -366,6 +367,7 @@ export default function RootLayout({ children }) {
           </main>
           <div className="w-full h-px bg-decorative-line opacity-20 my-6"></div>
           <Footer />
+          <SubscriptionModal />
         </ThemeProvider>
         <SpeedInsights />
         <Analytics/>
