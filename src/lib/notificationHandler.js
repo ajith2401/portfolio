@@ -1,6 +1,7 @@
 // src/lib/notificationHandler.js
-import mongoose from 'mongoose';
 import connectDB from '@/lib/db';
+import { Subscriber } from '@/models'; // Import from centralized models
+import { sendContentNotification } from '@/lib/emailUtils';
 
 /**
  * Send notifications for new content
@@ -12,18 +13,6 @@ export async function sendContentNotifications(content, contentType) {
   try {
     // Connect to database
     await connectDB();
-    
-    // Check if Subscriber model exists
-    let Subscriber;
-    try {
-      Subscriber = mongoose.model('Subscriber');
-    } catch (error) {
-      console.error('Subscriber model not found:', error);
-      return {
-        success: false,
-        error: 'Subscriber model not found'
-      };
-    }
     
     // Get verified and active subscribers with matching preferences
     const subscribers = await Subscriber.find({
