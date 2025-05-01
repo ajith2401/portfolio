@@ -16,7 +16,7 @@ export default function UnsubscribedPage() {
         </h1>
         
         <p className="text-secondary-600 dark:text-secondary-400">
-          You have been successfully unsubscribed from email notifications from Ajithkumar.com.
+          You have been successfully unsubscribed from email notifications from Ajithkumarr.com.
         </p>
         
         <p className="text-secondary-600 dark:text-secondary-400">

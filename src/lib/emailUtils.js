@@ -55,12 +55,12 @@ export async function sendVerificationEmail(email, token, preferences) {
     const { data, error } = await resend.emails.send({
       from: 'Ajithkumar <noreply@ajithkumarr.com>',
       to: email,
-      subject: 'Verify your subscription to Ajithkumar.com',
+      subject: 'Verify your subscription to Ajithkumarr.com',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #0ea5e9; font-size: 24px;">Confirm Your Subscription</h1>
           
-          <p>Thank you for subscribing to updates from Ajithkumar.com!</p>
+          <p>Thank you for subscribing to updates from Ajithkumarr.com!</p>
           
           <p>You've subscribed to receive updates about: <strong>${subscriptionText}</strong></p>
           
@@ -84,7 +84,7 @@ export async function sendVerificationEmail(email, token, preferences) {
           </p>
           
           <p style="color: #64748b; font-size: 14px;">
-            &copy; ${new Date().getFullYear()} Ajithkumar.com
+            &copy; ${new Date().getFullYear()} Ajithkumarr.com
           </p>
         </div>
       `
@@ -155,7 +155,7 @@ export async function sendContentNotification(subscribers, content, contentType)
             <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 30px 0;">
             
             <p style="color: #64748b; font-size: 14px;">
-              You're receiving this email because you subscribed to ${contentTypeLabel} updates from Ajithkumar.com.
+              You're receiving this email because you subscribed to ${contentTypeLabel} updates from Ajithkumarr.com.
             </p>
             
             <p style="color: #64748b; font-size: 14px;">
@@ -164,7 +164,7 @@ export async function sendContentNotification(subscribers, content, contentType)
             </p>
             
             <p style="color: #64748b; font-size: 14px;">
-              &copy; ${new Date().getFullYear()} Ajithkumar.com
+              &copy; ${new Date().getFullYear()} Ajithkumarr.com
             </p>
           </div>
         `
@@ -211,12 +211,12 @@ export async function sendWelcomeEmail(email, preferences, unsubscribeToken) {
     const { data, error } = await resend.emails.send({
       from: 'Ajithkumar <noreply@ajithkumarr.com>',
       to: email,
-      subject: 'Welcome to Ajithkumar.com',
+      subject: 'Welcome to Ajithkumarr.com',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #0ea5e9; font-size: 24px;">Welcome!</h1>
           
-          <p>Thank you for subscribing to updates from Ajithkumar.com!</p>
+          <p>Thank you for subscribing to updates from Ajithkumarr.com!</p>
           
           <p>You're now subscribed to receive updates about: <strong>${subscriptionText}</strong></p>
           
@@ -235,7 +235,7 @@ export async function sendWelcomeEmail(email, preferences, unsubscribeToken) {
           </p>
           
           <p style="color: #64748b; font-size: 14px;">
-            &copy; ${new Date().getFullYear()} Ajithkumar.com
+            &copy; ${new Date().getFullYear()} Ajithkumarr.com
           </p>
         </div>
       `

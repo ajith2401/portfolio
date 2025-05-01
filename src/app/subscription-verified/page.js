@@ -36,7 +36,7 @@ export default function SubscriptionVerifiedPage() {
         </h1>
         
         <p className="text-secondary-600 dark:text-secondary-400">
-          Your email has been successfully verified, and you&apos;re now subscribed to updates from Ajithkumar.com.
+          Your email has been successfully verified, and you&apos;re now subscribed to updates from Ajithkumarr.com.
         </p>
         
         <p className="text-secondary-600 dark:text-secondary-400">
