@@ -37,6 +37,11 @@ const WritingSchema = new mongoose.Schema({
     max: 5,
     index: true
   },
+  status: {
+    type: String,
+    enum: ['draft', 'published'],
+    default: 'draft',
+  },
   totalRatings: {
     type: Number,
     default: 0

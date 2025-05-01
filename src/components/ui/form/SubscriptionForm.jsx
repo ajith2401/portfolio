@@ -10,7 +10,7 @@ const SubscriptionForm = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [preferences, setPreferences] = useState({
     blog: true,
-    quill: false,
+    quill: true,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
