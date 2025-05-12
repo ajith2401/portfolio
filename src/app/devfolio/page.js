@@ -25,7 +25,7 @@ export const metadata = {
     "web application development"
   ],
   alternates: {
-    canonical: "https://ajithkumarr.com/devfolio",
+    canonical: "https://www.ajithkumarr.com/devfolio",
   },
   openGraph: {
     title: "Ajithkumar | Full Stack MERN Developer",
@@ -39,7 +39,7 @@ export const metadata = {
       }
     ],
     type: 'website',
-    url: 'https://ajithkumarr.com/devfolio',
+    url: 'https://www.ajithkumarr.com/devfolio',
     siteName: 'Ajithkumar - Full Stack Developer'
   },
   twitter: {

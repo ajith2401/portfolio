@@ -34,19 +34,19 @@ export default function BlogSchema({ blog }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    '@id': `https://ajithkumarr.com/blog/${blog._id}#blogpost`,
+    '@id': `https://www.ajithkumarr.com/blog/${blog._id}#blogpost`,
     'headline': blog.title,
     'name': blog.title,
     'description': blog.subtitle || (blog.content ? blog.content.substring(0, 160).replace(/[\r\n]+/g, ' ') : ''),
-    'image': blog.images?.medium || blog.images?.large || 'https://ajithkumarr.com/opengraph-image.jpg',
+    'image': blog.images?.medium || blog.images?.large || 'https://www.ajithkumarr.com/opengraph-image.jpg',
     'inLanguage': 'en',
     'datePublished': publishedDate,
     'dateModified': modifiedDate,
     'author': {
       '@type': 'Person',
-      '@id': 'https://ajithkumarr.com/#ajithkumar',
+      '@id': 'https://www.ajithkumarr.com/#ajithkumar',
       'name': blog.author?.name || 'Ajithkumar',
-      'url': 'https://ajithkumarr.com/',
+      'url': 'https://www.ajithkumarr.com/',
       'description': 'Tamil writer with 5 published poetry books and Full Stack MERN Developer, creating compelling literature that explores themes of feminism, social justice, and human emotions.',
       'jobTitle': ['Writer and Poet', 'Full Stack Developer'],
       'sameAs': [
@@ -57,16 +57,16 @@ export default function BlogSchema({ blog }) {
     },
     'publisher': {
       '@type': 'Person',
-      '@id': 'https://ajithkumarr.com/#ajithkumar',
+      '@id': 'https://www.ajithkumarr.com/#ajithkumar',
       'name': 'Ajithkumar',
       'logo': {
         '@type': 'ImageObject',
-        'url': 'https://ajithkumarr.com/images/logo.png'
+        'url': 'https://www.ajithkumarr.com/images/logo.png'
       }
     },
     'mainEntityOfPage': {
       '@type': 'WebPage',
-      '@id': `https://ajithkumarr.com/blog/${blog._id}`
+      '@id': `https://www.ajithkumarr.com/blog/${blog._id}`
     },
     'keywords': keywordArray.join(', '),
     'articleSection': blog.category || 'Technology',
@@ -80,7 +80,7 @@ export default function BlogSchema({ blog }) {
       '@type': 'Blog',
       'name': 'Ajithkumar Tech Blog',
       'description': 'Technical blog by Ajithkumar - Tamil writer and Full Stack MERN Developer',
-      'url': 'https://ajithkumarr.com/blog/'
+      'url': 'https://www.ajithkumarr.com/blog/'
     }
   };
   
@@ -118,25 +118,25 @@ export default function BlogSchema({ blog }) {
         '@type': 'ListItem',
         'position': 1,
         'name': 'Home',
-        'item': 'https://ajithkumarr.com'
+        'item': 'https://www.ajithkumarr.com'
       },
       {
         '@type': 'ListItem',
         'position': 2,
         'name': 'Tech Blog',
-        'item': 'https://ajithkumarr.com/blog'
+        'item': 'https://www.ajithkumarr.com/blog'
       },
       {
         '@type': 'ListItem',
         'position': 3,
         'name': blog.category || 'Article',
-        'item': `https://ajithkumarr.com/blog/category/${blog.category?.toLowerCase().replace(/\s+/g, '-') || 'article'}`
+        'item': `https://www.ajithkumarr.com/blog/category/${blog.category?.toLowerCase().replace(/\s+/g, '-') || 'article'}`
       },
       {
         '@type': 'ListItem',
         'position': 4,
         'name': blog.title,
-        'item': `https://ajithkumarr.com/blog/${blog._id}`
+        'item': `https://www.ajithkumarr.com/blog/${blog._id}`
       }
     ]
   };

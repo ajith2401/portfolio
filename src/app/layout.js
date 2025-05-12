@@ -71,7 +71,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://ajithkumarr.com'),
+  metadataBase: new URL('https://www.ajithkumarr.com'),
   title: {
     default: "Ajithkumar |Full Stack Developer, Poet, Writer & Lyricist",
     template: "%s | Ajithkumar - Tamil Writer & MERN Developer"
@@ -107,8 +107,8 @@ export const metadata = {
   alternates: {
     canonical: "/",
     languages: {
-      'en-US': 'https://ajithkumarr.com',
-      'ta-IN': 'https://ajithkumarr.com/ta'
+      'en-US': 'https://www.ajithkumarr.com',
+      'ta-IN': 'https://www.ajithkumarr.com/ta'
     }
   },
   icons: {
@@ -131,7 +131,7 @@ export const metadata = {
   openGraph: {
     title: "Ajithkumar | Tamil Writer & Full Stack Developer",
     description: "Explore the work of Ajithkumar - published Tamil poet with 5 books who also creates innovative web applications as a Full Stack MERN Developer.",
-    url: "https://ajithkumarr.com",
+    url: "https://www.ajithkumarr.com",
     siteName: "Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist",
     images: [
       {
@@ -170,7 +170,7 @@ export const metadata = {
   },
   appLinks: {
     ios: {
-      url: "https://ajithkumarr.com/",
+      url: "https://www.ajithkumarr.com/",
       app_store_id: "123456789"
     },
     android: {
@@ -178,7 +178,7 @@ export const metadata = {
       app_name: "Ajithkumar"
     },
     web: {
-      url: "https://ajithkumarr.com/",
+      url: "https://www.ajithkumarr.com/",
       should_fallback: true
     }
   },
@@ -187,11 +187,11 @@ export const metadata = {
     "pinterest": "nopin",
   },
   archives: [
-    "https://ajithkumarr.com/archive/2024",
-    "https://ajithkumarr.com/archive/2023",
-    "https://ajithkumarr.com/archive/2022"
+    "https://www.ajithkumarr.com/archive/2024",
+    "https://www.ajithkumarr.com/archive/2023",
+    "https://www.ajithkumarr.com/archive/2022"
   ],
-  bookmarks: ["https://ajithkumarr.com/featured"],
+  bookmarks: ["https://www.ajithkumarr.com/featured"],
   links: [
     {
       rel: 'alternate',
@@ -237,14 +237,14 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              "@id": "https://ajithkumarr.com/#identity",
+              "@id": "https://www.ajithkumarr.com/#identity",
               "name": "Ajithkumar",
               "alternateName": "Ajith Kumar",
               "givenName": "Ajith",
               "familyName": "Kumar",
               "description": "Award-winning Tamil writer, poet, and lyricist exploring themes of feminism, social justice, and human emotions through captivating poetry and creative works.",
-              "url": "https://ajithkumarr.com",
-              "image": "https://ajithkumarr.com/images/ajithkumar-portrait.jpg",
+              "url": "https://www.ajithkumarr.com",
+              "image": "https://www.ajithkumarr.com/images/ajithkumar-portrait.jpg",
               "sameAs": [
                 "https://www.goodreads.com/author/show/ajithkumarr",
                 "https://twitter.com/ajithkumarr",
@@ -265,7 +265,7 @@ export default function RootLayout({ children }) {
                 "Award 1",
                 "Award 2"
               ],
-              "mainEntityOfPage": "https://ajithkumarr.com"
+              "mainEntityOfPage": "https://www.ajithkumarr.com"
             })
           }}
         />
@@ -277,18 +277,18 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              "@id": "https://ajithkumarr.com/#website",
-              "url": "https://ajithkumarr.com",
+              "@id": "https://www.ajithkumarr.com/#website",
+              "url": "https://www.ajithkumarr.com",
               "name": "Ajithkumar - Tamil Writer & Poet",
               "description": "Award-winning Tamil writer, poet and lyricist",
               "publisher": {
                 "@type": "Person",
-                "@id": "https://ajithkumarr.com/#identity"
+                "@id": "https://www.ajithkumarr.com/#identity"
               },
               "inLanguage": "en-US",
               "potentialAction": [{
                 "@type": "SearchAction",
-                "target": "https://ajithkumarr.com/search?q={search_term_string}",
+                "target": "https://www.ajithkumarr.com/search?q={search_term_string}",
                 "query-input": "required name=search_term_string"
               }]
             })
@@ -307,31 +307,31 @@ export default function RootLayout({ children }) {
                   "@type": "ListItem",
                   "position": 1,
                   "name": "Home",
-                  "item": "https://ajithkumarr.com"
+                  "item": "https://www.ajithkumarr.com"
                 },
                 {
                   "@type": "ListItem",
                   "position": 2,
                   "name": "Poetry",
-                  "item": "https://ajithkumarr.com/quill"
+                  "item": "https://www.ajithkumarr.com/quill"
                 },
                 {
                   "@type": "ListItem",
                   "position": 3,
                   "name": "Technical Blog",
-                  "item": "https://ajithkumarr.com/blog"
+                  "item": "https://www.ajithkumarr.com/blog"
                 },
                 {
                   "@type": "ListItem",
                   "position": 4,
                   "name": "Books",
-                  "item": "https://ajithkumarr.com/spotlight"
+                  "item": "https://www.ajithkumarr.com/spotlight"
                 },
                 {
                   "@type": "ListItem",
                   "position": 5,
                   "name": "About",
-                  "item": "https://ajithkumarr.com/about"
+                  "item": "https://www.ajithkumarr.com/about"
                 }
               ]
             })

@@ -76,12 +76,12 @@ const Hero = () => {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",
-            "@id": "https://ajithkumarr.com/#ajithkumar",
+            "@id": "https://www.ajithkumarr.com/#ajithkumar",
             "name": "Ajithkumar",
             "alternateName": "Ajith Kumar",
             "description": "Tamil writer with 5 published poetry books and Full Stack MERN Developer, creating compelling literature that explores themes of feminism, social justice, and human emotions.",
             "image": "https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741809430/techblog/ujikvc0er4tebs8mps0d.jpg",
-            "url": "https://ajithkumarr.com",
+            "url": "https://www.ajithkumarr.com",
             "sameAs": [
               "https://github.com/ajith2401",
               "https://www.linkedin.com/in/ajithkumar-r-a6531a232/",
@@ -93,7 +93,7 @@ const Hero = () => {
               "@type": "CollegeOrUniversity",
               "name": "University Name"
             },
-            "publishingPrinciples": "https://ajithkumarr.com/about",
+            "publishingPrinciples": "https://www.ajithkumarr.com/about",
             "workLocation": {
               "@type": "Place",
               "address": {

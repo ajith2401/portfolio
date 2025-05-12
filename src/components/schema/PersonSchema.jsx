@@ -6,12 +6,12 @@ export default function PersonSchema({ includeFullBio = false }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    '@id': 'https://ajithkumarr.com/#ajithkumar',
+    '@id': 'https://www.ajithkumarr.com/#ajithkumar',
     'name': 'Ajithkumar',
     'alternateName': 'Ajith Kumar',
     'description': 'Tamil writer with 5 published poetry books and Full Stack MERN Developer, creating compelling literature that explores themes of feminism, social justice, and human emotions.',
     'image': 'https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741809430/techblog/ujikvc0er4tebs8mps0d.jpg',
-    'url': 'https://ajithkumarr.com',
+    'url': 'https://www.ajithkumarr.com',
     'sameAs': [
       'https://github.com/ajith2401',
       'https://www.linkedin.com/in/ajithkumar-r-a6531a232/',
@@ -23,7 +23,7 @@ export default function PersonSchema({ includeFullBio = false }) {
       '@type': 'CollegeOrUniversity',
       'name': 'University Name'
     },
-    'publishingPrinciples': 'https://ajithkumarr.com/about',
+    'publishingPrinciples': 'https://www.ajithkumarr.com/about',
     'workLocation': {
       '@type': 'Place',
       'address': {
@@ -60,13 +60,13 @@ export default function PersonSchema({ includeFullBio = false }) {
   if (includeFullBio) {
     schema.mainEntityOfPage = {
       '@type': 'WebPage',
-      '@id': 'https://ajithkumarr.com/about'
+      '@id': 'https://www.ajithkumarr.com/about'
     };
     
     // Add published works
     schema.author = {
       '@type': 'Person',
-      '@id': 'https://ajithkumarr.com/#ajithkumar'
+      '@id': 'https://www.ajithkumarr.com/#ajithkumar'
     };
     
     schema.workExample = [
@@ -75,7 +75,7 @@ export default function PersonSchema({ includeFullBio = false }) {
         'name': 'Tamil Poetry Book 1', // Replace with actual book title
         'author': {
           '@type': 'Person',
-          '@id': 'https://ajithkumarr.com/#ajithkumar'
+          '@id': 'https://www.ajithkumarr.com/#ajithkumar'
         },
         'bookFormat': 'Paperback',
         'inLanguage': 'ta'
@@ -85,7 +85,7 @@ export default function PersonSchema({ includeFullBio = false }) {
         'name': 'Tamil Poetry Book 2', // Replace with actual book title
         'author': {
           '@type': 'Person',
-          '@id': 'https://ajithkumarr.com/#ajithkumar'
+          '@id': 'https://www.ajithkumarr.com/#ajithkumar'
         },
         'bookFormat': 'Paperback',
         'inLanguage': 'ta'
@@ -95,7 +95,7 @@ export default function PersonSchema({ includeFullBio = false }) {
         'name': 'Tamil Poetry Book 3', // Replace with actual book title
         'author': {
           '@type': 'Person',
-          '@id': 'https://ajithkumarr.com/#ajithkumar'
+          '@id': 'https://www.ajithkumarr.com/#ajithkumar'
         },
         'bookFormat': 'Paperback',
         'inLanguage': 'ta'

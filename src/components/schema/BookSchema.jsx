@@ -44,27 +44,27 @@ export default function BookSchema({ book }) {
   const bookData = {
     "@context": "https://schema.org",
     "@type": "Book",
-    "@id": `https://ajithkumarr.com/spotlight/${book._id}#book`,
+    "@id": `https://www.ajithkumarr.com/spotlight/${book._id}#book`,
     "name": book.title || "Tamil Poetry Book",
     "headline": book.title || "Tamil Poetry Book",
     "author": {
       "@type": "Person",
-      "@id": "https://ajithkumarr.com/#ajithkumar",
+      "@id": "https://www.ajithkumarr.com/#ajithkumar",
       "name": "Ajithkumar",
       "description": "Tamil writer and poet with 5 published books, exploring themes of feminism, social justice, and human emotions through captivating poetry.",
-      "url": "https://ajithkumarr.com"
+      "url": "https://www.ajithkumarr.com"
     },
     "publisher": {
       "@type": "Organization",
       "name": book.publisher || "Ajithkumar Publications",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://ajithkumarr.com/images/logo.png"
+        "url": "https://www.ajithkumarr.com/images/logo.png"
       }
     },
     "inLanguage": "ta",
     "datePublished": formatDate(book.publishYear),
-    "image": book.coverImage || "https://ajithkumarr.com/opengraph-image.jpg",
+    "image": book.coverImage || "https://www.ajithkumarr.com/opengraph-image.jpg",
     "description": book.description ? book.description.substring(0, 500).replace(/[\r\n]+/g, ' ') : "Tamil poetry book by Ajithkumar exploring themes of feminism, social justice, and human emotions",
     "isbn": book.isbn || "",
     "numberOfPages": book.pageCount || "",
@@ -73,7 +73,7 @@ export default function BookSchema({ book }) {
       "@type": "ReadAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": `https://ajithkumarr.com/spotlight/${book._id}`
+        "urlTemplate": `https://www.ajithkumarr.com/spotlight/${book._id}`
       }
     },
     "aggregateRating": calculateRating(),
@@ -82,7 +82,7 @@ export default function BookSchema({ book }) {
       "price": book.price,
       "priceCurrency": "INR",
       "availability": "https://schema.org/InStock",
-      "url": book.purchaseLinks?.amazon || book.purchaseLinks?.flipkart || book.purchaseLinks?.other || `https://ajithkumarr.com/spotlight/${book._id}`
+      "url": book.purchaseLinks?.amazon || book.purchaseLinks?.flipkart || book.purchaseLinks?.other || `https://www.ajithkumarr.com/spotlight/${book._id}`
     } : undefined,
     "isPartOf": {
       "@type": "Collection",
@@ -120,7 +120,7 @@ export default function BookSchema({ book }) {
       "inLanguage": "ta",
       "isPartOf": {
         "@type": "Book",
-        "@id": `https://ajithkumarr.com/spotlight/${book._id}#book`
+        "@id": `https://www.ajithkumarr.com/spotlight/${book._id}#book`
       }
     }));
   }

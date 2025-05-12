@@ -56,11 +56,11 @@ export default function ProjectSchema({ project }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': schemaType,
-    '@id': `https://ajithkumarr.com/devfolio/${project._id}#project`,
+    '@id': `https://www.ajithkumarr.com/devfolio/${project._id}#project`,
     'name': project.title || '',
     'headline': project.title || '',
     'description': project.shortDescription || project.longDescription?.substring(0, 160) || '',
-    'image': project.images?.medium || project.images?.large || 'https://ajithkumarr.com/opengraph-image.jpg',
+    'image': project.images?.medium || project.images?.large || 'https://www.ajithkumarr.com/opengraph-image.jpg',
     'datePublished': formatDate(project.createdAt),
     'dateModified': formatDate(project.updatedAt),
     'applicationCategory': determineAppCategory(),
@@ -68,14 +68,14 @@ export default function ProjectSchema({ project }) {
     'keywords': getSkills(),
     'author': {
       '@type': 'Person',
-      '@id': 'https://ajithkumarr.com/#ajithkumar',
+      '@id': 'https://www.ajithkumarr.com/#ajithkumar',
       'name': 'Ajithkumar',
       'description': 'Tamil writer with 5 published poetry books and Full Stack MERN Developer, creating compelling literature and innovative web applications.',
-      'url': 'https://ajithkumarr.com'
+      'url': 'https://www.ajithkumarr.com'
     },
     'creator': {
       '@type': 'Person',
-      '@id': 'https://ajithkumarr.com/#ajithkumar'
+      '@id': 'https://www.ajithkumarr.com/#ajithkumar'
     },
     'offers': (project.links?.live || project.links?.demo) ? {
       '@type': 'Offer',
@@ -86,7 +86,7 @@ export default function ProjectSchema({ project }) {
     } : undefined,
     'mainEntityOfPage': {
       '@type': 'WebPage',
-      '@id': `https://ajithkumarr.com/devfolio/${project._id}`
+      '@id': `https://www.ajithkumarr.com/devfolio/${project._id}`
     }
   };
   
@@ -113,25 +113,25 @@ export default function ProjectSchema({ project }) {
         '@type': 'ListItem',
         'position': 1,
         'name': 'Home',
-        'item': 'https://ajithkumarr.com'
+        'item': 'https://www.ajithkumarr.com'
       },
       {
         '@type': 'ListItem',
         'position': 2,
         'name': 'Projects',
-        'item': 'https://ajithkumarr.com/devfolio'
+        'item': 'https://www.ajithkumarr.com/devfolio'
       },
       {
         '@type': 'ListItem',
         'position': 3,
         'name': project.category?.charAt(0).toUpperCase() + project.category?.slice(1) || 'Project',
-        'item': `https://ajithkumarr.com/devfolio?category=${project.category || ''}`
+        'item': `https://www.ajithkumarr.com/devfolio?category=${project.category || ''}`
       },
       {
         '@type': 'ListItem',
         'position': 4,
         'name': project.title,
-        'item': `https://ajithkumarr.com/devfolio/${project._id}`
+        'item': `https://www.ajithkumarr.com/devfolio/${project._id}`
       }
     ]
   };

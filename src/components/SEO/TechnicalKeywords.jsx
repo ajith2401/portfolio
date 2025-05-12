@@ -96,7 +96,7 @@ export default function TechnicalKeywords() {
     "description": "Professional profile of Ajithkumar, a Full Stack Developer specializing in MERN stack (MongoDB, Express.js, React.js, Node.js) and JavaScript development.",
     "mainEntity": {
       "@type": "Person",
-      "@id": "https://ajithkumarr.com/#ajithkumar-developer",
+      "@id": "https://www.ajithkumarr.com/#ajithkumar-developer",
       "name": "Ajithkumar",
       "description": "Full Stack MERN Developer with expertise in JavaScript, React.js, Node.js and MongoDB",
       "knowsAbout": technicalKeywords,
@@ -105,7 +105,7 @@ export default function TechnicalKeywords() {
         "name": "Full Stack Developer",
         "skills": "MERN Stack, JavaScript, React.js, Node.js, MongoDB, Express.js"
       },
-      "url": "https://ajithkumarr.com/devfolio"
+      "url": "https://www.ajithkumarr.com/devfolio"
     }
   };
 

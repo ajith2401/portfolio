@@ -45,12 +45,12 @@ export default function DeveloperSchema({ includedSkills = [] }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    '@id': 'https://ajithkumarr.com/#ajithkumar-developer',
+    '@id': 'https://www.ajithkumarr.com/#ajithkumar-developer',
     'name': 'Ajithkumar',
     'alternateName': 'Ajith Kumar',
     'description': 'Full Stack MERN Developer with expertise in JavaScript, React.js, Node.js, Express, and MongoDB. Creator of responsive, scalable web applications while maintaining a unique perspective as a published Tamil writer.',
     'image': 'https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741809430/techblog/ujikvc0er4tebs8mps0d.jpg',
-    'url': 'https://ajithkumarr.com/devfolio',
+    'url': 'https://www.ajithkumarr.com/devfolio',
     'sameAs': [
       'https://github.com/ajith2401',
       'https://www.linkedin.com/in/ajithkumar-r-a6531a232/',
@@ -96,7 +96,7 @@ export default function DeveloperSchema({ includedSkills = [] }) {
     ],
     'mainEntityOfPage': {
       '@type': 'WebPage',
-      '@id': 'https://ajithkumarr.com/devfolio'
+      '@id': 'https://www.ajithkumarr.com/devfolio'
     },
     'workExample': [
       {
@@ -106,7 +106,7 @@ export default function DeveloperSchema({ includedSkills = [] }) {
         'operatingSystem': 'Web Browser',
         'author': {
           '@type': 'Person',
-          '@id': 'https://ajithkumarr.com/#ajithkumar-developer'
+          '@id': 'https://www.ajithkumarr.com/#ajithkumar-developer'
         }
       },
       {
@@ -116,7 +116,7 @@ export default function DeveloperSchema({ includedSkills = [] }) {
         'operatingSystem': 'Web Browser',
         'author': {
           '@type': 'Person',
-          '@id': 'https://ajithkumarr.com/#ajithkumar-developer'
+          '@id': 'https://www.ajithkumarr.com/#ajithkumar-developer'
         }
       },
       {
@@ -125,7 +125,7 @@ export default function DeveloperSchema({ includedSkills = [] }) {
         'applicationCategory': 'DeveloperApplication',
         'author': {
           '@type': 'Person',
-          '@id': 'https://ajithkumarr.com/#ajithkumar-developer'
+          '@id': 'https://www.ajithkumarr.com/#ajithkumar-developer'
         }
       }
     ],
@@ -179,7 +179,7 @@ export default function DeveloperSchema({ includedSkills = [] }) {
     'subjectOf': {
       '@type': 'CreativeWork',
       'name': 'Developer Portfolio',
-      'url': 'https://ajithkumarr.com/devfolio'
+      'url': 'https://www.ajithkumarr.com/devfolio'
     }
   };
 

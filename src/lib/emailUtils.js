@@ -49,7 +49,7 @@ export async function sendVerificationEmail(email, token, preferences) {
     if (preferences.quill) subscriptionList.push('Tamil Writings (Quill)');
     
     const subscriptionText = subscriptionList.join(' and ');
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ajithkumarr.com';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.ajithkumarr.com';
     const verificationUrl = `${baseUrl}/api/subscribe?token=${token}&action=verify`;
     
     const { data, error } = await resend.emails.send({
@@ -112,7 +112,7 @@ export async function sendContentNotification(subscribers, content, contentType)
   try {
     // Prepare email content
     const contentTypeLabel = contentType === 'blog' ? 'Tech Blog' : 'Tamil Writings (Quill)';
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ajithkumarr.com';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.ajithkumarr.com';
     const contentUrl = `${baseUrl}/${contentType === 'blog' ? 'blog' : 'quill'}/${content._id}`;
     
     // Filter subscribers by preference and verification status
@@ -205,7 +205,7 @@ export async function sendWelcomeEmail(email, preferences, unsubscribeToken) {
     if (preferences.quill) subscriptionList.push('Tamil Writings (Quill)');
     
     const subscriptionText = subscriptionList.join(' and ');
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ajithkumarr.com';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.ajithkumarr.com';
     const unsubscribeUrl = `${baseUrl}/api/subscribe?token=${unsubscribeToken}&action=unsubscribe`;
     
     const { data, error } = await resend.emails.send({

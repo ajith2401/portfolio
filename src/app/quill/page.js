@@ -19,12 +19,12 @@ export const metadata = {
     "Tamil essays"
   ],
   alternates: {
-    canonical: "https://ajithkumarr.com/quill",
+    canonical: "https://www.ajithkumarr.com/quill",
   },
   openGraph: {
     title: "Ajithkumar | Tamil Writer & Poet",
     description: "Explore the literary works of Ajithkumar - published Tamil writer with 5 poetry books exploring themes of feminism and social justice.",
-    url: "https://ajithkumarr.com/quill",
+    url: "https://www.ajithkumarr.com/quill",
     type: "website",
     images: [
       {

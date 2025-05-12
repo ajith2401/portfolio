@@ -36,7 +36,7 @@ export const metadata = {
       }
     ],
     type: 'website',
-    url: 'https://ajithkumarr.com/blog',
+    url: 'https://www.ajithkumarr.com/blog',
     siteName: 'Ajithkumar - Full Stack Developer Blog'
   },
   twitter: {
@@ -47,7 +47,7 @@ export const metadata = {
     creator: '@ajithkumarr'
   },
   alternates: {
-    canonical: 'https://ajithkumarr.com/blog'
+    canonical: 'https://www.ajithkumarr.com/blog'
   }
 };
 

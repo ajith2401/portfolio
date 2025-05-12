@@ -22,7 +22,7 @@ export default function WritingSchema({ writing }) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    '@id': `https://ajithkumarr.com/quill/${writing._id}#article`,
+    '@id': `https://www.ajithkumarr.com/quill/${writing._id}#article`,
     'headline': writing.title || '',
     'name': writing.title || '',
     'description': writing.subtitle || (writing.body ? writing.body.substring(0, 160).replace(/[\r\n]+/g, ' ') : ''),
@@ -31,7 +31,7 @@ export default function WritingSchema({ writing }) {
     'dateModified': formatDate(writing.updatedAt || writing.createdAt),
     'mainEntityOfPage': {
       '@type': 'WebPage',
-      '@id': `https://ajithkumarr.com/quill/${writing._id}`
+      '@id': `https://www.ajithkumarr.com/quill/${writing._id}`
     },
     'isPartOf': {
       '@type': 'CreativeWork',
@@ -39,15 +39,15 @@ export default function WritingSchema({ writing }) {
       'description': 'Collection of Tamil poetry, essays and creative writings by Ajithkumar, published author of 5 Tamil poetry books.',
       'publisher': {
         '@type': 'Person',
-        '@id': 'https://ajithkumarr.com/#ajithkumar'
+        '@id': 'https://www.ajithkumarr.com/#ajithkumar'
       }
     },
-    'image': writing.images?.medium || 'https://ajithkumarr.com/opengraph-image.jpg',
+    'image': writing.images?.medium || 'https://www.ajithkumarr.com/opengraph-image.jpg',
     'author': {
       '@type': 'Person',
-      '@id': 'https://ajithkumarr.com/#ajithkumar',
+      '@id': 'https://www.ajithkumarr.com/#ajithkumar',
       'name': 'Ajithkumar',
-      'url': 'https://ajithkumarr.com',
+      'url': 'https://www.ajithkumarr.com',
       'description': 'Tamil writer and poet with 5 published books, exploring themes of feminism, social justice, and human emotions through captivating poetry.',
       'jobTitle': 'Writer and Poet',
       'sameAs': [
@@ -58,11 +58,11 @@ export default function WritingSchema({ writing }) {
     },
     'publisher': {
       '@type': 'Person',
-      '@id': 'https://ajithkumarr.com/#ajithkumar',
+      '@id': 'https://www.ajithkumarr.com/#ajithkumar',
       'name': 'Ajithkumar',
       'logo': {
         '@type': 'ImageObject',
-        'url': 'https://ajithkumarr.com/images/logo.png'
+        'url': 'https://www.ajithkumarr.com/images/logo.png'
       }
     },
     'articleBody': writing.body ? writing.body.substring(0, 500).replace(/[\r\n]+/g, ' ') + '...' : '',
@@ -90,7 +90,7 @@ export default function WritingSchema({ writing }) {
         '@type': 'ReadAction',
         'target': {
           '@type': 'EntryPoint',
-          'urlTemplate': `https://ajithkumarr.com/quill/${writing._id}`
+          'urlTemplate': `https://www.ajithkumarr.com/quill/${writing._id}`
         }
       }
     ]
