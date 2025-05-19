@@ -28,7 +28,7 @@ const DEFAULT_FONTS = {
 
 const DEFAULT_BRANDING = {
   name: "அஜித்குமார்",
-  website: "www.ajithkumar.dev",
+  website: "www.ajithkumarr.com",
   phone: "9944154823",
   social: "@vaanawill",
   font: '"Tamil Sangam MN"',

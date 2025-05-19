@@ -89,7 +89,7 @@ const nextConfig = {
         has: [
           {
             type: 'host',
-            value: 'ajithkumar.com',
+            value: 'ajithkumarr.com',
           },
         ],
         destination: 'https://www.ajithkumarr.com/:path*',
@@ -100,7 +100,7 @@ const nextConfig = {
         has: [
           {
             type: 'host',
-            value: 'www.ajithkumar.com',
+            value: 'www.ajithkumarr.com',
           },
         ],
         destination: 'https://www.ajithkumarr.com/:path*',
