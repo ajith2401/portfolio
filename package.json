@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node src/scripts/generate-sitemap.js && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-sitemap": "node src/scripts/generate-sitemap.js"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.64",

@@ -230,6 +230,8 @@ export default function RootLayout({ children }) {
       `}
     >
       <head>
+      <link rel="preconnect" href="https://res.cloudinary.com" />
+      <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {/* Schema.org structured data for personal identity as a writer */}
         <script
           type="application/ld+json"

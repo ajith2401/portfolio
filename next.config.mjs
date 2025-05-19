@@ -81,7 +81,33 @@ const nextConfig = {
       };
     }
     return config;
-  }
+  },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'ajithkumar.com',
+          },
+        ],
+        destination: 'https://www.ajithkumarr.com/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.ajithkumar.com',
+          },
+        ],
+        destination: 'https://www.ajithkumarr.com/:path*',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 export default withPWA(nextConfig);

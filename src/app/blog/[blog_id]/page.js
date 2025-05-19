@@ -26,6 +26,11 @@ export async function generateMetadata({ params }) {
     : '';
     
   const description = blog.subtitle || plainTextContent.substring(0, 160);
+
+    const uniqueDescription = blog.subtitle || 
+    (blog.content ? blog.content.substring(0, 160).replace(/[\r\n]+/g, ' ') : '');
+  
+  const keywords = [...(blog.tags || []), blog.category, 'web development'].filter(Boolean);
   
   // Safely format dates for metadata
   const safeISODate = (dateValue) => {
@@ -44,9 +49,9 @@ export async function generateMetadata({ params }) {
   const modifiedTime = safeISODate(blog.updatedAt);
   
   return {
-    title: blog.title,
-    description: description,
-    keywords: [...(blog.tags || []), blog.category, 'web development', 'technical writing'].filter(Boolean),
+    title: `${blog.title} | Ajith Kumar - Technical Blog`,
+    description: uniqueDescription,
+    keywords: keywords.join(', '),
     authors: [{ name: blog.author?.name || 'Ajithkumar' }],
     category: blog.category,
     alternates: {
