@@ -122,7 +122,7 @@ const PhotographyContent = () => {
     category: activeCategory !== 'all' ? activeCategory : '' 
   });
 
-  const services = data?.services || [];
+  const services = React.useMemo(() => data?.services || [], [data]);
   
   // Extract unique categories from services - fix for the lint warning
   const categories = React.useMemo(() => {
@@ -148,7 +148,17 @@ const PhotographyContent = () => {
         <LoadingServices />
       ) : error ? (
         <div className="text-center py-10">
-          <p className="text-red-500">Error loading services: {error.message || 'Something went wrong'}</p>
+          <p className="text-red-500">
+            Error loading services: {
+              typeof error === 'object' && error !== null
+                ? ('message' in error
+                    ? error.message
+                    : ('status' in error && error.status)
+                      ? `Status: ${error.status}`
+                      : 'Something went wrong')
+                : 'Something went wrong'
+            }
+          </p>
         </div>
       ) : services.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

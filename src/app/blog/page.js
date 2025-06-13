@@ -266,7 +266,7 @@ export default async function TechBlogPage({ searchParams }) {
         
         {/* Main content */}
         <Suspense fallback={<BlogLoading />}>
-          <TechBlogClient 
+           <TechBlogClient 
             initialData={serializedData}
             searchParams={searchParams}
           />

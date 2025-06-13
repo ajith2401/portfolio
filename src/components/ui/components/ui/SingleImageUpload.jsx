@@ -1,6 +1,7 @@
 // src/components/ui/SingleImageUpload.jsx
 'use client';
 
+import Image from 'next/image';
 import React, { useState } from 'react';
 
 const SingleImageUpload = ({ currentImage, onImageUploaded }) => {
@@ -57,7 +58,7 @@ const SingleImageUpload = ({ currentImage, onImageUploaded }) => {
       <label className="block text-sm font-medium mb-2">Featured Image</label>
       {previewUrl ? (
         <div className="relative mb-2">
-          <img 
+          <Image
             src={previewUrl} 
             alt="Preview" 
             className="w-full h-40 object-cover rounded-md" 

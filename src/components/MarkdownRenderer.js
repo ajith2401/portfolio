@@ -1,6 +1,7 @@
 // src/components/MarkdownRenderer.jsx
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 
 export const MarkdownRenderer = ({ content }) => {
@@ -124,7 +125,7 @@ export const MarkdownRenderer = ({ content }) => {
       const [, altText, imageUrl] = match;
       parts.push(
         <div key={`img-${match.index}`} className="my-4 text-center">
-          <img 
+          <Image
             src={imageUrl} 
             alt={altText || 'Image'} 
             className="max-w-full h-auto rounded mx-auto" 

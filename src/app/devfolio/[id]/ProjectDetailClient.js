@@ -143,7 +143,7 @@ const MarkdownRenderer = ({ content }) => {
       // Add the image component
       parts.push(
         <div key={`img-${match.index}`} className="my-4 text-center">
-          <img 
+         <Image
             src={imageUrl} 
             alt={altText} 
             className="max-w-full h-auto rounded mx-auto" 

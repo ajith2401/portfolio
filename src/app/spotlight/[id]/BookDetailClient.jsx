@@ -145,7 +145,7 @@ const MarkdownRenderer = ({ content }) => {
       // Add the image component
       parts.push(
         <div key={`img-${match.index}`} className="my-4 text-center">
-          <img 
+         <Image
             src={imageUrl} 
             alt={altText} 
             className="max-w-full h-auto rounded mx-auto" 
@@ -268,7 +268,7 @@ export default function BookDetailClient({ book: initialBook, relatedBooks = [] 
     {/* Book Cover */}
     <div className="flex justify-center">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
-        <img 
+       <Image
           src={book.coverImage || '/images/fallback-cover.jpg'}
           alt={book.title || 'Book cover'}
           className="w-full h-auto object-contain"
@@ -486,7 +486,7 @@ export default function BookDetailClient({ book: initialBook, relatedBooks = [] 
                   >
                     {/* Image Container */}
                     <div className="relative h-[400px] rounded-lg overflow-hidden">
-                      <img
+                     <Image
                         src={relatedBook.coverImage || '/images/fallback-cover.jpg'}
                         alt={relatedBook.title || 'Book cover'}
                         className="w-auto h-full max-w-full max-h-full object-contain mx-auto"

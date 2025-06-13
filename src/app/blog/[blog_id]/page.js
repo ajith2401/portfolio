@@ -7,7 +7,6 @@ import TechBlogPostClient from './TechBlogPostClient';
 import PageSEO from '@/components/SEO/PageSEO';
 import InternalLinks from '@/components/SEO/InternalLinks';
 import ErrorBoundary from '@/components/ErrorBoundary';
-
 // Helper functions
 function isValidObjectId(id) {
   return /^[0-9a-fA-F]{24}$/.test(id);
