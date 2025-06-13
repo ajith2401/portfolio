@@ -12,32 +12,62 @@ Allow: /about/
 # Optimize crawl budget by preventing crawling of non-essential paths
 Disallow: /api/
 Disallow: /_next/static/
+Disallow: /_next/image/
 Disallow: /_vercel/
 Disallow: /checkout/
 Disallow: /create-writing/
 Disallow: /custom-writing/
+Disallow: /admin/
+Disallow: /dashboard/
 
-# Prevent duplicate content issues
+# Block ObjectId URL patterns that cause indexing issues
+Disallow: /blog/*?*
+Disallow: /quill/*?*
+Disallow: /devfolio/*?*
+Disallow: /spotlight/*?*
+
+# Prevent duplicate content issues from query parameters
 Disallow: /*?page=*
 Disallow: /*?category=*
 Disallow: /*?search=*
 Disallow: /*?sortBy=*
+Disallow: /*?filter=*
+Disallow: /*?utm_*
+Disallow: /*?ref=*
+Disallow: /*?source=*
+
+# Block development and testing URLs
+Disallow: /test/
+Disallow: /dev/
+Disallow: /staging/
+
+# Block subscription and authentication pages from indexing
+Disallow: /subscription-verified
+Disallow: /unsubscribed
+Disallow: /auth/
+Disallow: /login/
+Disallow: /signup/
 
 # Specific directives for Google
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
-# Allow Google to index JavaScript resources
+# Allow Google to index JavaScript and CSS resources
 Allow: /*.js$
+Allow: /*.css$
+Allow: /*.json$
 
 # Specific directives for Google Images
 User-agent: Googlebot-Image
 Allow: /images/
 Allow: /backgrounds/
+Allow: /_next/image/
 Allow: /*.jpg$
 Allow: /*.jpeg$
 Allow: /*.png$
 Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.gif$
 
 # Specific directives for Bing
 User-agent: Bingbot
@@ -51,9 +81,13 @@ Allow: /
 Disallow: /api/
 Crawl-delay: 1
 
-# Recommended crawl delay for other bots to avoid server overload
+# Be gentle with other bots to avoid server overload
+User-agent: *
 Crawl-delay: 2
 
-# Sitemaps
+# Sitemaps - Critical for proper indexing
 Sitemap: https://www.ajithkumarr.com/sitemap.xml
-Sitemap: https://www.ajithkumarr.com/api/sitemap
+Sitemap: https://www.ajithkumarr.com/sitemap-images.xml
+
+# Host directive (helps with canonicalization)
+Host: https://www.ajithkumarr.com
