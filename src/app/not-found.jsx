@@ -26,8 +26,8 @@ export default function NotFound() {
             Page Not Found
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-            The page you're looking for doesn't exist or may have been moved. 
-            Let's get you back on track!
+            The page you&apos;re looking for doesn&apos;t exist or may have been moved. 
+            Let&apos;s get you back on track!
           </p>
           
           {/* Search Suggestion */}
@@ -165,7 +165,7 @@ export default function NotFound() {
         {/* Contact Option */}
         <div className="mt-8 text-center">
           <p className="text-gray-600 dark:text-gray-400 mb-4">
-            Still can't find what you're looking for?
+            Still can&lsquo;t find what you&lsquo;re looking for?
           </p>
           <Link 
             href="/contact"

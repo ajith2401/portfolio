@@ -335,7 +335,7 @@ export default async function TechBlogPage({ searchParams }) {
             Technical Blog - Temporarily Unavailable
           </h1>
           <p className="text-gray-600 mb-8">
-            We're experiencing technical difficulties. Please try again later.
+            We&lsquo;re experiencing technical difficulties. Please try again later.
           </p>
           <a 
             href="/" 

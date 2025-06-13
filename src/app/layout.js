@@ -386,7 +386,8 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className={`${inter.className} antialiased min-h-screen flex flex-col`}>
+      {/*<body className={`${inter.className} antialiased min-h-screen flex flex-col`}> */}
+       <body className="min-h-screen  antialiased transition-colors duration-300">
         <ReduxProvider>
           <ThemeProvider>
           <Toaster 

@@ -1,28 +1,11 @@
 // src/app/quill/[quill_id]/page.js
 import { Writing } from '@/models';
 import connectDB from '@/lib/db';
-import dynamic from 'next/dynamic';
 import { isValidObjectId } from 'mongoose';
 import { notFound } from 'next/navigation';
-
-// Loading component for Suspense fallback
-const WritingDetailLoading = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="text-center">
-      <h2 className="text-2xl font-bold mb-4">Loading Content...</h2>
-      <p className="text-gray-500">Please wait while we prepare the writing for you.</p>
-    </div>
-  </div>
-);
-
-// Use dynamic import with ssr: false to prevent localStorage errors
-const WritingDetailClient = dynamic(() => import('./WritingDetailClient'), {
-  ssr: false,
-  loading: WritingDetailLoading
-});
+import WritingDetailClient from './WritingDetailClient';
 
 export async function generateMetadata({ params }) {
-
   if (!isValidObjectId(params.quill_id)) {
     return {
       title: 'Writing Not Found | Ajithkumar',
@@ -33,7 +16,12 @@ export async function generateMetadata({ params }) {
   await connectDB();
   const writing = await Writing.findById(params.quill_id);
   
-
+  if (!writing) {
+    return {
+      title: 'Writing Not Found | Ajithkumar',
+      robots: 'noindex'
+    };
+  }
 
   // Clean up the text for description
   const plainTextBody = writing.body
@@ -114,7 +102,7 @@ export default async function WritingDetailPage({ params }) {
     const writing = await Writing.findById(params.quill_id);
     
     if (!writing) {
-      return <div className="min-h-screen flex items-center justify-center">Writing not found</div>;
+      notFound();
     }
     
     // Create a safe object for serialization
@@ -125,15 +113,17 @@ export default async function WritingDetailPage({ params }) {
       body: writing.body,
       category: writing.category,
       images: writing.images || {},
+      words: writing.words || [],
       // Convert dates to ISO strings explicitly
       createdAt: writing.createdAt ? writing.createdAt.toISOString() : null,
       updatedAt: writing.updatedAt ? writing.updatedAt.toISOString() : null,
       // Include other fields as needed
       averageRating: writing.averageRating,
-      totalRatings: writing.totalRatings
+      totalRatings: writing.totalRatings,
+      readTime: writing.readTime
     };
     
-    // Use the dynamically imported client component
+    // Use the client component directly (no dynamic import needed)
     return (
       <WritingDetailClient 
         initialWriting={safeWriting} 
@@ -142,8 +132,13 @@ export default async function WritingDetailPage({ params }) {
     );
   } catch (error) {
     console.error("Error in WritingDetailPage:", error);
-    return <div className="min-h-screen flex items-center justify-center text-red-500">
-      Error loading writing details. Please try again later.
-    </div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Error Loading Writing</h2>
+          <p>Please try again later.</p>
+        </div>
+      </div>
+    );
   }
 }

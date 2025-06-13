@@ -4,6 +4,7 @@
 import { Provider } from 'react-redux';
 import { store } from '../store/store';
 import { useEffect, useState } from 'react';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 export function Providers({ children }) {
   const [isClient, setIsClient] = useState(false);
@@ -14,12 +15,14 @@ export function Providers({ children }) {
 
   // Prevent hydration mismatch by not rendering Redux provider on server
   if (!isClient) {
-    return <>{children}</>;
+    return <ErrorBoundary>{children}</ErrorBoundary>;
   }
 
   return (
-    <Provider store={store}>
-      {children}
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        {children}
+      </Provider>
+    </ErrorBoundary>
   );
 }
