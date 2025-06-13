@@ -2,6 +2,8 @@
 import { Writing } from '@/models';
 import connectDB from '@/lib/db';
 import dynamic from 'next/dynamic';
+import { isValidObjectId } from 'mongoose';
+import { notFound } from 'next/navigation';
 
 // Loading component for Suspense fallback
 const WritingDetailLoading = () => (
@@ -20,11 +22,19 @@ const WritingDetailClient = dynamic(() => import('./WritingDetailClient'), {
 });
 
 export async function generateMetadata({ params }) {
+
+  if (!isValidObjectId(params.quill_id)) {
+    return {
+      title: 'Writing Not Found | Ajithkumar',
+      robots: 'noindex'
+    };
+  }
+
   await connectDB();
   const writing = await Writing.findById(params.quill_id);
   
-  if (!writing) return { title: 'Writing Not Found' };
-  
+
+
   // Clean up the text for description
   const plainTextBody = writing.body
     ? writing.body
@@ -93,6 +103,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function WritingDetailPage({ params }) {
+  if (!isValidObjectId(params.quill_id)) {
+    notFound();
+  }
+
   await connectDB();
   
   try {

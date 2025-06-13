@@ -51,86 +51,86 @@ const SubscriptionModal = () => {
   };
 
   // Check if user already subscribed (from localStorage)
-  useEffect(() => {
-    const mounted = typeof window !== 'undefined';
-    if (!mounted) return;
+  // useEffect(() => {
+  //   const mounted = typeof window !== 'undefined';
+  //   if (!mounted) return;
     
-    // Check if this is a content page and if we should show subscription
-    const isContentPage = isContentDetailPage();
-    const shouldShow = shouldShowForUser();
+  //   // Check if this is a content page and if we should show subscription
+  //   const isContentPage = isContentDetailPage();
+  //   const shouldShow = shouldShowForUser();
     
-    // For content detail pages: show after a short delay (but only if appropriate)
-    if (isContentPage && shouldShow) {
-      // Record this content page as viewed to avoid showing too often
-      const viewedContentPages = JSON.parse(localStorage.getItem('viewed_content_pages') || '[]');
-      localStorage.setItem('viewed_content_pages', JSON.stringify([...viewedContentPages, pathname]));
+  //   // For content detail pages: show after a short delay (but only if appropriate)
+  //   if (isContentPage && shouldShow) {
+  //     // Record this content page as viewed to avoid showing too often
+  //     const viewedContentPages = JSON.parse(localStorage.getItem('viewed_content_pages') || '[]');
+  //     localStorage.setItem('viewed_content_pages', JSON.stringify([...viewedContentPages, pathname]));
       
-      // Set a delay before showing the subscription modal (10 seconds)
-      const timer = setTimeout(() => {
-        setShowModal(true);
-      }, 10000); // 10 seconds
+  //     // Set a delay before showing the subscription modal (10 seconds)
+  //     const timer = setTimeout(() => {
+  //       setShowModal(true);
+  //     }, 10000); // 10 seconds
       
-      return () => clearTimeout(timer);
-    }
+  //     return () => clearTimeout(timer);
+  //   }
     
-    // For non-content pages or if we shouldn't show yet: use regular timing logic
+  //   // For non-content pages or if we shouldn't show yet: use regular timing logic
     
-    // Count time on page
-    const timer = setInterval(() => {
-      setTimeOnPage(prev => prev + 1);
-    }, 1000);
+  //   // Count time on page
+  //   const timer = setInterval(() => {
+  //     setTimeOnPage(prev => prev + 1);
+  //   }, 1000);
     
-    // Scroll detection
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const pageHeight = document.body.scrollHeight;
-      const windowHeight = window.innerHeight;
+  //   // Scroll detection
+  //   const handleScroll = () => {
+  //     const scrollPosition = window.scrollY;
+  //     const pageHeight = document.body.scrollHeight;
+  //     const windowHeight = window.innerHeight;
       
-      // Set hasScrolled to true if scrolled 25% of page
-      if (scrollPosition > (pageHeight - windowHeight) * 0.25) {
-        setHasScrolled(true);
-      }
-    };
+  //     // Set hasScrolled to true if scrolled 25% of page
+  //     if (scrollPosition > (pageHeight - windowHeight) * 0.25) {
+  //       setHasScrolled(true);
+  //     }
+  //   };
     
-    // User interaction detection
-    const handleInteraction = () => {
-      setHasInteracted(true);
-    };
+  //   // User interaction detection
+  //   const handleInteraction = () => {
+  //     setHasInteracted(true);
+  //   };
     
-    // Check URL for resubscribe parameter
-    const checkUrlParams = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('resubscribe') === 'true') {
-        setShowModal(true);
-      }
-    };
+  //   // Check URL for resubscribe parameter
+  //   const checkUrlParams = () => {
+  //     const urlParams = new URLSearchParams(window.location.search);
+  //     if (urlParams.get('resubscribe') === 'true') {
+  //       setShowModal(true);
+  //     }
+  //   };
     
-    // Listen for manual show modal events
-    const handleShowSubscribeModal = () => {
-      setShowModal(true);
-    };
+  //   // Listen for manual show modal events
+  //   const handleShowSubscribeModal = () => {
+  //     setShowModal(true);
+  //   };
     
-    window.addEventListener('scroll', handleScroll);
-    document.addEventListener('click', handleInteraction);
+  //   window.addEventListener('scroll', handleScroll);
+  //   document.addEventListener('click', handleInteraction);
     
-    // Add event listener for subscription modal trigger
-    if (eventEmitter) {
-      eventEmitter.on('showSubscriptionModal', handleShowSubscribeModal);
-    }
+  //   // Add event listener for subscription modal trigger
+  //   if (eventEmitter) {
+  //     eventEmitter.on('showSubscriptionModal', handleShowSubscribeModal);
+  //   }
     
-    // Check URL parameters on mount
-    checkUrlParams();
+  //   // Check URL parameters on mount
+  //   checkUrlParams();
     
-    return () => {
-      clearInterval(timer);
-      window.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('click', handleInteraction);
+  //   return () => {
+  //     clearInterval(timer);
+  //     window.removeEventListener('scroll', handleScroll);
+  //     document.removeEventListener('click', handleInteraction);
       
-      if (eventEmitter) {
-        eventEmitter.off('showSubscriptionModal', handleShowSubscribeModal);
-      }
-    };
-  }, [pathname]);
+  //     if (eventEmitter) {
+  //       eventEmitter.off('showSubscriptionModal', handleShowSubscribeModal);
+  //     }
+  //   };
+  // }, [pathname]);
   
   // Decide when to show modal for non-content pages
   useEffect(() => {
