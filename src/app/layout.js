@@ -4,10 +4,11 @@ import './globals.css'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from '@/components/theme/themeProvider'
+import ReduxProvider from '@/components/providers/ReduxProvider'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ContactForm from '@/components/ui/ContactForm'
-import SubscriptionModal from '@/components/ui/SubscriptionModal'
+import SubscriptionModal from '@/components/ui/form/SubscriptionModal'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -314,54 +315,56 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${inter.className} antialiased min-h-screen flex flex-col`}>
-        <ThemeProvider>
-          {/* Skip to main content for accessibility */}
-          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50">
-            Skip to main content
-          </a>
-          
-          <Navbar />
-          
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          
-          <Footer />
-          
-          {/* Global components */}
-          <ContactForm />
-          <SubscriptionModal />
-          
-          {/* Analytics and performance monitoring */}
-          <Analytics />
-          <SpeedInsights />
-          
-          {/* Performance monitoring script */}
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                if (typeof window !== 'undefined') {
-                  import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-                    function sendToAnalytics(metric) {
-                      if (window.gtag) {
-                        window.gtag('event', metric.name, {
-                          value: Math.round(metric.value),
-                          event_label: metric.id,
-                          non_interaction: true,
-                        });
+        <ReduxProvider>
+          <ThemeProvider>
+            {/* Skip to main content for accessibility */}
+            <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50">
+              Skip to main content
+            </a>
+            
+            <Navbar />
+            
+            <main id="main-content" className="flex-1">
+              {children}
+            </main>
+            
+            <Footer />
+            
+            {/* Global components */}
+            <ContactForm />
+            <SubscriptionModal />
+            
+            {/* Analytics and performance monitoring */}
+            <Analytics />
+            <SpeedInsights />
+            
+            {/* Performance monitoring script */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  if (typeof window !== 'undefined') {
+                    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+                      function sendToAnalytics(metric) {
+                        if (window.gtag) {
+                          window.gtag('event', metric.name, {
+                            value: Math.round(metric.value),
+                            event_label: metric.id,
+                            non_interaction: true,
+                          });
+                        }
                       }
-                    }
-                    getCLS(sendToAnalytics);
-                    getFID(sendToAnalytics);
-                    getFCP(sendToAnalytics);
-                    getLCP(sendToAnalytics);
-                    getTTFB(sendToAnalytics);
-                  });
-                }
-              `
-            }}
-          />
-        </ThemeProvider>
+                      getCLS(sendToAnalytics);
+                      getFID(sendToAnalytics);
+                      getFCP(sendToAnalytics);
+                      getLCP(sendToAnalytics);
+                      getTTFB(sendToAnalytics);
+                    });
+                  }
+                `
+              }}
+            />
+          </ThemeProvider>
+        </ReduxProvider>
       </body>
     </html>
   )

@@ -11,8 +11,7 @@ const withPWA = nextPWA({
   disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
-  buildExcludes: [/middleware-manifest\.json$/],
-  customWorkerDir: 'worker'
+  buildExcludes: [/middleware-manifest\.json$/]
 });
 
 const nextConfig = {
@@ -20,7 +19,7 @@ const nextConfig = {
   swcMinify: true,
   optimizeFonts: true,
   
-  // Experimental features for better performance
+  // FIXED: Removed problematic experimental features
   experimental: {
     optimizePackageImports: [
       '@/components', 
@@ -28,9 +27,8 @@ const nextConfig = {
       'lucide-react', 
       'next/image'
     ],
-    serverComponentsExternalPackages: ['mongoose'],
-    scrollRestoration: true,
-    optimizeCss: true
+    serverComponentsExternalPackages: ['mongoose']
+    // REMOVED: optimizeCss - this was causing the critters error
   },
 
   // Image optimization for better Core Web Vitals
@@ -147,64 +145,11 @@ const nextConfig = {
       ],
       destination: 'https://www.ajithkumarr.com/:path*',
       permanent: true,
-    },
-    // Redirect old blog URLs to new structure (when implementing slugs)
-    {
-      source: '/tech-blog/:path*',
-      destination: '/blog/:path*',
-      permanent: true,
-    },
-    {
-      source: '/writings/:path*',
-      destination: '/quill/:path*',
-      permanent: true,
-    },
-    {
-      source: '/portfolio/:path*',
-      destination: '/devfolio/:path*',
-      permanent: true,
-    },
-    {
-      source: '/books/:path*',
-      destination: '/spotlight/:path*',
-      permanent: true,
     }
   ],
 
-  // Rewrites for better URL structure
-  rewrites: async () => [
-    // Category pages
-    {
-      source: '/category/:category',
-      destination: '/api/category/:category'
-    },
-    // Tag pages  
-    {
-      source: '/tag/:tag',
-      destination: '/api/tag/:tag'
-    },
-    // Archive pages
-    {
-      source: '/archive/:year',
-      destination: '/api/archive/:year'
-    },
-    // RSS feeds
-    {
-      source: '/feed.xml',
-      destination: '/api/feed'
-    },
-    {
-      source: '/blog/feed.xml',
-      destination: '/api/feed/blog'
-    },
-    {
-      source: '/quill/feed.xml',
-      destination: '/api/feed/quill'
-    }
-  ],
-
-  // Webpack optimizations
-  webpack: (config, { isServer, dev }) => {
+  // Webpack optimizations (SIMPLIFIED)
+  webpack: (config, { isServer }) => {
     // Optimize bundle size
     if (!isServer) {
       config.resolve.fallback = {
@@ -224,32 +169,6 @@ const nextConfig = {
       };
     }
 
-    // Add bundle analyzer in development
-    if (dev && !isServer) {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              chunks: 'all',
-            },
-          },
-        },
-      };
-    }
-
-    // Optimize for production
-    if (!dev) {
-      config.optimization = {
-        ...config.optimization,
-        usedExports: true,
-        sideEffects: false,
-      };
-    }
-
     return config;
   },
 
@@ -260,16 +179,13 @@ const nextConfig = {
     SITE_NAME: 'Ajithkumar - Tamil Writer & Full Stack Developer'
   },
 
-  // Compiler options
+  // Compiler options (SIMPLIFIED)
   compiler: {
     // Remove console logs in production
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn']
     } : false,
   },
-
-  // Output configuration
-  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
   
   // Trailing slash consistency for SEO
   trailingSlash: false,
@@ -281,12 +197,7 @@ const nextConfig = {
   compress: true,
   
   // Power by header
-  poweredByHeader: false,
-  
-  // Disable x-powered-by for security
-  httpAgentOptions: {
-    keepAlive: true,
-  }
+  poweredByHeader: false
 };
 
 export default withPWA(nextConfig);

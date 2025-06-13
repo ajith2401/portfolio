@@ -15,7 +15,7 @@ if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }
 
-// Connection options for better performance and reliability
+// Connection options for better performance and reliability (FIXED)
 const connectionOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -23,16 +23,10 @@ const connectionOptions = {
   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
   family: 4, // Use IPv4, skip trying IPv6
-  // Buffering options
-  bufferCommands: false,
-  bufferMaxEntries: 0,
-  // Additional options for production
+  // REMOVED: bufferCommands and bufferMaxEntries are deprecated
+  // Performance options
   retryWrites: true,
-  w: 'majority',
-  // Connection management
-  heartbeatFrequencyMS: 30000,
-  // Performance monitoring
-  monitorCommands: process.env.NODE_ENV === 'development'
+  w: 'majority'
 };
 
 async function connectDB() {
@@ -72,11 +66,6 @@ function setupConnectionEventListeners(connection) {
 
   connection.on('error', (error) => {
     console.error('❌ Mongoose connection error:', error);
-    
-    // Send error to monitoring service in production
-    if (process.env.NODE_ENV === 'production') {
-      reportConnectionError(error);
-    }
   });
 
   connection.on('disconnected', () => {
@@ -95,54 +84,11 @@ function setupConnectionEventListeners(connection) {
     }
   });
 
-  // Handle connection errors in development
+  // Development logging
   if (process.env.NODE_ENV === 'development') {
     connection.on('open', () => {
       console.log('🚀 MongoDB connection opened in development mode');
     });
-
-    // Log slow queries in development
-    if (connectionOptions.monitorCommands) {
-      connection.on('commandStarted', (event) => {
-        console.log(`🔍 MongoDB Command Started: ${event.commandName}`);
-      });
-
-      connection.on('commandSucceeded', (event) => {
-        if (event.duration > 100) { // Log queries taking more than 100ms
-          console.log(`⚠️  Slow MongoDB Query: ${event.commandName} took ${event.duration}ms`);
-        }
-      });
-
-      connection.on('commandFailed', (event) => {
-        console.error(`❌ MongoDB Command Failed: ${event.commandName}`, event.failure);
-      });
-    }
-  }
-}
-
-// Error reporting function for production monitoring
-function reportConnectionError(error) {
-  try {
-    // You can integrate with your error tracking service here
-    // Example: Sentry, LogRocket, etc.
-    console.error('MongoDB Connection Error for Monitoring:', {
-      message: error.message,
-      stack: error.stack,
-      timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV,
-      mongoUri: MONGODB_URI ? 'Set' : 'Not Set'
-    });
-    
-    // Send to external monitoring service
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'exception', {
-        description: `MongoDB Connection Error: ${error.message}`,
-        fatal: false,
-        event_category: 'Database'
-      });
-    }
-  } catch (reportError) {
-    console.error('Error reporting connection error:', reportError);
   }
 }
 
@@ -239,95 +185,6 @@ function getReadyStateString(readyState) {
     3: 'disconnecting'
   };
   return states[readyState] || 'unknown';
-}
-
-// Middleware for API routes to ensure database connection
-export function withDatabase(handler) {
-  return async (req, res) => {
-    try {
-      await connectDB();
-      return handler(req, res);
-    } catch (error) {
-      console.error('Database connection error in middleware:', error);
-      
-      if (res.status) {
-        return res.status(503).json({
-          error: 'Database connection failed',
-          message: 'Please try again in a moment'
-        });
-      }
-      
-      throw error;
-    }
-  };
-}
-
-// Transaction wrapper for complex operations
-export async function withTransaction(operations) {
-  const connection = await connectDB();
-  const session = await connection.startSession();
-  
-  try {
-    session.startTransaction();
-    
-    const result = await operations(session);
-    
-    await session.commitTransaction();
-    return result;
-  } catch (error) {
-    await session.abortTransaction();
-    throw error;
-  } finally {
-    await session.endSession();
-  }
-}
-
-// Performance monitoring utilities
-export const dbMonitoring = {
-  // Log slow queries
-  logSlowQuery: (queryName, duration, threshold = 100) => {
-    if (duration > threshold) {
-      console.warn(`🐌 Slow Query Detected: ${queryName} took ${duration}ms`);
-      
-      if (process.env.NODE_ENV === 'production') {
-        // Send to monitoring service
-        reportSlowQuery(queryName, duration);
-      }
-    }
-  },
-  
-  // Measure query performance
-  measureQuery: async (queryName, queryFunction) => {
-    const startTime = Date.now();
-    
-    try {
-      const result = await queryFunction();
-      const duration = Date.now() - startTime;
-      
-      dbMonitoring.logSlowQuery(queryName, duration);
-      
-      return result;
-    } catch (error) {
-      const duration = Date.now() - startTime;
-      console.error(`❌ Query Failed: ${queryName} after ${duration}ms`, error);
-      throw error;
-    }
-  }
-};
-
-function reportSlowQuery(queryName, duration) {
-  try {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'slow_query', {
-        event_category: 'Database Performance',
-        event_label: queryName,
-        value: duration,
-        non_interaction: true
-      });
-    }
-  } catch (error) {
-    console.error('Error reporting slow query:', error);
-  }
 }
 
 export default connectDB;
