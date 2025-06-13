@@ -135,7 +135,11 @@ export async function GET(request, { params }) {
       results.totalItems = results.items.length;
       
       // Sort all items by publication date
-      results.items.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+      results.items.sort((a, b) => {
+        const dateA = new Date(a.publishedAt).getTime() || 0;
+        const dateB = new Date(b.publishedAt).getTime() || 0;
+        return dateB - dateA;
+      });
       
       // Apply pagination for combined results
       results.items = results.items.slice(skip, skip + limit);
