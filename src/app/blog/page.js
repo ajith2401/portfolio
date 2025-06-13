@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import connectDB from '@/lib/db';
 import { TechBlog } from '@/models';
 import TechBlogClient from './TechBlogClient';
-import DeveloperSchema from '@/components/SEO/DeveloperSchema';
+import DeveloperSchema from '@/components/schema/DeveloperSchema';
 import PageSEO from '@/components/SEO/PageSEO';
 import { notFound } from 'next/navigation';
 
