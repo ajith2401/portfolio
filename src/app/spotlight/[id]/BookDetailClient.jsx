@@ -145,12 +145,16 @@ const MarkdownRenderer = ({ content }) => {
       // Add the image component
       parts.push(
         <div key={`img-${match.index}`} className="my-4 text-center">
-         <Image
-            src={imageUrl} 
-            alt={altText} 
-            className="max-w-full h-auto rounded mx-auto" 
-            style={{ display: 'block' }}
-          />
+          <Image
+              src={imageUrl} 
+              alt={altText} 
+              width={800}
+              height={600}
+              className="max-w-full h-auto rounded mx-auto" 
+              style={{ display: 'block' }}
+              priority={false}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
+            />
         </div>
       );
       
@@ -268,16 +272,18 @@ export default function BookDetailClient({ book: initialBook, relatedBooks = [] 
     {/* Book Cover */}
     <div className="flex justify-center">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
-       <Image
-          src={book.coverImage || '/images/fallback-cover.jpg'}
-          alt={book.title || 'Book cover'}
-          className="w-full h-auto object-contain"
-          style={{ maxHeight: '600px', display: 'block' }}
-          onError={(e) => {
-            console.error(`Failed to load image: ${book.coverImage}`);
-            e.target.src = '/images/fallback-cover.jpg';
-          }}
-        />
+                  <Image
+                    src={book.coverImage || '/images/fallback-cover.jpg'}
+                    alt={book.title || 'Book cover'}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
+                    priority
+                    onError={(e) => {
+                      console.error(`Failed to load image: ${book.coverImage}`);
+                      e.target.src = '/images/fallback-cover.jpg';
+                    }}
+                  />
       </div>
     </div>
 
@@ -486,10 +492,12 @@ export default function BookDetailClient({ book: initialBook, relatedBooks = [] 
                   >
                     {/* Image Container */}
                     <div className="relative h-[400px] rounded-lg overflow-hidden">
-                     <Image
+                      <Image
                         src={relatedBook.coverImage || '/images/fallback-cover.jpg'}
                         alt={relatedBook.title || 'Book cover'}
-                        className="w-auto h-full max-w-full max-h-full object-contain mx-auto"
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         onError={(e) => {
                           console.error(`Failed to load image: ${relatedBook.coverImage}`);
                           e.target.src = '/images/fallback-cover.jpg';

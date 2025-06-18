@@ -121,17 +121,16 @@ const MarkdownRenderer = ({ content }) => {
     return html;
   };
   
-  // We need to detect URLs and render them as images directly
+  // Render content with React components for images
   const renderContent = () => {
-    // Process the markdown to HTML
+    // First process all markdown except images
     const processedHtml = processMarkdown(content);
     
-    // Replace image markdown with actual image tags
-    // This is a safer approach than using dangerouslySetInnerHTML
-    const parts = [];
-    const regex = /!\[(.*?)\]\((https?:\/\/[^)]+)\)/g;
+    // Now handle images separately with React Image components
+    const regex = /!\[([^\]]*)\]\((https?:\/\/[^)]+)\)/g;
     let lastIndex = 0;
     let match;
+    const parts = [];
     
     while ((match = regex.exec(content)) !== null) {
       // Add the text before the image
@@ -146,14 +145,20 @@ const MarkdownRenderer = ({ content }) => {
       // Extract the alt text and image URL
       const [, altText, imageUrl] = match;
       
-      // Add the image component
+      // Add the Image component with proper dimensions
       parts.push(
         <div key={`img-${match.index}`} className="my-4 text-center">
           <Image
             src={imageUrl} 
-            alt={altText} 
+            alt={altText || 'Blog image'} 
+            width={800}
+            height={400}
             className="max-w-full h-auto rounded mx-auto" 
             style={{ display: 'block' }}
+            onError={(e) => {
+              console.error(`Failed to load image: ${imageUrl}`);
+              e.target.style.display = 'none';
+            }}
           />
         </div>
       );
@@ -184,6 +189,7 @@ const MarkdownRenderer = ({ content }) => {
     </div>
   );
 };
+
 
 const truncateBody = (text) => {
   if (!text) return '';

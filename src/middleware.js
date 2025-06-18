@@ -17,62 +17,9 @@ export function middleware(request) {
     );
   }
 
-  // Block problematic ObjectId URLs that cause indexing issues
-  // Return 410 (Gone) for old ObjectId patterns to help Google understand
-  if (pathname.match(/\/blog\/[0-9a-f]{24}$/)) {
-    // Check if it's a bot - serve 410, otherwise redirect to blog index
-    const userAgent = request.headers.get('user-agent') || '';
-    const isBot = /bot|crawler|spider|crawling/i.test(userAgent);
-    
-    if (isBot) {
-      return new Response('This URL format is no longer available', {
-        status: 410,
-        headers: {
-          'X-Robots-Tag': 'noindex, nofollow',
-          'Cache-Control': 'public, max-age=2592000' // 30 days
-        }
-      });
-    } else {
-      // Redirect users to blog index
-      return NextResponse.redirect(new URL('/blog', request.url), 302);
-    }
-  }
-
-  // Same for other ObjectId patterns
-  if (pathname.match(/\/quill\/[0-9a-f]{24}$/)) {
-    const userAgent = request.headers.get('user-agent') || '';
-    const isBot = /bot|crawler|spider|crawling/i.test(userAgent);
-    
-    if (isBot) {
-      return new Response('This URL format is no longer available', {
-        status: 410,
-        headers: {
-          'X-Robots-Tag': 'noindex, nofollow',
-          'Cache-Control': 'public, max-age=2592000'
-        }
-      });
-    } else {
-      return NextResponse.redirect(new URL('/quill', request.url), 302);
-    }
-  }
-
-  if (pathname.match(/\/devfolio\/[0-9a-f]{24}$/)) {
-    const userAgent = request.headers.get('user-agent') || '';
-    const isBot = /bot|crawler|spider|crawling/i.test(userAgent);
-    
-    if (isBot) {
-      return new Response('This URL format is no longer available', {
-        status: 410,
-        headers: {
-          'X-Robots-Tag': 'noindex, nofollow',
-          'Cache-Control': 'public, max-age=2592000'
-        }
-      });
-    } else {
-      return NextResponse.redirect(new URL('/devfolio', request.url), 302);
-    }
-  }
-
+  // TEMPORARILY DISABLE ObjectId blocking to test
+  // We'll only block known problematic patterns, not all ObjectIds
+  
   // Block API routes from being indexed
   if (pathname.startsWith('/api/')) {
     const response = NextResponse.next();

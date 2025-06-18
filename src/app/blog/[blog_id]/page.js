@@ -213,6 +213,7 @@ export default async function TechBlogPostPage({ params }) {
     await connectDB();
     
     const { blog_id } = params;
+ 
     
     if (!blog_id || (!isValidObjectId(blog_id) && !isValidSlug(blog_id))) {
       notFound();
@@ -220,22 +221,47 @@ export default async function TechBlogPostPage({ params }) {
 
     let blog;
     
-    // Find by slug first (SEO-friendly), then by ObjectId (backward compatibility)
-    if (isValidSlug(blog_id)) {
-      blog = await TechBlog.findOne({ 
-        slug: blog_id, 
-        status: 'published' 
-      }).populate('author', 'name email bio').lean();
-    } else if (isValidObjectId(blog_id)) {
+    // First, let's check if the blog exists at all (without status filter)
+    if (isValidObjectId(blog_id)) {
+     
+      
+      // Check if blog exists without status filter
+      const anyBlog = await TechBlog.findById(blog_id).lean();
+     
+      if (anyBlog) {
+       
+      }
+      
+      // Now try with status filter
       blog = await TechBlog.findOne({ 
         _id: blog_id, 
         status: 'published' 
       }).populate('author', 'name email bio').lean();
+      
+     
+      
+    } else if (isValidSlug(blog_id)) {
+     
+      
+      // Check if blog exists by slug without status filter
+      const anyBlog = await TechBlog.findOne({ slug: blog_id }).lean();
+    
+      if (anyBlog) {
+        
+      }
+      
+      blog = await TechBlog.findOne({ 
+        slug: blog_id, 
+        status: 'published' 
+      }).populate('author', 'name email bio').lean();
+      
     }
     
     if (!blog) {
+
       notFound();
     }
+
 
     // Increment view count asynchronously (don't wait)
     if (blog._id) {
@@ -294,7 +320,7 @@ export default async function TechBlogPostPage({ params }) {
           </Suspense>
         </ErrorBoundary>
 
-        {/* Related content for internal linking */}
+        {/* Related content for internal linking 
         <div className="container mx-auto px-4 max-w-4xl">
           <InternalLinks
             currentId={blog._id?.toString()}
@@ -307,7 +333,7 @@ export default async function TechBlogPostPage({ params }) {
             layout="grid"
           />
         </div>
-
+*/}
         {/* Enhanced structured data for article */}
         <script
           type="application/ld+json"
@@ -420,6 +446,7 @@ export default async function TechBlogPostPage({ params }) {
     
     // Handle specific errors
     if (error.name === 'CastError' || error.message.includes('ObjectId')) {
+      console.log('❌ Debug - CastError or ObjectId error, calling notFound()');
       notFound();
     }
     
