@@ -22,6 +22,7 @@ const merriweather = Merriweather({
   display: 'swap',
 });
 
+
 const poppins = Poppins({
   subsets: ['latin'],
   variable: '--font-poppins',
