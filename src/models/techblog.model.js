@@ -1,5 +1,6 @@
 // src/models/techblog.model.js
 import mongoose from 'mongoose';
+import { generateSlug, ensureUniqueSlug } from '../utils/slugGenerator.js';
 
 const TechBlogSchema = new mongoose.Schema({
   title: {
@@ -12,6 +13,7 @@ const TechBlogSchema = new mongoose.Schema({
   slug: {
     type: String,
     unique: true,
+    required: true,
     trim: true,
     lowercase: true,
     index: true,
@@ -20,7 +22,8 @@ const TechBlogSchema = new mongoose.Schema({
         return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v);
       },
       message: 'Slug must only contain lowercase letters, numbers, and hyphens'
-    }
+    },
+    maxlength: [100, 'Slug cannot exceed 100 characters']
   },
   subtitle: {
     type: String,
@@ -201,15 +204,6 @@ const TechBlogSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     index: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    index: true
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
   }
 }, {
   timestamps: true
@@ -221,152 +215,89 @@ TechBlogSchema.index({ category: 1, status: 1, publishedAt: -1 });
 TechBlogSchema.index({ tags: 1, status: 1 });
 TechBlogSchema.index({ featured: 1, status: 1, publishedAt: -1 });
 TechBlogSchema.index({ trending: 1, status: 1, publishedAt: -1 });
+TechBlogSchema.index({ difficulty: 1, status: 1, publishedAt: -1 });
 TechBlogSchema.index({ 'performance.views': -1, status: 1 });
 
-// Text search index for full-text search
-TechBlogSchema.index({ 
-  title: 'text', 
-  content: 'text', 
-  tags: 'text',
-  metaDescription: 'text'
-}, {
-  weights: {
-    title: 10,
-    tags: 5,
-    metaDescription: 3,
-    content: 1
+// Pre-save middleware to generate slug and other fields
+TechBlogSchema.pre('save', async function(next) {
+  try {
+    // Generate slug if not provided or if title has changed
+    if (!this.slug || this.isModified('title')) {
+      const baseSlug = generateSlug(this.title);
+      
+      if (baseSlug) {
+        // Ensure uniqueness
+        this.slug = await ensureUniqueSlug(
+          baseSlug,
+          async (slug, excludeId) => {
+            const query = { slug };
+            if (excludeId) query._id = { $ne: excludeId };
+            return await this.constructor.findOne(query);
+          },
+          this._id
+        );
+      }
+    }
+    
+    // Auto-generate excerpt if not provided
+    if (!this.excerpt && this.content) {
+      const plainText = this.content.replace(/<[^>]*>/g, ''); // Remove HTML
+      this.excerpt = plainText.substring(0, 250) + (plainText.length > 250 ? '...' : '');
+    }
+    
+    // Calculate word count and reading time
+    if (this.content) {
+      const plainText = this.content.replace(/<[^>]*>/g, '');
+      const words = plainText.trim().split(/\s+/).length;
+      this.wordCount = words;
+      this.readTime = Math.max(1, Math.ceil(words / 200)); // 200 words per minute
+    }
+    
+    // Set published date
+    if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
+      this.publishedAt = new Date();
+    }
+    
+    // Update lastModified
+    this.lastModified = new Date();
+    
+    next();
+  } catch (error) {
+    next(error);
   }
 });
 
-// Generate slug from title before saving
-TechBlogSchema.pre('save', function(next) {
-  // Generate slug if not provided
-  if (this.isModified('title') && !this.slug) {
-    this.slug = this.title
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, '') // Remove special characters
-      .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
-  }
-
-  // Generate excerpt from content if not provided
-  if (this.isModified('content') && !this.excerpt) {
-    const plainText = this.content.replace(/<[^>]*>/g, ''); // Remove HTML tags
-    this.excerpt = plainText.substring(0, 250).trim() + (plainText.length > 250 ? '...' : '');
-  }
-
-  // Generate meta description if not provided
-  if (this.isModified('content') && !this.metaDescription) {
-    const plainText = this.content.replace(/<[^>]*>/g, '');
-    this.metaDescription = plainText.substring(0, 155).trim() + (plainText.length > 155 ? '...' : '');
-  }
-
-  // Calculate word count and read time
-  if (this.isModified('content')) {
-    const words = this.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(word => word.length > 0);
-    this.wordCount = words.length;
-    this.readTime = Math.ceil(this.wordCount / 200); // 200 words per minute
-  }
-
-  // Set published date when status changes to published
-  if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
-    this.publishedAt = new Date();
-  }
-
-  // Update lastModified timestamp
-  this.lastModified = new Date();
-
-  next();
-});
-
-// Calculate average rating
-TechBlogSchema.methods.calculateAverageRating = function() {
-  if (this.ratings.length === 0) {
-    this.averageRating = 0;
-    this.totalRatings = 0;
-    return;
+// Static method to find by slug or ObjectId
+TechBlogSchema.statics.findBySlugOrId = async function(identifier) {
+  // Check if it's a valid ObjectId
+  if (mongoose.Types.ObjectId.isValid(identifier)) {
+    return await this.findById(identifier);
   }
   
-  const sum = this.ratings.reduce((acc, rating) => acc + rating.rating, 0);
-  this.averageRating = Number((sum / this.ratings.length).toFixed(1));
-  this.totalRatings = this.ratings.length;
+  // Otherwise, search by slug
+  return await this.findOne({ slug: identifier });
 };
 
-// Add rating method
-TechBlogSchema.methods.addRating = async function(name, email, rating, comment = '') {
-  const existingRating = this.ratings.find(r => r.email === email);
-  
-  if (existingRating) {
-    existingRating.rating = rating;
-    existingRating.name = name;
-    existingRating.comment = comment;
-  } else {
-    this.ratings.push({ name, email, rating, comment });
-  }
-  
-  this.calculateAverageRating();
-  await this.save();
-  return this;
-};
-
-// Increment view count
-TechBlogSchema.methods.incrementViews = async function() {
-  this.performance.views += 1;
-  await this.save();
-  return this;
-};
-
-// Static method to find related posts
-TechBlogSchema.statics.findRelated = function(blogId, category, tags = [], limit = 5) {
-  return this.find({
-    _id: { $ne: blogId },
-    status: 'published',
-    $or: [
-      { category: category },
-      { tags: { $in: tags } }
-    ]
-  })
-  .sort({ publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category tags images excerpt publishedAt readTime');
-};
-
-// Static method to get trending posts
-TechBlogSchema.statics.getTrending = function(limit = 10) {
-  return this.find({
-    status: 'published',
-    publishedAt: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } // Last 30 days
-  })
-  .sort({ 'performance.views': -1, publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category tags images excerpt publishedAt readTime performance.views');
-};
-
-// Static method to get featured posts
-TechBlogSchema.statics.getFeatured = function(limit = 5) {
-  return this.find({
-    status: 'published',
-    featured: true
-  })
-  .sort({ publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category tags images excerpt publishedAt readTime');
-};
-
-// Virtual for URL
-TechBlogSchema.virtual('url').get(function() {
+// Instance method to get full URL
+TechBlogSchema.methods.getUrl = function() {
   return `/blog/${this.slug || this._id}`;
-});
+};
 
-// Virtual for reading time text
-TechBlogSchema.virtual('readTimeText').get(function() {
-  return `${this.readTime} min read`;
-});
-
-// Ensure virtual fields are serialized
-TechBlogSchema.set('toJSON', { virtuals: true });
-TechBlogSchema.set('toObject', { virtuals: true });
+// Instance method to get SEO data
+TechBlogSchema.methods.getSEOData = function() {
+  return {
+    title: this.seo?.ogTitle || this.title,
+    description: this.seo?.ogDescription || this.metaDescription || this.excerpt,
+    url: `https://www.ajithkumarr.com${this.getUrl()}`,
+    image: this.images?.large || this.images?.medium,
+    type: 'article',
+    publishedTime: this.publishedAt,
+    modifiedTime: this.updatedAt,
+    author: this.author.name,
+    section: this.category,
+    tags: this.tags
+  };
+};
 
 let TechBlog;
 try {
