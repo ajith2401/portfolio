@@ -1,17 +1,19 @@
 // src/models/project.model.js
 import mongoose from 'mongoose';
+import { generateSlug, ensureUniqueSlug } from '../utils/slugGenerator.js';
 
 const ProjectSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, 'Project title is required'],
+    required: [true, 'Title is required'],
     trim: true,
-    maxlength: [100, 'Title cannot exceed 100 characters'],
-    index: true
+    index: true,
+    maxlength: [100, 'Title cannot exceed 100 characters']
   },
   slug: {
     type: String,
     unique: true,
+    required: true,
     trim: true,
     lowercase: true,
     index: true,
@@ -20,24 +22,34 @@ const ProjectSchema = new mongoose.Schema({
         return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v);
       },
       message: 'Slug must only contain lowercase letters, numbers, and hyphens'
-    }
+    },
+    maxlength: [100, 'Slug cannot exceed 100 characters']
   },
   shortDescription: {
     type: String,
     required: [true, 'Short description is required'],
-    maxlength: [200, 'Short description cannot exceed 200 characters'],
-    trim: true
+    trim: true,
+    maxlength: [200, 'Short description cannot exceed 200 characters']
   },
   longDescription: {
     type: String,
-    required: [true, 'Detailed description is required'],
-    trim: true
+    required: [true, 'Long description is required'],
+    trim: true,
+    maxlength: [2000, 'Long description cannot exceed 2000 characters']
   },
   metaDescription: {
     type: String,
-    required: [true, 'Meta description is required for SEO'],
     maxlength: [160, 'Meta description cannot exceed 160 characters'],
     trim: true
+  },
+  category: {
+    type: String,
+    required: [true, 'Category is required'],
+    enum: {
+      values: ['Web Application', 'Mobile App', 'Desktop App', 'API/Backend', 'Tool/Utility', 'Open Source', 'Client Work', 'Personal Project'],
+      message: 'Category must be one of the predefined values'
+    },
+    index: true
   },
   technologies: [{
     name: {
@@ -45,142 +57,90 @@ const ProjectSchema = new mongoose.Schema({
       required: true,
       trim: true
     },
-    version: String,
-    purpose: String // frontend, backend, database, deployment, etc.
-  }],
-  category: {
-    type: String,
-    required: [true, 'Category is required'],
-    enum: {
-      values: ['ai-ml', 'web-app', 'mobile-app', 'backend-api', 'devops', 'data-science', 'automation', 'other'],
-      message: 'Category must be one of the predefined values'
-    },
-    index: true
-  },
-  tags: [{
-    type: String,
-    trim: true,
-    lowercase: true,
-    validate: {
-      validator: function(tags) {
-        return tags.length <= 15;
-      },
-      message: 'Cannot have more than 15 tags'
-    }
-  }],
-  images: {
-    small: String,
-    medium: String,
-    large: String,
-    thumbnail: String,
-    banner: String,
-    gallery: [String],
-    screenshots: [{
-      url: String,
-      caption: String,
-      alt: String
-    }],
-    alt: {
+    category: {
       type: String,
-      default: function() {
-        return this.title;
+      enum: ['Frontend', 'Backend', 'Database', 'DevOps', 'Mobile', 'Other'],
+      default: 'Other'
+    },
+    proficiency: {
+      type: String,
+      enum: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],
+      default: 'Intermediate'
+    },
+    version: String,
+    icon: String
+  }],
+  links: {
+    live: {
+      url: String,
+      label: {
+        type: String,
+        default: 'Live Demo'
+      }
+    },
+    github: {
+      url: String,
+      label: {
+        type: String,
+        default: 'Source Code'
+      }
+    },
+    documentation: {
+      url: String,
+      label: {
+        type: String,
+        default: 'Documentation'
+      }
+    },
+    blog: {
+      url: String,
+      label: {
+        type: String,
+        default: 'Blog Post'
       }
     }
   },
-  stack: {
-    frontend: [String],
-    backend: [String],
-    database: [String],
-    deployment: [String],
-    tools: [String]
+  images: {
+    thumbnail: String,
+    gallery: [String],
+    featured: String,
+    logo: String
   },
   features: [{
     title: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     description: String,
+    icon: String,
     implemented: {
       type: Boolean,
       default: true
     }
   }],
   challenges: [{
-    problem: {
-      type: String,
-      required: true
-    },
+    problem: String,
     solution: String,
-    impact: String
+    learned: String
   }],
-  achievements: [{
-    title: {
-      type: String,
-      required: true
-    },
-    description: String,
-    date: Date,
-    organization: String,
-    certificate: String
-  }],
-  stats: {
-    users: String,
-    accuracy: String,
-    performance: String,
-    uptime: String,
-    schemes: String, // For government scheme projects
-    downloads: Number,
-    stars: Number
-  },
-  links: {
-    github: {
-      type: String,
-      validate: {
-        validator: function(v) {
-          return !v || /^https:\/\/github\.com\//.test(v);
-        },
-        message: 'GitHub URL must start with https://github.com/'
-      }
-    },
-    live: {
-      type: String,
-      validate: {
-        validator: function(v) {
-          return !v || /^https?:\/\//.test(v);
-        },
-        message: 'Live URL must be a valid HTTP/HTTPS URL'
-      }
-    },
-    demo: String,
-    documentation: String,
-    api: String,
-    video: String
-  },
-  collaboration: {
-    teamSize: Number,
-    role: {
-      type: String,
-      enum: ['solo', 'lead', 'frontend', 'backend', 'fullstack', 'contributor']
-    },
-    duration: String,
-    teammates: [{
-      name: String,
-      role: String,
-      linkedin: String
-    }]
-  },
   timeline: {
-    startDate: Date,
-    endDate: Date,
-    milestones: [{
-      title: String,
-      description: String,
-      date: Date,
-      completed: {
-        type: Boolean,
-        default: false
-      }
-    }]
+    started: Date,
+    completed: Date,
+    duration: String,
+    status: {
+      type: String,
+      enum: ['Planning', 'In Progress', 'Completed', 'Maintained', 'Deprecated'],
+      default: 'Completed'
+    }
+  },
+  metrics: {
+    users: Number,
+    downloads: Number,
+    stars: Number,
+    forks: Number,
+    commits: Number,
+    contributors: Number
   },
   seo: {
     canonicalUrl: String,
@@ -196,15 +156,11 @@ const ProjectSchema = new mongoose.Schema({
       default: 0,
       index: true
     },
-    shares: {
-      type: Number,
-      default: 0
-    },
     likes: {
       type: Number,
       default: 0
     },
-    githubStars: {
+    shares: {
       type: Number,
       default: 0
     }
@@ -214,26 +170,26 @@ const ProjectSchema = new mongoose.Schema({
     default: false,
     index: true
   },
+  trending: {
+    type: Boolean,
+    default: false,
+    index: true
+  },
   priority: {
     type: Number,
     default: 0,
     index: true
   },
-  difficulty: {
+  tags: [{
     type: String,
-    enum: ['easy', 'medium', 'hard', 'expert'],
-    default: 'medium'
-  },
+    trim: true,
+    lowercase: true
+  }],
   status: {
     type: String,
-    enum: ['planning', 'in-progress', 'completed', 'maintained', 'archived', 'draft', 'published'],
+    enum: ['draft', 'published', 'archived'],
     default: 'draft',
     index: true
-  },
-  visibility: {
-    type: String,
-    enum: ['public', 'private', 'portfolio-only'],
-    default: 'portfolio-only'
   },
   publishedAt: {
     type: Date,
@@ -243,15 +199,6 @@ const ProjectSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     index: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    index: true
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
   }
 }, {
   timestamps: true
@@ -259,161 +206,103 @@ const ProjectSchema = new mongoose.Schema({
 
 // Compound indexes for better query performance
 ProjectSchema.index({ status: 1, publishedAt: -1 });
-ProjectSchema.index({ category: 1, status: 1, priority: -1 });
-ProjectSchema.index({ featured: 1, status: 1, priority: -1 });
-ProjectSchema.index({ 'performance.views': -1, status: 1 });
-ProjectSchema.index({ tags: 1, status: 1 });
+ProjectSchema.index({ category: 1, status: 1, publishedAt: -1 });
+ProjectSchema.index({ featured: 1, status: 1, publishedAt: -1 });
+ProjectSchema.index({ trending: 1, status: 1, publishedAt: -1 });
+ProjectSchema.index({ priority: -1, status: 1 });
 ProjectSchema.index({ 'technologies.name': 1, status: 1 });
+ProjectSchema.index({ tags: 1, status: 1 });
 
-// Text search index
-ProjectSchema.index({ 
-  title: 'text', 
-  shortDescription: 'text',
-  longDescription: 'text',
-  tags: 'text',
-  'technologies.name': 'text'
-}, {
-  weights: {
-    title: 10,
-    shortDescription: 5,
-    tags: 3,
-    'technologies.name': 3,
-    longDescription: 1
+// Pre-save middleware to generate slug and other fields
+ProjectSchema.pre('save', async function(next) {
+  try {
+    // Generate slug if not provided or if title has changed
+    if (!this.slug || this.isModified('title')) {
+      const baseSlug = generateSlug(this.title);
+      
+      if (baseSlug) {
+        // Ensure uniqueness
+        this.slug = await ensureUniqueSlug(
+          baseSlug,
+          async (slug, excludeId) => {
+            const query = { slug };
+            if (excludeId) query._id = { $ne: excludeId };
+            return await this.constructor.findOne(query);
+          },
+          this._id
+        );
+      }
+    }
+    
+    // Auto-generate meta description if not provided
+    if (!this.metaDescription && this.shortDescription) {
+      this.metaDescription = this.shortDescription.substring(0, 160);
+    }
+    
+    // Set published date
+    if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
+      this.publishedAt = new Date();
+    }
+    
+    // Calculate project duration if dates are set
+    if (this.timeline.started && this.timeline.completed) {
+      const start = new Date(this.timeline.started);
+      const end = new Date(this.timeline.completed);
+      const diffTime = Math.abs(end - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays < 30) {
+        this.timeline.duration = `${diffDays} days`;
+      } else if (diffDays < 365) {
+        const months = Math.ceil(diffDays / 30);
+        this.timeline.duration = `${months} month${months > 1 ? 's' : ''}`;
+      } else {
+        const years = Math.floor(diffDays / 365);
+        const remainingMonths = Math.ceil((diffDays % 365) / 30);
+        this.timeline.duration = `${years} year${years > 1 ? 's' : ''}${remainingMonths > 0 ? ` ${remainingMonths} month${remainingMonths > 1 ? 's' : ''}` : ''}`;
+      }
+    }
+    
+    // Update lastModified
+    this.lastModified = new Date();
+    
+    next();
+  } catch (error) {
+    next(error);
   }
 });
 
-// Generate slug from title before saving
-ProjectSchema.pre('save', function(next) {
-  // Generate slug if not provided
-  if (this.isModified('title') && !this.slug) {
-    this.slug = this.title
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, '') // Remove special characters
-      .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+// Static method to find by slug or ObjectId
+ProjectSchema.statics.findBySlugOrId = async function(identifier) {
+  // Check if it's a valid ObjectId
+  if (mongoose.Types.ObjectId.isValid(identifier)) {
+    return await this.findById(identifier);
   }
-
-  // Generate meta description if not provided
-  if (this.isModified('shortDescription') && !this.metaDescription) {
-    this.metaDescription = this.shortDescription.length > 160 
-      ? this.shortDescription.substring(0, 157) + '...'
-      : this.shortDescription;
-  }
-
-  // Set published date when status changes to published
-  if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
-    this.publishedAt = new Date();
-  }
-
-  // Update lastModified timestamp
-  this.lastModified = new Date();
-
-  next();
-});
-
-// Increment view count
-ProjectSchema.methods.incrementViews = async function() {
-  this.performance.views += 1;
-  await this.save();
-  return this;
+  
+  // Otherwise, search by slug
+  return await this.findOne({ slug: identifier });
 };
 
-// Static method to find related projects
-ProjectSchema.statics.findRelated = function(projectId, category, technologies = [], limit = 5) {
-  const techNames = technologies.map(tech => 
-    typeof tech === 'object' ? tech.name : tech
-  ).filter(Boolean);
-
-  return this.find({
-    _id: { $ne: projectId },
-    status: 'published',
-    $or: [
-      { category: category },
-      { 'technologies.name': { $in: techNames } },
-      { tags: { $in: techNames } }
-    ]
-  })
-  .sort({ priority: -1, publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category technologies tags images shortDescription status difficulty');
-};
-
-// Static method to get featured projects
-ProjectSchema.statics.getFeatured = function(limit = 6) {
-  return this.find({
-    status: 'published',
-    featured: true
-  })
-  .sort({ priority: -1, publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category technologies tags images shortDescription difficulty performance.views');
-};
-
-// Static method to get projects by technology
-ProjectSchema.statics.getByTechnology = function(technology, limit = 10) {
-  return this.find({
-    status: 'published',
-    $or: [
-      { 'technologies.name': new RegExp(technology, 'i') },
-      { tags: new RegExp(technology, 'i') }
-    ]
-  })
-  .sort({ publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category technologies tags images shortDescription');
-};
-
-// Static method to get projects by category
-ProjectSchema.statics.getByCategory = function(category, limit = 10) {
-  return this.find({
-    status: 'published',
-    category: category
-  })
-  .sort({ priority: -1, publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category technologies tags images shortDescription difficulty');
-};
-
-// Virtual for URL
-ProjectSchema.virtual('url').get(function() {
+// Instance method to get full URL
+ProjectSchema.methods.getUrl = function() {
   return `/devfolio/${this.slug || this._id}`;
-});
+};
 
-// Virtual for tech stack summary
-ProjectSchema.virtual('techStackSummary').get(function() {
-  const allTech = [
-    ...(this.stack?.frontend || []),
-    ...(this.stack?.backend || []),
-    ...(this.stack?.database || [])
-  ].filter(Boolean);
-  
-  return allTech.slice(0, 5).join(', ') + (allTech.length > 5 ? '...' : '');
-});
-
-// Virtual for project duration
-ProjectSchema.virtual('duration').get(function() {
-  if (!this.timeline?.startDate || !this.timeline?.endDate) {
-    return null;
-  }
-  
-  const start = new Date(this.timeline.startDate);
-  const end = new Date(this.timeline.endDate);
-  const diffTime = Math.abs(end - start);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  
-  if (diffDays < 30) {
-    return `${diffDays} days`;
-  } else if (diffDays < 365) {
-    return `${Math.ceil(diffDays / 30)} months`;
-  } else {
-    return `${Math.ceil(diffDays / 365)} years`;
-  }
-});
-
-// Ensure virtual fields are serialized
-ProjectSchema.set('toJSON', { virtuals: true });
-ProjectSchema.set('toObject', { virtuals: true });
+// Instance method to get SEO data
+ProjectSchema.methods.getSEOData = function() {
+  return {
+    title: this.seo?.ogTitle || this.title,
+    description: this.seo?.ogDescription || this.metaDescription || this.shortDescription,
+    url: `https://www.ajithkumarr.com${this.getUrl()}`,
+    image: this.images?.featured || this.images?.thumbnail,
+    type: 'article',
+    publishedTime: this.publishedAt,
+    modifiedTime: this.updatedAt,
+    author: 'Ajithkumar R',
+    section: this.category,
+    tags: this.tags
+  };
+};
 
 let Project;
 try {
