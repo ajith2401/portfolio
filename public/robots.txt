@@ -8,6 +8,7 @@ Allow: /quill/
 Allow: /devfolio/
 Allow: /spotlight/
 Allow: /about/
+Allow: /photography/
 
 # Optimize crawl budget by preventing crawling of non-essential paths
 Disallow: /api/
@@ -19,12 +20,28 @@ Disallow: /create-writing/
 Disallow: /custom-writing/
 Disallow: /admin/
 Disallow: /dashboard/
+Disallow: /auth/
+Disallow: /login/
+Disallow: /signup/
 
-# Block ObjectId URL patterns that cause indexing issues
-Disallow: /blog/*?*
-Disallow: /quill/*?*
-Disallow: /devfolio/*?*
-Disallow: /spotlight/*?*
+# Block ObjectId URL patterns that cause SEO issues
+# These patterns match the problematic 24-character MongoDB ObjectIds
+Disallow: /blog/[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]
+Disallow: /quill/[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]
+Disallow: /devfolio/[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]
+Disallow: /spotlight/[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]
+
+# Block the specific problematic URLs from Google Search Console
+Disallow: /quill/674617c2a56c8f57d03659b4
+Disallow: /quill/674617c4a56c8f57d03665fe6
+Disallow: /quill/674617c1a56c8f57d03657aa
+Disallow: /quill/674617c1a56c8f57d03657da
+Disallow: /quill/674617c5a56c8f57d03662a1
+Disallow: /quill/674617c0a56c8f57d036614d
+Disallow: /quill/674617c1a56c8f57d0365675
+Disallow: /quill/674617c5a56c8f57d0366132
+Disallow: /quill/674617c0a56c8f57d036588a
+Disallow: /quill/674617c0a56c8f57d03655f3
 
 # Prevent duplicate content issues from query parameters
 Disallow: /*?page=*
@@ -35,39 +52,53 @@ Disallow: /*?filter=*
 Disallow: /*?utm_*
 Disallow: /*?ref=*
 Disallow: /*?source=*
+Disallow: /*?fbclid=*
+Disallow: /*?gclid=*
 
 # Block development and testing URLs
 Disallow: /test/
 Disallow: /dev/
 Disallow: /staging/
+Disallow: /temp/
+Disallow: /backup/
 
 # Block subscription and authentication pages from indexing
 Disallow: /subscription-verified
 Disallow: /unsubscribed
-Disallow: /auth/
-Disallow: /login/
-Disallow: /signup/
+Disallow: /email-confirmed
+Disallow: /reset-password
+
+# Block internal tools and admin areas
+Disallow: /internal/
+Disallow: /tools/
+Disallow: /analytics/
+Disallow: /metrics/
 
 # Specific directives for Google
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
-# Allow Google to index JavaScript and CSS resources
+# Allow Google to index JavaScript and CSS resources for better rendering
 Allow: /*.js$
 Allow: /*.css$
 Allow: /*.json$
+# Allow favicon and manifest
+Allow: /favicon.ico
+Allow: /manifest.json
 
 # Specific directives for Google Images
 User-agent: Googlebot-Image
 Allow: /images/
 Allow: /backgrounds/
 Allow: /_next/image/
+Allow: /photography/
 Allow: /*.jpg$
 Allow: /*.jpeg$
 Allow: /*.png$
 Allow: /*.webp$
 Allow: /*.svg$
 Allow: /*.gif$
+Allow: /*.ico$
 
 # Specific directives for Bing
 User-agent: Bingbot
@@ -81,9 +112,35 @@ Allow: /
 Disallow: /api/
 Crawl-delay: 1
 
-# Be gentle with other bots to avoid server overload
+# Specific directives for social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+Disallow: /api/
+
+User-agent: Twitterbot
+Allow: /
+Disallow: /api/
+
+User-agent: LinkedInBot
+Allow: /
+Disallow: /api/
+
+# Be gentle with other bots to prevent server overload
 User-agent: *
 Crawl-delay: 2
+
+# Important: Block aggressive/bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
 
 # Sitemaps - Critical for proper indexing
 Sitemap: https://www.ajithkumarr.com/sitemap.xml
