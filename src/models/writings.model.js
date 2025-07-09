@@ -1,5 +1,6 @@
 // src/models/writings.model.js
 import mongoose from 'mongoose';
+import { generateSlug, ensureUniqueSlug } from '../utils/slugGenerator.js';
 
 const WritingSchema = new mongoose.Schema({
   title: {
@@ -12,39 +13,21 @@ const WritingSchema = new mongoose.Schema({
   slug: {
     type: String,
     unique: true,
+    required: true,
     trim: true,
     lowercase: true,
     index: true,
     validate: {
       validator: function(v) {
-        // Allow Tamil transliteration and English
-        return /^[a-z0-9\u0B80-\u0BFF]+(?:-[a-z0-9\u0B80-\u0BFF]+)*$/.test(v);
+        return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v);
       },
-      message: 'Slug must only contain lowercase letters, numbers, Tamil characters, and hyphens'
-    }
-  },
-  category: {
-    type: String,
-    required: [true, 'Category is required'],
-    enum: {
-      values: [
-        'philosophy', 'poem', 'article', 'short story',
-        'short writings', 'politics', 'cinema', 'letter', 
-        'joke', 'feminism', 'social justice', 'love', 
-        'nature', 'spirituality', 'culture', 'translation'
-      ],
-      message: 'Category must be one of the predefined values'
+      message: 'Slug must be lowercase alphanumeric with hyphens only'
     },
-    index: true
-  },
-  subtitle: {
-    type: String,
-    trim: true,
-    maxlength: [300, 'Subtitle cannot exceed 300 characters']
+    maxlength: [100, 'Slug cannot exceed 100 characters']
   },
   body: {
     type: String,
-    required: [true, 'Content body is required'],
+    required: [true, 'Body content is required'],
     index: true
   },
   excerpt: {
@@ -54,20 +37,23 @@ const WritingSchema = new mongoose.Schema({
   },
   metaDescription: {
     type: String,
-    required: [true, 'Meta description is required for SEO'],
-    maxlength: [160, 'Meta description cannot exceed 160 characters'],
+    maxlength: [160, 'Meta description cannot exceed 160 characters for SEO'],
     trim: true
   },
   language: {
     type: String,
-    enum: ['tamil', 'english', 'bilingual'],
-    default: 'tamil',
+    enum: ['Tamil', 'English'],
+    default: 'Tamil',
     index: true
   },
-  translation: {
-    english: String,
-    transliteration: String,
-    notes: String
+  category: {
+    type: String,
+    required: [true, 'Category is required'],
+    enum: {
+      values: ['Poetry', 'Short Story', 'Essay', 'Novel', 'Article', 'Review', 'Personal'],
+      message: 'Category must be one of the predefined values'
+    },
+    index: true
   },
   tags: [{
     type: String,
@@ -75,21 +61,11 @@ const WritingSchema = new mongoose.Schema({
     lowercase: true,
     validate: {
       validator: function(tags) {
-        return tags.length <= 15;
+        return tags.length <= 10;
       },
-      message: 'Cannot have more than 15 tags'
+      message: 'Cannot have more than 10 tags'
     }
   }],
-  mood: {
-    type: String,
-    enum: ['happy', 'sad', 'romantic', 'angry', 'peaceful', 'contemplative', 'rebellious', 'nostalgic'],
-    index: true
-  },
-  theme: {
-    type: String,
-    enum: ['love', 'loss', 'nature', 'politics', 'feminism', 'spirituality', 'social-justice', 'family', 'friendship'],
-    index: true
-  },
   images: {
     small: String,
     medium: String,
@@ -108,6 +84,7 @@ const WritingSchema = new mongoose.Schema({
     ogDescription: String,
     twitterTitle: String,
     twitterDescription: String,
+    focusKeyword: String,
     structuredData: mongoose.Schema.Types.Mixed
   },
   performance: {
@@ -224,15 +201,6 @@ const WritingSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     index: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    index: true
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
   }
 }, {
   timestamps: true
@@ -244,199 +212,89 @@ WritingSchema.index({ category: 1, status: 1, publishedAt: -1 });
 WritingSchema.index({ language: 1, status: 1, publishedAt: -1 });
 WritingSchema.index({ tags: 1, status: 1 });
 WritingSchema.index({ featured: 1, status: 1, publishedAt: -1 });
-WritingSchema.index({ mood: 1, status: 1 });
-WritingSchema.index({ theme: 1, status: 1 });
+WritingSchema.index({ trending: 1, status: 1, publishedAt: -1 });
 WritingSchema.index({ 'performance.views': -1, status: 1 });
 
-// Text search index for Tamil and English content
-WritingSchema.index({ 
-  title: 'text', 
-  body: 'text', 
-  tags: 'text',
-  metaDescription: 'text',
-  'translation.english': 'text'
-}, {
-  weights: {
-    title: 10,
-    tags: 5,
-    metaDescription: 3,
-    body: 1,
-    'translation.english': 2
+// Pre-save middleware to generate slug
+WritingSchema.pre('save', async function(next) {
+  try {
+    // Generate slug if not provided or if title has changed
+    if (!this.slug || this.isModified('title')) {
+      const baseSlug = generateSlug(this.title);
+      
+      if (baseSlug) {
+        // Ensure uniqueness
+        this.slug = await ensureUniqueSlug(
+          baseSlug,
+          async (slug, excludeId) => {
+            const query = { slug };
+            if (excludeId) query._id = { $ne: excludeId };
+            return await this.constructor.findOne(query);
+          },
+          this._id
+        );
+      }
+    }
+    
+    // Auto-generate excerpt if not provided
+    if (!this.excerpt && this.body) {
+      const plainText = this.body.replace(/<[^>]*>/g, ''); // Remove HTML
+      this.excerpt = plainText.substring(0, 300) + (plainText.length > 300 ? '...' : '');
+    }
+    
+    // Calculate word count and reading time
+    if (this.body) {
+      const plainText = this.body.replace(/<[^>]*>/g, '');
+      const words = plainText.trim().split(/\s+/).length;
+      this.wordCount = words;
+      this.readTime = Math.max(1, Math.ceil(words / 200)); // 200 words per minute
+    }
+    
+    // Set published date
+    if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
+      this.publishedAt = new Date();
+    }
+    
+    // Update lastModified
+    this.lastModified = new Date();
+    
+    next();
+  } catch (error) {
+    next(error);
   }
 });
 
-// Generate slug from title before saving
-WritingSchema.pre('save', function(next) {
-  // Generate slug if not provided
-  if (this.isModified('title') && !this.slug) {
-    let baseSlug = this.title
-      .toLowerCase()
-      .trim()
-      // Handle Tamil characters and transliteration
-      .replace(/[\u0B80-\u0BFF]+/g, (match) => {
-        // Keep Tamil characters as is, or add transliteration logic here
-        return match;
-      })
-      .replace(/[^\w\s\u0B80-\u0BFF-]/g, '') // Remove special characters except Tamil
-      .replace(/[\s_]+/g, '-') // Replace spaces and underscores with hyphens
-      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
-
-    this.slug = baseSlug;
-  }
-
-  // Generate excerpt from body if not provided
-  if (this.isModified('body') && !this.excerpt) {
-    const plainText = this.body.replace(/<[^>]*>/g, ''); // Remove HTML tags
-    this.excerpt = plainText.substring(0, 400).trim() + (plainText.length > 400 ? '...' : '');
-  }
-
-  // Generate meta description if not provided
-  if (this.isModified('body') && !this.metaDescription) {
-    const plainText = this.body.replace(/<[^>]*>/g, '');
-    this.metaDescription = plainText.substring(0, 155).trim() + (plainText.length > 155 ? '...' : '');
-  }
-
-  // Calculate word count and read time
-  if (this.isModified('body')) {
-    const words = this.body.replace(/<[^>]*>/g, '').split(/\s+/).filter(word => word.length > 0);
-    this.wordCount = words.length;
-    // Tamil reading speed is typically slower
-    const wordsPerMinute = this.language === 'tamil' ? 150 : 200;
-    this.readTime = Math.ceil(this.wordCount / wordsPerMinute);
-  }
-
-  // Set published date when status changes to published
-  if (this.isModified('status') && this.status === 'published' && !this.publishedAt) {
-    this.publishedAt = new Date();
-  }
-
-  // Update lastModified timestamp
-  this.lastModified = new Date();
-
-  next();
-});
-
-// Calculate average rating
-WritingSchema.methods.calculateAverageRating = function() {
-  if (this.ratings.length === 0) {
-    this.averageRating = 0;
-    this.totalRatings = 0;
-    return;
+// Static method to find by slug or ObjectId
+WritingSchema.statics.findBySlugOrId = async function(identifier) {
+  // Check if it's a valid ObjectId
+  if (mongoose.Types.ObjectId.isValid(identifier)) {
+    return await this.findById(identifier);
   }
   
-  const sum = this.ratings.reduce((acc, rating) => acc + rating.rating, 0);
-  this.averageRating = Number((sum / this.ratings.length).toFixed(1));
-  this.totalRatings = this.ratings.length;
+  // Otherwise, search by slug
+  return await this.findOne({ slug: identifier });
 };
 
-// Add rating method
-WritingSchema.methods.addRating = async function(name, email, rating, comment = '') {
-  const existingRating = this.ratings.find(r => r.email === email);
-  
-  if (existingRating) {
-    existingRating.rating = rating;
-    existingRating.name = name;
-    existingRating.comment = comment;
-  } else {
-    this.ratings.push({ name, email, rating, comment });
-  }
-  
-  this.calculateAverageRating();
-  await this.save();
-  return this;
-};
-
-// Increment view count
-WritingSchema.methods.incrementViews = async function() {
-  this.performance.views += 1;
-  await this.save();
-  return this;
-};
-
-// Static method to find related writings
-WritingSchema.statics.findRelated = function(writingId, category, tags = [], theme = null, limit = 5) {
-  const query = {
-    _id: { $ne: writingId },
-    status: 'published'
-  };
-
-  // Build OR conditions for related content
-  const orConditions = [
-    { category: category }
-  ];
-
-  if (tags.length > 0) {
-    orConditions.push({ tags: { $in: tags } });
-  }
-
-  if (theme) {
-    orConditions.push({ theme: theme });
-  }
-
-  query.$or = orConditions;
-
-  return this.find(query)
-    .sort({ publishedAt: -1 })
-    .limit(limit)
-    .select('title slug category tags theme mood images excerpt publishedAt readTime language');
-};
-
-// Static method to get by mood
-WritingSchema.statics.getByMood = function(mood, limit = 10) {
-  return this.find({
-    status: 'published',
-    mood: mood
-  })
-  .sort({ publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category mood theme images excerpt publishedAt readTime');
-};
-
-// Static method to get by theme
-WritingSchema.statics.getByTheme = function(theme, limit = 10) {
-  return this.find({
-    status: 'published',
-    theme: theme
-  })
-  .sort({ publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category mood theme images excerpt publishedAt readTime');
-};
-
-// Static method to get featured writings
-WritingSchema.statics.getFeatured = function(limit = 5) {
-  return this.find({
-    status: 'published',
-    featured: true
-  })
-  .sort({ publishedAt: -1 })
-  .limit(limit)
-  .select('title slug category theme mood images excerpt publishedAt readTime language');
-};
-
-// Virtual for URL
-WritingSchema.virtual('url').get(function() {
+// Instance method to get full URL
+WritingSchema.methods.getUrl = function() {
   return `/quill/${this.slug || this._id}`;
-});
+};
 
-// Virtual for reading time text
-WritingSchema.virtual('readTimeText').get(function() {
-  return `${this.readTime} min read`;
-});
-
-// Virtual for language display
-WritingSchema.virtual('languageDisplay').get(function() {
-  const langMap = {
-    'tamil': 'தமிழ்',
-    'english': 'English',
-    'bilingual': 'தமிழ் & English'
+// Instance method to get SEO data
+WritingSchema.methods.getSEOData = function() {
+  return {
+    title: this.seo?.ogTitle || this.title,
+    description: this.seo?.ogDescription || this.metaDescription || this.excerpt,
+    url: `https://www.ajithkumarr.com${this.getUrl()}`,
+    image: this.images?.large || this.images?.medium,
+    type: 'article',
+    publishedTime: this.publishedAt,
+    modifiedTime: this.updatedAt,
+    author: 'Ajithkumar R',
+    section: this.category,
+    tags: this.tags
   };
-  return langMap[this.language] || this.language;
-});
-
-// Ensure virtual fields are serialized
-WritingSchema.set('toJSON', { virtuals: true });
-WritingSchema.set('toObject', { virtuals: true });
+};
 
 let Writing;
 try {
