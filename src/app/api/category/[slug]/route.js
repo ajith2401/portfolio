@@ -50,7 +50,7 @@ export async function GET(request, { params }) {
           .sort({ publishedAt: -1 })
           .skip(type === 'blog' ? skip : 0)
           .limit(type === 'blog' ? limit : Math.floor(limit / 3))
-          .select('title slug excerpt category tags publishedAt readTime images performance.views averageRating author')
+          .select('title slug _id excerpt category tags publishedAt readTime images performance.views averageRating author')
           .populate('author', 'name')
           .lean(),
         
@@ -81,7 +81,7 @@ export async function GET(request, { params }) {
           .sort({ publishedAt: -1 })
           .skip(type === 'quill' ? skip : 0)
           .limit(type === 'quill' ? limit : Math.floor(limit / 3))
-          .select('title slug excerpt category tags publishedAt readTime images performance.views averageRating language')
+          .select('title slug _id excerpt category tags publishedAt readTime images performance.views averageRating language')
           .lean(),
         
         Writing.countDocuments(writingQuery)
@@ -111,7 +111,7 @@ export async function GET(request, { params }) {
           .sort({ publishedAt: -1 })
           .skip(type === 'devfolio' ? skip : 0)
           .limit(type === 'devfolio' ? limit : Math.floor(limit / 3))
-          .select('title slug shortDescription category technologies publishedAt images performance.views featured')
+          .select('title slug _id shortDescription category technologies publishedAt images performance.views featured')
           .lean(),
         
         Project.countDocuments(projectQuery)

@@ -48,7 +48,7 @@ export async function GET(request) {
       const blogs = await TechBlog.find({ status: 'published' })
         .sort({ publishedAt: -1 })
         .limit(type === 'blog' ? limit : Math.floor(limit / 2))
-        .select('title slug content excerpt category tags publishedAt images author')
+        .select('title slug _id content excerpt category tags publishedAt images author')
         .lean();
 
       const blogItems = blogs.map(blog => ({
@@ -71,7 +71,7 @@ export async function GET(request) {
       const writings = await Writing.find({ status: 'published' })
         .sort({ publishedAt: -1 })
         .limit(type === 'quill' ? limit : Math.floor(limit / 2))
-        .select('title slug body excerpt category tags publishedAt images language')
+        .select('title slug _id body excerpt category tags publishedAt images language')
         .lean();
 
       const writingItems = writings.map(writing => ({

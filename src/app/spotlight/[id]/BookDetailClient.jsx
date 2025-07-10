@@ -9,6 +9,7 @@ import { useGetBookByIdQuery } from '@/services/api';
 import BookSchema from '@/components/schema/BookSchema';
 import DecorativeLine from '@/components/ui/DecorativeLine';
 import ShareButtons from '@/components/layout/ShareButtons';
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 // Markdown Renderer Component
 const MarkdownRenderer = ({ content }) => {
@@ -481,7 +482,7 @@ export default function BookDetailClient({ book: initialBook, relatedBooks = [] 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {safeRelatedBooks.map((relatedBook) => (
                 <Link 
-                  href={`/spotlight/${relatedBook._id}`} 
+                  href={getSafeUrl(relatedBook, 'spotlight')} 
                   key={relatedBook._id}
                   className="w-full group"
                 >

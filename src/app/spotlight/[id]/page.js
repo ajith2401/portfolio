@@ -1,14 +1,30 @@
 // src/app/spotlight/[id]/page.js
 import { Book } from '@/models';
 import BookDetailClient from './BookDetailClient.jsx';
+import mongoose from 'mongoose';
 import { notFound } from 'next/navigation';
 import connectDB from '@/lib/db';
+
+// Helper to safely convert any date-like value to ISO string
+function safeDate(val) {
+  if (!val) return null;
+  if (val instanceof Date) return val.toISOString();
+  const d = new Date(val);
+  return isNaN(d) ? null : d.toISOString();
+}
 
 export async function generateMetadata({ params }) {
   await connectDB();
   
   try {
-    const book = await Book.findById(params.id).lean();
+    let book = null;
+    if (mongoose.Types.ObjectId.isValid(params.id)) {
+      book = await Book.findById(params.id).lean();
+    }
+    if (!book) {
+      const decodedSlug = decodeURIComponent(params.id);
+      book = await Book.findOne({ slug: decodedSlug }).lean();
+    }
     
     if (!book) return { title: 'Book Not Found' };
     
@@ -23,12 +39,16 @@ export async function generateMetadata({ params }) {
     // Safely handle dates
     let publishDate;
     try {
-      if (book.publishYear) {
+      if (book.publishYear instanceof Date) {
+        publishDate = new Date(book.publishYear.getFullYear(), 0).toISOString();
+      } else if (typeof book.publishYear === 'number' && !isNaN(book.publishYear)) {
         publishDate = new Date(book.publishYear, 0).toISOString();
+      } else if (typeof book.publishYear === 'string' && !isNaN(Number(book.publishYear))) {
+        publishDate = new Date(Number(book.publishYear), 0).toISOString();
       } else if (book.createdAt) {
-        publishDate = book.createdAt instanceof Date 
-          ? book.createdAt.toISOString() 
-          : new Date(book.createdAt).toISOString();
+        publishDate = safeDate(book.createdAt);
+      } else {
+        publishDate = new Date().toISOString();
       }
     } catch (error) {
       console.error("Date conversion error in metadata:", error);
@@ -102,77 +122,82 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BookDetailPage({ params }) {
-  await connectDB();
-  
-  try {
-    // Fetch initial data for server-side rendering
-    const book = await Book.findById(params.id);
-    
-    if (!book) {
-      return notFound();
-    }
-    
-    // Create a safe object for serialization - with explicit mapping of all nested objects
-    const safeBook = {
-      _id: book._id.toString(),
-      title: book.title || '',
-      description: book.description || '',
-      publisher: book.publisher || '',
-      publishYear: book.publishYear || null,
-      isbn: book.isbn || '',
-      language: book.language || '',
-      pageCount: book.pageCount || 0,
-      coverImage: book.coverImage || '',
-      price: book.price || 0,
-      featured: book.featured || false,
-      purchaseLinks: book.purchaseLinks ? {
-        amazon: book.purchaseLinks.amazon || '',
-        flipkart: book.purchaseLinks.flipkart || '',
-        other: book.purchaseLinks.other || ''
-      } : {},
-      poems: Array.isArray(book.poems) ? book.poems.map(poem => ({
-        title: poem.title || '',
-        content: poem.content || '',
-        translation: poem.translation || '',
-        pageNumber: poem.pageNumber || 0,
-        tags: Array.isArray(poem.tags) ? [...poem.tags] : []
-      })) : [],
-      reviews: Array.isArray(book.reviews) ? book.reviews.map(review => ({
-        name: review.name || '',
-        rating: review.rating || 0,
-        comment: review.comment || '',
-        date: review.date ? review.date.toString() : ''
-      })) : [],
-      createdAt: book.createdAt ? book.createdAt.toISOString() : null,
-      updatedAt: book.updatedAt ? book.updatedAt.toISOString() : null
-    };
-    
-    // Find related books (same publisher or similar year)
-    const relatedBooks = await Book.find({
-      _id: { $ne: book._id },
-      $or: [
-        { publisher: book.publisher },
-        { publishYear: { $gte: (book.publishYear || 2000) - 2, $lte: (book.publishYear || 2000) + 2 } }
-      ]
-    }).limit(3).lean();
-    
-    // Explicitly map related books to safe objects
-    const safeRelatedBooks = relatedBooks.map(relatedBook => ({
-      _id: relatedBook._id.toString(),
-      title: relatedBook.title || '',
-      coverImage: relatedBook.coverImage || '',
-      publisher: relatedBook.publisher || '',
-      publishYear: relatedBook.publishYear || null,
-      price: relatedBook.price || 0
-    }));
-    
-    // Pass the safely serialized data to the client component
-    return <BookDetailClient 
-      book={safeBook} 
-      relatedBooks={safeRelatedBooks} 
-    />;
-  } catch (error) {
-    console.error("Error in BookDetailPage:", error);
+  const { id } = params;
+  let book = null;
+  let accessType = null;
+
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    try {
+      book = await Book.findById(id).lean();
+      if (book) accessType = 'objectId';
+    } catch (e) {}
+  }
+  if (!book) {
+    const decodedSlug = decodeURIComponent(id);
+    book = await Book.findOne({ slug: decodedSlug }).lean();
+    if (book) accessType = 'slug';
+  }
+  if (!book) {
     return notFound();
   }
+  
+  // Create a safe object for serialization - with explicit mapping of all nested objects
+  const safeBook = {
+    _id: book._id.toString(),
+    title: book.title || '',
+    description: book.description || '',
+    publisher: book.publisher || '',
+    publishYear: book.publishYear || null,
+    isbn: book.isbn || '',
+    language: book.language || '',
+    pageCount: book.pageCount || 0,
+    coverImage: book.coverImage || '',
+    price: book.price || 0,
+    featured: book.featured || false,
+    purchaseLinks: book.purchaseLinks ? {
+      amazon: book.purchaseLinks.amazon || '',
+      flipkart: book.purchaseLinks.flipkart || '',
+      other: book.purchaseLinks.other || ''
+    } : {},
+    poems: Array.isArray(book.poems) ? book.poems.map(poem => ({
+      title: poem.title || '',
+      content: poem.content || '',
+      translation: poem.translation || '',
+      pageNumber: poem.pageNumber || 0,
+      tags: Array.isArray(poem.tags) ? [...poem.tags] : []
+    })) : [],
+    reviews: Array.isArray(book.reviews) ? book.reviews.map(review => ({
+      name: review.name || '',
+      rating: review.rating || 0,
+      comment: review.comment || '',
+      date: review.date ? safeDate(review.date) : ''
+    })) : [],
+    createdAt: safeDate(book.createdAt),
+    updatedAt: safeDate(book.updatedAt)
+  };
+  
+  // Find related books (same publisher or similar year)
+  const relatedBooks = await Book.find({
+    _id: { $ne: book._id },
+    $or: [
+      { publisher: book.publisher },
+      { publishYear: { $gte: (book.publishYear || 2000) - 2, $lte: (book.publishYear || 2000) + 2 } }
+    ]
+  }).limit(3).lean();
+  
+  // Explicitly map related books to safe objects
+  const safeRelatedBooks = relatedBooks.map(relatedBook => ({
+    _id: relatedBook._id.toString(),
+    title: relatedBook.title || '',
+    coverImage: relatedBook.coverImage || '',
+    publisher: relatedBook.publisher || '',
+    publishYear: relatedBook.publishYear || null,
+    price: relatedBook.price || 0
+  }));
+  
+  // Pass the safely serialized data to the client component
+  return <BookDetailClient 
+    book={safeBook} 
+    relatedBooks={safeRelatedBooks} 
+  />;
 }

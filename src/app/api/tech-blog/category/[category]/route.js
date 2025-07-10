@@ -12,7 +12,8 @@ export async function GET(request, { params }) {
         status: 'published'
       })
         .sort({ publishedAt: -1 })
-        .select('-content');
+        .select('title slug _id excerpt category tags publishedAt readTime images performance.views averageRating author')
+        .lean();
       
       return NextResponse.json(blogs);
     } catch (error) {

@@ -421,31 +421,6 @@ export default function RootLayout({ children }) {
 
           <Analytics />
           <SpeedInsights />
-
-           <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  if (typeof window !== 'undefined') {
-                    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-                      function sendToAnalytics(metric) {
-                        if (window.gtag) {
-                          window.gtag('event', metric.name, {
-                            value: Math.round(metric.value),
-                            event_label: metric.id,
-                            non_interaction: true,
-                          });
-                        }
-                      }
-                      getCLS(sendToAnalytics);
-                      getFID(sendToAnalytics);
-                      getFCP(sendToAnalytics);
-                      getLCP(sendToAnalytics);
-                      getTTFB(sendToAnalytics);
-                    });
-                  }
-                `
-              }}
-            />
         </ThemeProvider>
         </ReduxProvider>
       </body>

@@ -64,7 +64,16 @@ export async function GET(request) {
     // Exclude the longDescription which could be large
     const projection = {
       longDescription: 0,
-      // Keep other fields we need for the list view
+      slug: 1,
+      _id: 1,
+      title: 1,
+      shortDescription: 1,
+      category: 1,
+      technologies: 1,
+      publishedAt: 1,
+      images: 1,
+      performance: 1,
+      featured: 1
     };
     
     // Get total count for pagination

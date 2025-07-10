@@ -15,6 +15,7 @@ export default function CanonicalLink({ customPath = null }) {
     // Create and add the canonical link
     const link = document.createElement('link');
     link.rel = 'canonical';
+    // customPath should be slug-based if provided
     link.href = `https://www.ajithkumarr.com${customPath || pathname}`;
     document.head.appendChild(link);
     

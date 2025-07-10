@@ -14,6 +14,7 @@ import {
   useGetRelatedTechBlogsQuery,
   useGetCommentsQuery
 } from '@/services/api';
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 const MarkdownRenderer = ({ content }) => {
   // Only process if we have content
@@ -314,7 +315,7 @@ export default function TechBlogPostClient({ blog, blogId }) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {relatedPosts.map((post) => (
                 <Link 
-                  href={`/blog/${post._id}`} 
+                  href={getSafeUrl(post, 'blog')} 
                   key={post._id}
                   className="w-full group"
                 >
@@ -347,9 +348,7 @@ export default function TechBlogPostClient({ blog, blogId }) {
                     <div className="flex justify-between items-center mt-auto">
                       <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
                         <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                          {post.category.split('-').map(word => 
-                            word.charAt(0).toUpperCase() + word.slice(1)
-                          ).join(' ')}
+                          {(post.category ? post.category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Uncategorized')}
                         </span>
                       </div>
 

@@ -44,6 +44,7 @@ export async function GET(request) {
       .sort(sort)
       .skip(skip)
       .limit(limit)
+      .select('title slug _id excerpt body category tags publishedAt readTime images performance.views averageRating language')
       .lean();
     
     // Get total count for pagination

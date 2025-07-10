@@ -49,7 +49,19 @@ export async function GET(request) {
     // Define projection to exclude large content field from list view
     const projection = {
       content: 0, // Exclude full content for better performance
-      // Include all other necessary fields
+      slug: 1,
+      _id: 1,
+      title: 1,
+      subtitle: 1,
+      excerpt: 1,
+      category: 1,
+      tags: 1,
+      publishedAt: 1,
+      readTime: 1,
+      images: 1,
+      performance: 1,
+      averageRating: 1,
+      author: 1
     };
     
     // Fetch blogs with pagination

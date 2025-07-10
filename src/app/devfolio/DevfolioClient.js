@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Github, ExternalLink, Search } from 'lucide-react';
 import { useGetProjectsQuery } from '@/services/api';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 const DevfolioClient = ({ initialProjects = [] }) => {
   const router = useRouter();
@@ -206,7 +207,7 @@ const DevfolioClient = ({ initialProjects = [] }) => {
                   cursor-pointer"
               >
                 <Link 
-                  href={`/devfolio/${project._id}`}
+                  href={getSafeUrl(project, 'devfolio')} 
                   className="block"
                 >
                   <div className="relative w-full h-48 overflow-hidden">

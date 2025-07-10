@@ -93,7 +93,18 @@ export async function GET(request, { params }) {
     // Make sure we have exactly 3 blogs or less
     relatedBlogs = relatedBlogs.slice(0, 3);
     
-    return NextResponse.json(relatedBlogs);
+    // Always include all card fields for related blogs
+    const responseBlogs = relatedBlogs.map(blog => ({
+      _id: blog._id,
+      slug: blog.slug,
+      title: blog.title,
+      category: blog.category,
+      images: blog.images,
+      publishedAt: blog.publishedAt,
+      excerpt: blog.excerpt
+    }));
+    
+    return NextResponse.json(responseBlogs);
   } catch (error) {
     console.error('Error fetching related blogs:', error);
     return NextResponse.json(

@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Clock, Eye, Star, ArrowRight, BookOpen, Code, PenTool } from 'lucide-react';
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 export default function InternalLinks({ 
   currentId, 
@@ -81,14 +82,6 @@ export default function InternalLinks({
     }
   };
 
-  // Format URL based on content type and slug/id
-  const formatUrl = (item) => {
-    const baseUrl = type === 'blog' ? '/blog' : 
-                   type === 'quill' ? '/quill' : 
-                   type === 'devfolio' ? '/devfolio' : '/spotlight';
-    return `${baseUrl}/${item.slug || item._id}`;
-  };
-
   // Loading skeleton component
   const LoadingSkeleton = () => (
     <div className="space-y-4">
@@ -163,7 +156,7 @@ export default function InternalLinks({
           {relatedContent.map((item) => (
             <Link 
               key={item._id} 
-              href={formatUrl(item)}
+              href={getSafeUrl(item, type)}
               className="group block p-4 bg-white dark:bg-gray-700 rounded-lg hover:shadow-md transition-all duration-300 border border-gray-200 dark:border-gray-600"
             >
               <article>
@@ -228,7 +221,7 @@ export default function InternalLinks({
           {relatedContent.map((item) => (
             <Link 
               key={item._id} 
-              href={formatUrl(item)}
+              href={getSafeUrl(item, type)}
               className="group flex gap-4 p-4 bg-white dark:bg-gray-700 rounded-lg hover:shadow-md transition-all duration-300 border border-gray-200 dark:border-gray-600"
             >
               {showImages && item.images?.thumbnail && (
@@ -300,7 +293,7 @@ export default function InternalLinks({
             "itemListElement": relatedContent.map((item, index) => ({
               "@type": "ListItem",
               "position": index + 1,
-              "url": `https://www.ajithkumarr.com${formatUrl(item)}`,
+              "url": `https://www.ajithkumarr.com${getSafeUrl(item, type)}`,
               "name": item.title,
               "description": item.excerpt
             }))

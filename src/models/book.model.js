@@ -245,6 +245,44 @@ BookSchema.statics.findBySlugOrId = async function(identifier) {
   return await this.findOne({ slug: identifier });
 };
 
+// Static method to get featured books
+BookSchema.statics.getFeatured = async function(limit = 3) {
+  return await this.find({ 
+    status: 'published', 
+    featured: true 
+  })
+  .sort({ publishYear: -1 })
+  .limit(limit)
+  .lean();
+};
+
+// Static method to get popular books by views
+BookSchema.statics.getPopular = async function(limit = 5) {
+  return await this.find({ status: 'published' })
+    .sort({ 'performance.views': -1 })
+    .limit(limit)
+    .lean();
+};
+
+// Static method to get recent books
+BookSchema.statics.getRecent = async function(limit = 5) {
+  return await this.find({ status: 'published' })
+    .sort({ publishYear: -1 })
+    .limit(limit)
+    .lean();
+};
+
+// Static method to get books by genre
+BookSchema.statics.getByGenre = async function(genre, limit = 10) {
+  return await this.find({ 
+    status: 'published',
+    genre: genre 
+  })
+  .sort({ publishYear: -1 })
+  .limit(limit)
+  .lean();
+};
+
 // Instance method to get full URL
 BookSchema.methods.getUrl = function() {
   return `/spotlight/${this.slug || this._id}`;

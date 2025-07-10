@@ -275,6 +275,55 @@ WritingSchema.statics.findBySlugOrId = async function(identifier) {
   return await this.findOne({ slug: identifier });
 };
 
+// Static method to get featured writings
+WritingSchema.statics.getFeatured = async function(limit = 3) {
+  return await this.find({ 
+    status: 'published', 
+    featured: true 
+  })
+  .sort({ publishedAt: -1 })
+  .limit(limit)
+  .lean();
+};
+
+// Static method to get trending writings
+WritingSchema.statics.getTrending = async function(limit = 5) {
+  return await this.find({ 
+    status: 'published', 
+    trending: true 
+  })
+  .sort({ 'performance.views': -1, publishedAt: -1 })
+  .limit(limit)
+  .lean();
+};
+
+// Static method to get popular writings by views
+WritingSchema.statics.getPopular = async function(limit = 5) {
+  return await this.find({ status: 'published' })
+    .sort({ 'performance.views': -1 })
+    .limit(limit)
+    .lean();
+};
+
+// Static method to get recent writings
+WritingSchema.statics.getRecent = async function(limit = 5) {
+  return await this.find({ status: 'published' })
+    .sort({ publishedAt: -1 })
+    .limit(limit)
+    .lean();
+};
+
+// Static method to get writings by category
+WritingSchema.statics.getByCategory = async function(category, limit = 10) {
+  return await this.find({ 
+    status: 'published',
+    category: category 
+  })
+  .sort({ publishedAt: -1 })
+  .limit(limit)
+  .lean();
+};
+
 // Instance method to get full URL
 WritingSchema.methods.getUrl = function() {
   return `/quill/${this.slug || this._id}`;

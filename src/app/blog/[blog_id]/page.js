@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { TechBlog } from '@/models/techblog.model';
 import connectDB from '@/lib/db';
 import mongoose from 'mongoose';
-import BlogDetailClient from './BlogDetailClient';
+import BlogDetailClient from './TechBlogPostClient';
 
 // Helper to check if string is ObjectId
 function isObjectId(str) {
@@ -75,7 +75,7 @@ export async function generateMetadata({ params }) {
     
     const { techBlog, accessType } = result;
     
-    // If accessed by ObjectId but has slug, set canonical to slug URL
+    // All canonical and OG URLs should use techBlog.slug if available
     const canonicalUrl = techBlog.slug 
       ? `https://www.ajithkumarr.com/blog/${techBlog.slug}`
       : `https://www.ajithkumarr.com/blog/${techBlog._id}`;
@@ -171,15 +171,22 @@ function generateStructuredData(techBlog) {
 // Main page component
 export default async function BlogDetailPage({ params }) {
   const { blog_id } = params;
-  
-  // Get tech blog data
-  const result = await getTechBlog(blog_id);
-  
-  if (!result) {
-    notFound();
+  let techBlog = null;
+  let accessType = null;
+
+  if (mongoose.Types.ObjectId.isValid(blog_id)) {
+    try {
+      techBlog = await TechBlog.findById(blog_id).lean();
+      if (techBlog) accessType = 'objectId';
+    } catch (e) {}
   }
-  
-  const { techBlog, accessType } = result;
+  if (!techBlog) {
+    techBlog = await TechBlog.findOne({ slug: blog_id }).lean();
+    if (techBlog) accessType = 'slug';
+  }
+  if (!techBlog) {
+    return notFound();
+  }
   
   // If accessed by ObjectId but has slug, redirect to slug URL
   if (accessType === 'objectId' && techBlog.slug) {
@@ -208,10 +215,7 @@ export default async function BlogDetailPage({ params }) {
         }}
       />
       
-      <BlogDetailClient 
-        techBlog={techBlogData} 
-        accessType={accessType}
-      />
+      <BlogDetailClient blog={techBlog} blogId={techBlog._id.toString()} />
     </>
   );
 }

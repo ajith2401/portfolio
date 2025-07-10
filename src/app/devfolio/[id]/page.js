@@ -2,6 +2,7 @@
 import { Project } from '@/models/project.model';
 import connectDB from '@/lib/db';
 import ProjectDetailClient from './ProjectDetailClient';
+import mongoose from 'mongoose';
 import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
@@ -78,63 +79,70 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProjectDetailPage({ params }) {
-  await connectDB();
-  
-  try {
-    // Fetch initial data for server-side rendering with .lean()
-    const project = await Project.findById(params.id).lean();
-    
-    if (!project) {
-      return notFound();
+  const { id } = params;
+  let project = null;
+  let accessType = null;
+
+  // Try ObjectId only if valid
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    try {
+      project = await Project.findById(id).lean();
+      if (project) accessType = 'objectId';
+    } catch (e) {
+      // ignore and fallback
     }
-    
-    // Create a safe object for serialization - explicitly handle all nested objects
-    const safeProject = {
-      _id: project._id.toString(),
-      title: project.title || '',
-      shortDescription: project.shortDescription || '',
-      longDescription: project.longDescription || '',
-      category: project.category || '',
-      technologies: Array.isArray(project.technologies) ? project.technologies : [],
-      achievement: project.achievement || '',
-      subtitle: project.subtitle || '',
-      stack: Array.isArray(project.stack) ? project.stack : [],
-      images: {
-        thumbnail: project.images?.thumbnail || '',
-        medium: project.images?.medium || '',
-        large: project.images?.large || '',
-      },
-      featured: Boolean(project.featured),
-      status: project.status || '',
-      stats: project.stats && typeof project.stats === 'object' ? {
-        ...project.stats
-      } : {},
-      links: project.links && typeof project.links === 'object' ? {
-        github: project.links.github || '',
-        live: project.links.live || '',
-        demo: project.links.demo || '',
-      } : {},
-      features: Array.isArray(project.features) ? project.features : [],
-      challenges: Array.isArray(project.challenges) ? project.challenges : [],
-      // Convert dates to strings to avoid serialization issues
-      createdAt: project.createdAt ? 
-        (project.createdAt instanceof Date ? project.createdAt.toISOString() : new Date(project.createdAt).toISOString()) 
-        : null,
-      updatedAt: project.updatedAt ? 
-        (project.updatedAt instanceof Date ? project.updatedAt.toISOString() : new Date(project.updatedAt).toISOString()) 
-        : null,
-      demoVideo: project.demoVideo || '',
-      teamMembers: Array.isArray(project.teamMembers) ? project.teamMembers : [],
-      solutions: Array.isArray(project.solutions) ? project.solutions : []
-    };
-    
-    // Pass the safely serialized data to the client component
-    return <ProjectDetailClient 
-      project={safeProject} 
-      projectId={params.id} 
-    />;
-  } catch (error) {
-    console.error("Error in ProjectDetailPage:", error);
+  }
+  // If not found by ObjectId, try slug
+  if (!project) {
+    project = await Project.findOne({ slug: id }).lean();
+    if (project) accessType = 'slug';
+  }
+  if (!project) {
     return notFound();
   }
+  
+  // Create a safe object for serialization - explicitly handle all nested objects
+  const safeProject = {
+    _id: project._id.toString(),
+    title: project.title || '',
+    shortDescription: project.shortDescription || '',
+    longDescription: project.longDescription || '',
+    category: project.category || '',
+    technologies: Array.isArray(project.technologies) ? project.technologies : [],
+    achievement: project.achievement || '',
+    subtitle: project.subtitle || '',
+    stack: Array.isArray(project.stack) ? project.stack : [],
+    images: {
+      thumbnail: project.images?.thumbnail || '',
+      medium: project.images?.medium || '',
+      large: project.images?.large || '',
+    },
+    featured: Boolean(project.featured),
+    status: project.status || '',
+    stats: project.stats && typeof project.stats === 'object' ? {
+      ...project.stats
+    } : {},
+    links: project.links && typeof project.links === 'object' ? {
+      github: project.links.github || '',
+      live: project.links.live || '',
+      demo: project.links.demo || '',
+    } : {},
+    features: Array.isArray(project.features) ? project.features : [],
+    challenges: Array.isArray(project.challenges) ? project.challenges : [],
+    // Convert dates to strings to avoid serialization issues
+    createdAt: project.createdAt ? 
+      (project.createdAt instanceof Date ? project.createdAt.toISOString() : new Date(project.createdAt).toISOString()) 
+      : null,
+    updatedAt: project.updatedAt ? 
+      (project.updatedAt instanceof Date ? project.updatedAt.toISOString() : new Date(project.updatedAt).toISOString()) 
+      : null,
+    demoVideo: project.demoVideo || '',
+    teamMembers: Array.isArray(project.teamMembers) ? project.teamMembers : [],
+    solutions: Array.isArray(project.solutions) ? project.solutions : []
+  };
+  
+  // Pass project and accessType to client component
+  return (
+    <ProjectDetailClient project={safeProject} projectId={project._id} />
+  );
 }

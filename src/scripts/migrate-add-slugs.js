@@ -11,10 +11,7 @@ dotenv.config();
 // MongoDB connection
 async function connectDB() {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log('✅ Connected to MongoDB');
     return true;
   } catch (error) {
@@ -55,7 +52,7 @@ function generateSlug(title, existingSlugs = new Set()) {
   return slug;
 }
 
-// Define schemas for migration (simplified versions)
+// Define schemas for migration
 const WritingSchema = new mongoose.Schema({
   title: String,
   slug: String,
@@ -198,10 +195,13 @@ async function migrateCollection(Model, collectionName) {
         console.log(`✅ ${doc.title.substring(0, 50)}${doc.title.length > 50 ? '...' : ''}`);
         console.log(`   📍 ObjectId: ${doc._id}`);
         console.log(`   🔗 New slug: ${slug}`);
+        console.log(`   🌐 New URL: /${collectionName.toLowerCase() === 'techblog' ? 'blog' : 
+                                      collectionName.toLowerCase() === 'writing' ? 'quill' : 
+                                      collectionName.toLowerCase() === 'project' ? 'devfolio' : 'spotlight'}/${slug}`);
         
         // Mark problematic writings specifically
         if (collectionName === 'Writing' && PROBLEMATIC_WRITINGS.includes(doc._id.toString())) {
-          console.log(`   🔥 FIXED PROBLEMATIC URL: /quill/${slug}`);
+          console.log(`   🔥 FIXED PROBLEMATIC URL!`);
         }
         
         console.log('');
@@ -255,16 +255,15 @@ function generateReport(results) {
   if (totalSuccess > 0) {
     console.log('\n🎉 SUCCESS! Your content now has SEO-friendly URLs!');
     console.log('\n📋 NEXT STEPS:');
-    console.log('1. Deploy the updated code with slug support');
-    console.log('2. Update your middleware to redirect ObjectId URLs');
-    console.log('3. Submit updated sitemap to Google Search Console');
-    console.log('4. Request validation for the redirect issues');
-    console.log('5. Submit removal requests for old ObjectId URLs');
+    console.log('1. Update your card components to use slug instead of _id');
+    console.log('2. Deploy the updated code');
+    console.log('3. Test the new slug URLs');
+    console.log('4. Submit updated sitemap to Google Search Console');
     
     console.log('\n🔗 PROBLEMATIC URLS NOW FIXED:');
     PROBLEMATIC_WRITINGS.forEach(id => {
       console.log(`   ❌ OLD: https://www.ajithkumarr.com/quill/${id}`);
-      console.log(`   ✅ NEW: Will redirect to slug URL`);
+      console.log(`   ✅ NEW: Will use slug URL now`);
     });
   }
   

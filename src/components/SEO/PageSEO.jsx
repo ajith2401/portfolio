@@ -22,6 +22,8 @@ export default function PageSEO({
 }) {
   const pathname = usePathname();
   const baseUrl = 'https://www.ajithkumarr.com';
+  // If canonicalPath is provided, prefer it (should be slug-based)
+  // Otherwise, fallback to pathname (which should now be slug-based)
   const canonicalUrl = `${baseUrl}${canonicalPath || pathname}`;
   
   // Ensure description is within optimal length

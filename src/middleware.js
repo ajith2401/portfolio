@@ -72,52 +72,56 @@ export function middleware(request) {
   // 2. Handle problematic ObjectId URLs from Google Search Console
   const contentSections = ['blog', 'quill', 'devfolio', 'spotlight'];
   
-  if (contentSections.includes(section) && identifier && isObjectId(identifier)) {
-    
-    // Check if it's one of the known problematic IDs
-    if (BLOCKED_OBJECT_IDS.has(identifier)) {
-      console.log(`[BLOCKED] ${clientIP} | Problematic URL: ${pathname} | UA: ${userAgent.substring(0, 50)}`);
+  if (contentSections.includes(section) && identifier) {
+    // ONLY block if it's an ObjectId, allow slug URLs to pass through
+    if (isObjectId(identifier)) {
       
-      // Return 410 Gone for these specific URLs
+      // Check if it's one of the known problematic IDs
+      if (BLOCKED_OBJECT_IDS.has(identifier)) {
+        console.log(`[BLOCKED] ${clientIP} | Problematic URL: ${pathname} | UA: ${userAgent.substring(0, 50)}`);
+        
+        // Return 410 Gone for these specific URLs
+        return new NextResponse(
+          JSON.stringify({
+            error: 'Gone',
+            message: 'This content has been permanently moved to a new URL structure.',
+            timestamp: new Date().toISOString(),
+            redirect: `Please visit https://www.ajithkumarr.com/${section}/ to find the content.`
+          }),
+          {
+            status: 410, // Gone - indicates the resource is no longer available
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Robots-Tag': 'noindex, nofollow, noarchive, nosnippet',
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache',
+              'Expires': '0'
+            }
+          }
+        );
+      }
+      
+      // For other ObjectId URLs, return 404 with proper SEO headers
+      console.log(`[404] ${clientIP} | ObjectId URL: ${pathname} | UA: ${userAgent.substring(0, 50)}`);
+      
       return new NextResponse(
         JSON.stringify({
-          error: 'Gone',
-          message: 'This content has been permanently moved to a new URL structure.',
+          error: 'Not Found',
+          message: 'This URL format is no longer supported. Please use the site navigation to find content.',
           timestamp: new Date().toISOString(),
-          redirect: `Please visit https://www.ajithkumarr.com/${section}/ to find the content.`
+          suggestion: `Visit https://www.ajithkumarr.com/${section}/ to browse content.`
         }),
         {
-          status: 410, // Gone - indicates the resource is no longer available
+          status: 404,
           headers: {
             'Content-Type': 'application/json',
-            'X-Robots-Tag': 'noindex, nofollow, noarchive, nosnippet',
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0'
+            'X-Robots-Tag': 'noindex, nofollow, noarchive',
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
           }
         }
       );
     }
-    
-    // For other ObjectId URLs, return 404 with proper SEO headers
-    console.log(`[404] ${clientIP} | ObjectId URL: ${pathname} | UA: ${userAgent.substring(0, 50)}`);
-    
-    return new NextResponse(
-      JSON.stringify({
-        error: 'Not Found',
-        message: 'This URL format is no longer supported. Please use the site navigation to find content.',
-        timestamp: new Date().toISOString(),
-        suggestion: `Visit https://www.ajithkumarr.com/${section}/ to browse content.`
-      }),
-      {
-        status: 404,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Robots-Tag': 'noindex, nofollow, noarchive',
-          'Cache-Control': 'no-cache, no-store, must-revalidate'
-        }
-      }
-    );
+    // If it's NOT an ObjectId (i.e., it's a slug), let it pass through normally
   }
 
   // 3. Block crawling of API routes
@@ -193,18 +197,18 @@ export function middleware(request) {
   }
   
   // Add HSTS header for security
-  if (hostname.startsWith('www.ajithkumarr.com')) {
+  if (hostname && hostname.includes('ajithkumarr.com')) {
     response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   }
   
-  // Add CSP header for security
+  // Add CSP header for security (but allow Vercel analytics)
   response.headers.set('Content-Security-Policy', [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https:",
-    "connect-src 'self' https:",
+    "connect-src 'self' https: wss:",
     "frame-src 'self' https://www.youtube.com https://www.google.com"
   ].join('; '));
 

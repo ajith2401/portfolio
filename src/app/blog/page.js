@@ -163,8 +163,24 @@ export default async function TechBlogPage({ searchParams }) {
 
     // Serialize data for client component
     const serializedData = {
-      posts: JSON.parse(JSON.stringify(posts)),
-      featuredPosts: JSON.parse(JSON.stringify(featuredPosts)),
+      posts: posts.map(post => ({
+        ...post,
+        slug: post.slug,
+        _id: post._id.toString(),
+        createdAt: post.createdAt?.toString(),
+        updatedAt: post.updatedAt?.toString(),
+        publishedAt: post.publishedAt?.toString(),
+        lastModified: post.lastModified?.toString()
+      })),
+      featuredPosts: featuredPosts.map(post => ({
+        ...post,
+        slug: post.slug,
+        _id: post._id.toString(),
+        createdAt: post.createdAt?.toString(),
+        updatedAt: post.updatedAt?.toString(),
+        publishedAt: post.publishedAt?.toString(),
+        lastModified: post.lastModified?.toString()
+      })),
       pagination: {
         currentPage: page,
         totalPages,
@@ -267,8 +283,7 @@ export default async function TechBlogPage({ searchParams }) {
         {/* Main content */}
         <Suspense fallback={<BlogLoading />}>
            <TechBlogClient 
-            initialData={serializedData}
-            searchParams={searchParams}
+            initialPosts={serializedData.posts}
           />
         </Suspense>
 

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { ArrowLeft, Search } from 'lucide-react';
 import { useGetTechBlogsQuery } from '@/services/api';
 import { useSearchParams } from 'next/navigation';
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 const TechBlogCard = ({ post }) => {
   const formatDate = (date) => {
@@ -18,7 +19,7 @@ const TechBlogCard = ({ post }) => {
   };
 
   return (
-    <Link href={`/blog/${post._id}`} className="group">
+    <Link href={getSafeUrl(post, 'blog')} className="group">
       <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-background">
         <div className="relative w-full aspect-video overflow-hidden">
           <Image

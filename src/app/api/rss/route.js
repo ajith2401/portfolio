@@ -31,8 +31,8 @@ export async function GET() {
     ${techBlogs.map(blog => `
     <item>
       <title><![CDATA[${blog.title}]]></title>
-      <link>${baseUrl}/blog/${blog._id}</link>
-      <guid>${baseUrl}/blog/${blog._id}</guid>
+      <link>${baseUrl}/blog/${blog.slug || blog._id}</link>
+      <guid>${baseUrl}/blog/${blog.slug || blog._id}</guid>
       <pubDate>${new Date(blog.publishedAt || blog.createdAt).toUTCString()}</pubDate>
       <description><![CDATA[${blog.subtitle || blog.content.substring(0, 160)}]]></description>
       <category>${blog.category}</category>
@@ -42,8 +42,8 @@ export async function GET() {
     ${writings.map(writing => `
     <item>
       <title><![CDATA[${writing.title}]]></title>
-      <link>${baseUrl}/quill/${writing._id}</link>
-      <guid>${baseUrl}/quill/${writing._id}</guid>
+      <link>${baseUrl}/quill/${writing.slug || writing._id}</link>
+      <guid>${baseUrl}/quill/${writing.slug || writing._id}</guid>
       <pubDate>${new Date(writing.createdAt).toUTCString()}</pubDate>
       <description><![CDATA[${writing.subtitle || writing.body.substring(0, 160)}]]></description>
       <category>${writing.category}</category>

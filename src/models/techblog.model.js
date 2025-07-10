@@ -278,6 +278,55 @@ TechBlogSchema.statics.findBySlugOrId = async function(identifier) {
   return await this.findOne({ slug: identifier });
 };
 
+// Static method to get featured posts
+TechBlogSchema.statics.getFeatured = async function(limit = 3) {
+  return await this.find({ 
+    status: 'published', 
+    featured: true 
+  })
+  .sort({ publishedAt: -1 })
+  .limit(limit)
+  .lean();
+};
+
+// Static method to get trending posts
+TechBlogSchema.statics.getTrending = async function(limit = 5) {
+  return await this.find({ 
+    status: 'published', 
+    trending: true 
+  })
+  .sort({ 'performance.views': -1, publishedAt: -1 })
+  .limit(limit)
+  .lean();
+};
+
+// Static method to get popular posts by views
+TechBlogSchema.statics.getPopular = async function(limit = 5) {
+  return await this.find({ status: 'published' })
+    .sort({ 'performance.views': -1 })
+    .limit(limit)
+    .lean();
+};
+
+// Static method to get recent posts
+TechBlogSchema.statics.getRecent = async function(limit = 5) {
+  return await this.find({ status: 'published' })
+    .sort({ publishedAt: -1 })
+    .limit(limit)
+    .lean();
+};
+
+// Static method to get posts by category
+TechBlogSchema.statics.getByCategory = async function(category, limit = 10) {
+  return await this.find({ 
+    status: 'published',
+    category: category 
+  })
+  .sort({ publishedAt: -1 })
+  .limit(limit)
+  .lean();
+};
+
 // Instance method to get full URL
 TechBlogSchema.methods.getUrl = function() {
   return `/blog/${this.slug || this._id}`;

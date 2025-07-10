@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Search, CalendarIcon, SortAsc, SortDesc } from 'lucide-react';
 import { useGetWritingsQuery } from '@/services/api';
 import PersonSchema from '@/components/schema/PersonSchema';
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 // Safe localStorage access functions
 const getLocalStorage = (key, fallback) => {
@@ -419,7 +420,7 @@ const QuillClientPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 text-foreground">
             {writings.map((writing) => (
               <Link 
-                href={`/quill/${writing._id}?returnPage=${currentPage}`} 
+                href={`${getSafeUrl(writing, 'quill')}?returnPage=${currentPage}`} 
                 key={writing._id}
                 className="w-full md:w-[410.67px] group"
               >

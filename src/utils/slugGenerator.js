@@ -70,3 +70,15 @@ export function sanitizeForSlug(input) {
     .substring(0, 200) // Limit input length
     .replace(/[<>]/g, ''); // Remove potential XSS characters
 }
+
+/**
+ * Returns a safe URL for a content item, using slug if available, otherwise _id.
+ * @param {object} item - The content item (must have slug and _id fields)
+ * @param {string} section - The section (e.g., 'blog', 'quill', 'devfolio', 'spotlight')
+ * @returns {string} SEO-friendly URL
+ */
+export function getSafeUrl(item, section) {
+  if (!item || !section) return '/';
+  const identifier = item.slug || item._id;
+  return `/${section}/${identifier}`;
+}

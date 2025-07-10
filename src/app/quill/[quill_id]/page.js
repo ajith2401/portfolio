@@ -10,6 +10,14 @@ function isObjectId(str) {
   return mongoose.Types.ObjectId.isValid(str);
 }
 
+// Helper to safely convert any date-like value to ISO string
+function safeDate(val) {
+  if (!val) return null;
+  if (val instanceof Date) return val.toISOString();
+  const d = new Date(val);
+  return isNaN(d) ? null : d.toISOString();
+}
+
 // Helper to log page access for monitoring
 function logPageAccess(identifier, accessType, userAgent) {
   const timestamp = new Date().toISOString();
@@ -24,13 +32,14 @@ async function getWriting(quill_id) {
     
     // First, try to find by slug
     if (!isObjectId(quill_id)) {
+      const decodedSlug = decodeURIComponent(quill_id).trim();
       writing = await Writing.findOne({ 
-        slug: quill_id.toLowerCase().trim(),
+        slug: decodedSlug,
         status: 'published'
       }).lean();
       
       if (writing) {
-        logPageAccess(quill_id, 'SLUG-SUCCESS', '');
+        logPageAccess(decodedSlug, 'SLUG-SUCCESS', '');
         return { writing, accessType: 'slug' };
       }
     }
@@ -63,8 +72,16 @@ export async function generateMetadata({ params }) {
   const { quill_id } = params;
   
   try {
-    const result = await getWriting(quill_id);
-    
+    let result = null;
+    if (mongoose.Types.ObjectId.isValid(quill_id)) {
+      const writing = await Writing.findById(quill_id).lean();
+      if (writing) result = { writing, accessType: 'objectId' };
+    }
+    if (!result) {
+      const decodedSlug = decodeURIComponent(quill_id).trim();
+      const writing = await Writing.findOne({ slug: decodedSlug, status: 'published' }).lean();
+      if (writing) result = { writing, accessType: 'slug' };
+    }
     if (!result) {
       return {
         title: 'Writing Not Found - Ajithkumar R',
@@ -75,7 +92,7 @@ export async function generateMetadata({ params }) {
     
     const { writing, accessType } = result;
     
-    // If accessed by ObjectId but has slug, set canonical to slug URL
+    // All canonical and OG URLs should use writing.slug if available
     const canonicalUrl = writing.slug 
       ? `https://www.ajithkumarr.com/quill/${writing.slug}`
       : `https://www.ajithkumarr.com/quill/${writing._id}`;
@@ -95,8 +112,8 @@ export async function generateMetadata({ params }) {
         url: canonicalUrl,
         siteName: 'Ajithkumar R',
         type: 'article',
-        publishedTime: writing.publishedAt,
-        modifiedTime: writing.updatedAt,
+        publishedTime: safeDate(writing.publishedAt),
+        modifiedTime: safeDate(writing.updatedAt),
         authors: ['Ajithkumar R'],
         section: writing.category,
         tags: writing.tags,
@@ -131,36 +148,41 @@ export async function generateMetadata({ params }) {
 // Main page component
 export default async function WritingDetailPage({ params }) {
   const { quill_id } = params;
-  
-  // Get writing data
-  const result = await getWriting(quill_id);
-  
-  if (!result) {
-    notFound();
+  let writing = null;
+  let accessType = null;
+
+  if (mongoose.Types.ObjectId.isValid(quill_id)) {
+    try {
+      writing = await Writing.findById(quill_id).lean();
+      if (writing) accessType = 'objectId';
+    } catch (e) {}
   }
-  
-  const { writing, accessType } = result;
+  if (!writing) {
+    const decodedSlug = decodeURIComponent(quill_id).trim();
+    writing = await Writing.findOne({ slug: decodedSlug }).lean();
+    if (writing) accessType = 'slug';
+  }
+  if (!writing) {
+    return notFound();
+  }
   
   // If accessed by ObjectId but has slug, redirect to slug URL
   if (accessType === 'objectId' && writing.slug) {
     redirect(`/quill/${writing.slug}`);
   }
   
-  // Convert MongoDB _id to string for client component
+  // Convert MongoDB _id to string for client component and safely serialize dates
   const writingData = {
     ...writing,
     _id: writing._id.toString(),
-    createdAt: writing.createdAt?.toISOString(),
-    updatedAt: writing.updatedAt?.toISOString(),
-    publishedAt: writing.publishedAt?.toISOString(),
-    lastModified: writing.lastModified?.toISOString()
+    createdAt: safeDate(writing.createdAt),
+    updatedAt: safeDate(writing.updatedAt),
+    publishedAt: safeDate(writing.publishedAt),
+    lastModified: safeDate(writing.lastModified)
   };
   
   return (
-    <WritingDetailClient 
-      writing={writingData} 
-      accessType={accessType}
-    />
+    <WritingDetailClient initialWriting={writingData} quillId={writing._id.toString()} />
   );
 }
 

@@ -85,6 +85,7 @@ export async function GET(request, { params }) {
     // Limit to exactly 3 results
     relatedWritings = relatedWritings.slice(0, 3);
     
+    // Always include both _id and slug in the response for related writings
     return NextResponse.json(relatedWritings);
   } catch (error) {
     console.error('Error fetching related writings:', error);

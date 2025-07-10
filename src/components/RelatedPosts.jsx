@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 // components/RelatedPosts.jsx
 export default function RelatedPosts({ currentId, category, tags, type }) {
@@ -22,7 +23,7 @@ export default function RelatedPosts({ currentId, category, tags, type }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {relatedContent.map(item => (
             <Link 
-              href={`/${type}/${item._id}`} 
+              href={getSafeUrl(item, type)} 
               key={item._id}
               className="p-4 border rounded hover:bg-gray-50"
             >

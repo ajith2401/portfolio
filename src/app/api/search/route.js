@@ -108,7 +108,7 @@ export async function GET(request) {
           status: 'published',
           $text: { $search: query }
         })
-        .select('title slug excerpt content category tags publishedAt readTime images performance.views averageRating author')
+        .select('title slug _id excerpt content category tags publishedAt readTime images performance.views averageRating author')
         .populate('author', 'name')
         .sort({ score: { $meta: 'textScore' }, publishedAt: -1 })
         .limit(type === 'blog' ? limit : Math.ceil(limit / 4))
@@ -149,7 +149,7 @@ export async function GET(request) {
           status: 'published',
           $text: { $search: query }
         })
-        .select('title slug excerpt body category tags publishedAt readTime images performance.views averageRating language')
+        .select('title slug _id excerpt body category tags publishedAt readTime images performance.views averageRating language')
         .sort({ score: { $meta: 'textScore' }, publishedAt: -1 })
         .limit(type === 'quill' ? limit : Math.ceil(limit / 4))
         .lean();
@@ -190,7 +190,7 @@ export async function GET(request) {
           status: 'published',
           $text: { $search: query }
         })
-        .select('title slug shortDescription longDescription category technologies publishedAt images performance.views featured')
+        .select('title slug _id shortDescription longDescription category technologies publishedAt images performance.views featured')
         .sort({ score: { $meta: 'textScore' }, publishedAt: -1 })
         .limit(type === 'devfolio' ? limit : Math.ceil(limit / 4))
         .lean();
@@ -227,7 +227,7 @@ export async function GET(request) {
         const bookResults = await Book.find({
           $text: { $search: query }
         })
-        .select('title slug description coverImage publishYear publisher featured')
+        .select('title slug _id description coverImage publishYear publisher featured')
         .sort({ score: { $meta: 'textScore' }, publishYear: -1 })
         .limit(type === 'spotlight' ? limit : Math.ceil(limit / 4))
         .lean();

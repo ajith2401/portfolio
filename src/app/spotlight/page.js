@@ -72,6 +72,7 @@ export default async function SpotlightPage() {
  // Use a safer approach:
 const safeBooks = books.map(book => ({
   _id: book._id.toString(),
+  slug: book.slug,
   title: book.title,
   description: book.description,
   coverImage: book.coverImage,

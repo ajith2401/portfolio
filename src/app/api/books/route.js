@@ -10,7 +10,10 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     await connectDB();
-    const books = await Book.find({}).sort({ publishYear: -1 });
+    const books = await Book.find({})
+      .sort({ publishYear: -1 })
+      .select('title slug _id description coverImage publishYear publisher featured')
+      .lean();
     
     return NextResponse.json({ success: true, data: books });
   } catch (error) {

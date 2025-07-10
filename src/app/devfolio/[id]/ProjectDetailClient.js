@@ -8,6 +8,7 @@ import { Github, ExternalLink, ArrowLeft, Instagram, Facebook, MessageCircle, Ma
 import DecorativeLine from '@/components/ui/DecorativeLine';
 import ShareButtons from '@/components/layout/ShareButtons';
 import ProjectSchema from '@/components/schema/ProjectSchema';
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 // Replace the MarkdownRenderer component in ProjectDetailClient.js
 
@@ -132,7 +133,9 @@ const MarkdownRenderer = ({ content }) => {
             style={{ display: 'block' }}
             onError={(e) => {
               console.error(`Failed to load image: ${imageUrl}`);
-              e.target.style.display = 'none';
+              if (e.target && e.target instanceof window.HTMLImageElement) {
+                e.target.style.display = 'none';
+              }
             }}
           />
         </div>
@@ -338,14 +341,14 @@ export default function ProjectDetailClient({ project, projectId }) {
         <div className="w-full border-b border-dashed border-[#949494] opacity-50 my-8 md:my-12" />
         
         {/* Related Projects */}
-        {relatedProjects.length > 0 && (
+        {Array.isArray(relatedProjects) && relatedProjects.length > 0 ? (
           <section className="mb-8 md:mb-16 mt-16 md:mt-28">
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">Similar Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {relatedProjects.map((relatedProject) => (
                 <Link 
-                  href={`/devfolio/${relatedProject._id}`} 
-                  key={relatedProject._id}
+                  href={getSafeUrl(relatedProject, 'devfolio')} 
+                  key={relatedProject._id || Math.random()}
                   className="w-full group"
                 >
                   <div className="flex flex-col gap-4 sm:gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
@@ -356,8 +359,8 @@ export default function ProjectDetailClient({ project, projectId }) {
                     {/* Image Container */}
                     <div className="relative w-full aspect-[16/9] sm:h-[231.38px] rounded-lg overflow-hidden">
                       <Image
-                        src={relatedProject.images?.medium || '/placeholder.jpg'}
-                        alt={relatedProject.title}
+                        src={relatedProject?.images?.medium || '/placeholder.jpg'}
+                        alt={relatedProject?.title || 'Project image'}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -367,15 +370,15 @@ export default function ProjectDetailClient({ project, projectId }) {
                     </div>
 
                     <h3 className="font-work-sans text-base sm:text-lg font-medium leading-tight sm:leading-[21px] transition-colors duration-300 group-hover:text-primary">
-                      {relatedProject.title}
+                      {relatedProject?.title || 'Untitled Project'}
                     </h3>
                   
                     <p className="font-merriweather text-sm text-foreground leading-relaxed sm:leading-[21px] line-clamp-3">
-                      {relatedProject.shortDescription}
+                      {relatedProject?.shortDescription || ''}
                     </p>
 
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {relatedProject.stack && relatedProject.stack.slice(0, 3).map((tech) => (
+                      {Array.isArray(relatedProject?.stack) && relatedProject.stack.slice(0, 3).map((tech) => (
                         <span 
                           key={tech}
                           className="px-2 py-1 text-xs bg-secondary-100 text-secondary-600 rounded-md"
@@ -388,6 +391,11 @@ export default function ProjectDetailClient({ project, projectId }) {
                 </Link>
               ))}
             </div>
+          </section>
+        ) : (
+          <section className="mb-8 md:mb-16 mt-16 md:mt-28">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">Similar Projects</h2>
+            <div className="text-secondary-500 text-center py-8">No similar projects found.</div>
           </section>
         )}
       </div>

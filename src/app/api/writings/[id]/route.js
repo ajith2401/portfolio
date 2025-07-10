@@ -134,7 +134,7 @@ export async function GET(request, { params }) {
       console.error('Error incrementing view count:', err);
     });
     
-    // Return successful response
+    // Always include both _id and slug in the response
     return NextResponse.json({
       status: 'success',
       data: { writing },

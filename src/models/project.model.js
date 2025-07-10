@@ -283,6 +283,55 @@ ProjectSchema.statics.findBySlugOrId = async function(identifier) {
   return await this.findOne({ slug: identifier });
 };
 
+// Static method to get featured projects
+ProjectSchema.statics.getFeatured = async function(limit = 3) {
+  return await this.find({ 
+    status: 'published', 
+    featured: true 
+  })
+  .sort({ priority: -1, publishedAt: -1 })
+  .limit(limit)
+  .lean();
+};
+
+// Static method to get trending projects
+ProjectSchema.statics.getTrending = async function(limit = 5) {
+  return await this.find({ 
+    status: 'published', 
+    trending: true 
+  })
+  .sort({ 'performance.views': -1, publishedAt: -1 })
+  .limit(limit)
+  .lean();
+};
+
+// Static method to get popular projects by views
+ProjectSchema.statics.getPopular = async function(limit = 5) {
+  return await this.find({ status: 'published' })
+    .sort({ 'performance.views': -1 })
+    .limit(limit)
+    .lean();
+};
+
+// Static method to get recent projects
+ProjectSchema.statics.getRecent = async function(limit = 5) {
+  return await this.find({ status: 'published' })
+    .sort({ publishedAt: -1 })
+    .limit(limit)
+    .lean();
+};
+
+// Static method to get projects by category
+ProjectSchema.statics.getByCategory = async function(category, limit = 10) {
+  return await this.find({ 
+    status: 'published',
+    category: category 
+  })
+  .sort({ publishedAt: -1 })
+  .limit(limit)
+  .lean();
+};
+
 // Instance method to get full URL
 ProjectSchema.methods.getUrl = function() {
   return `/devfolio/${this.slug || this._id}`;

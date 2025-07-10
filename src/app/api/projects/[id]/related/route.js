@@ -118,6 +118,20 @@ export async function GET(request, { params }) {
       projects = projects.slice(0, limit);
     }
     
+    // Always include all card fields for related projects
+    projects = projects.map(project => ({
+      _id: project._id,
+      slug: project.slug,
+      title: project.title,
+      shortDescription: project.shortDescription,
+      images: project.images,
+      stack: project.stack,
+      category: project.category,
+      technologies: project.technologies,
+      featured: project.featured,
+      createdAt: project.createdAt
+    }));
+
     return NextResponse.json({
       status: 'success',
       data: { 

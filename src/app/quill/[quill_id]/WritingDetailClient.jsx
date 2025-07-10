@@ -11,6 +11,7 @@ import WritingSchema from '@/components/schema/WritingSchema';
 import SharedContentHeader from '@/components/layout/QuillPageHeader';
 import WordCard from '@/components/ui/card/WordCard'; 
 import { useGetCommentsQuery, useGetRelatedWritingsQuery } from '@/services/api';
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 // Safe localStorage access functions
 const getLocalStorage = (key, fallback) => {
@@ -272,7 +273,7 @@ const RelatedWritings = ({ relatedWritings, formatDate }) => {
     <>
       {relatedWritings.map((relatedWriting) => (
         <Link 
-          href={`/quill/${relatedWriting._id}?returnPage=${returnPage}`} 
+          href={`${getSafeUrl(relatedWriting, 'quill')}?returnPage=${returnPage}`} 
           key={relatedWriting._id}
           className="w-full group"
         >

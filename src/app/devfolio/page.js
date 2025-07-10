@@ -68,7 +68,22 @@ export default async function DevfolioPage() {
     .limit(100)
     .lean();
 
-  // Convert MongoDB documents to plain objects
+  // Convert MongoDB documents to plain objects and include slug
+  const safeProjects = projects.map(project => ({
+    _id: project._id.toString(),
+    slug: project.slug,
+    title: project.title,
+    shortDescription: project.shortDescription,
+    category: project.category,
+    technologies: project.technologies,
+    publishedAt: project.publishedAt,
+    images: project.images,
+    performance: project.performance,
+    featured: project.featured,
+    createdAt: project.createdAt?.toString(),
+    updatedAt: project.updatedAt?.toString()
+  }));
+
   return (
     <>
       {/* Add Developer Schema */}
@@ -98,7 +113,7 @@ export default async function DevfolioPage() {
       </div>
       
       <Suspense fallback={<DevfolioLoading />}>
-        <DevfolioClient initialProjects={JSON.parse(JSON.stringify(projects))} />
+        <DevfolioClient initialProjects={safeProjects} />
       </Suspense>
     </>
   );

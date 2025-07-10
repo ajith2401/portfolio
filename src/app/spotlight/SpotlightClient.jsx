@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ExternalLink, Book, Music, ChevronRight, ShoppingCart, X } from 'lucide-react';
 import { useGetBooksQuery } from '@/services/api';
+import { getSafeUrl } from '@/utils/slugGenerator';
 
 const SpotlightClient = ({ initialBooks = [], musicVideos = [] }) => {
   const [selectedBook, setSelectedBook] = useState(null);
@@ -97,7 +98,7 @@ const SpotlightClient = ({ initialBooks = [], musicVideos = [] }) => {
 
                   <div className="mt-6 pt-4 border-t border-secondary-200">
                     <Link
-                      href={`/spotlight/${book._id}`}
+                      href={getSafeUrl(book, 'spotlight')}
                       className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 transition-colors"
                     >
                       <span>View Details</span>
@@ -215,7 +216,7 @@ const SpotlightClient = ({ initialBooks = [], musicVideos = [] }) => {
 
                 <div className="pt-4">
                   <Link
-                    href={`/spotlight/${selectedBook._id}`}
+                    href={getSafeUrl(selectedBook, 'spotlight')}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                   >
                     <span>Read More</span>
