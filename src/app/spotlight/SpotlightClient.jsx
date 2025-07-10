@@ -56,7 +56,7 @@ const SpotlightClient = ({ initialBooks = [], musicVideos = [] }) => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {validBooks.map((book) => (
+              {validBooks.map((book, idx) => (
                 <article 
                   key={book._id}
                   className="group clean-container p-6 rounded-xl hover:shadow-lg transition-all duration-300
@@ -66,16 +66,15 @@ const SpotlightClient = ({ initialBooks = [], musicVideos = [] }) => {
                     className="flex-grow"
                     onClick={() => setSelectedBook(book)}
                   >
-                    <div className="relative h-80 mb-6 overflow-hidden rounded-lg">
+                    {/* Fixed aspect ratio container for book cover */}
+                    <div className="relative w-full aspect-[3/4] mb-6 overflow-hidden rounded-lg">
                       <Image
                         src={book.coverImage || '/images/fallback-cover.jpg'}
                         alt={book.title || 'Book cover'}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        onError={(e) => {
-                          console.error(`Failed to load image: ${book.coverImage}`);
-                          e.target.src = '/images/fallback-cover.jpg';
-                        }}
+                        priority={idx === 0}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div className="absolute bottom-4 left-4 right-4">

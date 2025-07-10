@@ -9,7 +9,7 @@ import { useGetTechBlogsQuery } from '@/services/api';
 import { useSearchParams } from 'next/navigation';
 import { getSafeUrl } from '@/utils/slugGenerator';
 
-const TechBlogCard = ({ post }) => {
+const TechBlogCard = ({ post, idx }) => {
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'long',
@@ -21,12 +21,14 @@ const TechBlogCard = ({ post }) => {
   return (
     <Link href={getSafeUrl(post, 'blog')} className="group">
       <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-background">
-        <div className="relative w-full aspect-video overflow-hidden">
+        {/* Fixed aspect ratio container for image */}
+        <div className="relative w-full aspect-[16/9] overflow-hidden">
           <Image
             src={post.images?.medium || '/placeholder.jpg'}
-            alt={post.title}
+            alt={post.title || 'Blog cover'}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
+            priority={idx === 0}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
@@ -234,8 +236,8 @@ export default function TechBlogClient({ initialPosts }) {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-foreground">
-            {posts.map(post => (
-              <TechBlogCard key={post._id} post={post} />
+            {posts.map((post, idx) => (
+              <TechBlogCard key={post._id} post={post} idx={idx} />
             ))}
           </div>
         )}

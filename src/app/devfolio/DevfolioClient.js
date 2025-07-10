@@ -198,7 +198,7 @@ const DevfolioClient = ({ initialProjects = [] }) => {
         {/* Projects Grid */}
         {!isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
+            {projects.map((project, idx) => (
               <article 
                 key={project._id} 
                 className="clean-container rounded-lg overflow-hidden group transition-all duration-300
@@ -210,14 +210,15 @@ const DevfolioClient = ({ initialProjects = [] }) => {
                   href={getSafeUrl(project, 'devfolio')} 
                   className="block"
                 >
-                  <div className="relative w-full h-48 overflow-hidden">
+                  {/* Fixed aspect ratio container for image */}
+                  <div className="relative w-full aspect-[16/9] overflow-hidden">
                     <Image
                       src={project.images?.medium || '/placeholder.jpg'}
-                      alt={project.title}
+                      alt={project.title || 'Project cover'}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      priority={false}
-                      quality={75}
+                      priority={idx === 0}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     {project.createdAt && (
                       <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
