@@ -188,6 +188,7 @@ export default async function BookDetailPage({ params }) {
   // Explicitly map related books to safe objects
   const safeRelatedBooks = relatedBooks.map(relatedBook => ({
     _id: relatedBook._id.toString(),
+    slug: relatedBook.slug || '',
     title: relatedBook.title || '',
     coverImage: relatedBook.coverImage || '',
     publisher: relatedBook.publisher || '',
