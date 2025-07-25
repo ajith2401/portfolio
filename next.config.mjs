@@ -19,7 +19,7 @@ const nextConfig = {
   swcMinify: true,
   optimizeFonts: true,
   
-  // FIXED: Removed problematic experimental features
+  // Experimental features for better performance and Unicode support
   experimental: {
     optimizePackageImports: [
       '@/components', 
@@ -27,8 +27,24 @@ const nextConfig = {
       'lucide-react', 
       'next/image'
     ],
-    serverComponentsExternalPackages: ['mongoose']
-    // REMOVED: optimizeCss - this was causing the critters error
+    serverComponentsExternalPackages: ['mongoose'],
+    // Enable better Unicode URL handling
+    urlImports: ['https://'],
+    typedRoutes: false
+  },
+
+  // Better Unicode and international URL support
+  i18n: undefined, // Disable i18n to allow Unicode slugs
+  
+  // URL handling configuration
+  async rewrites() {
+    return [
+      // Ensure proper handling of encoded URLs
+      {
+        source: '/quill/:slug*',
+        destination: '/quill/:slug*',
+      },
+    ];
   },
 
   // Image optimization for better Core Web Vitals

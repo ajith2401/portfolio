@@ -57,6 +57,7 @@ export async function GET(request) {
       category: 1,
       tags: 1,
       publishedAt: 1,
+      createdAt: 1,
       readTime: 1,
       images: 1,
       performance: 1,

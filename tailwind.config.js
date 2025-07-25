@@ -157,14 +157,37 @@ module.exports = {
       
 
       // Animation durations and keyframes
+      keyframes: {
+        shimmer: {
+          '0%': { backgroundPosition: '-400px 0' },
+          '100%': { backgroundPosition: '400px 0' },
+        },
+        morph: {
+          '0%, 100%': { borderRadius: '40% 60% 60% 40% / 40% 40% 60% 60%' },
+          '50%': { borderRadius: '60% 40% 40% 60% / 60% 60% 40% 40%' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-12px)' },
+        },
+        glow: {
+          '0%, 100%': { boxShadow: '0 0 16px 4px #a78bfa, 0 0 32px 8px #8ec5fc' },
+          '50%': { boxShadow: '0 0 32px 8px #a78bfa, 0 0 16px 4px #8ec5fc' },
+        },
+      },
       animation: {
-        'pulse': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float': 'float 8s ease-in-out infinite',
-        'twinkle': 'twinkle 3s ease-in-out infinite',
-        'spin-slow': 'spin 10s linear infinite',
-        'slide-up': 'slideUp 0.3s ease-out forwards',
-        'slide-down': 'slideDown 0.3s ease-out forwards',
-        'fade-in': 'fadeIn 0.3s ease-in-out forwards',
+        shimmer: 'shimmer 2s linear infinite',
+        morph: 'morph 8s ease-in-out infinite',
+        float: 'float 6s ease-in-out infinite',
+        glow: 'glow 2s ease-in-out infinite',
+      },
+      boxShadow: {
+        glass: '0 4px 32px 0 rgba(168,139,250,0.12), 0 1.5px 8px 0 rgba(255,255,255,0.18) inset',
+        glow: '0 0 16px 4px #a78bfa, 0 0 32px 8px #8ec5fc',
+        premium: '0 0 0 4px #e9d5ff, 0 4px 32px 0 rgba(168,139,250,0.12)',
+      },
+      transitionTimingFunction: {
+        'in-out-cubic': 'cubic-bezier(0.77,0,0.175,1)',
       },
 
       // Screen breakpoints

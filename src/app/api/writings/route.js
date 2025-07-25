@@ -89,7 +89,7 @@ export async function GET(request) {
     
     // Only select needed fields for the listing
     const writings = await Writing.find(query)
-      .select('title slug excerpt images publishedAt category averageRating totalRatings status featured trending performance')
+      .select('title slug excerpt images publishedAt createdAt category averageRating totalRatings status featured trending performance')
       .sort(sort)
       .skip(skip)
       .limit(limit)

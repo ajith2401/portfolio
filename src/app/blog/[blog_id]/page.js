@@ -87,7 +87,7 @@ export async function generateMetadata({ params }) {
       authors: [{ name: techBlog.author?.name || 'Ajithkumar R' }],
       creator: techBlog.author?.name || 'Ajithkumar R',
       publisher: 'Ajithkumar R',
-      robots: accessType === 'objectId' ? 'noindex, nofollow' : 'index, follow',
+      robots: accessType === 'objectId' ? 'noindex, nofollow, noarchive, nosnippet' : 'index, follow',
       canonical: canonicalUrl,
       openGraph: {
         title: techBlog.seo?.ogTitle || techBlog.title,
@@ -188,10 +188,8 @@ export default async function BlogDetailPage({ params }) {
     return notFound();
   }
   
-  // If accessed by ObjectId but has slug, redirect to slug URL
-  if (accessType === 'objectId' && techBlog.slug) {
-    redirect(`/blog/${techBlog.slug}`);
-  }
+  // Don't redirect ObjectId URLs to avoid "Page with redirect" SEO issues
+  // Instead, let canonical URLs and robots.txt handle proper indexing
   
   // Convert MongoDB _id to string for client component
   const techBlogData = {

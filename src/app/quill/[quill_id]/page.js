@@ -40,9 +40,22 @@ async function getWriting(quill_id) {
     
     let writing;
     
-    // First, try to find by slug
+    // First, try to find by slug with better Unicode handling
     if (!isObjectId(quill_id)) {
-      const decodedSlug = decodeURIComponent(quill_id).trim();
+      let decodedSlug;
+      try {
+        // Handle double/triple encoding that can happen with Tamil characters
+        decodedSlug = decodeURIComponent(quill_id);
+        // Try again if it's still URL encoded
+        if (decodedSlug.includes('%')) {
+          decodedSlug = decodeURIComponent(decodedSlug);
+        }
+        decodedSlug = decodedSlug.trim();
+      } catch (error) {
+        console.error('Error decoding slug:', error);
+        decodedSlug = quill_id.trim();
+      }
+      
       writing = await withTimeout(
         Writing.findOne({ 
           slug: decodedSlug,
@@ -94,7 +107,17 @@ export async function generateMetadata({ params }) {
       if (writing) result = { writing, accessType: 'objectId' };
     }
     if (!result) {
-      const decodedSlug = decodeURIComponent(quill_id).trim();
+      let decodedSlug;
+      try {
+        decodedSlug = decodeURIComponent(quill_id);
+        if (decodedSlug.includes('%')) {
+          decodedSlug = decodeURIComponent(decodedSlug);
+        }
+        decodedSlug = decodedSlug.trim();
+      } catch (error) {
+        console.error('Error decoding slug in metadata:', error);
+        decodedSlug = quill_id.trim();
+      }
       const writing = await withTimeout(Writing.findOne({ slug: decodedSlug, status: 'published' }).lean());
       if (writing) result = { writing, accessType: 'slug' };
     }
@@ -120,7 +143,7 @@ export async function generateMetadata({ params }) {
       authors: [{ name: 'Ajithkumar R' }],
       creator: 'Ajithkumar R',
       publisher: 'Ajithkumar R',
-      robots: accessType === 'objectId' ? 'noindex, nofollow' : 'index, follow',
+      robots: accessType === 'objectId' ? 'noindex, nofollow, noarchive, nosnippet' : 'index, follow',
       canonical: canonicalUrl,
       openGraph: {
         title: writing.seo?.ogTitle || writing.title,
@@ -166,18 +189,24 @@ export default async function WritingDetailPage({ params }) {
   const { quill_id } = params;
   
   try {
+    // Add additional URL validation for Tamil characters
+    if (!quill_id || typeof quill_id !== 'string') {
+      console.error('Invalid quill_id parameter:', quill_id);
+      return notFound();
+    }
+
     const result = await getWriting(quill_id);
     
     if (!result) {
+      console.log(`[404] Writing not found for quill_id: ${quill_id}`);
       return notFound();
     }
     
     const { writing, accessType } = result;
     
-    // If accessed by ObjectId but has slug, redirect to slug URL
-    if (accessType === 'objectId' && writing.slug) {
-      redirect(`/quill/${writing.slug}`);
-    }
+    // Don't redirect ObjectId URLs to avoid "Page with redirect" SEO issues
+    // Instead, let canonical URLs and robots.txt handle proper indexing
+    // The metadata will point to the correct canonical URL
     
     // Convert MongoDB _id to string for client component and safely serialize dates
     const writingData = {

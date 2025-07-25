@@ -244,12 +244,25 @@ const QuillClientPage = () => {
     return `${words.join(' ')}${hasMoreWords ? ' ...' : ''}`;
   };
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+  // Import shared date utility
+  const formatDate = (dateInput) => {
+    if (!dateInput) return 'No date available';
+    
+    try {
+      const date = new Date(dateInput);
+      if (isNaN(date.getTime())) {
+        return 'Invalid date';
+      }
+      
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch (error) {
+      console.error('Date formatting error:', error);
+      return 'Date unavailable';
+    }
   };
 
   if (!isMounted) {
@@ -419,6 +432,13 @@ const QuillClientPage = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 text-foreground">
             {writings.map((writing) => (
+          <article 
+          key={writing._id} 
+          className="clean-container rounded-lg overflow-hidden group transition-all duration-300
+            hover:shadow-[var(--card-hover-shadow)] 
+            hover:translate-y-[var(--card-hover-transform)]
+            cursor-pointer"
+          >
               <Link 
                 href={`${getSafeUrl(writing, 'quill')}?returnPage=${currentPage}`} 
                 key={writing._id}
@@ -462,7 +482,7 @@ const QuillClientPage = () => {
 
                     {/* Date */}
                     <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                      {formatDate(writing.createdAt)}
+                      {formatDate(writing.publishedAt || writing.createdAt)}
                     </span>
                   </div>
                   
@@ -491,6 +511,7 @@ const QuillClientPage = () => {
                   <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
                 </div>
               </Link>
+              </article>
             ))}
           </div>
         )}

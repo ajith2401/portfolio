@@ -90,8 +90,8 @@ const SubscriptionForm = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black bg-opacity-50 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-md clean-container rounded-xl p-6 shadow-lg animate-fade-in-up">
+    <div className="subscription-modal-overlay fixed inset-0 z-[9999] flex items-center justify-center px-4 bg-black bg-opacity-50 backdrop-blur-sm animate-fade-in">
+      <div className="subscription-modal-content relative w-full max-w-md clean-container rounded-xl p-6 shadow-lg animate-fade-in-up z-[10000]">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -120,10 +120,11 @@ const SubscriptionForm = ({ onClose }) => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full px-4 py-2 rounded-lg bg-background border ${
-                errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-700'
-              } focus:outline-none focus:ring-2 focus:ring-primary-500`}
+              className={`w-full px-4 py-3 rounded-lg bg-white border-2 ${
+                errors.email ? 'border-red-500' : 'border-purple-200 dark:border-gray-700'
+              } focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 relative z-[10001]`}
               placeholder="your@email.com"
+              autoComplete="email"
             />
             {errors.email && (
               <p className="mt-1 text-sm text-red-500">{errors.email}</p>

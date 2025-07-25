@@ -101,7 +101,7 @@ export default async function sitemap() {
       }
     ];
 
-    // Tech blog routes
+    // Tech blog routes - ensure only slug URLs are included
     const techBlogRoutes = techBlogs
       .filter(blog => blog.slug && blog.title.trim().length > 0)
       .map((blog) => ({
@@ -117,7 +117,7 @@ export default async function sitemap() {
         }] : undefined
       }));
 
-    // Writing routes - higher priority as you're primarily a writer
+    // Writing routes - higher priority as you're primarily a writer (only slug URLs)
     const writingRoutes = writings
       .filter(writing => writing.slug && writing.title.trim().length > 0)
       .map((writing) => ({

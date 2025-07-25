@@ -77,69 +77,43 @@ const BackgroundVectors = () => {
 
   return (
     <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+      {/* Layered radial gradients for depth */}
       <div
         className="absolute inset-0 w-full h-full transition-colors duration-1000"
         style={{
           background: isDark
             ? '#0f172a'
-            : 'linear-gradient(to bottom, #a4d4fa, #ffffff)',
+            : 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
         }}
       />
-
+      {/* Extra radial overlays for premium look */}
+      <div className="absolute inset-0 opacity-30" style={{background: 'radial-gradient(circle at 70% 10%, #e0c3fc 0%, transparent 50%)'}} />
+      <div className="absolute inset-0 opacity-20" style={{background: 'radial-gradient(circle at 30% 80%, #a78bfa 0%, transparent 50%)'}} />
+      {/* Morphing blobs */}
       {isDark ? (
         <>
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              background: 'radial-gradient(circle at 70% 20%, #1e3a8a 0%, transparent 50%)',
-            }}
-          />
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              background: 'radial-gradient(circle at 30% 80%, #5b21b6 0%, transparent 50%)',
-            }}
-          />
+          <div className="morph-blob" style={{top: '10%', left: '5%', width: '320px', height: '220px'}} />
+          <div className="morph-blob" style={{bottom: '8%', right: '8%', width: '260px', height: '180px'}} />
         </>
       ) : (
         <>
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              background: 'radial-gradient(circle at 70% 10%, #fde68a 0%, transparent 50%)',
-            }}
-          />
-          <div
-            className="absolute bottom-0 w-full h-1/3 opacity-20"
-            style={{
-              background: 'linear-gradient(to top, #a7f3d0, transparent)',
-            }}
-          />
+          <div className="morph-blob-light" style={{top: '8%', left: '4%', width: '340px', height: '240px'}} />
+          <div className="morph-blob-light" style={{bottom: '10%', right: '10%', width: '280px', height: '200px'}} />
+          <div className="morph-blob-light" style={{top: '40%', left: '60%', width: '180px', height: '120px'}} />
         </>
       )}
-
-      {/* Stars - only visible in dark mode */}
-      <div
-        className="absolute inset-0 transition-opacity duration-1000"
-        style={{ opacity: isDark ? 1 : 0 }}
-      >
-        {stars.map((star) => (
-          <div
-            key={star.id}
-            className="absolute bg-white rounded-full animate-twinkle"
-            style={{
-              left: star.left,
-              top: star.top,
-              width: `${star.size}px`,
-              height: `${star.size}px`,
-              opacity: star.opacity,
-              animationDuration: star.animationDuration,
-              animationDelay: star.animationDelay,
-            }}
-          />
-        ))}
-
-        {/* Shooting stars */}
+      {/* Floating particles */}
+      {(isDark ? [...Array(18)] : [...Array(28)]).map((_, i) => (
+        <div key={i} className={isDark ? 'particle' : 'particle-light'} style={{
+          top: `${Math.random()*90}%`,
+          left: `${Math.random()*90}%`,
+          width: `${isDark ? 12 : 18 + Math.random()*18}px`,
+          height: `${isDark ? 12 : 18 + Math.random()*18}px`,
+          animationDelay: `${Math.random()*8}s`,
+        }} />
+      ))}
+      {/* Shooting stars - visible in both modes */}
+      <div className="absolute inset-0 transition-opacity duration-1000">
         {shootingStars.map((star, index) => (
           <span
             key={star.id}
@@ -148,13 +122,12 @@ const BackgroundVectors = () => {
               right: star.right,
               animationDelay: star.delay,
               animationDuration: star.duration,
-              '--trail-length': `${star.trailLength}px`
+              '--trail-length': `${star.trailLength}px`,
             }}
-            className="shooting-star"
+            className={isDark ? 'shooting-star' : 'shooting-star-light'}
           />
         ))}
       </div>
-
       {/* Clouds - only visible in light mode */}
       <div
         className="absolute inset-0 transition-opacity duration-1000"

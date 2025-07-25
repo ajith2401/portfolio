@@ -4,7 +4,7 @@ import React from 'react';
 export function Card({ className = '', ...props }) {
   return (
     <div
-      className={`rounded-lg border border-gray-200 bg-white shadow-sm ${className}`}
+      className={`glass-card shimmer premium-border glow-on-hover glass-card-light shimmer-light premium-border-light glow-on-hover-light ${className}`}
       {...props}
     />
   );

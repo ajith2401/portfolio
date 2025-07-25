@@ -11,10 +11,10 @@ const Button = ({
   const baseStyles = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-400 disabled:pointer-events-none disabled:opacity-50';
   
   const variants = {
-    default: 'bg-primary text-white hover:bg-primary/90',
-    outline: 'border border-input bg-transparent hover:bg-accent hover:text-accent-foreground',
-    ghost: 'hover:bg-accent hover:text-accent-foreground',
-    destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+    default: 'glass-btn glow-on-hover transition-cubic glass-btn-light glow-on-hover-light',
+    outline: 'glass-btn bg-white text-xefag-600 border border-xefag-400 hover:bg-xefag-50 transition-cubic glass-btn-light glow-on-hover-light',
+    ghost: 'hover:bg-xefag-50 text-xefag-600',
+    destructive: 'bg-red-500 text-white hover:bg-red-600',
   };
 
   const sizes = {

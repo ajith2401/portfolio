@@ -10,15 +10,36 @@ import { useSearchParams } from 'next/navigation';
 import { getSafeUrl } from '@/utils/slugGenerator';
 
 const TechBlogCard = ({ post, idx }) => {
-  const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
-    });
+
+  const formatDate = (dateInput) => {
+    if (!dateInput) return 'No date available';
+    
+    try {
+      const date = new Date(dateInput);
+      if (isNaN(date.getTime())) {
+        return 'Invalid date';
+      }
+      
+      return date.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    } catch (error) {
+      console.error('Date formatting error:', error);
+      return 'Date unavailable';
+    }
   };
 
   return (
+    
+    <article 
+    key={post._id} 
+    className="clean-container rounded-lg overflow-hidden group transition-all duration-300
+      hover:shadow-[var(--card-hover-shadow)] 
+      hover:translate-y-[var(--card-hover-transform)]
+      cursor-pointer"
+    >
     <Link href={getSafeUrl(post, 'blog')} className="group">
       <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-background">
         {/* Fixed aspect ratio container for image */}
@@ -43,11 +64,12 @@ const TechBlogCard = ({ post, idx }) => {
             {post.subtitle || post.content?.substring(0, 150)}
           </p>
           <div className="mt-4 text-sm text-gray-500 font-work-sans">
-            {formatDate(post.createdAt)}
+            {formatDate(post.publishedAt || post.createdAt)}
           </div>
         </div>
       </div>
     </Link>
+    </article>
   );
 };
 

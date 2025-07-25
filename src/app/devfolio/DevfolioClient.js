@@ -220,10 +220,17 @@ const DevfolioClient = ({ initialProjects = [] }) => {
                       priority={idx === 0}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                    {project.createdAt && (
+                    {(project.publishedAt || project.createdAt) && (
                       <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
                         <span className="text-sm font-work-sans text-foreground">
-                          {new Date(project.createdAt).getFullYear()}
+                          {(() => {
+                            try {
+                              const date = new Date(project.publishedAt || project.createdAt);
+                              return isNaN(date.getTime()) ? '—' : date.getFullYear();
+                            } catch {
+                              return '—';
+                            }
+                          })()}
                         </span>
                       </div>
                     )}

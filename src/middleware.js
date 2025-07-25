@@ -47,24 +47,36 @@ export function middleware(request) {
   const segments = pathname.split('/').filter(Boolean);
   const [section, identifier] = segments;
 
-  // 1. Force www redirect for SEO consistency (highest priority)
-  if (!hostname.startsWith('www.') && 
-      !hostname.includes('localhost') && 
-      !hostname.includes('127.0.0.1') &&
-      !hostname.includes('vercel.app') &&
-      !hostname.includes('preview')) {
+  // 1. Force HTTPS and www redirect for SEO consistency (highest priority)
+  const protocol = request.headers.get('x-forwarded-proto') || url.protocol.slice(0, -1);
+  const needsHttpsRedirect = protocol !== 'https' && 
+                           !hostname.includes('localhost') && 
+                           !hostname.includes('127.0.0.1');
+  const needsWwwRedirect = !hostname.startsWith('www.') && 
+                          !hostname.includes('localhost') && 
+                          !hostname.includes('127.0.0.1') &&
+                          !hostname.includes('vercel.app') &&
+                          !hostname.includes('preview');
+
+  if (needsHttpsRedirect || needsWwwRedirect) {
+    const redirectUrl = new URL(url);
     
-    const wwwUrl = new URL(url);
-    wwwUrl.hostname = `www.${hostname}`;
+    if (needsHttpsRedirect) {
+      redirectUrl.protocol = 'https:';
+    }
+    
+    if (needsWwwRedirect) {
+      redirectUrl.hostname = hostname.startsWith('www.') ? hostname : `www.${hostname}`;
+    }
     
     // Log the redirect for monitoring
-    console.log(`[REDIRECT] ${clientIP} | ${pathname} -> www.${hostname}${pathname}`);
+    console.log(`[REDIRECT] ${clientIP} | ${protocol}://${hostname}${pathname} -> ${redirectUrl.toString()}`);
     
-    return NextResponse.redirect(wwwUrl, {
+    return NextResponse.redirect(redirectUrl, {
       status: 301,
       headers: {
-        'Cache-Control': 'public, max-age=3600',
-        'X-Robots-Tag': 'noindex' // Prevent indexing during redirect
+        'Cache-Control': 'public, max-age=31536000', // 1 year for HTTPS/www redirects
+        'X-Robots-Tag': 'noindex, nofollow' // Prevent indexing during redirect
       }
     });
   }
@@ -101,25 +113,15 @@ export function middleware(request) {
         );
       }
       
-      // For other ObjectId URLs, return 404 with proper SEO headers
-      console.log(`[404] ${clientIP} | ObjectId URL: ${pathname} | UA: ${userAgent.substring(0, 50)}`);
+      // For other ObjectId URLs, let them pass through but mark as noindex
+      console.log(`[NOINDEX] ${clientIP} | ObjectId URL: ${pathname} | UA: ${userAgent.substring(0, 50)}`);
       
-      return new NextResponse(
-        JSON.stringify({
-          error: 'Not Found',
-          message: 'This URL format is no longer supported. Please use the site navigation to find content.',
-          timestamp: new Date().toISOString(),
-          suggestion: `Visit https://www.ajithkumarr.com/${section}/ to browse content.`
-        }),
-        {
-          status: 404,
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Robots-Tag': 'noindex, nofollow, noarchive',
-            'Cache-Control': 'no-cache, no-store, must-revalidate'
-          }
-        }
-      );
+      const response = NextResponse.next();
+      response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+      response.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+      response.headers.set('Pragma', 'no-cache');
+      response.headers.set('Expires', '0');
+      return response;
     }
     // If it's NOT an ObjectId (i.e., it's a slug), let it pass through normally
   }
