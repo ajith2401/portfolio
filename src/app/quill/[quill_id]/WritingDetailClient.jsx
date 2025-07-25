@@ -209,8 +209,11 @@ const MarkdownRenderer = ({ content }) => {
            <Image
             src={imageUrl} 
             alt={altText} 
+            width={800}
+            height={600}
             className="max-w-full h-auto rounded mx-auto" 
             style={{ display: 'block' }}
+            unoptimized={true}
           />
         </div>
       );
@@ -327,19 +330,52 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
   // Initialize with pre-fetched writing data
   const [writing] = useState(initialWriting);
   const [isMounted, setIsMounted] = useState(false);
+  const [error, setError] = useState(null);
   
   // Mount check to ensure we're running in the browser
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Error boundary effect
+  useEffect(() => {
+    const handleError = (error) => {
+      console.error('WritingDetailClient error:', error);
+      setError(error.message || 'An unexpected error occurred');
+    };
+
+    window.addEventListener('error', handleError);
+    window.addEventListener('unhandledrejection', (event) => {
+      handleError(new Error(event.reason));
+    });
+
+    return () => {
+      window.removeEventListener('error', handleError);
+      window.removeEventListener('unhandledrejection', handleError);
+    };
+  }, []);
   
-  // Use RTK Query hooks
-  const { data: comments = [] } = useGetCommentsQuery({
+  // Use RTK Query hooks with error handling
+  const { data: comments = [], error: commentsError } = useGetCommentsQuery({
     contentType: 'Writing',
     contentId: quillId
+  }, {
+    skip: !isMounted || !quillId
   });
   
-  const { data: relatedWritings = [] } = useGetRelatedWritingsQuery(quillId);
+  const { data: relatedWritings = [], error: relatedError } = useGetRelatedWritingsQuery(quillId, {
+    skip: !isMounted || !quillId
+  });
+
+  // Handle API errors
+  useEffect(() => {
+    if (commentsError) {
+      console.warn('Comments loading error:', commentsError);
+    }
+    if (relatedError) {
+      console.warn('Related writings loading error:', relatedError);
+    }
+  }, [commentsError, relatedError]);
 
   // Format date function
   const formatDate = (dateString) => { 
@@ -356,6 +392,23 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
       return '';
     }
   };
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Something went wrong</h1>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Refresh Page
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (!writing) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;

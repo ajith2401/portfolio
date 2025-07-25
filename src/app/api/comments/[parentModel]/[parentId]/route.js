@@ -7,6 +7,17 @@ import { NextResponse } from "next/server";
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const maxDuration = 10; // Maximum execution time for Vercel
+
+// Timeout wrapper for database operations
+const withTimeout = (promise, timeoutMs = 8000) => {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Database operation timeout')), timeoutMs);
+    })
+  ]);
+};
 
 export async function GET(request, { params }) {
   try {
@@ -22,8 +33,8 @@ export async function GET(request, { params }) {
       }, { status: 400 });
     }
     
-    // Find comments
-    const comments = await Comment.findByParent(parentId, parentModel);
+    // Find comments with timeout
+    const comments = await withTimeout(Comment.findByParent(parentId, parentModel));
     
     return NextResponse.json(comments);
   } catch (error) {

@@ -24,6 +24,16 @@ function logPageAccess(identifier, accessType, userAgent) {
   console.log(`[PAGE] ${timestamp} | /quill/${identifier} | ${accessType} | UA: ${userAgent?.substring(0, 50) || 'unknown'}`);
 }
 
+// Timeout wrapper for database operations
+const withTimeout = (promise, timeoutMs = 8000) => {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Database operation timeout')), timeoutMs);
+    })
+  ]);
+};
+
 async function getWriting(quill_id) {
   try {
     await connectDB();
@@ -33,10 +43,12 @@ async function getWriting(quill_id) {
     // First, try to find by slug
     if (!isObjectId(quill_id)) {
       const decodedSlug = decodeURIComponent(quill_id).trim();
-      writing = await Writing.findOne({ 
-        slug: decodedSlug,
-        status: 'published'
-      }).lean();
+      writing = await withTimeout(
+        Writing.findOne({ 
+          slug: decodedSlug,
+          status: 'published'
+        }).lean()
+      );
       
       if (writing) {
         logPageAccess(decodedSlug, 'SLUG-SUCCESS', '');
@@ -46,10 +58,12 @@ async function getWriting(quill_id) {
     
     // If not found by slug and it's a valid ObjectId, try ObjectId
     if (isObjectId(quill_id)) {
-      writing = await Writing.findOne({ 
-        _id: quill_id,
-        status: 'published'
-      }).lean();
+      writing = await withTimeout(
+        Writing.findOne({ 
+          _id: quill_id,
+          status: 'published'
+        }).lean()
+      );
       
       if (writing) {
         logPageAccess(quill_id, 'OBJECTID-SUCCESS', '');
@@ -72,14 +86,16 @@ export async function generateMetadata({ params }) {
   const { quill_id } = params;
   
   try {
+    await connectDB();
+    
     let result = null;
     if (mongoose.Types.ObjectId.isValid(quill_id)) {
-      const writing = await Writing.findById(quill_id).lean();
+      const writing = await withTimeout(Writing.findById(quill_id).lean());
       if (writing) result = { writing, accessType: 'objectId' };
     }
     if (!result) {
       const decodedSlug = decodeURIComponent(quill_id).trim();
-      const writing = await Writing.findOne({ slug: decodedSlug, status: 'published' }).lean();
+      const writing = await withTimeout(Writing.findOne({ slug: decodedSlug, status: 'published' }).lean());
       if (writing) result = { writing, accessType: 'slug' };
     }
     if (!result) {
@@ -148,42 +164,38 @@ export async function generateMetadata({ params }) {
 // Main page component
 export default async function WritingDetailPage({ params }) {
   const { quill_id } = params;
-  let writing = null;
-  let accessType = null;
-
-  if (mongoose.Types.ObjectId.isValid(quill_id)) {
-    try {
-      writing = await Writing.findById(quill_id).lean();
-      if (writing) accessType = 'objectId';
-    } catch (e) {}
-  }
-  if (!writing) {
-    const decodedSlug = decodeURIComponent(quill_id).trim();
-    writing = await Writing.findOne({ slug: decodedSlug }).lean();
-    if (writing) accessType = 'slug';
-  }
-  if (!writing) {
+  
+  try {
+    const result = await getWriting(quill_id);
+    
+    if (!result) {
+      return notFound();
+    }
+    
+    const { writing, accessType } = result;
+    
+    // If accessed by ObjectId but has slug, redirect to slug URL
+    if (accessType === 'objectId' && writing.slug) {
+      redirect(`/quill/${writing.slug}`);
+    }
+    
+    // Convert MongoDB _id to string for client component and safely serialize dates
+    const writingData = {
+      ...writing,
+      _id: writing._id.toString(),
+      createdAt: safeDate(writing.createdAt),
+      updatedAt: safeDate(writing.updatedAt),
+      publishedAt: safeDate(writing.publishedAt),
+      lastModified: safeDate(writing.lastModified)
+    };
+    
+    return (
+      <WritingDetailClient initialWriting={writingData} quillId={writing._id.toString()} />
+    );
+  } catch (error) {
+    console.error('Error in WritingDetailPage:', error);
     return notFound();
   }
-  
-  // If accessed by ObjectId but has slug, redirect to slug URL
-  if (accessType === 'objectId' && writing.slug) {
-    redirect(`/quill/${writing.slug}`);
-  }
-  
-  // Convert MongoDB _id to string for client component and safely serialize dates
-  const writingData = {
-    ...writing,
-    _id: writing._id.toString(),
-    createdAt: safeDate(writing.createdAt),
-    updatedAt: safeDate(writing.updatedAt),
-    publishedAt: safeDate(writing.publishedAt),
-    lastModified: safeDate(writing.lastModified)
-  };
-  
-  return (
-    <WritingDetailClient initialWriting={writingData} quillId={writing._id.toString()} />
-  );
 }
 
 // Generate static params for better performance (optional)
@@ -192,13 +204,15 @@ export async function generateStaticParams() {
     await connectDB();
     
     // Only generate for published writings with slugs
-    const writings = await Writing.find({ 
-      status: 'published',
-      slug: { $exists: true, $ne: null, $ne: '' }
-    })
-    .select('slug')
-    .limit(100) // Limit for build performance
-    .lean();
+    const writings = await withTimeout(
+      Writing.find({ 
+        status: 'published',
+        slug: { $exists: true, $ne: null, $ne: '' }
+      })
+      .select('slug')
+      .limit(100) // Limit for build performance
+      .lean()
+    );
     
     return writings.map((writing) => ({
       quill_id: writing.slug,
@@ -209,6 +223,7 @@ export async function generateStaticParams() {
   }
 }
 
-// Configure dynamic behavior
+// Configure dynamic behavior for Vercel
 export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
+export const maxDuration = 10; // Max execution time in seconds for Vercel

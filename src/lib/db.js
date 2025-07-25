@@ -15,14 +15,15 @@ if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }
 
-// Connection options for better performance and reliability (UPDATED: removed deprecated options)
+// Connection options optimized for Vercel serverless environment
 const connectionOptions = {
-  maxPoolSize: 10, // Maintain up to 10 socket connections
-  serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+  maxPoolSize: 5, // Reduced pool size for serverless
+  serverSelectionTimeoutMS: 10000, // Increased to 10 seconds for cold starts
+  socketTimeoutMS: 60000, // Increased to 60 seconds for longer operations
+  connectTimeoutMS: 10000, // Explicit connection timeout
   family: 4, // Use IPv4, skip trying IPv6
   retryWrites: true
-  // 'w' removed for compatibility with ConnectOptions
+  // Note: bufferCommands and bufferMaxEntries are mongoose options, not MongoDB connection options
 };
 
 async function connectDB() {
@@ -33,6 +34,10 @@ async function connectDB() {
 
   // If we don't have a promise, create one
   if (!cached.promise) {
+    // Set mongoose buffer options for serverless
+    mongoose.set('bufferCommands', false);
+    mongoose.set('bufferMaxEntries', 0);
+    
     cached.promise = mongoose.connect(MONGODB_URI, connectionOptions).then((mongoose) => {
       console.log('✅ MongoDB connected successfully');
       

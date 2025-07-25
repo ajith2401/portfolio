@@ -5,25 +5,38 @@ import { Writing } from '@/models';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const maxDuration = 10; // Maximum execution time for Vercel
+
+// Timeout wrapper for database operations
+const withTimeout = (promise, timeoutMs = 8000) => {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Database operation timeout')), timeoutMs);
+    })
+  ]);
+};
 
 export async function GET(request, { params }) {
   try {
     await connectDB();
     
-    const writing = await Writing.findById(params.id);
+    const writing = await withTimeout(Writing.findById(params.id));
     if (!writing) {
       return NextResponse.json({ error: 'Writing not found' }, { status: 404 });
     }
     
     // First attempt: Find writings in the same category, excluding the current one
-    let relatedWritings = await Writing.find({
-      _id: { $ne: params.id },
-      category: writing.category,
-      // Only include published items if applicable
-      ...(writing.status === 'published' ? { status: 'published' } : {})
-    })
-    .sort({ createdAt: -1 })
-    .limit(5); // Get more than we need to filter
+    let relatedWritings = await withTimeout(
+      Writing.find({
+        _id: { $ne: params.id },
+        category: writing.category,
+        // Only include published items if applicable
+        ...(writing.status === 'published' ? { status: 'published' } : {})
+      })
+      .sort({ createdAt: -1 })
+      .limit(5) // Get more than we need to filter
+    );
     
     // Exclude the most recent 2 writings to avoid showing the latest ones
     if (relatedWritings.length > 3) {
@@ -40,13 +53,15 @@ export async function GET(request, { params }) {
         .join(' ');
       
       // Find writings with similar content using text search
-      const textSearchResults = await Writing.find({
-        _id: { $ne: params.id },
-        $text: { $search: searchTerms },
-        ...(writing.status === 'published' ? { status: 'published' } : {})
-      })
-      .sort({ score: { $meta: 'textScore' } })
-      .limit(10);
+      const textSearchResults = await withTimeout(
+        Writing.find({
+          _id: { $ne: params.id },
+          $text: { $search: searchTerms },
+          ...(writing.status === 'published' ? { status: 'published' } : {})
+        })
+        .sort({ score: { $meta: 'textScore' } })
+        .limit(10)
+      );
       
       // Combine results, maintaining uniqueness
       const existingIds = new Set(relatedWritings.map(w => w._id.toString()));
@@ -62,13 +77,15 @@ export async function GET(request, { params }) {
     
     // If we still don't have enough, get random writings from different categories
     if (relatedWritings.length < 3) {
-      const randomWritings = await Writing.find({
-        _id: { $ne: params.id },
-        category: { $ne: writing.category },
-        ...(writing.status === 'published' ? { status: 'published' } : {})
-      })
-      .sort({ averageRating: -1 }) // Sort by highest rating
-      .limit(5);
+      const randomWritings = await withTimeout(
+        Writing.find({
+          _id: { $ne: params.id },
+          category: { $ne: writing.category },
+          ...(writing.status === 'published' ? { status: 'published' } : {})
+        })
+        .sort({ averageRating: -1 }) // Sort by highest rating
+        .limit(5)
+      );
       
       // Add unique random writings to fill gaps
       const existingIds = new Set(relatedWritings.map(w => w._id.toString()));
