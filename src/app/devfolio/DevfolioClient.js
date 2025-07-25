@@ -199,16 +199,16 @@ const DevfolioClient = ({ initialProjects = [] }) => {
         {!isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, idx) => (
-              <article 
-                key={project._id} 
-                className="clean-container rounded-lg overflow-hidden group transition-all duration-300
-                  hover:shadow-[var(--card-hover-shadow)] 
-                  hover:translate-y-[var(--card-hover-transform)]
-                  cursor-pointer"
+              <Link 
+                href={getSafeUrl(project, 'devfolio')} 
+                key={project._id}
+                className="block w-full"
               >
-                <Link 
-                  href={getSafeUrl(project, 'devfolio')} 
-                  className="block"
+                <div 
+                  className="clean-container rounded-lg overflow-hidden group transition-all duration-300
+                    hover:shadow-[var(--card-hover-shadow)] 
+                    hover:translate-y-[var(--card-hover-transform)]
+                    cursor-pointer"
                 >
                   {/* Fixed aspect ratio container for image */}
                   <div className="relative w-full aspect-[16/9] overflow-hidden">
@@ -280,7 +280,6 @@ const DevfolioClient = ({ initialProjects = [] }) => {
                       </div>
                     )}
                   </div>
-                </Link>
                 
                 <div className="flex justify-between items-center px-6 pb-6">
                   <div className="flex gap-4">
@@ -310,7 +309,8 @@ const DevfolioClient = ({ initialProjects = [] }) => {
                     )}
                   </div>
                 </div>
-              </article>
+                </div>
+              </Link>
             ))}
           </div>
         )}

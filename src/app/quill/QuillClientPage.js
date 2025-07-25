@@ -432,18 +432,17 @@ const QuillClientPage = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 text-foreground">
             {writings.map((writing) => (
+              <Link 
+                href={`${getSafeUrl(writing, 'quill')}?returnPage=${currentPage}`} 
+                key={writing._id}
+                className="block w-full"
+              >
           <article 
-          key={writing._id} 
           className="clean-container rounded-lg overflow-hidden group transition-all duration-300
             hover:shadow-[var(--card-hover-shadow)] 
             hover:translate-y-[var(--card-hover-transform)]
             cursor-pointer"
           >
-              <Link 
-                href={`${getSafeUrl(writing, 'quill')}?returnPage=${currentPage}`} 
-                key={writing._id}
-                className="w-full md:w-[410.67px] group"
-              >
                 <div className="flex flex-col gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out bg-background
                   hover:shadow-[var(--card-hover-shadow)] 
                   hover:translate-y-[var(--card-hover-transform)] 
@@ -510,8 +509,8 @@ const QuillClientPage = () => {
                   {/* Divider Line */}
                   <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
                 </div>
-              </Link>
               </article>
+              </Link>
             ))}
           </div>
         )}

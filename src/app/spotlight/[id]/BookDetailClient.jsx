@@ -272,19 +272,19 @@ export default function BookDetailClient({ book: initialBook, relatedBooks = [] 
   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
     {/* Book Cover */}
     <div className="flex justify-center">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
-                  <Image
-                    src={book.coverImage || '/images/fallback-cover.jpg'}
-                    alt={book.title || 'Book cover'}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px"
-                    priority
-                    onError={(e) => {
-                      console.error(`Failed to load image: ${book.coverImage}`);
-                      e.target.src = '/images/fallback-cover.jpg';
-                    }}
-                  />
+    <div className="w-full h-[250px] sm:h-[350px] lg:h-[494px] lg:w-[640px] rounded-lg overflow-hidden">
+        <Image
+          src={book.coverImage || '/images/fallback-cover.jpg'}
+          alt={book.title || 'Book cover'}
+          width={640}
+          height={494}
+          // className="object-cover w-full h-full"
+          priority
+          onError={(e) => {
+            console.error(`Failed to load image: ${book.coverImage}`);
+            e.target.src = '/images/fallback-cover.jpg';
+          }}
+        />
       </div>
     </div>
 

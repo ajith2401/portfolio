@@ -280,11 +280,10 @@ const RelatedWritings = ({ relatedWritings, formatDate }) => {
           key={relatedWriting._id}
           className="w-full group"
         >
-          <div className="flex flex-col gap-4 sm:gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out 
-            hover:shadow-[var(--card-hover-shadow)] 
-            hover:translate-y-[var(--card-hover-transform)] 
-            hover:bg-[var(--card-hover-bg)]"
-          >
+        <div className="clean-container rounded-lg overflow-hidden group transition-all duration-300
+                    hover:shadow-[var(--card-hover-shadow)] 
+                    hover:translate-y-[var(--card-hover-transform)]
+                    cursor-pointer">
             {/* Image Container */}
             <div className="relative w-full aspect-[16/9] sm:h-[231.38px] rounded-lg overflow-hidden">
               <Image

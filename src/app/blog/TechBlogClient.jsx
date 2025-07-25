@@ -31,16 +31,16 @@ const TechBlogCard = ({ post, idx }) => {
     }
   };
 
-  return (
-    
-    <article 
+  return (    
+  <article 
     key={post._id} 
     className="clean-container rounded-lg overflow-hidden group transition-all duration-300
       hover:shadow-[var(--card-hover-shadow)] 
       hover:translate-y-[var(--card-hover-transform)]
       cursor-pointer"
     >
-    <Link href={getSafeUrl(post, 'blog')} className="group">
+    <Link href={getSafeUrl(post, 'blog')} className="group block">
+
       <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-background">
         {/* Fixed aspect ratio container for image */}
         <div className="relative w-full aspect-[16/9] overflow-hidden">
@@ -68,8 +68,9 @@ const TechBlogCard = ({ post, idx }) => {
           </div>
         </div>
       </div>
-    </Link>
+      </Link>
     </article>
+
   );
 };
 

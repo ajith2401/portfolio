@@ -2,8 +2,12 @@
 import { Star } from 'lucide-react';
 
 const WordCard = ({ author, content, rating = 5, date }) => (
-  <div className="glass-card shimmer premium-border glow-on-hover glass-card-light shimmer-light premium-border-light glow-on-hover-light p-4 sm:p-6 transition-colors">
-    <div className="flex gap-1 mb-4">
+  // <div className="glass-card shimmer premium-border glow-on-hover glass-card-light shimmer-light premium-border-light glow-on-hover-light p-4 sm:p-6 transition-colors">
+   <div className="clean-container rounded-lg overflow-hidden group transition-all duration-300
+   hover:shadow-[var(--card-hover-shadow)] 
+   hover:translate-y-[var(--card-hover-transform)]
+   cursor-pointer">
+   <div className="flex gap-1 mb-4">
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}

@@ -276,6 +276,8 @@ html {
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
     transition: left 0.6s ease;
+    pointer-events: none;
+    z-index: -1;
   }
 
   .theme-card:hover::before {
@@ -329,6 +331,8 @@ html {
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     transition: left 0.6s ease;
+    pointer-events: none;
+    z-index: -1;
   }
 
   .theme-button-primary:hover::before {
@@ -361,6 +365,7 @@ html {
     height: 100%;
     background: linear-gradient(135deg, var(--primary-400), var(--primary-500));
     transition: width 0.4s ease;
+    pointer-events: none;
     z-index: -1;
   }
 
@@ -445,6 +450,8 @@ html {
   animation: rotate 10s linear infinite;
   opacity: 0;
   transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .clean-container:hover::after {
