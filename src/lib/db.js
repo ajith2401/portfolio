@@ -23,7 +23,7 @@ const connectionOptions = {
   connectTimeoutMS: 10000, // Explicit connection timeout
   family: 4, // Use IPv4, skip trying IPv6
   retryWrites: true
-  // Note: bufferCommands and bufferMaxEntries are mongoose options, not MongoDB connection options
+  // Note: bufferCommands is a mongoose option, not a MongoDB connection option
 };
 
 async function connectDB() {
@@ -34,9 +34,8 @@ async function connectDB() {
 
   // If we don't have a promise, create one
   if (!cached.promise) {
-    // Set mongoose buffer options for serverless
+    // Set mongoose buffer options for serverless (only bufferCommands is valid)
     mongoose.set('bufferCommands', false);
-    mongoose.set('bufferMaxEntries', 0);
     
     cached.promise = mongoose.connect(MONGODB_URI, connectionOptions).then((mongoose) => {
       console.log('✅ MongoDB connected successfully');
