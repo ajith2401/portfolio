@@ -32,16 +32,14 @@ const TechBlogCard = ({ post, idx }) => {
   };
 
   return (    
-  <article 
-    key={post._id} 
-    className="clean-container rounded-lg overflow-hidden group transition-all duration-300
-      hover:shadow-[var(--card-hover-shadow)] 
-      hover:translate-y-[var(--card-hover-transform)]
-      cursor-pointer"
-    >
-    <Link href={getSafeUrl(post, 'blog')} className="group block">
-
-      <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-background">
+    <Link href={getSafeUrl(post, 'blog')} className="block w-full">
+      <article 
+        key={post._id} 
+        className="clean-container rounded-lg overflow-hidden group transition-all duration-300
+          hover:shadow-[var(--card-hover-shadow)] 
+          hover:translate-y-[var(--card-hover-transform)]
+          cursor-pointer"
+        >
         {/* Fixed aspect ratio container for image */}
         <div className="relative w-full aspect-[16/9] overflow-hidden">
           <Image
@@ -52,24 +50,47 @@ const TechBlogCard = ({ post, idx }) => {
             priority={idx === 0}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+          {(post.publishedAt || post.createdAt) && (
+            <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
+              <span className="text-sm font-work-sans text-foreground">
+                {(() => {
+                  try {
+                    const date = new Date(post.publishedAt || post.createdAt);
+                    return isNaN(date.getTime()) ? '—' : date.getFullYear();
+                  } catch {
+                    return '—';
+                  }
+                })()}
+              </span>
+            </div>
+          )}
         </div>
-        <div className="p-6">
-          <span className="text-sm text-primary font-work-sans">
-            {post.category}
-          </span>
-          <h3 className="font-dm-sans text-xl mt-2 mb-3 group-hover:text-primary transition-colors">
-            {post.title}
-          </h3>
-          <p className="text-gray-600 text-sm line-clamp-2 font-merriweather">
+
+        <div className="p-6 space-y-4">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="px-2 py-1 text-xs font-medium text-primary-600 bg-primary-100 rounded-full">
+                {post.category}
+              </span>
+            </div>
+            <h3 className="font-work-sans text-lg font-medium text-foreground group-hover:text-primary-500 transition-colors">
+              {post.title}
+            </h3>
+            {post.subtitle && (
+              <p className="text-secondary-600 text-sm mt-1">{post.subtitle}</p>
+            )}
+          </div>
+
+          <p className="text-secondary-600 text-sm line-clamp-3">
             {post.subtitle || post.content?.substring(0, 150)}
           </p>
-          <div className="mt-4 text-sm text-gray-500 font-work-sans">
+
+          <div className="mt-4 text-sm text-secondary-500 font-work-sans">
             {formatDate(post.publishedAt || post.createdAt)}
           </div>
         </div>
-      </div>
-      </Link>
-    </article>
+      </article>
+    </Link>
 
   );
 };

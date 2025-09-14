@@ -430,86 +430,79 @@ const QuillClientPage = () => {
             No writings found matching your filters.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 text-foreground">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-foreground">
             {writings.map((writing) => (
               <Link 
                 href={`${getSafeUrl(writing, 'quill')}?returnPage=${currentPage}`} 
                 key={writing._id}
                 className="block w-full"
               >
-          <article 
-          className="clean-container rounded-lg overflow-hidden group transition-all duration-300
-            hover:shadow-[var(--card-hover-shadow)] 
-            hover:translate-y-[var(--card-hover-transform)]
-            cursor-pointer"
-          >
-                <div className="flex flex-col gap-6 p-4 rounded-lg transition-all duration-300 ease-in-out bg-background
-                  hover:shadow-[var(--card-hover-shadow)] 
-                  hover:translate-y-[var(--card-hover-transform)] 
-                  hover:bg-[var(--card-hover-bg)]"
+                <article 
+                  className="clean-container rounded-lg overflow-hidden group transition-all duration-300
+                    hover:shadow-[var(--card-hover-shadow)] 
+                    hover:translate-y-[var(--card-hover-transform)]
+                    cursor-pointer"
                 >
-                  {/* Image Container */}
-                  <div className="relative w-full h-[231.38px] rounded-lg overflow-hidden">
+                  {/* Fixed aspect ratio container for image */}
+                  <div className="relative w-full aspect-[16/9] overflow-hidden">
                     <Image
                       src={writing.images?.small || '/placeholder.jpg'}
                       alt={writing.title}
                       fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 410px"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                       priority={false}
                       quality={75}
                     />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="font-work-sans text-lg font-medium leading-[21px] transition-colors duration-300 group-hover:text-primary">
-                    {writing.title}
-                  </h3>
-                
-                  <p className="font-merriweather text-sm text-foreground leading-[21px] mb-4">
-                    {truncateBody(writing.body)}
-                  </p>
-
-                  {/* Category and Date Container */}
-                  <div className="flex justify-between items-center">
-                    {/* Category Tag */}
-                    <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
-                      <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                        {writing.category}
-                      </span>
-                    </div>
-
-                    {/* Date */}
-                    <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                      {formatDate(writing.publishedAt || writing.createdAt)}
-                    </span>
-                  </div>
-                  
-                  {/* Rating if available */}
-                  {writing.averageRating > 0 && (
-                    <div className="flex items-center gap-1 text-yellow-500">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <span key={i}>
-                          {i < Math.floor(writing.averageRating) ? (
-                            '★'
-                          ) : i < Math.ceil(writing.averageRating) && 
-                             i >= Math.floor(writing.averageRating) ? (
-                            '⯪'
-                          ) : (
-                            '☆'
-                          )}
+                    {(writing.publishedAt || writing.createdAt) && (
+                      <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
+                        <span className="text-sm font-work-sans text-foreground">
+                          {(() => {
+                            try {
+                              const date = new Date(writing.publishedAt || writing.createdAt);
+                              return isNaN(date.getTime()) ? '—' : date.getFullYear();
+                            } catch {
+                              return '—';
+                            }
+                          })()}
                         </span>
-                      ))}
-                      <span className="text-xs text-gray-500 ml-1">
-                        ({writing.totalRatings || 0})
-                      </span>
-                    </div>
-                  )}
+                      </div>
+                    )}
+                  </div>
 
-                  {/* Divider Line */}
-                  <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
-                </div>
-              </article>
+                  <div className="p-6 space-y-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="px-2 py-1 text-xs font-medium text-primary-600 bg-primary-100 rounded-full">
+                          {writing.category}
+                        </span>
+                        {writing.averageRating > 0 && (
+                          <div className="flex items-center gap-1 text-yellow-500">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <span key={i} className="text-xs">
+                                {i < Math.floor(writing.averageRating) ? '★' : '☆'}
+                              </span>
+                            ))}
+                            <span className="text-xs text-secondary-500 ml-1">
+                              ({writing.totalRatings || 0})
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="font-work-sans text-lg font-medium text-foreground group-hover:text-primary-500 transition-colors">
+                        {writing.title}
+                      </h3>
+                    </div>
+
+                    <p className="text-secondary-600 text-sm line-clamp-3">
+                      {truncateBody(writing.body)}
+                    </p>
+
+                    <div className="mt-4 text-sm text-secondary-500 font-work-sans">
+                      {formatDate(writing.publishedAt || writing.createdAt)}
+                    </div>
+                  </div>
+                </article>
               </Link>
             ))}
           </div>
