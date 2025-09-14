@@ -9,7 +9,25 @@ export async function generateMetadata({ params }) {
   await connectDB();
   
   try {
-    const project = await Project.findById(params.id).lean();
+    let project = null;
+    
+    // Try ObjectId first if it's valid
+    if (mongoose.Types.ObjectId.isValid(params.id)) {
+      try {
+        project = await Project.findById(params.id).lean();
+      } catch (e) {
+        console.error('ObjectId query failed:', e);
+      }
+    }
+    
+    // If not found by ObjectId, try slug
+    if (!project) {
+      try {
+        project = await Project.findOne({ slug: params.id }).lean();
+      } catch (e) {
+        console.error('Slug query failed:', e);
+      }
+    }
     
     if (!project) return { title: 'Project Not Found' };
     
@@ -79,6 +97,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProjectDetailPage({ params }) {
+  await connectDB();
+  
   const { id } = params;
   let project = null;
   let accessType = null;
@@ -89,14 +109,20 @@ export default async function ProjectDetailPage({ params }) {
       project = await Project.findById(id).lean();
       if (project) accessType = 'objectId';
     } catch (e) {
-      // ignore and fallback
+      console.error('ObjectId query failed in main function:', e);
     }
   }
+  
   // If not found by ObjectId, try slug
   if (!project) {
-    project = await Project.findOne({ slug: id }).lean();
-    if (project) accessType = 'slug';
+    try {
+      project = await Project.findOne({ slug: id }).lean();
+      if (project) accessType = 'slug';
+    } catch (e) {
+      console.error('Slug query failed in main function:', e);
+    }
   }
+  
   if (!project) {
     return notFound();
   }

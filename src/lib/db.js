@@ -27,14 +27,14 @@ const connectionOptions = {
 };
 
 async function connectDB() {
-  // If we have a cached connection, return it
-  if (cached.conn) {
+  // If we have a cached connection and it's ready, return it
+  if (cached.conn && cached.conn.connection.readyState === 1) {
     return cached.conn;
   }
 
   // If we don't have a promise, create one
   if (!cached.promise) {
-    // Set mongoose buffer options for serverless (only bufferCommands is valid)
+    // Ensure mongoose is configured for serverless environments
     mongoose.set('bufferCommands', false);
     
     cached.promise = mongoose.connect(MONGODB_URI, connectionOptions).then((mongoose) => {
@@ -44,14 +44,25 @@ async function connectDB() {
       setupConnectionEventListeners(mongoose.connection);
       
       return mongoose;
+    }).catch((error) => {
+      cached.promise = null;
+      console.error('❌ MongoDB connection failed:', error);
+      throw error;
     });
   }
 
   try {
     cached.conn = await cached.promise;
+    
+    // Double check connection is ready before returning
+    if (cached.conn.connection.readyState !== 1) {
+      throw new Error('MongoDB connection not ready');
+    }
+    
     return cached.conn;
   } catch (error) {
     cached.promise = null;
+    cached.conn = null;
     console.error('❌ MongoDB connection error:', error);
     throw error;
   }

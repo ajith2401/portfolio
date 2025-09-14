@@ -76,7 +76,7 @@ const geistMono = localFont({
 export const metadata = {
   metadataBase: new URL('https://www.ajithkumarr.com'),
   title: {
-    default: "Ajithkumar |Full Stack Developer, Poet, Writer & Lyricist",
+    default: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
     template: "%s | Ajithkumar - Tamil Writer & MERN Developer"
   },
   description: "Ajithkumar - Published Tamil writer with 5 poetry books and Full Stack MERN Developer, exploring themes of feminism and social justice through captivating poetry while creating innovative web applications.",
@@ -258,6 +258,35 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="mobile-web-app-capable" content="yes" />
+        
+        {/* Enhanced Mobile SEO Meta Tags */}
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="theme-color" content="#7c3aed" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#8b5cf6" media="(prefers-color-scheme: dark)" />
+        <meta name="color-scheme" content="light dark" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="480" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes, viewport-fit=cover" />
+        
+        {/* Mobile-specific optimizations */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-touch-fullscreen" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Ajithkumar" />
+        
+        {/* Performance hints */}
+        <link rel="preload" href="/fonts/GeistVF.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/GeistMonoVF.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+        
+        {/* Critical CSS will be inlined */}
+        <style dangerouslySetInnerHTML={{__html: `
+          html { font-family: system-ui, -apple-system, sans-serif; }
+          body { margin: 0; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
+          [data-theme='dark'] body { background: linear-gradient(135deg, #0a0f1c 0%, #1e293b 40%, #2d3748 80%, #4a5568 100%); }
+        `}} />
                 <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -388,7 +417,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       {/*<body className={`${inter.className} antialiased min-h-screen flex flex-col`}> */}
-       <body className="min-h-screen  antialiased transition-colors duration-300">
+       <body className="min-h-screen antialiased transition-colors duration-300 overflow-x-hidden">
         <ReduxProvider>
           <ThemeProvider>
           <Toaster 
@@ -409,13 +438,18 @@ export default function RootLayout({ children }) {
               }
             }}
           />
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
           <BackgroundVectors />
-          <Navbar />
+          <header>
+            <Navbar />
+          </header>
           <OfflineNotice />
-          <main  id="main-content" className="w-full">
+          <main id="main-content" className="w-full" role="main" aria-label="Main content">
             <Providers>{children}</Providers>
           </main>
-          <div className="w-full h-px bg-decorative-line opacity-20 my-6"></div>
+          <div className="w-full h-px bg-decorative-line opacity-20 my-6" role="separator" aria-hidden="true"></div>
           <Footer />
           <SubscriptionModal />
 
