@@ -27,18 +27,18 @@ const setLocalStorage = (key, value) => {
 const DatePicker = ({ label, value, onChange, onClear }) => {
   return (
     <div className="flex flex-col">
-      <label className="text-xs text-gray-500 mb-1">{label}</label>
+      <label className="text-xs text-muted mb-1">{label}</label>
       <div className="relative">
         <input
           type="date"
           value={value || ''}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full px-3 py-2 bg-background border border-gray-300 rounded-md text-foreground text-sm"
+          className="modern-input w-full px-3 py-2 text-sm"
         />
         {value && (
-          <button 
+          <button
             onClick={onClear}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted hover:text-secondary transition-colors"
             aria-label="Clear date"
           >
             ×
@@ -277,7 +277,7 @@ const QuillClientPage = () => {
   }
 
   return (
-    <main className="min-h-screen">
+  <main className="min-h-screen tamil-quill">
       {/* Add PersonSchema for writer identity */}
       <PersonSchema includeFullBio={true} />
       
@@ -327,8 +327,8 @@ const QuillClientPage = () => {
         {/* Main Filter Row */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
           <div className="w-full md:w-auto flex flex-wrap gap-2 items-center">
-            <select 
-              className="w-full md:w-auto px-4 py-2 bg-background border border-gray-300 rounded-md text-foreground"
+            <select
+              className="modern-input w-full md:w-auto px-4 py-2 rounded-xl"
               value={selectedCategory}
               onChange={(e) => handleCategoryChange(e.target.value)}
             >
@@ -343,9 +343,9 @@ const QuillClientPage = () => {
               <option>Joke</option>
             </select>
             
-            <button 
+            <button
               onClick={() => setShowFilters(!showFilters)}
-              className="px-4 py-2 bg-background border border-gray-300 rounded-md text-foreground flex items-center gap-2"
+              className="modern-btn-secondary px-4 py-2 rounded-xl flex items-center gap-2"
             >
               <CalendarIcon size={16} />
               <span>Filters</span>
@@ -359,11 +359,11 @@ const QuillClientPage = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="w-full md:w-64 pl-10 pr-4 py-2 bg-background rounded-md text-gray-400"
+              className="modern-input w-full md:w-64 pl-10 pr-4 py-2 rounded-xl"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted">
               <Search className="w-4 h-4" />
             </button>
           </form>
@@ -371,36 +371,36 @@ const QuillClientPage = () => {
         
         {/* Advanced Filters Row */}
         {showFilters && (
-          <div className="mb-6 p-4 border border-gray-200 rounded-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+          <div className="mb-6 p-4 modern-card rounded-xl">
             <div className="flex flex-col md:flex-row gap-4 items-end justify-between">
               <div className="flex flex-col sm:flex-row gap-4">
-                <DatePicker 
-                  label="From Date" 
-                  value={startDate} 
+                <DatePicker
+                  label="From Date"
+                  value={startDate}
                   onChange={handleStartDateChange}
                   onClear={() => handleStartDateChange('')}
                 />
-                
-                <DatePicker 
-                  label="To Date" 
-                  value={endDate} 
+
+                <DatePicker
+                  label="To Date"
+                  value={endDate}
                   onChange={handleEndDateChange}
                   onClear={() => handleEndDateChange('')}
                 />
-                
+
                 <div className="flex flex-col">
-                  <label className="text-xs text-gray-500 mb-1">Sort By</label>
+                  <label className="text-xs text-muted mb-1">Sort By</label>
                   <div className="flex">
-                    <button 
+                    <button
                       onClick={() => handleSortChange('date')}
-                      className={`px-3 py-2 border ${sortBy === 'date' ? 'bg-red-600 text-white border-red-600' : 'bg-background border-gray-300 text-foreground'} rounded-l-md text-sm flex items-center gap-1`}
+                      className={`px-3 py-2 border ${sortBy === 'date' ? 'modern-btn text-white' : 'bg-card text-secondary hover:bg-tertiary border border-primary'} rounded-l-xl text-sm flex items-center gap-1 transition-all`}
                     >
                       <SortDesc size={14} />
                       <span>Latest</span>
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleSortChange('rating')}
-                      className={`px-3 py-2 border ${sortBy === 'rating' ? 'bg-red-600 text-white border-red-600' : 'bg-background border-gray-300 text-foreground'} rounded-r-md text-sm flex items-center gap-1`}
+                      className={`px-3 py-2 border ${sortBy === 'rating' ? 'modern-btn text-white' : 'bg-card text-secondary hover:bg-tertiary border border-primary'} rounded-r-xl text-sm flex items-center gap-1 transition-all`}
                     >
                       <SortAsc size={14} />
                       <span>Highest Rated</span>
@@ -408,10 +408,10 @@ const QuillClientPage = () => {
                   </div>
                 </div>
               </div>
-              
-              <button 
+
+              <button
                 onClick={clearFilters}
-                className="text-sm text-gray-600 hover:text-red-600 px-4 py-2 border border-gray-300 rounded-md"
+                className="modern-btn-secondary text-sm px-4 py-2 rounded-xl transition-all"
               >
                 Clear Filters
               </button>
@@ -515,7 +515,7 @@ const QuillClientPage = () => {
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl border border-primary disabled:opacity-50 disabled:cursor-not-allowed text-primary hover:bg-tertiary transition-colors"
               aria-label="Previous page"
             >
               <span className="text-sm sm:text-base">←</span>
@@ -528,12 +528,12 @@ const QuillClientPage = () => {
                   key={index}
                   onClick={() => typeof page === 'number' && setCurrentPage(page)}
                   disabled={typeof page !== 'number'}
-                  className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-md text-sm sm:text-base transition-colors ${
+                  className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-xl text-sm sm:text-base transition-colors ${
                     currentPage === page
-                      ? 'bg-red-600 text-white'
+                      ? 'bg-accent text-white'
                       : typeof page === 'number'
-                      ? 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
-                      : 'text-gray-500 cursor-default'
+                      ? 'text-primary hover:bg-tertiary'
+                      : 'text-muted cursor-default'
                   }`}
                 >
                   {page}
@@ -545,7 +545,7 @@ const QuillClientPage = () => {
             <button
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
-              className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl border border-primary disabled:opacity-50 disabled:cursor-not-allowed text-primary hover:bg-tertiary transition-colors"
               aria-label="Next page"
             >
               <span className="text-sm sm:text-base">→</span>

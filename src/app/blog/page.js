@@ -97,6 +97,10 @@ function BlogLoading() {
   );
 }
 
+// Set dynamic rendering since we use searchParams
+export const dynamic = 'force-dynamic';
+export const revalidate = 60; // Revalidate every 60 seconds
+
 // Server component for better SEO
 export default async function TechBlogPage({ searchParams }) {
   try {

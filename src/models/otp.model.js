@@ -6,8 +6,7 @@ const OTPSchema = new mongoose.Schema({
   contactInfo: {
     type: String,
     required: true,
-    trim: true,
-    index: true
+    trim: true
   },
   
   // Type of contact - either 'email' or 'phone'
@@ -26,29 +25,34 @@ const OTPSchema = new mongoose.Schema({
   // When the OTP was created
   createdAt: {
     type: Date,
-    default: Date.now,
-    index: true
+    default: Date.now
   },
   
-  // Expiration time for the OTP
+  // When the OTP expires
   expiresAt: {
     type: Date,
-    required: true,
-    index: true
+    required: true
   },
   
-  // Whether the OTP has been verified already
-  verified: {
-    type: Boolean,
-    default: false
-  },
-  
-  // Number of verification attempts
+  // Number of verification attempts made
   attempts: {
     type: Number,
     default: 0
+  },
+  
+  // Whether the OTP has been verified
+  verified: {
+    type: Boolean,
+    default: false
   }
+}, {
+  timestamps: true
 });
+
+// Add schema indexes here to avoid duplicates
+OTPSchema.index({ contactInfo: 1 });
+OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 }); // TTL index for automatic deletion
+OTPSchema.index({ createdAt: 1 });
 
 // Set TTL index to automatically delete expired OTPs
 OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });

@@ -15,13 +15,12 @@ const WritingSchema = new mongoose.Schema({
     unique: true,
     required: true,
     trim: true,
-    lowercase: true,
-    index: true,
     validate: {
       validator: function(v) {
-        return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v);
+        // Allow lowercase alphanumeric, Tamil characters, and hyphens
+        return /^[a-z0-9\u0B80-\u0BFF]+(?:-[a-z0-9\u0B80-\u0BFF]+)*$/.test(v);
       },
-      message: 'Slug must be lowercase alphanumeric with hyphens only'
+      message: 'Slug must be lowercase alphanumeric with Tamil characters and hyphens only'
     },
     maxlength: [100, 'Slug cannot exceed 100 characters']
   },
@@ -50,7 +49,7 @@ const WritingSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Category is required'],
     enum: {
-      values: ['Poetry', 'Short Story', 'Essay', 'Novel', 'Article', 'Review', 'Personal'],
+      values: ['philosophy', 'poem', 'article', 'short story', 'short writings', 'politics', 'cinema', 'letter', 'joke'],
       message: 'Category must be one of the predefined values'
     },
     index: true
@@ -89,21 +88,26 @@ const WritingSchema = new mongoose.Schema({
   },
   performance: {
     views: {
-      type: Number,
-      default: 0,
-      index: true
+      total: { type: Number, default: 0, index: true },
+      unique: { type: Number, default: 0 },
+      byDate: [{
+        date: { type: Date, index: true },
+        count: Number,
+        uniqueCount: Number
+      }]
     },
-    shares: {
-      type: Number,
-      default: 0
+    engagement: {
+      shares: { type: Number, default: 0 },
+      likes: { type: Number, default: 0 },
+      comments: { type: Number, default: 0 },
+      averageTimeSpent: { type: Number, default: 0 }, // in seconds
+      bounceRate: { type: Number, default: 0 },
+      completionRate: { type: Number, default: 0 }
     },
-    likes: {
-      type: Number,
-      default: 0
-    },
-    comments: {
-      type: Number,
-      default: 0
+    social: {
+      facebook: { shares: Number, likes: Number },
+      twitter: { shares: Number, likes: Number },
+      linkedin: { shares: Number, likes: Number }
     }
   },
   averageRating: {
@@ -173,6 +177,16 @@ const WritingSchema = new mongoose.Schema({
     pageNumber: Number,
     chapterName: String
   },
+  series: {
+    id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Series'
+    },
+    order: Number,
+    isFirst: Boolean,
+    isLast: Boolean,
+    totalParts: Number
+  },
   awards: [{
     name: String,
     year: Number,
@@ -201,19 +215,52 @@ const WritingSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     index: true
+  },
+  version: {
+    type: Number,
+    default: 1
+  },
+  revisions: [{
+    content: {
+      title: String,
+      body: String,
+      excerpt: String
+    },
+    version: Number,
+    modifiedAt: Date,
+    modifiedBy: String
+  }],
+  scheduledPublish: {
+    date: Date,
+    status: {
+      type: String,
+      enum: ['scheduled', 'published', 'failed'],
+      default: 'scheduled'
+    }
   }
 }, {
   timestamps: true
 });
 
-// Compound indexes for better query performance
-WritingSchema.index({ status: 1, publishedAt: -1 });
-WritingSchema.index({ category: 1, status: 1, publishedAt: -1 });
-WritingSchema.index({ language: 1, status: 1, publishedAt: -1 });
-WritingSchema.index({ tags: 1, status: 1 });
-WritingSchema.index({ featured: 1, status: 1, publishedAt: -1 });
-WritingSchema.index({ trending: 1, status: 1, publishedAt: -1 });
-WritingSchema.index({ 'performance.views': -1, status: 1 });
+// Optimized compound indexes for better query performance
+WritingSchema.index({ status: 1, publishedAt: -1, category: 1 }); // Main listing index
+WritingSchema.index({ 'performance.views.total': -1, status: 1, publishedAt: -1 }); // Popular content
+WritingSchema.index({ language: 1, status: 1, category: 1, publishedAt: -1 }); // Language-specific listing
+WritingSchema.index({ tags: 1, status: 1, publishedAt: -1 }); // Tag-based queries
+WritingSchema.index({ featured: 1, status: 1, publishedAt: -1 }); // Featured content
+WritingSchema.index({ trending: 1, status: 1, publishedAt: -1 }); // Trending content
+WritingSchema.index({ 
+  title: 'text', 
+  body: 'text', 
+  tags: 'text' 
+}, {
+  weights: {
+    title: 10,
+    tags: 5,
+    body: 1
+  },
+  name: 'ContentIndex'
+}); // Full-text search
 
 // Pre-save middleware to generate slug
 WritingSchema.pre('save', async function(next) {

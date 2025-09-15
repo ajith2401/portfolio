@@ -13,7 +13,7 @@ const CommentSchema = new mongoose.Schema({
   parentModel: {
     type: String,
     required: true,
-    enum: ['Writing', 'TechBlog'],
+    enum: ['Writing', 'TechBlog', 'Project'],
     index: true
   },
   name: {

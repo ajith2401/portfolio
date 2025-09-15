@@ -201,10 +201,9 @@ BookSchema.pre('save', async function(next) {
           async (slug, excludeId) => {
             const query = { slug };
             if (excludeId) query._id = { $ne: excludeId };
-            // @ts-ignore - Mongoose constructor has findOne method
             return await this.constructor.findOne(query);
           },
-          this._id ? this._id.toString() : undefined
+          this._id
         );
       }
     }
@@ -248,7 +247,6 @@ BookSchema.statics.findBySlugOrId = async function(identifier) {
 
 // Static method to get featured books
 BookSchema.statics.getFeatured = async function(limit = 3) {
-  // @ts-ignore - Mongoose query chaining
   return await this.find({ 
     status: 'published', 
     featured: true 
@@ -260,7 +258,6 @@ BookSchema.statics.getFeatured = async function(limit = 3) {
 
 // Static method to get popular books by views
 BookSchema.statics.getPopular = async function(limit = 5) {
-  // @ts-ignore - Mongoose query chaining
   return await this.find({ status: 'published' })
     .sort({ 'performance.views': -1 })
     .limit(limit)
@@ -269,7 +266,6 @@ BookSchema.statics.getPopular = async function(limit = 5) {
 
 // Static method to get recent books
 BookSchema.statics.getRecent = async function(limit = 5) {
-  // @ts-ignore - Mongoose query chaining
   return await this.find({ status: 'published' })
     .sort({ publishYear: -1 })
     .limit(limit)
@@ -278,7 +274,6 @@ BookSchema.statics.getRecent = async function(limit = 5) {
 
 // Static method to get books by genre
 BookSchema.statics.getByGenre = async function(genre, limit = 10) {
-  // @ts-ignore - Mongoose query chaining
   return await this.find({ 
     status: 'published',
     genre: genre 

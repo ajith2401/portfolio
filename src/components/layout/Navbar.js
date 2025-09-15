@@ -28,16 +28,15 @@ const Navbar = () => {
   const NavLink = ({ href, children }) => (
     <Link
       href={href}
-      className={`relative text-foreground transition-all group ${
-        isActive(href) 
-          ? 'text-primary font-medium' 
-          : 'hover:text-primary'
+      className={`relative text-primary transition-all group ${
+        isActive(href)
+          ? 'text-accent-primary font-medium'
+          : 'hover:text-accent-primary'
       }`}
     >
       {children}
       <span
-        className={`absolute -bottom-1 left-0 h-0.5 transition-all duration-300 
-          ${isDark ? 'bg-primary-400' : 'bg-primary-600'}
+        className={`absolute -bottom-1 left-0 h-0.5 transition-all duration-300 bg-accent-primary
           ${isActive(href) ? 'w-full' : 'w-0 group-hover:w-full'}`}
       />
     </Link>
@@ -53,12 +52,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={`
-        sticky top-0 z-50 w-full backdrop-blur-md transition-all duration-300
-        ${isDark 
-          ? 'bg-slate-900/70 border-b border-slate-800' 
-          : 'bg-sky-60/70 border-b border-sky-100'}
-      `}>
+      <nav className="sticky top-0 z-50 w-full backdrop-blur-md transition-all duration-300 bg-card/80 border-b border-color">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <Link 
@@ -74,15 +68,15 @@ const Navbar = () => {
             {/* Theme Toggle for Mobile */}
             <ThemeToggleAnimated />
             <button
-              className="p-2 rounded-md transition-colors bg-background/20 hover:bg-background/30"
+              className="p-2 rounded-xl transition-colors bg-tertiary/50 hover:bg-tertiary text-primary"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? (
-                <X className="h-6 w-6 text-foreground" />
+                <X className="h-6 w-6" />
               ) : (
-                <Menu className="h-6 w-6 text-foreground" />
+                <Menu className="h-6 w-6" />
               )}
             </button>    
           </div>

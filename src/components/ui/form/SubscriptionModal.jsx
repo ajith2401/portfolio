@@ -24,30 +24,36 @@ const SubscriptionModal = () => {
   
   // Should we show subscription modal for this user on this page?
   const shouldShowForUser = () => {
-    // Don't show if user already subscribed
-    if (localStorage.getItem('subscribed') === 'true') {
-      return false;
-    }
-    
-    // Check if user dismissed modal recently
-    const dismissedTimestamp = localStorage.getItem('subscription_dismissed');
-    if (dismissedTimestamp) {
-      const dismissedTime = parseInt(dismissedTimestamp, 10);
-      const currentTime = Date.now();
-      
-      // If dismissed within the last 7 days, don't show modal
-      if (currentTime - dismissedTime < 7 * 24 * 60 * 60 * 1000) {
+    try {
+      // First check: Don't show if user is already subscribed
+      if (localStorage.getItem('subscribed') === 'true') {
         return false;
       }
+      
+      // Second check: 7-day cooldown after dismissal
+      const dismissedTimestamp = localStorage.getItem('subscription_dismissed');
+      if (dismissedTimestamp) {
+        const dismissedTime = parseInt(dismissedTimestamp, 10);
+        const currentTime = Date.now();
+        const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+        
+        if (currentTime - dismissedTime < SEVEN_DAYS) {
+          return false;
+        }
+      }
+      
+      // Third check: Don't show again on same content page
+      const viewedContentPages = JSON.parse(localStorage.getItem('viewed_content_pages') || '[]');
+      if (viewedContentPages.includes(pathname)) {
+        return false;
+      }
+      
+      // All checks passed, show the modal
+      return true;
+    } catch (error) {
+      console.error('Error in shouldShowForUser:', error);
+      return false; // Fail safe - don't show modal if there's an error
     }
-    
-    // Also check if this specific content page has been seen
-    const viewedContentPages = JSON.parse(localStorage.getItem('viewed_content_pages') || '[]');
-    if (viewedContentPages.includes(pathname)) {
-      return false;
-    }
-    
-    return true;
   };
 
   // Check if user already subscribed (from localStorage)
@@ -130,7 +136,7 @@ const SubscriptionModal = () => {
         eventEmitter.off('showSubscriptionModal', handleShowSubscribeModal);
       }
     };
-  }, [pathname]);
+  }, [pathname, isContentDetailPage, shouldShowForUser]);
   
   // Decide when to show modal for non-content pages
   useEffect(() => {
@@ -145,13 +151,27 @@ const SubscriptionModal = () => {
         localStorage.getItem('subscribed') !== 'true') {
       setShowModal(true);
     }
-  }, [timeOnPage, hasScrolled, hasInteracted, showModal]);
+  }, [timeOnPage, hasScrolled, hasInteracted, showModal, isContentDetailPage]);
   
   const handleClose = () => {
-    setShowModal(false);
-    
-    // Save dismissed timestamp for 7-day cooldown
-    localStorage.setItem('subscription_dismissed', Date.now().toString());
+    try {
+      // Get current time
+      const currentTime = Date.now();
+      
+      // Save dismissed timestamp for 7-day cooldown
+      localStorage.setItem('subscription_dismissed', currentTime.toString());
+      
+      // Also save the next show time for reference
+      const nextShowTime = new Date(currentTime + (7 * 24 * 60 * 60 * 1000));
+      localStorage.setItem('subscription_next_show', nextShowTime.toString());
+      
+      // Close the modal
+      setShowModal(false);
+    } catch (error) {
+      console.error('Error in handleClose:', error);
+      // Still close the modal even if there's an error
+      setShowModal(false);
+    }
   };
   
   if (!showModal) return null;

@@ -284,7 +284,7 @@ export default function RootLayout({ children }) {
         {/* Critical CSS will be inlined */}
         <style dangerouslySetInnerHTML={{__html: `
           html { font-family: system-ui, -apple-system, sans-serif; }
-          body { margin: 0; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
+          body { margin: 0; background: linear-gradient(135deg, #f0e7f6ff 0%, #ffffffff 100%, #e1b5faff 100%); }
           [data-theme='dark'] body { background: linear-gradient(135deg, #0a0f1c 0%, #1e293b 40%, #2d3748 80%, #4a5568 100%); }
         `}} />
                 <script
@@ -438,9 +438,7 @@ export default function RootLayout({ children }) {
               }
             }}
           />
-          <a href="#main-content" className="skip-link">
-            Skip to main content
-          </a>
+
           <BackgroundVectors />
           <header>
             <Navbar />

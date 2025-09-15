@@ -214,50 +214,50 @@ const Hero = () => {
                 </div>
       
                 <div className="space-y-2">
-                  <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+                  <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-primary">
                     Full Stack Developer
                   </h1>
-                  <h2 className="text-xl md:text-2xl text-primary-600 dark:text-primary-400 font-medium">
+                  <h2 className="text-xl md:text-2xl text-accent-primary font-medium">
                     Ajithkumar
                   </h2>
                 </div>
-      
-                <p className="text-lg md:text-xl text-secondary-700 max-w-2xl">
+
+                <p className="text-lg md:text-xl text-secondary max-w-2xl">
                   {writerDescription}
                 </p>
       
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button 
+                  <button
                     onClick={openContactForm}
-                    className="clean-container inline-flex items-center gap-2 px-6 py-3 rounded-lg text-primary-600 dark:text-primary-400 hover:-translate-y-1 transition-all"
+                    className="modern-btn inline-flex items-center gap-2 px-6 py-3 rounded-xl hover:-translate-y-1 transition-all"
                     aria-label="Contact Ajithkumar"
                   >
                     Get in Touch
                     <ArrowRight className="w-4 h-4" />
                   </button>
-                  
-                  <div className="flex gap-4 text-primary-600 dark:text-primary-400">
-                    <a 
-                      href="https://github.com/ajith2401" 
-                      target="_blank" 
+
+                  <div className="flex gap-4 text-accent-primary">
+                    <a
+                      href="https://github.com/ajith2401"
+                      target="_blank"
                       rel="noopener noreferrer"
-                      className="clean-container p-3 rounded-lg hover:-translate-y-1 transition-all"
+                      className="modern-card p-3 rounded-xl hover:-translate-y-1 transition-all hover:bg-card"
                       aria-label="Ajithkumar on GitHub"
                     >
                       <Github className="w-5 h-5" />
                     </a>
-                    <a 
-                      href="https://www.linkedin.com/in/ajithkumar-r-a6531a232/" 
-                      target="_blank" 
+                    <a
+                      href="https://www.linkedin.com/in/ajithkumar-r-a6531a232/"
+                      target="_blank"
                       rel="noopener noreferrer"
-                      className="clean-container p-3 rounded-lg hover:-translate-y-1 transition-all"
+                      className="modern-card p-3 rounded-xl hover:-translate-y-1 transition-all hover:bg-card"
                       aria-label="Ajithkumar on LinkedIn"
                     >
                       <Linkedin className="w-5 h-5" />
                     </a>
-                    <a 
-                      href="mailto:Portfolioajith24ram@gmail.com" 
-                      className="clean-container p-3 rounded-lg hover:-translate-y-1 transition-all"
+                    <a
+                      href="mailto:Portfolioajith24ram@gmail.com"
+                      className="modern-card p-3 rounded-xl hover:-translate-y-1 transition-all hover:bg-card"
                       aria-label="Email Ajithkumar"
                     >
                       <Mail className="w-5 h-5" />
@@ -288,11 +288,11 @@ const Hero = () => {
         <div className="w-full flex flex-col items-center mb-4">
           <div className="w-full max-w-4xl px-4">
             <div className="divider-container relative py-4">
-              <div className="divider h-px w-full bg-gradient-to-r from-transparent via-primary-400 to-transparent"></div>
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-4">
-                <button 
+              <div className="divider h-px w-full bg-gradient-to-r from-transparent via-accent-primary to-transparent"></div>
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary px-4">
+                <button
                   onClick={scrollToContent}
-                  className="flex flex-col items-center text-primary-600 hover:text-primary-400 transition-colors duration-300"
+                  className="flex flex-col items-center text-accent-primary hover:text-accent-hover transition-colors duration-300"
                   aria-label="Scroll to content"
                 >
                   <span className="text-sm font-medium mb-1">Explore More</span>
@@ -311,34 +311,34 @@ const Hero = () => {
             {/* Left Column - Writer Works */}
             <div className="space-y-6">
               <div className="flex items-center gap-2 mb-4">
-                <FolderOpen className="w-6 h-6 text-primary-600" />
-                <h2 className="text-2xl font-bold text-foreground">Featured Works</h2>
+                <FolderOpen className="w-6 h-6 text-accent-primary" />
+                <h2 className="text-2xl font-bold text-primary">Featured Works</h2>
               </div>
               
               <Link 
                 href="/quill" 
                 className="group block"
               >
-                <div className="clean-container p-5 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden">
+                <div className="modern-card p-5 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover relative overflow-hidden">
                   {/* Background animation element */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary-100/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
-                  
+                  <div className="absolute inset-0 bg-gradient-to-r from-accent-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+
                   {/* Content with animations */}
                   <div className="relative z-10">
-                    <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary-600 transition-colors duration-300">
+                    <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-accent-primary transition-colors duration-300">
                       Tamil Poetry Collection
                     </h3>
-                    
-                    <p className="text-secondary-700 mb-2 transition-all duration-300 group-hover:translate-x-1">
+
+                    <p className="text-secondary mb-2 transition-all duration-300 group-hover:translate-x-1">
                       Explore my collection of published Tamil poetry addressing themes of feminism, social justice, and personal reflection – with five published books to my name.
                     </p>
-                    
-                    <span className="inline-flex items-center text-primary-600 text-sm font-medium transition-all duration-300 group-hover:translate-x-2 relative">
+
+                    <span className="inline-flex items-center text-accent-primary text-sm font-medium transition-all duration-300 group-hover:translate-x-2 relative">
                       Browse poetry collection
                       <ArrowRight className="w-3 h-3 ml-1 transition-all duration-300 group-hover:ml-2" />
-                      
+
                       {/* Animated underline */}
-                      <span className="absolute bottom-0 left-0 w-0 h-px bg-primary-600 group-hover:w-full transition-all duration-500"></span>
+                      <span className="absolute bottom-0 left-0 w-0 h-px bg-accent-primary group-hover:w-full transition-all duration-500"></span>
                     </span>
                   </div>
                 </div>
@@ -348,22 +348,22 @@ const Hero = () => {
                 href="/devfolio" 
                 className="group block"
               >
-                <div className="clean-container p-5 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary-100/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
-                  
+                <div className="modern-card p-5 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-accent-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+
                   <div className="relative z-10">
-                    <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary-600 transition-colors duration-300">
+                    <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-accent-primary transition-colors duration-300">
                       Developer Portfolio
                     </h3>
-                    
-                    <p className="text-secondary-700 mb-2 transition-all duration-300 group-hover:translate-x-1">
+
+                    <p className="text-secondary mb-2 transition-all duration-300 group-hover:translate-x-1">
                       View my technical projects and applications built with MERN stack (MongoDB, Express.js, React, Node.js) showcasing my skills as a Full Stack Developer.
                     </p>
-                    
-                    <span className="inline-flex items-center text-primary-600 text-sm font-medium transition-all duration-300 group-hover:translate-x-2 relative">
+
+                    <span className="inline-flex items-center text-accent-primary text-sm font-medium transition-all duration-300 group-hover:translate-x-2 relative">
                       Explore development work
                       <ArrowRight className="w-3 h-3 ml-1 transition-all duration-300 group-hover:ml-2" />
-                      <span className="absolute bottom-0 left-0 w-0 h-px bg-primary-600 group-hover:w-full transition-all duration-500"></span>
+                      <span className="absolute bottom-0 left-0 w-0 h-px bg-accent-primary group-hover:w-full transition-all duration-500"></span>
                     </span>
                   </div>
                 </div>
@@ -373,36 +373,36 @@ const Hero = () => {
                 href="/spotlight" 
                 className="group block"
               >
-                <div className="clean-container p-5 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary-100/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
-                  
+                <div className="modern-card p-5 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-accent-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+
                   <div className="relative z-10">
-                    <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary-600 transition-colors duration-300">
+                    <h3 className="text-lg font-bold text-primary mb-2 group-hover:text-accent-primary transition-colors duration-300">
                       Published Books
                     </h3>
-                    
-                    <p className="text-secondary-700 mb-2 transition-all duration-300 group-hover:translate-x-1">
+
+                    <p className="text-secondary mb-2 transition-all duration-300 group-hover:translate-x-1">
                       Browse my five published Tamil poetry books that explore contemporary social themes, feminist perspectives, and human emotions.
                     </p>
-                    
-                    <span className="inline-flex items-center text-primary-600 text-sm font-medium transition-all duration-300 group-hover:translate-x-2 relative">
+
+                    <span className="inline-flex items-center text-accent-primary text-sm font-medium transition-all duration-300 group-hover:translate-x-2 relative">
                       View published books
                       <ArrowRight className="w-3 h-3 ml-1 transition-all duration-300 group-hover:ml-2" />
-                      <span className="absolute bottom-0 left-0 w-0 h-px bg-primary-600 group-hover:w-full transition-all duration-500"></span>
+                      <span className="absolute bottom-0 left-0 w-0 h-px bg-accent-primary group-hover:w-full transition-all duration-500"></span>
                     </span>
                   </div>
                 </div>
               </Link>
 
               <div className="pt-8">
-                <h3 className="text-xl font-bold text-foreground mb-4">
+                <h3 className="text-xl font-bold text-primary mb-4">
                   Expertise
                 </h3>
                 <div className="flex flex-wrap gap-3">
                   {['React.js', 'Node.js', 'MongoDB', 'Express.js', 'Full Stack Development', 'JavaScript','Tamil Poetry', 'Published Author', 'Feminism', 'Social Justice', 'MERN Stack'].map((skill) => (
-                    <span 
+                    <span
                       key={skill}
-                      className="clean-container px-4 py-2 rounded-full text-sm text-secondary-700"
+                      className="status-badge bg-tertiary text-secondary px-4 py-2 rounded-full text-sm hover:bg-accent-primary hover:text-white transition-all duration-200"
                     >
                       {skill}
                     </span>
@@ -413,23 +413,23 @@ const Hero = () => {
 
             {/* Right Column - Achievements & Background */}
             <div className="space-y-6">
-              <div className="clean-container p-6 rounded-xl space-y-4">
-                <h3 className="text-xl font-bold text-foreground">Published Tamil Poet</h3>
-                <p className="text-secondary-700">
+              <div className="modern-card p-6 rounded-xl space-y-4 hover:shadow-card-hover transition-all duration-300">
+                <h3 className="text-xl font-bold text-primary">Published Tamil Poet</h3>
+                <p className="text-secondary">
                   Author of five acclaimed Tamil poetry books exploring themes of social justice, feminism, and cultural identity. My writing has been recognized for its authentic voice and thematic depth within Tamil literary circles.
                 </p>
               </div>
 
-              <div className="clean-container p-6 rounded-xl space-y-4">
-                <h3 className="text-xl font-bold text-foreground">Full Stack Developer</h3>
-                <p className="text-secondary-700">
+              <div className="modern-card p-6 rounded-xl space-y-4 hover:shadow-card-hover transition-all duration-300">
+                <h3 className="text-xl font-bold text-primary">Full Stack Developer</h3>
+                <p className="text-secondary">
                   Currently working as a Full Stack Developer, specializing in MERN stack (MongoDB, Express.js, React, Node.js) to create scalable and innovative web applications.
                 </p>
               </div>
 
-              <div className="clean-container p-6 rounded-xl space-y-4">
-                <h3 className="text-xl font-bold text-foreground">Bridging Two Worlds</h3>
-                <p className="text-secondary-700">
+              <div className="modern-card p-6 rounded-xl space-y-4 hover:shadow-card-hover transition-all duration-300">
+                <h3 className="text-xl font-bold text-primary">Bridging Two Worlds</h3>
+                <p className="text-secondary">
                   I bring a unique perspective that combines the creative depth of a published poet with the technical precision of a developer, creating solutions that are both innovative and meaningfully crafted.
                 </p>
               </div>

@@ -12,39 +12,40 @@ export const ThemeToggleAnimated = () => {
     <button 
       onClick={toggleTheme}
       className={`
-        relative p-3 rounded-full transition-all duration-500
-        ${isDark 
-          ? 'bg-slate-800 shadow-inner shadow-slate-900 hover:bg-slate-700' 
-          : 'bg-sky-100 hover:bg-sky-200 shadow'}
+        relative p-3 rounded-xl transition-all duration-300
+        ${isDark
+          ? 'bg-tertiary border border-color hover:bg-secondary shadow-lg'
+          : 'bg-card border border-color hover:bg-secondary shadow-lg'}
+        hover:scale-105 active:scale-95
       `}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
       <div className="relative w-6 h-6 flex items-center justify-center">
         {/* Sun */}
-        <Sun 
-          className={`absolute transition-all duration-500 ease-in-out
-            ${isDark 
-              ? 'opacity-0 rotate-90 scale-0' 
-              : 'opacity-100 rotate-0 scale-100 text-amber-500'
+        <Sun
+          className={`absolute transition-all duration-300 ease-in-out
+            ${isDark
+              ? 'opacity-0 rotate-90 scale-0'
+              : 'opacity-100 rotate-0 scale-100 text-warning'
             }`}
           size={24}
         />
-        
+
         {/* Moon */}
-        <Moon 
-          className={`absolute transition-all duration-500 ease-in-out
-            ${isDark 
-              ? 'opacity-100 rotate-0 scale-100 text-slate-300' 
+        <Moon
+          className={`absolute transition-all duration-300 ease-in-out
+            ${isDark
+              ? 'opacity-100 rotate-0 scale-100 text-info'
               : 'opacity-0 -rotate-90 scale-0'
             }`}
           size={22}
         />
-        
+
         {/* Stars around the moon in dark mode */}
-        <Stars 
-          className={`absolute -top-1 -right-1 transition-all duration-500 ease-in-out
-            ${isDark 
-              ? 'opacity-70 rotate-0 scale-100 text-yellow-200' 
+        <Stars
+          className={`absolute -top-1 -right-1 transition-all duration-300 ease-in-out
+            ${isDark
+              ? 'opacity-70 rotate-0 scale-100 text-accent'
               : 'opacity-0 rotate-90 scale-0'
             }`}
           size={12}

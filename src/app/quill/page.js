@@ -50,8 +50,8 @@ export default function QuillPage() {
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Loading Writings...</h2>
-          <p className="text-gray-500">Please wait while we fetch the content.</p>
+          <h2 className="text-2xl font-bold mb-4 text-primary">Loading Writings...</h2>
+          <p className="text-secondary">Please wait while we fetch the content.</p>
         </div>
       </div>
     }>

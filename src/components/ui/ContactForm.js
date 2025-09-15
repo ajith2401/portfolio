@@ -91,33 +91,25 @@ const ContactForm = ({ isOpen, onClose }) => {
       />
       
       {/* Modal */}
-      <div className={`
-        relative w-full max-w-md p-6 rounded-xl shadow-xl transition-all duration-300 transform
-        bg-background
-        ${isDark ? 'border-slate-800' : ' border-sky-100'}
-        animate-fade-in-up
-      `}>
+      <div className="relative w-full max-w-md p-6 rounded-xl shadow-xl transition-all duration-300 transform modern-card animate-fade-in-up">
         {/* Close button */}
-        <button 
+        <button
           onClick={onClose}
-          className={`
-            absolute top-4 right-4 p-2 rounded-full transition-colors
-            ${isDark ? 'hover:bg-slate-800' : 'hover:bg-sky-50'}
-          `}
+          className="absolute top-4 right-4 p-2 rounded-full transition-all duration-200 hover:bg-tertiary text-secondary hover:text-primary"
           aria-label="Close contact form"
         >
-          <X className="h-5 w-5 text-foreground" />
+          <X className="h-5 w-5" />
         </button>
         
-        <h2 className={`text-2xl font-semibold mb-6 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+        <h2 className="text-2xl font-semibold mb-6 text-primary">
           Get in Touch
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label 
-              htmlFor="name" 
-              className={`block text-sm font-medium mb-1 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium mb-1 text-secondary"
             >
               Name
             </label>
@@ -127,23 +119,16 @@ const ContactForm = ({ isOpen, onClose }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`
-                w-full px-4 py-2 rounded-md border transition-colors
-                ${isDark 
-                  ? 'bg-slate-800 border-slate-700 text-white focus:border-primary-400' 
-                  : 'bg-white border-sky-200 text-slate-900 focus:border-primary-600'}
-                ${errors.name ? 'border-red-500' : ''}
-                focus:outline-none focus:ring-1 focus:ring-primary
-              `}
+              className={`modern-input ${errors.name ? 'border-error' : ''}`}
               placeholder="Your name"
             />
-            {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
+            {errors.name && <p className="mt-1 text-sm text-error">{errors.name}</p>}
           </div>
           
           <div>
-            <label 
-              htmlFor="email" 
-              className={`block text-sm font-medium mb-1 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium mb-1 text-secondary"
             >
               Email
             </label>
@@ -153,23 +138,16 @@ const ContactForm = ({ isOpen, onClose }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`
-                w-full px-4 py-2 rounded-md border transition-colors
-                ${isDark 
-                  ? 'bg-slate-800 border-slate-700 text-white focus:border-primary-400' 
-                  : 'bg-white border-sky-200 text-slate-900 focus:border-primary-600'}
-                ${errors.email ? 'border-red-500' : ''}
-                focus:outline-none focus:ring-1 focus:ring-primary
-              `}
+              className={`modern-input ${errors.email ? 'border-error' : ''}`}
               placeholder="your.email@example.com"
             />
-            {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+            {errors.email && <p className="mt-1 text-sm text-error">{errors.email}</p>}
           </div>
           
           <div>
-            <label 
-              htmlFor="subject" 
-              className={`block text-sm font-medium mb-1 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}
+            <label
+              htmlFor="subject"
+              className="block text-sm font-medium mb-1 text-secondary"
             >
               Subject
             </label>
@@ -179,23 +157,16 @@ const ContactForm = ({ isOpen, onClose }) => {
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              className={`
-                w-full px-4 py-2 rounded-md border transition-colors
-                ${isDark 
-                  ? 'bg-slate-800 border-slate-700 text-white focus:border-primary-400' 
-                  : 'bg-white border-sky-200 text-slate-900 focus:border-primary-600'}
-                ${errors.subject ? 'border-red-500' : ''}
-                focus:outline-none focus:ring-1 focus:ring-primary
-              `}
+              className={`modern-input ${errors.subject ? 'border-error' : ''}`}
               placeholder="What is this regarding?"
             />
-            {errors.subject && <p className="mt-1 text-sm text-red-500">{errors.subject}</p>}
+            {errors.subject && <p className="mt-1 text-sm text-error">{errors.subject}</p>}
           </div>
           
           <div>
-            <label 
-              htmlFor="message" 
-              className={`block text-sm font-medium mb-1 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium mb-1 text-secondary"
             >
               Message
             </label>
@@ -205,42 +176,28 @@ const ContactForm = ({ isOpen, onClose }) => {
               value={formData.message}
               onChange={handleChange}
               rows="4"
-              className={`
-                w-full px-4 py-2 rounded-md border transition-colors
-                ${isDark 
-                  ? 'bg-slate-800 border-slate-700 text-white focus:border-primary-400' 
-                  : 'bg-white border-sky-200 text-slate-900 focus:border-primary-600'}
-                ${errors.message ? 'border-red-500' : ''}
-                focus:outline-none focus:ring-1 focus:ring-primary
-              `}
+              className={`modern-input resize-vertical ${errors.message ? 'border-error' : ''}`}
               placeholder="Your message here..."
             />
-            {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
+            {errors.message && <p className="mt-1 text-sm text-error">{errors.message}</p>}
           </div>
           
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`
-              w-full px-6 py-3 rounded-full transition-all duration-300
-              ${isDark
-                ? 'bg-primary-400 text-slate-900 hover:bg-primary-300'
-                : 'bg-primary-600 text-white hover:bg-primary-700'}
-              hover:shadow-lg
-              disabled:opacity-70 disabled:cursor-not-allowed
-            `}
+            className="modern-btn w-full disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>
           
           {submitStatus === 'success' && (
-            <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-md">
+            <div className="mt-4 p-3 bg-success/10 text-success rounded-xl border border-success/20">
               Thank you! Your message has been sent successfully.
             </div>
           )}
-          
+
           {submitStatus === 'error' && (
-            <div className="mt-4 p-3 bg-red-100 text-red-800 rounded-md">
+            <div className="mt-4 p-3 bg-error/10 text-error rounded-xl border border-error/20">
               Oops! Something went wrong. Please try again later.
             </div>
           )}

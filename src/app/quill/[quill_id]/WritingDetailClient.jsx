@@ -245,22 +245,24 @@ const MarkdownRenderer = ({ content }) => {
   );
 };
 
-const truncateBody = (text) => {
+const truncateBody = (text, wordLimit = 15) => {
   if (!text) return '';
   
-  // Remove special characters and multiple spaces
+  // Remove HTML tags and special characters
   const cleanText = text
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
     .replace(/[!,.?":;]/g, '') // Remove special characters
     .replace(/\n/g, ' ') // Remove newlines
     .replace(/\s+/g, ' ') // Remove multiple spaces
     .trim(); // Remove leading/trailing spaces
 
-  // Get first 5 words
-  const words = cleanText.split(' ').slice(0, 3);
+  // Get the specified number of words
+  const words = cleanText.split(' ');
+  const truncatedWords = words.slice(0, wordLimit);
   
   // Only add ... if there are more words
-  const hasMoreWords = cleanText.split(' ').length > 5;
-  return `${words.join(' ')}${hasMoreWords ? ' ...' : ''}`;
+  const hasMoreWords = words.length > wordLimit;
+  return `${truncatedWords.join(' ')}${hasMoreWords ? '...' : ''}`;
 };
 
 // Related writings component that uses searchParams
@@ -278,16 +280,18 @@ const RelatedWritings = ({ relatedWritings, formatDate }) => {
         <Link 
           href={`${getSafeUrl(relatedWriting, 'quill')}?returnPage=${returnPage}`} 
           key={relatedWriting._id}
-          className="w-full group"
+          className="block w-full"
         >
-        <div className="clean-container rounded-lg overflow-hidden group transition-all duration-300
-                    hover:shadow-[var(--card-hover-shadow)] 
-                    hover:translate-y-[var(--card-hover-transform)]
-                    cursor-pointer">
-            {/* Image Container */}
-            <div className="relative w-full aspect-[16/9] sm:h-[231.38px] rounded-lg overflow-hidden">
+          <article 
+            className="clean-container rounded-lg overflow-hidden group transition-all duration-300
+              hover:shadow-[var(--card-hover-shadow)] 
+              hover:translate-y-[var(--card-hover-transform)]
+              cursor-pointer"
+          >
+            {/* Fixed aspect ratio container for image */}
+            <div className="relative w-full aspect-[16/9] overflow-hidden">
               <Image
-                src={relatedWriting.images?.large || '/placeholder.jpg'}
+                src={relatedWriting.images?.small || '/placeholder.jpg'}
                 alt={relatedWriting.title}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -295,30 +299,51 @@ const RelatedWritings = ({ relatedWritings, formatDate }) => {
                 priority={false}
                 quality={75}
               />
+              {(relatedWriting.publishedAt || relatedWriting.createdAt) && (
+                <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
+                  <span className="text-sm font-work-sans text-foreground">
+                    {(() => {
+                      try {
+                        const date = new Date(relatedWriting.publishedAt || relatedWriting.createdAt);
+                        return isNaN(date.getTime()) ? '—' : date.getFullYear();
+                      } catch {
+                        return '—';
+                      }
+                    })()}
+                  </span>
+                </div>
+              )}
             </div>
 
-            <h3 className="font-work-sans text-base sm:text-lg font-medium leading-tight sm:leading-[21px] transition-colors duration-300 group-hover:text-primary">
-              {relatedWriting.title}
-            </h3>
-          
-            <p className="font-merriweather text-sm text-foreground leading-relaxed sm:leading-[21px]">
-              {truncateBody(relatedWriting.body)}
-            </p>
-
-            <div className="flex justify-between items-center mt-auto">
-              <div className="flex items-center justify-center px-2 py-1.5 bg-[rgba(140,140,140,0.1)] rounded transition-colors duration-300 group-hover:bg-[rgba(140,140,140,0.2)]">
-                <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                  {relatedWriting.category}
-                </span>
+            <div className="p-6 space-y-4">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="px-2 py-1 text-xs font-medium text-primary-600 bg-primary-100 rounded-full">
+                    {relatedWriting.category}
+                  </span>
+                  {relatedWriting.averageRating > 0 && (
+                    <div className="flex items-center gap-1 text-yellow-500">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <span key={i} className="text-xs">
+                          {i < Math.floor(relatedWriting.averageRating) ? '★' : '☆'}
+                        </span>
+                      ))}
+                      <span className="text-xs text-secondary-500 ml-1">
+                        ({relatedWriting.totalRatings || 0})
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <h3 className="font-work-sans text-lg font-medium text-foreground group-hover:text-primary-500 transition-colors">
+                  {relatedWriting.title}
+                </h3>
               </div>
 
-              <span className="font-work-sans text-xs font-medium leading-[14px] text-gray-400">
-                {formatDate(relatedWriting.createdAt)}
-              </span>
+              <p className="text-secondary-600 text-sm line-clamp-3">
+                {truncateBody(relatedWriting.body)}
+              </p>
             </div>
-
-            <div className="w-full border-b border-dashed border-[#949494] opacity-25" />
-          </div>
+          </article>
         </Link>
       ))}
     </>
@@ -414,7 +439,7 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
   }
 
   return (
-    <div className="min-h-screen text-foreground">
+  <div className="min-h-screen text-foreground tamil-quill not-dark-black">
       <WritingSchema writing={writing} />
       
       <div className="container mx-auto px-4 md:px-6 lg:px-8">

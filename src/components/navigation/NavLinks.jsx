@@ -32,8 +32,10 @@ export default function NavLinks() {
           <li key={link.href}>
             <Link
               href={link.href}
-              className={`transition-colors ${
-                pathname === link.href ? 'text-primary font-medium' : 'text-gray-600 hover:text-primary'
+              className={`transition-colors duration-300 ${
+                pathname === link.href
+                  ? 'text-accent font-medium border-b-2 border-accent'
+                  : 'text-secondary hover:text-accent hover:border-b-2 hover:border-accent/50'
               }`}
               onMouseEnter={() => prefetchRoute(link.href)}
             >

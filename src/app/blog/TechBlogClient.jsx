@@ -33,12 +33,9 @@ const TechBlogCard = ({ post, idx }) => {
 
   return (    
     <Link href={getSafeUrl(post, 'blog')} className="block w-full">
-      <article 
-        key={post._id} 
-        className="clean-container rounded-lg overflow-hidden group transition-all duration-300
-          hover:shadow-[var(--card-hover-shadow)] 
-          hover:translate-y-[var(--card-hover-transform)]
-          cursor-pointer"
+      <article
+        key={post._id}
+        className="modern-card rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 cursor-pointer"
         >
         {/* Fixed aspect ratio container for image */}
         <div className="relative w-full aspect-[16/9] overflow-hidden">
@@ -51,8 +48,8 @@ const TechBlogCard = ({ post, idx }) => {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {(post.publishedAt || post.createdAt) && (
-            <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
-              <span className="text-sm font-work-sans text-foreground">
+            <div className="absolute top-4 right-4 bg-card/80 backdrop-blur-sm px-3 py-1 rounded-full">
+              <span className="text-sm font-work-sans text-primary">
                 {(() => {
                   try {
                     const date = new Date(post.publishedAt || post.createdAt);
@@ -69,23 +66,23 @@ const TechBlogCard = ({ post, idx }) => {
         <div className="p-6 space-y-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-2 py-1 text-xs font-medium text-primary-600 bg-primary-100 rounded-full">
+              <span className="px-2 py-1 text-xs font-medium text-white bg-accent-primary rounded-full">
                 {post.category}
               </span>
             </div>
-            <h3 className="font-work-sans text-lg font-medium text-foreground group-hover:text-primary-500 transition-colors">
+            <h3 className="font-work-sans text-lg font-medium text-primary group-hover:text-accent-primary transition-colors">
               {post.title}
             </h3>
             {post.subtitle && (
-              <p className="text-secondary-600 text-sm mt-1">{post.subtitle}</p>
+              <p className="text-secondary text-sm mt-1">{post.subtitle}</p>
             )}
           </div>
 
-          <p className="text-secondary-600 text-sm line-clamp-3">
+          <p className="text-secondary text-sm line-clamp-3">
             {post.subtitle || post.content?.substring(0, 150)}
           </p>
 
-          <div className="mt-4 text-sm text-secondary-500 font-work-sans">
+          <div className="mt-4 text-sm text-muted font-work-sans">
             {formatDate(post.publishedAt || post.createdAt)}
           </div>
         </div>
@@ -250,10 +247,10 @@ export default function TechBlogClient({ initialPosts }) {
                 <button
                   key={category}
                   onClick={() => handleCategoryChange(category)}
-                  className={`whitespace-nowrap px-4 py-2 rounded-full text-sm transition-all font-work-sans
-                    ${activeFilter === category 
-                      ? 'bg-primary text-white' 
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm transition-all font-work-sans
+                    ${activeFilter === category
+                      ? 'modern-btn'
+                      : 'bg-tertiary text-secondary hover:bg-card border border-primary'
                     }`}
                 >
                   {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
@@ -261,13 +258,13 @@ export default function TechBlogClient({ initialPosts }) {
               ))}
             </div>
             <div className="relative w-full md:w-64">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted w-4 h-4" />
               <input
                 type="text"
                 placeholder="Search posts..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:border-primary text-sm"
+                className="modern-input w-full pl-10 pr-4 py-2 rounded-xl text-sm"
               />
             </div>
           </div>
@@ -304,7 +301,7 @@ export default function TechBlogClient({ initialPosts }) {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="p-1.5 sm:p-2 rounded-xl border border-primary disabled:opacity-50 disabled:cursor-not-allowed text-primary hover:bg-tertiary transition-colors"
                 aria-label="Previous page"
               >
                 <span className="text-sm sm:text-base">←</span>
@@ -317,12 +314,12 @@ export default function TechBlogClient({ initialPosts }) {
                     key={index}
                     onClick={() => typeof page === 'number' && handlePageChange(page)}
                     disabled={typeof page !== 'number'}
-                    className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-md text-sm sm:text-base transition-colors ${
+                    className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-xl text-sm sm:text-base transition-colors ${
                       currentPage === page
-                        ? 'bg-primary text-white'
+                        ? 'bg-accent text-white'
                         : typeof page === 'number'
-                        ? 'text-foreground hover:bg-gray-100 dark:hover:bg-gray-800'
-                        : 'text-gray-500 cursor-default'
+                        ? 'text-primary hover:bg-tertiary'
+                        : 'text-muted cursor-default'
                     }`}
                   >
                     {page}
@@ -334,7 +331,7 @@ export default function TechBlogClient({ initialPosts }) {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="p-1.5 sm:p-2 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="p-1.5 sm:p-2 rounded-xl border border-primary disabled:opacity-50 disabled:cursor-not-allowed text-primary hover:bg-tertiary transition-colors"
                 aria-label="Next page"
               >
                 <span className="text-sm sm:text-base">→</span>

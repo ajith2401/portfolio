@@ -35,9 +35,38 @@ module.exports = {
         heading: ['var(--font-heading)', 'serif'],
         'poppins': ['var(--font-poppins)', 'sans-serif'], 
       },
-      // Color palette
+      // Modern Color System
       colors: {
-        // Theme colors (light mode by default)
+        // Background Colors
+        'bg-primary': 'var(--bg-primary)',
+        'bg-secondary': 'var(--bg-secondary)',
+        'bg-tertiary': 'var(--bg-tertiary)',
+        'bg-card': 'var(--bg-card)',
+        'bg-input': 'var(--bg-input)',
+
+        // Text Colors
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'text-muted': 'var(--text-muted)',
+        'text-on-card': 'var(--text-on-card)',
+
+        // Accent Colors
+        'accent-primary': 'var(--accent-primary)',
+        'accent-secondary': 'var(--accent-secondary)',
+        'accent-tertiary': 'var(--accent-tertiary)',
+        'accent-hover': 'var(--accent-hover)',
+
+        // Interactive States
+        'border-color': 'var(--border-color)',
+        'border-focus': 'var(--border-focus)',
+
+        // Status Colors
+        'success': 'var(--success)',
+        'warning': 'var(--warning)',
+        'error': 'var(--error)',
+        'info': 'var(--info)',
+
+        // Legacy Support (backwards compatibility)
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: {
@@ -51,7 +80,7 @@ module.exports = {
           700: "var(--primary-700)",
           800: "var(--primary-800)",
           900: "var(--primary-900)",
-          DEFAULT: "var(--primary-500)",
+          DEFAULT: "var(--accent-primary)",
         },
         secondary: {
           50: "var(--secondary-50)",
@@ -64,11 +93,11 @@ module.exports = {
           700: "var(--secondary-700)",
           800: "var(--secondary-800)",
           900: "var(--secondary-900)",
-          DEFAULT: "var(--secondary-500)",
+          DEFAULT: "var(--text-secondary)",
         },
-        accent: "var(--accent)",
-        muted: "var(--muted)",
-        "muted-foreground": "var(--muted-foreground)",
+        accent: "var(--accent-primary)",
+        muted: "var(--bg-tertiary)",
+        "muted-foreground": "var(--text-muted)",
         'decorative-line': {
           DEFAULT: 'var(--decorative-line-color)',
         }
@@ -148,11 +177,18 @@ module.exports = {
         '3xl': '2rem',
       },
 
-      // Box shadows
+      // Modern Box Shadows
       boxShadow: {
         'subtle': '0 2px 4px rgba(0,0,0,0.05)',
         'hover': '0 8px 16px rgba(0,0,0,0.1)',
-        'card': '0 4px 8px rgba(0,0,0,0.08)',
+        'card': 'var(--shadow-light)',
+        'card-hover': 'var(--shadow-medium)',
+        'card-focus': 'var(--shadow-strong)',
+        'glass': '0 4px 32px 0 rgba(168,139,250,0.12), 0 1.5px 8px 0 rgba(255,255,255,0.18) inset',
+        'glow': '0 0 16px 4px #a78bfa, 0 0 32px 8px #8ec5fc',
+        'premium': '0 0 0 4px #e9d5ff, 0 4px 32px 0 rgba(168,139,250,0.12)',
+        'outer': 'var(--shadow-outer)',
+        'inner': 'var(--shadow-inner)',
       },
       
 
@@ -181,11 +217,6 @@ module.exports = {
         float: 'float 6s ease-in-out infinite',
         glow: 'glow 2s ease-in-out infinite',
       },
-      boxShadow: {
-        glass: '0 4px 32px 0 rgba(168,139,250,0.12), 0 1.5px 8px 0 rgba(255,255,255,0.18) inset',
-        glow: '0 0 16px 4px #a78bfa, 0 0 32px 8px #8ec5fc',
-        premium: '0 0 0 4px #e9d5ff, 0 4px 32px 0 rgba(168,139,250,0.12)',
-      },
       transitionTimingFunction: {
         'in-out-cubic': 'cubic-bezier(0.77,0,0.175,1)',
       },
@@ -200,13 +231,6 @@ module.exports = {
         '2xl': '1536px',
       },
       
-      // Box shadow for cards and interactive elements
-      boxShadow: {
-        'card': 'var(--shadow-card)',
-        'card-hover': 'var(--shadow-card-hover)',
-        'outer': 'var(--shadow-outer)',
-        'inner': 'var(--shadow-inner)',
-      },
     },
   },
   plugins: [],

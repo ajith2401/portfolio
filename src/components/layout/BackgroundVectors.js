@@ -79,16 +79,27 @@ const BackgroundVectors = () => {
     <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10">
       {/* Layered radial gradients for depth */}
       <div
-        className="absolute inset-0 w-full h-full transition-colors duration-1000"
+        className="absolute inset-0 w-full h-full transition-colors duration-500"
         style={{
           background: isDark
-            ? '#0f172a'
-            : 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
+            ? 'var(--bg-primary)'
+            : 'var(--bg-primary)',
         }}
       />
-      {/* Extra radial overlays for premium look */}
-      <div className="absolute inset-0 opacity-30" style={{background: 'radial-gradient(circle at 70% 10%, #e0c3fc 0%, transparent 50%)'}} />
-      <div className="absolute inset-0 opacity-20" style={{background: 'radial-gradient(circle at 30% 80%, #a78bfa 0%, transparent 50%)'}} />
+      {/* Modern gradient overlays */}
+      {isDark ? (
+        <>
+          <div className="absolute inset-0 opacity-20" style={{background: 'radial-gradient(circle at 20% 80%, rgba(96, 165, 250, 0.15) 0%, transparent 50%)'}} />
+          <div className="absolute inset-0 opacity-15" style={{background: 'radial-gradient(circle at 80% 20%, rgba(167, 139, 250, 0.1) 0%, transparent 50%)'}} />
+          <div className="absolute inset-0 opacity-10" style={{background: 'radial-gradient(circle at 40% 40%, rgba(34, 211, 238, 0.08) 0%, transparent 50%)'}} />
+        </>
+      ) : (
+        <>
+          <div className="absolute inset-0 opacity-25" style={{background: 'radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)'}} />
+          <div className="absolute inset-0 opacity-20" style={{background: 'radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%)'}} />
+          <div className="absolute inset-0 opacity-15" style={{background: 'radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.06) 0%, transparent 50%)'}} />
+        </>
+      )}
       {/* Morphing blobs */}
       {isDark ? (
         <>

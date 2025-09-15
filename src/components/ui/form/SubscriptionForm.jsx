@@ -91,20 +91,20 @@ const SubscriptionForm = ({ onClose }) => {
 
   return (
     <div className="subscription-modal-overlay fixed inset-0 z-[9999] flex items-center justify-center px-4 bg-black bg-opacity-50 backdrop-blur-sm animate-fade-in">
-      <div className="subscription-modal-content relative w-full max-w-md clean-container rounded-xl p-6 shadow-lg animate-fade-in-up z-[10000]">
+      <div className="subscription-modal-content relative w-full max-w-md modern-card rounded-xl p-6 shadow-lg animate-fade-in-up z-[10000]">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+          className="absolute top-4 right-4 p-1 rounded-full hover:bg-tertiary transition-colors"
           aria-label="Close subscription form"
         >
-          <X className="w-5 h-5 text-gray-500" />
+          <X className="w-5 h-5 text-muted" />
         </button>
 
         {/* Header */}
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-foreground mb-2">Stay Updated</h2>
-          <p className="text-secondary-600 dark:text-secondary-400">
+          <h2 className="text-2xl font-bold text-primary mb-2">Stay Updated</h2>
+          <p className="text-secondary">
             Subscribe to receive notifications about new content
           </p>
         </div>
@@ -112,7 +112,7 @@ const SubscriptionForm = ({ onClose }) => {
         {/* Form */}
         <form onSubmit={handleSubscribe}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-secondary mb-1">
               Email Address
             </label>
             <input
@@ -120,9 +120,9 @@ const SubscriptionForm = ({ onClose }) => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full px-4 py-3 rounded-lg bg-white border-2 ${
-                errors.email ? 'border-red-500' : 'border-purple-200 dark:border-gray-700'
-              } focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 relative z-[10001]`}
+              className={`modern-input w-full px-4 py-3 rounded-lg ${
+                errors.email ? 'border-error' : ''
+              } relative z-[10001]`}
               placeholder="your@email.com"
               autoComplete="email"
             />
@@ -132,27 +132,25 @@ const SubscriptionForm = ({ onClose }) => {
           </div>
 
           <div className="mb-6">
-            <p className="block text-sm font-medium text-foreground mb-2">
+            <p className="block text-sm font-medium text-secondary mb-2">
               I want to subscribe to:
             </p>
             <div className="space-y-2">
-              <label className="flex items-center space-x-3">
+              <label className="flex items-center space-x-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={preferences.blog}
                   onChange={() => handleCheckboxChange('blog')}
-                  className="h-5 w-5 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                 />
-                <span className="text-foreground">Tech Blog Updates</span>
+                <span className="text-primary">Tech Blog Updates</span>
               </label>
-              <label className="flex items-center space-x-3">
+              <label className="flex items-center space-x-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={preferences.quill}
                   onChange={() => handleCheckboxChange('quill')}
-                  className="h-5 w-5 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                 />
-                <span className="text-foreground">Tamil Writings (Quill)</span>
+                <span className="text-primary">Tamil Writings (Quill)</span>
               </label>
             </div>
             {errors.preferences && (
@@ -163,7 +161,7 @@ const SubscriptionForm = ({ onClose }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-2 px-4 rounded-lg text-white bg-primary-600 hover:bg-primary-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 ${
+            className={`modern-btn w-full py-2 px-4 rounded-lg text-white transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 ${
               isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
             }`}
           >
@@ -172,8 +170,8 @@ const SubscriptionForm = ({ onClose }) => {
         </form>
 
         {/* Privacy note */}
-        <p className="mt-4 text-xs text-center text-secondary-500">
-          By subscribing, you agree to receive email notifications. 
+        <p className="mt-4 text-xs text-center text-muted">
+          By subscribing, you agree to receive email notifications.
           You can unsubscribe at any time. We respect your privacy.
         </p>
       </div>
