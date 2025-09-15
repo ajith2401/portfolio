@@ -22,48 +22,61 @@ const connectionOptions = {
   socketTimeoutMS: 60000, // Increased to 60 seconds for longer operations
   connectTimeoutMS: 10000, // Explicit connection timeout
   family: 4, // Use IPv4, skip trying IPv6
-  retryWrites: true
-  // Note: bufferCommands is a mongoose option, not a MongoDB connection option
+  retryWrites: true,
+  bufferCommands: true, // Enable command buffering
+  autoCreate: true // Automatically create collections
 };
 
 async function connectDB() {
-  // If we have a cached connection and it's ready, return it
-  if (cached.conn && cached.conn.connection.readyState === 1) {
-    return cached.conn;
-  }
-
-  // If we don't have a promise, create one
-  if (!cached.promise) {
-    // Ensure mongoose is configured for serverless environments
-    mongoose.set('bufferCommands', false);
-    
-    cached.promise = mongoose.connect(MONGODB_URI, connectionOptions).then((mongoose) => {
-      console.log('✅ MongoDB connected successfully');
-      
-      // Set up connection event listeners
-      setupConnectionEventListeners(mongoose.connection);
-      
-      return mongoose;
-    }).catch((error) => {
-      cached.promise = null;
-      console.error('❌ MongoDB connection failed:', error);
-      throw error;
-    });
-  }
-
   try {
+    // If we have a cached connection and it's ready, return it
+    if (cached.conn && mongoose.connection.readyState === 1) {
+      return cached.conn;
+    }
+
+    // If we're already trying to connect, wait for that promise
+    if (cached.promise) {
+      cached.conn = await cached.promise;
+      return cached.conn;
+    }
+
+    // Otherwise, create a new connection promise
+    cached.promise = mongoose.connect(MONGODB_URI, {
+      ...connectionOptions,
+      bufferCommands: true, // Enable command buffering
+      autoCreate: true, // Automatically create collections
+      maxPoolSize: 10, // Increased for better concurrent handling
+      serverSelectionTimeoutMS: 30000, // Increased timeout for cold starts
+      socketTimeoutMS: 45000, // Increased socket timeout
+      family: 4, // Use IPv4
+      writeConcern: {
+        w: 'majority',
+        j: true
+      }
+    });
+
     cached.conn = await cached.promise;
     
-    // Double check connection is ready before returning
-    if (cached.conn.connection.readyState !== 1) {
-      throw new Error('MongoDB connection not ready');
-    }
-    
+    // Handle connection events
+    mongoose.connection.on('connected', () => {
+      console.log('MongoDB connected successfully');
+    });
+
+    mongoose.connection.on('error', (err) => {
+      console.error('MongoDB connection error:', err);
+      cached.promise = null;
+    });
+
+    mongoose.connection.on('disconnected', () => {
+      console.warn('MongoDB disconnected');
+      cached.promise = null;
+    });
+
+    // Success!
     return cached.conn;
   } catch (error) {
+    console.error('MongoDB connection error:', error);
     cached.promise = null;
-    cached.conn = null;
-    console.error('❌ MongoDB connection error:', error);
     throw error;
   }
 }

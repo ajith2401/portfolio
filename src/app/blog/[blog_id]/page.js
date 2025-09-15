@@ -18,7 +18,10 @@ function logPageAccess(identifier, accessType, userAgent) {
 
 async function getTechBlog(blog_id) {
   try {
-    await connectDB();
+    const conn = await connectDB();
+    if (!conn) {
+      throw new Error('Database connection failed');
+    }
     
     let techBlog;
     
@@ -27,7 +30,7 @@ async function getTechBlog(blog_id) {
       techBlog = await TechBlog.findOne({ 
         slug: blog_id.toLowerCase().trim(),
         status: 'published'
-      }).lean();
+      }).exec(); // Add .exec() to ensure promise is returned
       
       if (techBlog) {
         logPageAccess(blog_id, 'SLUG-SUCCESS', '');
@@ -226,7 +229,7 @@ export async function generateStaticParams() {
     // Only generate for published tech blogs with slugs
     const techBlogs = await TechBlog.find({ 
       status: 'published',
-      slug: { $exists: true, $ne: null, $ne: '' }
+      slug: { $exists: true, $nin: [null, ''] }
     })
     .select('slug')
     .limit(100) // Limit for build performance
