@@ -75,8 +75,7 @@ export function middleware(request) {
     return NextResponse.redirect(redirectUrl, {
       status: 301,
       headers: {
-        'Cache-Control': 'public, max-age=31536000', // 1 year for HTTPS/www redirects
-        'X-Robots-Tag': 'noindex, nofollow' // Prevent indexing during redirect
+        'Cache-Control': 'public, max-age=31536000'
       }
     });
   }
