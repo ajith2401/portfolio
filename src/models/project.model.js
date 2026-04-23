@@ -1,6 +1,7 @@
 // src/models/project.model.js
 import mongoose from 'mongoose';
 import { generateSlug, ensureUniqueSlug } from '../utils/slugGenerator.js';
+import { generateUniqueShortCode } from '../utils/shortCode.js';
 
 const ProjectSchema = new mongoose.Schema({
   title: {
@@ -24,6 +25,13 @@ const ProjectSchema = new mongoose.Schema({
       message: 'Slug must only contain lowercase letters, numbers, and hyphens'
     },
     maxlength: [100, 'Slug cannot exceed 100 characters']
+  },
+  shortCode: {
+    type: String,
+    unique: true,
+    sparse: true,
+    index: true,
+    trim: true
   },
   shortDescription: {
     type: String,
@@ -234,6 +242,13 @@ ProjectSchema.pre('save', async function(next) {
       }
     }
     
+    if (!this.shortCode) {
+      this.shortCode = await generateUniqueShortCode({
+        excludeModelName: 'Project',
+        excludeId: this._id,
+      });
+    }
+
     // Auto-generate meta description if not provided
     if (!this.metaDescription && this.shortDescription) {
       this.metaDescription = this.shortDescription.substring(0, 160);

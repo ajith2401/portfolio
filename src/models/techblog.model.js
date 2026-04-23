@@ -1,6 +1,7 @@
 // src/models/techblog.model.js
 import mongoose from 'mongoose';
 import { generateSlug, ensureUniqueSlug } from '../utils/slugGenerator.js';
+import { generateUniqueShortCode } from '../utils/shortCode.js';
 
 const TechBlogSchema = new mongoose.Schema({
   title: {
@@ -24,6 +25,13 @@ const TechBlogSchema = new mongoose.Schema({
       message: 'Slug must only contain lowercase letters, numbers, and hyphens'
     },
     maxlength: [100, 'Slug cannot exceed 100 characters']
+  },
+  shortCode: {
+    type: String,
+    unique: true,
+    sparse: true,
+    index: true,
+    trim: true
   },
   subtitle: {
     type: String,
@@ -238,7 +246,14 @@ TechBlogSchema.pre('save', async function(next) {
         );
       }
     }
-    
+
+    if (!this.shortCode) {
+      this.shortCode = await generateUniqueShortCode({
+        excludeModelName: 'TechBlog',
+        excludeId: this._id,
+      });
+    }
+
     // Auto-generate excerpt if not provided
     if (!this.excerpt && this.content) {
       const plainText = this.content.replace(/<[^>]*>/g, ''); // Remove HTML

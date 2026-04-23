@@ -1,6 +1,7 @@
 // src/models/book.model.js
 import mongoose from 'mongoose';
 import { generateSlug, ensureUniqueSlug } from '../utils/slugGenerator.js';
+import { generateUniqueShortCode } from '../utils/shortCode.js';
 
 const PoemSchema = new mongoose.Schema({
   title: {
@@ -50,6 +51,13 @@ const BookSchema = new mongoose.Schema({
       message: 'Slug must only contain lowercase letters, numbers, and hyphens'
     },
     maxlength: [100, 'Slug cannot exceed 100 characters']
+  },
+  shortCode: {
+    type: String,
+    unique: true,
+    sparse: true,
+    index: true,
+    trim: true
   },
   description: {
     type: String,
@@ -220,6 +228,13 @@ BookSchema.pre('save', async function(next) {
       }
     }
     
+    if (!this.shortCode) {
+      this.shortCode = await generateUniqueShortCode({
+        excludeModelName: 'Book',
+        excludeId: this._id,
+      });
+    }
+
     // Auto-generate meta description if not provided
     if (!this.metaDescription && this.description) {
       this.metaDescription = this.description.substring(0, 160);

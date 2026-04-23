@@ -1,6 +1,7 @@
 // src/models/writings.model.js
 import mongoose from 'mongoose';
 import { generateSlug, ensureUniqueSlug } from '../utils/slugGenerator.js';
+import { generateUniqueShortCode } from '../utils/shortCode.js';
 
 const WritingSchema = new mongoose.Schema({
   title: {
@@ -23,6 +24,13 @@ const WritingSchema = new mongoose.Schema({
       message: 'Slug must be lowercase alphanumeric with Tamil characters and hyphens only'
     },
     maxlength: [100, 'Slug cannot exceed 100 characters']
+  },
+  shortCode: {
+    type: String,
+    unique: true,
+    sparse: true,
+    index: true,
+    trim: true
   },
   body: {
     type: String,
@@ -282,7 +290,14 @@ WritingSchema.pre('save', async function(next) {
         );
       }
     }
-    
+
+    if (!this.shortCode) {
+      this.shortCode = await generateUniqueShortCode({
+        excludeModelName: 'Writing',
+        excludeId: this._id,
+      });
+    }
+
     // Auto-generate excerpt if not provided
     if (!this.excerpt && this.body) {
       const plainText = this.body.replace(/<[^>]*>/g, ''); // Remove HTML
