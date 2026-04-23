@@ -28,7 +28,8 @@ export default async function ShortUrlRedirect({ params }) {
   for (const { Model, section } of LOOKUPS) {
     const doc = await Model.findOne({ shortCode: code }).select('slug _id').lean();
     if (doc) {
-      redirect(`/${section}/${doc.slug || doc._id}`);
+      const identifier = doc.slug ? encodeURI(doc.slug) : doc._id.toString();
+      redirect(`/${section}/${identifier}`);
     }
   }
 
