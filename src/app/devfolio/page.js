@@ -104,14 +104,6 @@ export default async function DevfolioPage() {
         ]} 
       />
       
-      <div className="mb-6">
-        <p className="sr-only font-bold">Ajithkumar - Full Stack MERN Developer Portfolio</p>
-        <p className="sr-only">
-          Experienced Full Stack Developer specializing in MERN stack (MongoDB, Express.js, React.js, Node.js)
-          and JavaScript development. Browse my technical projects showcasing web application development skills.
-        </p>
-      </div>
-      
       <Suspense fallback={<DevfolioLoading />}>
         <DevfolioClient initialProjects={safeProjects} />
       </Suspense>

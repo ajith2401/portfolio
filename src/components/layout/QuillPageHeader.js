@@ -24,7 +24,11 @@ const SharedContentHeader = ({ content, contentType }) => {
   const category = contentType === 'TechBlog' 
     ? (content?.category ? content.category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'TechBlog')
     : (content?.category ? content.category.charAt(0).toUpperCase() + content.category.slice(1) : 'Article');
-  const imageUrl = content?.images?.large || content?.images?.medium || '/placeholder.jpg';
+  const rawImageUrl = content?.images?.large || content?.images?.medium || '/placeholder.jpg';
+  // Remap legacy c_fill to c_limit to ensure full aspect ratio is preserved and title text is never cropped
+  const imageUrl = typeof rawImageUrl === 'string' && rawImageUrl.includes('/upload/')
+    ? rawImageUrl.replace(/w_\d+,h_\d+,c_fill/g, 'w_1200,c_limit').replace(/c_fill/g, 'c_limit')
+    : rawImageUrl;
   const publishDate = formatDate(content?.publishedAt || content?.createdAt);
 
   return (

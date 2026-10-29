@@ -33,7 +33,6 @@ module.exports = {
         serif: ['var(--font-serif)', 'Georgia', 'serif'],
         mono: ['var(--font-mono)', 'monospace'],
         heading: ['var(--font-heading)', 'serif'],
-        'poppins': ['var(--font-poppins)', 'sans-serif'], 
       },
       // Modern Color System
       colors: {

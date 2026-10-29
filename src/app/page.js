@@ -137,50 +137,6 @@ const Hero = () => {
       
       {/* Additional technical keywords targeting */}
       <TechnicalKeywords />
-      
-      {/* Hidden SEO content for search engines */}
-      <div className="sr-only">
-        <p className="font-bold">Ajithkumar - Tamil Writer &amp; Full Stack MERN Developer</p>
-        <p>
-          Published Tamil author with 5 poetry books and experienced Full Stack Developer specializing in 
-          MERN stack (MongoDB, Express.js, React.js, Node.js). Combining literary creativity with 
-          technical expertise in JavaScript, React.js, and Node.js development.
-        </p>
-        <div>
-          <p className="font-semibold">Published Tamil Writer</p>
-          <p>Author of 5 acclaimed Tamil poetry books exploring themes of feminism, social justice, and cultural identity.</p>
-        </div>
-        <div>
-          <p className="font-semibold">Full Stack MERN Developer</p>
-          <p>
-            Specializing in JavaScript, React.js, Node.js, MongoDB, and Express.js development.
-            Creating responsive, scalable web applications and RESTful APIs.
-          </p>
-        </div>
-        <div>
-          <h2>Technical Skills</h2>
-          <ul>
-            <li>MERN Stack Development</li>
-            <li>JavaScript Development</li>
-            <li>React.js Development</li>
-            <li>Node.js Development</li>
-            <li>MongoDB</li>
-            <li>Express.js</li>
-            <li>RESTful APIs</li>
-            <li>Full Stack Development</li>
-          </ul>
-        </div>
-        <div>
-          <h2>Published Works</h2>
-          <ul>
-            <li>1. அன்புடையவளுக்கும் அன்புக்குரியவளுக்கும் Anbudaiyavalukkum Anbukkuriyavalukkum</li>
-            <li> 2. சிப்பிக்குள் சிந்தா மழை || Sippikkul Sinthaa Mazhai</li>
-            <li> 3. ஒரு பைத்தியக்காரனின் டைரிக் குறிப்புகள் ||  Oru Paithiyakkaaranin Diary Kurippugal </li>
-            <li> 4. முற்றிய பிரியத்தின் வற்றாத துளி || Mutriya Priyaththin Vatraadha Thuli</li>
-            <li>5. ஆண்டெனா மீதமர்ந்த காக்கை || Antenna Meedhamarntha Kaakkai</li>
-          </ul>
-        </div>
-      </div>
     </>
       {/* Hero Section with auto height instead of min-h-screen */}
       <div className="min-h-[calc(100vh-80px)] flex flex-col justify-between">

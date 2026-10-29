@@ -281,24 +281,6 @@ const QuillClientPage = () => {
       {/* Add PersonSchema for writer identity */}
       <PersonSchema includeFullBio={true} />
       
-      {/* SEO content for search engines */}
-      <div className="sr-only">
-        <p className="font-bold">Ajithkumar - Published Tamil Writer &amp; Poet</p>
-        <p>This page is my sanctuary for creativity, where emotions take shape and individuality finds its voice. Dive in, and explore the unfiltered me.</p>
-        <p>Explore the literary works of Ajithkumar, a published Tamil writer with 5 poetry books exploring themes of feminism, social justice, and human emotions. Browse my collection of Tamil poetry, essays, and creative writings.</p>
-        <p>As a published Tamil author, my works have been recognized for their authentic voice and thematic depth in addressing contemporary social issues through nuanced Tamil poetry.</p>
-        <div>
-          <h2>Published Tamil Poetry Books</h2>
-          <ul>
-          <li>1. அன்புடையவளுக்கும் அன்புக்குரியவளுக்கும் Anbudaiyavalukkum Anbukkuriyavalukkum</li>
-          <li> 2. சிப்பிக்குள் சிந்தா மழை || Sippikkul Sinthaa Mazhai</li>
-          <li> 3. ஒரு பைத்தியக்காரனின் டைரிக் குறிப்புகள் ||  Oru Paithiyakkaaranin Diary Kurippugal </li>
-          <li> 4. முற்றிய பிரியத்தின் வற்றாத துளி || Mutriya Priyaththin Vatraadha Thuli</li>
-          <li>5. ஆண்டெனா மீதமர்ந்த காக்கை || Antenna Meedhamarntha Kaakkai</li>
-          </ul>
-        </div>
-      </div>
-      
       {/* Hero Section */}
       <div className="w-full py-8 sm:py-12 lg:py-16 px-4 mb-4 sm:mb-6 lg:mb-8">
         <div className="max-w-6xl mx-auto text-center">
@@ -320,7 +302,7 @@ const QuillClientPage = () => {
 
       {/* Writings Section */}
       <section className="max-w-7xl mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold-500 text-center font-poppins text-foreground mb-8">
+        <h2 className="text-2xl font-semibold text-center font-work-sans text-foreground mb-8">
           Uncover My Writings
         </h2>
         

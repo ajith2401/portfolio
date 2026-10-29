@@ -2,7 +2,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/themeProvider";
-import { Great_Vibes, Inter, Playfair_Display, Merriweather, DM_Sans, Work_Sans, Poppins } from 'next/font/google';
+import { Great_Vibes, Playfair_Display, Merriweather, DM_Sans, Work_Sans } from 'next/font/google';
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BackgroundVectors from "@/components/layout/BackgroundVectors";
@@ -23,13 +23,6 @@ const merriweather = Merriweather({
 });
 
 
-const poppins = Poppins({
-  subsets: ['latin'],
-  variable: '--font-poppins',
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  display: 'swap',
-});
-
 const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-dm-sans',
@@ -47,12 +40,6 @@ const greatVibes = Great_Vibes({
   weight: '400',
   variable: '--font-great-vibes',
   display: 'swap', 
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
 });
 
 const playfair = Playfair_Display({
@@ -216,13 +203,11 @@ export default function RootLayout({ children }) {
       lang="en" 
       className={`
         ${greatVibes.variable} 
-        ${inter.variable} 
         ${playfair.variable}
         ${geistSans.variable} 
         ${merriweather.variable}
         ${dmSans.variable}
         ${workSans.variable}
-        ${poppins.variable}
       `}
     >
       <head>

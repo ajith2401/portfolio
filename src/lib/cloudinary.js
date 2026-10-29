@@ -31,11 +31,10 @@ export const uploadGeneratedImage = async (buffer, options = {}) => {
           transformation: [
             { quality: 'auto:good' }, // Optimize quality
             { fetch_format: 'auto' },  // Auto select best format
-            // Responsive versions
+            // Responsive versions with aspect-ratio preservation
             { 
               width: 200, 
-              height: 200, 
-              crop: "fill", 
+              crop: "limit", 
               quality: "auto",
               transformation: [
                 { format: 'webp' }
@@ -43,8 +42,7 @@ export const uploadGeneratedImage = async (buffer, options = {}) => {
             },
             { 
               width: 600, 
-              height: 600, 
-              crop: "fill", 
+              crop: "limit", 
               quality: "auto",
               transformation: [
                 { format: 'webp' }
@@ -52,8 +50,7 @@ export const uploadGeneratedImage = async (buffer, options = {}) => {
             },
             { 
               width: 1200, 
-              height: 1200, 
-              crop: "fill", 
+              crop: "limit", 
               quality: "auto",
               transformation: [
                 { format: 'webp' }
@@ -76,9 +73,9 @@ export const uploadGeneratedImage = async (buffer, options = {}) => {
 
           resolve({
             original: result.secure_url,
-            small: result.secure_url.replace('/upload/', '/upload/w_200,h_200,c_fill,q_auto,f_webp/'),
-            medium: result.secure_url.replace('/upload/', '/upload/w_600,h_600,c_fill,q_auto,f_webp/'),
-            large: result.secure_url.replace('/upload/', '/upload/w_1200,h_1200,c_fill,q_auto,f_webp/')
+            small: result.secure_url.replace('/upload/', '/upload/w_200,c_limit,q_auto,f_webp/'),
+            medium: result.secure_url.replace('/upload/', '/upload/w_600,c_limit,q_auto,f_webp/'),
+            large: result.secure_url.replace('/upload/', '/upload/w_1200,c_limit,q_auto,f_webp/')
           });
         }
       );
@@ -119,16 +116,16 @@ export const uploadImage = async (file) => {
     const result = await cloudinary.uploader.upload(file, {
       folder: 'writings',
       transformation: [
-        { width: 200, height: 200, crop: "fill", quality: "auto" },
-        { width: 600, height: 600, crop: "fill", quality: "auto" },
-        { width: 1200, height: 1200, crop: "fill", quality: "auto" }
+        { width: 200, crop: "limit", quality: "auto" },
+        { width: 600, crop: "limit", quality: "auto" },
+        { width: 1200, crop: "limit", quality: "auto" }
       ]
     });
 
     return {
-      small: result.secure_url.replace('/upload/', '/upload/w_200,h_200,c_fill,q_auto/'),
-      medium: result.secure_url.replace('/upload/', '/upload/w_600,h_600,c_fill,q_auto/'),
-      large: result.secure_url.replace('/upload/', '/upload/w_1200,h_1200,c_fill,q_auto/')
+      small: result.secure_url.replace('/upload/', '/upload/w_200,c_limit,q_auto/'),
+      medium: result.secure_url.replace('/upload/', '/upload/w_600,c_limit,q_auto/'),
+      large: result.secure_url.replace('/upload/', '/upload/w_1200,c_limit,q_auto/')
     };
   } catch (error) {
     console.error('Error uploading to Cloudinary:', error);

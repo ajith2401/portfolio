@@ -15,19 +15,66 @@ const SubscriptionForm = ({ onClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   const emailInputRef = useRef(null);
+  const dialogRef = useRef(null);
+  const previousActiveElementRef = useRef(null);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    setTimeout(() => {
+    // Save previously focused element to restore when closing
+    previousActiveElementRef.current = document.activeElement;
+
+    // Prevent background scrolling while modal is open
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const focusTimer = setTimeout(() => {
       emailInputRef.current?.focus();
     }, 50);
 
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+
+      // Keyboard focus trap
+      if (e.key === 'Tab') {
+        const dialog = dialogRef.current;
+        if (!dialog) return;
+
+        const focusableElements = dialog.querySelectorAll(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement || !dialog.contains(document.activeElement)) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement || !dialog.contains(document.activeElement)) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      clearTimeout(focusTimer);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+      // Restore focus to opener element
+      if (previousActiveElementRef.current && typeof previousActiveElementRef.current.focus === 'function') {
+        previousActiveElementRef.current.focus();
+      }
+    };
   }, [onClose]);
 
   const validateForm = () => {
@@ -105,12 +152,17 @@ const SubscriptionForm = ({ onClose }) => {
   };
 
   return (
-    <div className="subscription-modal-overlay fixed inset-0 z-[9999] flex items-center justify-center px-4 bg-black bg-opacity-50 backdrop-blur-sm animate-fade-in">
+    <div 
+      className="subscription-modal-overlay fixed inset-0 z-[9999] flex items-center justify-center px-4 bg-black bg-opacity-50 backdrop-blur-sm animate-fade-in"
+      onClick={onClose}
+    >
       <div 
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="subscription-modal-title"
         className="subscription-modal-content relative w-full max-w-md modern-card rounded-xl p-6 shadow-lg animate-fade-in-up z-[10000]"
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button

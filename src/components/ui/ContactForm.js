@@ -8,21 +8,69 @@ const ContactForm = ({ isOpen, onClose }) => {
   const { theme } = useContext(ThemeContext);
   const isDark = theme === 'dark';
   const nameInputRef = useRef(null);
+  const dialogRef = useRef(null);
+  const previousActiveElementRef = useRef(null);
 
   useEffect(() => {
     if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
+
+    // Save previously focused element to restore when closing
+    previousActiveElementRef.current = document.activeElement;
+
+    // Prevent background scrolling while modal is open
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     // Focus the first input on open
-    setTimeout(() => {
+    const focusTimer = setTimeout(() => {
       nameInputRef.current?.focus();
     }, 50);
 
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+
+      // Keyboard focus trap
+      if (e.key === 'Tab') {
+        const dialog = dialogRef.current;
+        if (!dialog) return;
+
+        const focusableElements = dialog.querySelectorAll(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement || !dialog.contains(document.activeElement)) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement || !dialog.contains(document.activeElement)) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      clearTimeout(focusTimer);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+      // Restore focus to opener element
+      if (previousActiveElementRef.current && typeof previousActiveElementRef.current.focus === 'function') {
+        previousActiveElementRef.current.focus();
+      }
+    };
   }, [isOpen, onClose]);
   
   const [formData, setFormData] = useState({
@@ -112,6 +160,7 @@ const ContactForm = ({ isOpen, onClose }) => {
       
       {/* Modal */}
       <div 
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="contact-modal-title"

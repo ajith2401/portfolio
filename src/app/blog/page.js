@@ -250,40 +250,6 @@ export default async function TechBlogPage({ searchParams }) {
           ]} 
         />
         
-        {/* SEO content for search engines */}
-        <div className="sr-only">
-          <p className="font-bold">Ajithkumar - Full Stack MERN Developer Technical Blog</p>
-          <p>
-            Comprehensive technical tutorials and insights for JavaScript, React.js, Next.js, 
-            Node.js, MongoDB, and MERN stack development. Learn from real-world projects 
-            and best practices by Ajithkumar - an experienced Full Stack Developer and 
-            Tamil writer specializing in modern web application development.
-          </p>
-          <div>
-            <h2>Featured Technical Topics</h2>
-            <ul>
-              <li>React.js Development - Modern components, hooks, and state management patterns</li>
-              <li>Next.js Framework - Server-side rendering, API routes, and performance optimization</li>
-              <li>Node.js & Express.js - Backend development, REST APIs, and microservices</li>
-              <li>MongoDB Database - NoSQL design, aggregation pipelines, and optimization techniques</li>
-              <li>MERN Stack Projects - Full-stack application development from concept to deployment</li>
-              <li>JavaScript Best Practices - ES6+ features, async programming, and code organization</li>
-              <li>DevOps & Deployment - CI/CD, Docker, AWS, and production optimizations</li>
-              <li>Performance Optimization - Core Web Vitals, bundle optimization, and caching strategies</li>
-            </ul>
-          </div>
-          <div>
-            <h2>About the Author</h2>
-            <p>
-              Ajithkumar is a full stack developer with expertise in the MERN stack (MongoDB, 
-              Express.js, React.js, Node.js). He is also an award-winning Tamil writer and poet 
-              with 5 published poetry books. His unique perspective combines technical expertise 
-              with creative thinking, making complex development concepts accessible to developers 
-              of all skill levels.
-            </p>
-          </div>
-        </div>
-        
         {/* Main content */}
         <Suspense fallback={<BlogLoading />}>
            <TechBlogClient 
