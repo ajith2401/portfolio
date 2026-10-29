@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import eventEmitter from '@/lib/eventEmitter';
 
 // Main wrapper component for all legal policies
 export const LegalPoliciesLayout = ({ children, title, backUrl = null }) => {
@@ -153,12 +154,17 @@ export const PrivacyPolicy = () => {
       
       <h2>9. Contact Us</h2>
       <p>
-        If you have questions or concerns about this Privacy Policy or our privacy practices, please contact us at:
+        If you have questions or concerns about this Privacy Policy or our privacy practices, please contact us via our{' '}
+        <button
+          type="button"
+          onClick={() => eventEmitter?.emit('showContactModal')}
+          className="text-primary underline hover:text-accent-primary font-medium"
+        >
+          Contact Form
+        </button>.
       </p>
       <p>
-        Email: privacy@yourphotographystudio.com<br />
-        Phone: +1 (555) 123-4567<br />
-        Address: 123 Photography Lane, City, State, ZIP
+        Location: Bangalore, Karnataka, India
       </p>
     </LegalPoliciesLayout>
   );
@@ -248,12 +254,17 @@ export const TermsAndConditions = () => {
       
       <h2>11. Contact Information</h2>
       <p>
-        If you have any questions about these Terms, please contact us at:
+        If you have any questions about these Terms, please contact us via our{' '}
+        <button
+          type="button"
+          onClick={() => eventEmitter?.emit('showContactModal')}
+          className="text-primary underline hover:text-accent-primary font-medium"
+        >
+          Contact Form
+        </button>.
       </p>
       <p>
-        Email: terms@yourphotographystudio.com<br />
-        Phone: +1 (555) 123-4567<br />
-        Address: 123 Photography Lane, City, State, ZIP
+        Location: Bangalore, Karnataka, India
       </p>
     </LegalPoliciesLayout>
   );
@@ -270,7 +281,16 @@ export const CancellationRefund = () => {
       </p>
       
       <h2>2. Client Cancellations</h2>
-      <p>All cancellations must be submitted in writing to bookings@yourphotographystudio.com.</p>
+      <p>
+        All cancellations must be submitted in writing via our{' '}
+        <button
+          type="button"
+          onClick={() => eventEmitter?.emit('showContactModal')}
+          className="text-primary underline hover:text-accent-primary font-medium"
+        >
+          Contact Form
+        </button>.
+      </p>
       
       <h3>Cancellation Timeline and Refunds:</h3>
       <ul>
@@ -352,11 +372,14 @@ export const CancellationRefund = () => {
       
       <h2>9. Contact for Cancellations and Refunds</h2>
       <p>
-        For all cancellation, refund, or rescheduling requests, please contact us at:
-      </p>
-      <p>
-        Email: bookings@yourphotographystudio.com<br />
-        Phone: +1 (555) 123-4567
+        For all cancellation, refund, or rescheduling requests, please reach out via our{' '}
+        <button
+          type="button"
+          onClick={() => eventEmitter?.emit('showContactModal')}
+          className="text-primary underline hover:text-accent-primary font-medium"
+        >
+          Contact Form
+        </button>.
       </p>
     </LegalPoliciesLayout>
   );
@@ -467,11 +490,14 @@ export const ShippingDelivery = () => {
       
       <h2>9. Contact Information for Shipping Inquiries</h2>
       <p>
-        For questions about shipping, delivery status, or issues with received products, please contact us at:
-      </p>
-      <p>
-        Email: shipping@yourphotographystudio.com<br />
-        Phone: +1 (555) 123-4567
+        For questions about shipping, delivery status, or issues with received products, please reach out via our{' '}
+        <button
+          type="button"
+          onClick={() => eventEmitter?.emit('showContactModal')}
+          className="text-primary underline hover:text-accent-primary font-medium"
+        >
+          Contact Form
+        </button>.
       </p>
     </LegalPoliciesLayout>
   );

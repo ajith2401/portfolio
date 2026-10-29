@@ -1,7 +1,16 @@
+'use client';
+
 import React from 'react';
 import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
+import eventEmitter from '@/lib/eventEmitter';
 
 const Hero = () => {
+  const handleOpenContact = () => {
+    if (eventEmitter) {
+      eventEmitter.emit('showContactModal');
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center bg-background">
       <div className="container mx-auto px-4 py-16">
@@ -22,13 +31,13 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <a 
-                href="#contact" 
+              <button 
+                onClick={handleOpenContact}
                 className="clean-container inline-flex items-center gap-2 px-6 py-3 rounded-lg text-foreground hover:-translate-y-1 transition-all"
               >
                 Get in Touch
                 <ArrowRight className="w-4 h-4" />
-              </a>
+              </button>
               
               <div className="flex gap-4">
                 <a 
@@ -47,12 +56,13 @@ const Hero = () => {
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
-                <a 
-                  href="mailto:Portfolioajith24ram@gmail.com" 
+                <button 
+                  onClick={handleOpenContact}
                   className="clean-container p-3 rounded-lg hover:-translate-y-1 transition-all"
+                  aria-label="Contact Ajithkumar"
                 >
                   <Mail className="w-5 h-5" />
-                </a>
+                </button>
               </div>
             </div>
 

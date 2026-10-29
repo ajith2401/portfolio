@@ -204,6 +204,20 @@ export default async function WritingDetailPage({ params }) {
     
     const { writing, accessType } = result;
     
+    // Temporary block: writeups with less than 50 words need not be rendered
+    const countWords = (text) => {
+      if (!text) return 0;
+      return text.replace(/<[^>]*>/g, '').trim().split(/\s+/).filter(Boolean).length;
+    };
+    const wordCount = (typeof writing.wordCount === 'number' && writing.wordCount > 0)
+      ? writing.wordCount
+      : countWords(writing.body || writing.excerpt);
+
+    if (wordCount < 50) {
+      console.log(`[BLOCKED] Writing "${writing.title}" has ${wordCount} words (< 50 words). Rendering blocked.`);
+      return notFound();
+    }
+
     // Don't redirect ObjectId URLs to avoid "Page with redirect" SEO issues
     // Instead, let canonical URLs and robots.txt handle proper indexing
     // The metadata will point to the correct canonical URL

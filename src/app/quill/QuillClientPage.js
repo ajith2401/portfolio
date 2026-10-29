@@ -105,7 +105,19 @@ const QuillClientPage = () => {
     endDate
   }, { skip: !isMounted }); // Skip the query until mounted
 
-  const writings = data?.writings || [];
+  const rawWritings = data?.writings || [];
+
+  // Temporary block: writeups with less than 50 words need not be rendered
+  const getWordCount = (writing) => {
+    if (typeof writing?.wordCount === 'number' && writing.wordCount > 0) {
+      return writing.wordCount;
+    }
+    const text = writing?.body || writing?.excerpt || '';
+    const clean = text.replace(/<[^>]*>/g, '').trim();
+    return clean ? clean.split(/\s+/).filter(Boolean).length : 0;
+  };
+
+  const writings = rawWritings.filter((writing) => getWordCount(writing) >= 50);
   const totalPages = data?.pagination?.pages || 0;
 
   // Store current state in localStorage and URL when it changes

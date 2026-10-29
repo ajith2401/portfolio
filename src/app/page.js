@@ -203,13 +203,13 @@ const Hero = () => {
                     >
                       <Linkedin className="w-5 h-5" />
                     </a>
-                    <a
-                      href="mailto:Portfolioajith24ram@gmail.com"
+                    <button
+                      onClick={openContactForm}
                       className="modern-card p-3 rounded-xl hover:-translate-y-1 transition-all hover:bg-card"
-                      aria-label="Email Ajithkumar"
+                      aria-label="Contact Ajithkumar"
                     >
                       <Mail className="w-5 h-5" />
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>

@@ -4,10 +4,7 @@ import { rateLimit, getClientIP } from '@/lib/rateLimit';
 
 // Initialize Resend with your API key
 const resend = new Resend(process.env.RESEND_API_KEY);
-const recipient =
-  process.env.NODE_ENV === 'production'
-    ? 'ajith24ram@gmail.com'
-    : 'writerajithdev@gmail.com';
+const recipient = 'ajith24ram@gmail.com';
 
 /** Escape HTML special characters to prevent HTML injection in emails */
 function escapeHtml(str) {

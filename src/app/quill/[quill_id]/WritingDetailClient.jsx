@@ -270,13 +270,25 @@ const RelatedWritings = ({ relatedWritings, formatDate }) => {
   const searchParams = useSearchParams();
   const returnPage = searchParams.get('returnPage') || getLocalStorage('quillPage', '1');
 
-  if (!relatedWritings || relatedWritings.length === 0) {
+  // Temporary block: related writeups with less than 50 words need not be rendered
+  const countWords = (text) => {
+    if (!text) return 0;
+    return text.replace(/<[^>]*>/g, '').trim().split(/\s+/).filter(Boolean).length;
+  };
+  const visibleRelated = (relatedWritings || []).filter(w => {
+    const wc = (typeof w?.wordCount === 'number' && w.wordCount > 0)
+      ? w.wordCount
+      : countWords(w?.body || w?.excerpt);
+    return wc >= 50;
+  });
+
+  if (!visibleRelated || visibleRelated.length === 0) {
     return <p className="text-gray-500 col-span-3 text-center">No related articles found.</p>;
   }
 
   return (
     <>
-      {relatedWritings.map((relatedWriting) => (
+      {visibleRelated.map((relatedWriting) => (
         <Link 
           href={`${getSafeUrl(relatedWriting, 'quill')}?returnPage=${returnPage}`} 
           key={relatedWriting._id}

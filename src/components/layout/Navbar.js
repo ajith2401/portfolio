@@ -36,6 +36,19 @@ const Navbar = () => {
     };
   }, [isMenuOpen]);
 
+  // Listen for showContactModal event to trigger dialog from anywhere (e.g. footer)
+  useEffect(() => {
+    const handleOpenContact = () => setIsContactFormOpen(true);
+    if (eventEmitter) {
+      eventEmitter.on('showContactModal', handleOpenContact);
+    }
+    return () => {
+      if (eventEmitter) {
+        eventEmitter.off('showContactModal', handleOpenContact);
+      }
+    };
+  }, []);
+
   // Add handleSubscribe function
   const handleSubscribe = () => {
     if (eventEmitter) {

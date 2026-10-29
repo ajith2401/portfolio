@@ -7,6 +7,13 @@ import eventEmitter from '@/lib/eventEmitter';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
+  // Add this function to handle contact button click
+  const handleContact = () => {
+    if (eventEmitter) {
+      eventEmitter.emit('showContactModal');
+    }
+  };
+
   // Add this function to handle subscription button click
   const handleSubscribe = () => {
     if (eventEmitter) {
@@ -67,12 +74,12 @@ const Footer = () => {
                 Bangalore, Karnataka, India
               </li>
               <li>
-                <a
-                  href="mailto:ajith24ram@gmail.com"
-                  className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                <button
+                  onClick={handleContact}
+                  className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium inline-flex items-center gap-1"
                 >
-                  ajith24ram@gmail.com
-                </a>
+                  Contact Me
+                </button>
               </li>
             </ul>
           </div>
