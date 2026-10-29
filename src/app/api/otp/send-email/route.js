@@ -51,7 +51,7 @@ export async function POST(request) {
     
     // Send email with OTP
     await transporter.sendMail({
-      from: `"Photography Studio" <${process.env.EMAIL_USER}>`,
+      from: `"Ajithkumar" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Verification Code for Your Booking",
       html: `

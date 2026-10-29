@@ -283,7 +283,7 @@ const QuillClientPage = () => {
       
       {/* SEO content for search engines */}
       <div className="sr-only">
-        <h1>Ajithkumar - Published Tamil Writer & Poet</h1>
+        <p className="font-bold">Ajithkumar - Published Tamil Writer &amp; Poet</p>
         <p>This page is my sanctuary for creativity, where emotions take shape and individuality finds its voice. Dive in, and explore the unfiltered me.</p>
         <p>Explore the literary works of Ajithkumar, a published Tamil writer with 5 poetry books exploring themes of feminism, social justice, and human emotions. Browse my collection of Tamil poetry, essays, and creative writings.</p>
         <p>As a published Tamil author, my works have been recognized for their authentic voice and thematic depth in addressing contemporary social issues through nuanced Tamil poetry.</p>
@@ -355,15 +355,20 @@ const QuillClientPage = () => {
             </button>
           </div>
 
-          <form onSubmit={handleSearch} className="relative w-full md:w-auto">
+          <form onSubmit={handleSearch} className="relative w-full md:w-auto" role="search">
             <input
               type="text"
               placeholder="Search..."
-              className="modern-input w-full md:w-64 pl-10 pr-4 py-2 rounded-xl"
+              aria-label="Search writings"
+              className="modern-input w-full md:w-64 pl-10 pr-4 py-2 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted">
+            <button 
+              type="submit" 
+              aria-label="Search writings"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary rounded-sm"
+            >
               <Search className="w-4 h-4" />
             </button>
           </form>

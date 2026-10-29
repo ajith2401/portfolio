@@ -88,7 +88,7 @@ export default function CheckoutPage() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: razorpayData.amount,
         currency: razorpayData.currency,
-        name: "Your Photography Studio",
+        name: "Ajithkumar",
         description: `Payment for ${order.serviceSnapshot.name}`,
         order_id: razorpayData.id,
         prefill: {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
@@ -14,6 +14,21 @@ const SubscriptionForm = ({ onClose }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+  const emailInputRef = useRef(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    setTimeout(() => {
+      emailInputRef.current?.focus();
+    }, 50);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -91,11 +106,16 @@ const SubscriptionForm = ({ onClose }) => {
 
   return (
     <div className="subscription-modal-overlay fixed inset-0 z-[9999] flex items-center justify-center px-4 bg-black bg-opacity-50 backdrop-blur-sm animate-fade-in">
-      <div className="subscription-modal-content relative w-full max-w-md modern-card rounded-xl p-6 shadow-lg animate-fade-in-up z-[10000]">
+      <div 
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="subscription-modal-title"
+        className="subscription-modal-content relative w-full max-w-md modern-card rounded-xl p-6 shadow-lg animate-fade-in-up z-[10000]"
+      >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1 rounded-full hover:bg-tertiary transition-colors"
+          className="absolute top-4 right-4 p-1 rounded-full hover:bg-tertiary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
           aria-label="Close subscription form"
         >
           <X className="w-5 h-5 text-muted" />
@@ -103,7 +123,7 @@ const SubscriptionForm = ({ onClose }) => {
 
         {/* Header */}
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-primary mb-2">Stay Updated</h2>
+          <h2 id="subscription-modal-title" className="text-2xl font-bold text-primary mb-2">Stay Updated</h2>
           <p className="text-secondary">
             Subscribe to receive notifications about new content
           </p>
@@ -116,11 +136,12 @@ const SubscriptionForm = ({ onClose }) => {
               Email Address
             </label>
             <input
+              ref={emailInputRef}
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`modern-input w-full px-4 py-3 rounded-lg ${
+              className={`modern-input w-full px-4 py-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary ${
                 errors.email ? 'border-error' : ''
               } relative z-[10001]`}
               placeholder="your@email.com"

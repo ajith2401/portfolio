@@ -252,7 +252,7 @@ export default async function TechBlogPage({ searchParams }) {
         
         {/* SEO content for search engines */}
         <div className="sr-only">
-          <h1>Ajithkumar - Full Stack MERN Developer Technical Blog</h1>
+          <p className="font-bold">Ajithkumar - Full Stack MERN Developer Technical Blog</p>
           <p>
             Comprehensive technical tutorials and insights for JavaScript, React.js, Next.js, 
             Node.js, MongoDB, and MERN stack development. Learn from real-world projects 

@@ -16,7 +16,7 @@ export const ThemeToggleAnimated = () => {
         ${isDark
           ? 'bg-tertiary border border-color hover:bg-secondary shadow-lg'
           : 'bg-card border border-color hover:bg-secondary shadow-lg'}
-        hover:scale-105 active:scale-95
+        hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary
       `}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >

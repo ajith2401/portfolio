@@ -105,7 +105,7 @@ export default async function DevfolioPage() {
       />
       
       <div className="mb-6">
-        <h1 className="sr-only">Ajithkumar - Full Stack MERN Developer Portfolio</h1>
+        <p className="sr-only font-bold">Ajithkumar - Full Stack MERN Developer Portfolio</p>
         <p className="sr-only">
           Experienced Full Stack Developer specializing in MERN stack (MongoDB, Express.js, React.js, Node.js)
           and JavaScript development. Browse my technical projects showcasing web application development skills.

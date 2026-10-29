@@ -1,12 +1,29 @@
 'use client';
 
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { ThemeContext } from '../theme/themeProvider';
 
 const ContactForm = ({ isOpen, onClose }) => {
   const { theme } = useContext(ThemeContext);
   const isDark = theme === 'dark';
+  const nameInputRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    // Focus the first input on open
+    setTimeout(() => {
+      nameInputRef.current?.focus();
+    }, 50);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -94,17 +111,22 @@ const ContactForm = ({ isOpen, onClose }) => {
       />
       
       {/* Modal */}
-      <div className="relative w-full max-w-md p-6 rounded-xl shadow-xl transition-all duration-300 transform modern-card animate-fade-in-up">
+      <div 
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-modal-title"
+        className="relative w-full max-w-md p-6 rounded-xl shadow-xl transition-all duration-300 transform modern-card animate-fade-in-up"
+      >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full transition-all duration-200 hover:bg-tertiary text-secondary hover:text-primary"
+          className="absolute top-4 right-4 p-2 rounded-full transition-all duration-200 hover:bg-tertiary text-secondary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
           aria-label="Close contact form"
         >
           <X className="h-5 w-5" />
         </button>
         
-        <h2 className="text-2xl font-semibold mb-6 text-primary">
+        <h2 id="contact-modal-title" className="text-2xl font-semibold mb-6 text-primary">
           Get in Touch
         </h2>
         
@@ -117,12 +139,13 @@ const ContactForm = ({ isOpen, onClose }) => {
               Name
             </label>
             <input
+              ref={nameInputRef}
               type="text"
               id="name"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`modern-input ${errors.name ? 'border-error' : ''}`}
+              className={`modern-input focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary ${errors.name ? 'border-error' : ''}`}
               placeholder="Your name"
               maxLength={100}
             />

@@ -3,7 +3,7 @@
 import { CancellationRefund } from '@/components/legal/LegalPolicies';
 
 export const metadata = {
-  title: 'Cancellation & Refund Policy | Your Photography Studio',
+  title: 'Cancellation & Refund Policy | Ajithkumar',
   description: 'Our policies regarding booking cancellations and refunds.',
 };
 

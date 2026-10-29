@@ -48,7 +48,7 @@ const Navbar = () => {
   const NavLink = ({ href, children }) => (
     <Link
       href={href}
-      className={`relative text-primary transition-all group ${
+      className={`relative text-primary transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-md px-1 py-0.5 ${
         isActive(href)
           ? 'text-accent-primary font-medium'
           : 'hover:text-accent-primary'
@@ -78,17 +78,17 @@ const Navbar = () => {
           <Link 
             href="/" 
             style={{ color: 'var(--logo-color)' }}
-            className="flex items-start p-0 w-[200px] h-[30px] font-great-vibes text-logo leading-[30px]"
+            className="flex items-start p-0 w-[200px] h-[30px] font-great-vibes text-logo leading-[30px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary rounded-sm"
           >
             Ajith Kumar
           </Link>
 
           {/* Mobile Menu Section */}
-          <div className="md:hidden flex items-center space-x-2">
+          <div className="lg:hidden flex items-center space-x-2">
             {/* Theme Toggle for Mobile */}
             <ThemeToggleAnimated />
             <button
-              className="p-2 rounded-xl transition-colors bg-tertiary/50 hover:bg-tertiary text-primary"
+              className="p-2 rounded-xl transition-colors bg-tertiary/50 hover:bg-tertiary text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
               aria-expanded={isMenuOpen}
@@ -102,7 +102,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-8">
             <ul className="flex items-center gap-8">
               <li><NavLink href="/">Home</NavLink></li>
               <li><NavLink href="/devfolio">Devfolio</NavLink></li>
@@ -117,7 +117,7 @@ const Navbar = () => {
                     ${isDark
                       ? 'bg-primary-400 text-slate-900 hover:bg-primary-300'
                       : 'bg-primary-600 text-white hover:bg-primary-700'}
-                    hover:shadow-lg
+                    hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2
                   `}
                 >
                   Contact Me
@@ -132,6 +132,7 @@ const Navbar = () => {
                     px-4 py-1.5 rounded-full transition-all duration-300
                     border border-primary-400 text-primary-600
                     hover:bg-primary-50 dark:hover:bg-primary-900/30
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2
                   `}
                 >
                   Subscribe
@@ -140,7 +141,7 @@ const Navbar = () => {
             </ul>
           </div>
           
-          <div className="hidden md:flex">
+          <div className="hidden lg:flex">
             <ThemeToggleAnimated />
           </div>
         </div>
@@ -148,7 +149,7 @@ const Navbar = () => {
         {/* Mobile Dropdown Menu */}
         {isMenuOpen && (
           <div className={`
-            md:hidden px-6 py-4 animate-slide-down
+            lg:hidden px-6 py-4 animate-slide-down
             ${isDark ? 'bg-slate-900/95' : 'bg-sky-50/95'}
             backdrop-blur-md
           `}>

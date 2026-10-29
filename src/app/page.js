@@ -140,18 +140,18 @@ const Hero = () => {
       
       {/* Hidden SEO content for search engines */}
       <div className="sr-only">
-        <h1>Ajithkumar - Tamil Writer & Full Stack MERN Developer</h1>
+        <p className="font-bold">Ajithkumar - Tamil Writer &amp; Full Stack MERN Developer</p>
         <p>
           Published Tamil author with 5 poetry books and experienced Full Stack Developer specializing in 
           MERN stack (MongoDB, Express.js, React.js, Node.js). Combining literary creativity with 
           technical expertise in JavaScript, React.js, and Node.js development.
         </p>
         <div>
-          <h2>Published Tamil Writer</h2>
+          <p className="font-semibold">Published Tamil Writer</p>
           <p>Author of 5 acclaimed Tamil poetry books exploring themes of feminism, social justice, and cultural identity.</p>
         </div>
         <div>
-          <h2>Full Stack MERN Developer</h2>
+          <p className="font-semibold">Full Stack MERN Developer</p>
           <p>
             Specializing in JavaScript, React.js, Node.js, MongoDB, and Express.js development.
             Creating responsive, scalable web applications and RESTful APIs.

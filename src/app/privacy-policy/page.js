@@ -3,7 +3,7 @@
 import { PrivacyPolicy } from "@/components/legal/LegalPolicies"; 
 
 export const metadata = {
-  title: 'Privacy Policy | Your Photography Studio',
+  title: 'Privacy Policy | Ajithkumar',
   description: 'Learn how we collect, use, and protect your personal information.',
 };
 

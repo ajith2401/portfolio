@@ -270,10 +270,6 @@ export default function RootLayout({ children }) {
         <meta name="apple-touch-fullscreen" content="yes" />
         <meta name="apple-mobile-web-app-title" content="Ajithkumar" />
         
-        {/* Performance hints */}
-        <link rel="preload" href="/fonts/GeistVF.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/GeistMonoVF.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-        
         {/* Critical CSS will be inlined */}
         <style dangerouslySetInnerHTML={{__html: `
           html { font-family: system-ui, -apple-system, sans-serif; }
