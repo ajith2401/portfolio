@@ -130,11 +130,19 @@ User-agent: OAI-SearchBot
 Allow: /
 Disallow: /api/
 
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+
 User-agent: ClaudeBot
 Allow: /
 Disallow: /api/
 
 User-agent: Claude-Web
+Allow: /
+Disallow: /api/
+
+User-agent: anthropic-ai
 Allow: /
 Disallow: /api/
 
@@ -147,6 +155,10 @@ Allow: /
 Disallow: /api/
 
 User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
+
+User-agent: Amazonbot
 Allow: /
 Disallow: /api/
 

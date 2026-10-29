@@ -6,26 +6,32 @@ import connectDB from "@/lib/db";
 
 // Enhanced metadata for better SEO
 export const metadata = {
-  title: "Tamil Poetry Books | Ajith Kumar",
-  description: "Explore a collection of Tamil poetry books by Ajith Kumar, exploring themes of love, feminism, social justice and human emotions.",
-  keywords: ["Tamil poetry", "Ajith Kumar", "Tamil literature", "Tamil books", "Indian poetry", "feminism", "social justice"],
+  title: "Tamil Poetry Books | Ajithkumar R",
+  description: "Explore five Tamil poetry books by Ajithkumar R, exploring themes of feminism, social justice, identity, and human emotions.",
+  keywords: ["Tamil poetry", "Ajithkumar R", "Ajith Kumar", "Ajithkumar", "Tamil literature", "Tamil books", "Indian poetry", "feminism", "social justice"],
+  alternates: {
+    canonical: "https://www.ajithkumarr.com/spotlight",
+  },
   openGraph: {
-    title: "Tamil Poetry Books | Ajith Kumar",
-    description: "Discover the poetic works of Ajith Kumar spanning themes of love, social justice, and contemporary Tamil culture.",
+    title: "Tamil Poetry Books | Ajithkumar R",
+    description: "Discover five published Tamil poetry books by Ajithkumar R spanning themes of feminism, social justice, and contemporary human emotions.",
+    url: "https://www.ajithkumarr.com/spotlight",
+    type: "website",
     images: [
       {
         url: 'https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741197427/books/aznatozjb3eaqfavh3nb.jpg',
         width: 1200,
         height: 630,
-        alt: 'Ajith Kumar Tamil Poetry Books Collection'
+        alt: 'Ajithkumar R Tamil Poetry Books Collection'
       }
     ]
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Tamil Poetry Books | Ajith Kumar",
-    description: "Discover the poetic works of Ajith Kumar spanning themes of love, social justice, and contemporary Tamil culture.",
+    title: "Tamil Poetry Books | Ajithkumar R",
+    description: "Discover five published Tamil poetry books by Ajithkumar R spanning themes of feminism, social justice, and contemporary human emotions.",
     images: ['https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741197427/books/aznatozjb3eaqfavh3nb.jpg'],
+    creator: '@ajithkumarr'
   }
 };
 

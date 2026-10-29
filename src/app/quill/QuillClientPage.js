@@ -50,13 +50,13 @@ const DatePicker = ({ label, value, onChange, onClear }) => {
 };
 
 // Client Component
-const QuillClientPage = () => {
+const QuillClientPage = ({ initialWritings = [], initialPagination = null }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isMounted, setIsMounted] = useState(false);
   
   // Initial state placeholders
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPagination?.current || 1);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Writings');
   const [sortBy, setSortBy] = useState('date');
@@ -70,7 +70,7 @@ const QuillClientPage = () => {
     // Get initial values from URL or localStorage
     const pageFromUrl = searchParams.get('page');
     const pageFromStorage = getLocalStorage('quillPage', '1');
-    const initialPage = pageFromUrl ? parseInt(pageFromUrl) : parseInt(pageFromStorage);
+    const initialPage = pageFromUrl ? parseInt(pageFromUrl) : (initialPagination?.current || parseInt(pageFromStorage) || 1);
     
     const initialCategory = searchParams.get('category') || getLocalStorage('quillCategory', 'All Writings');
     const initialSearch = searchParams.get('search') || getLocalStorage('quillSearch', '');
@@ -93,21 +93,36 @@ const QuillClientPage = () => {
     
     // Mark as initialized after setting initial values
     setIsInitialized(true);
-  }, [searchParams]);
+  }, [searchParams, initialPagination]);
+
+  // Determine whether we're on the pristine initial default page
+  const isDefaultView =
+    currentPage === (initialPagination?.current || 1) &&
+    selectedCategory === 'All Writings' &&
+    !searchQuery &&
+    !startDate &&
+    !endDate &&
+    sortBy === 'date';
 
   // Use RTK Query hook
-  const { data, error, isLoading } = useGetWritingsQuery({
-    page: currentPage,
-    category: selectedCategory !== 'All Writings' ? selectedCategory : '',
-    search: searchQuery,
-    sortBy,
-    startDate,
-    endDate
-  }, { skip: !isMounted }); // Skip the query until mounted
+  const { data, error, isLoading } = useGetWritingsQuery(
+    {
+      page: currentPage,
+      category: selectedCategory !== 'All Writings' ? selectedCategory : '',
+      search: searchQuery,
+      sortBy,
+      startDate,
+      endDate
+    },
+    {
+      // Skip RTK query on pristine default view if server-rendered initialWritings is available
+      skip: !isMounted || (isDefaultView && initialWritings.length > 0 && !isInitialized)
+    }
+  );
 
-  const writings = data?.writings || [];
-  const totalPages = data?.pagination?.pages || 0;
-  const serverCurrentPage = data?.pagination?.current;
+  const writings = (data && data.writings) ? data.writings : (initialWritings.length > 0 && isDefaultView ? initialWritings : data?.writings || []);
+  const totalPages = data?.pagination?.pages ?? (initialPagination?.pages || 1);
+  const serverCurrentPage = data?.pagination?.current ?? (initialPagination?.current || 1);
 
   // Auto-sync currentPage if server clamped an out-of-range page
   useEffect(() => {
@@ -273,17 +288,6 @@ const QuillClientPage = () => {
     }
   };
 
-  if (!isMounted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Loading Writings...</h2>
-          <p className="text-gray-500">Please wait while we fetch the content.</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
   <main className="min-h-screen tamil-quill">
       {/* Add PersonSchema for writer identity */}
@@ -414,15 +418,30 @@ const QuillClientPage = () => {
           </div>
         )}
 
-        {isLoading ? (
-          <div className="text-center py-12">Loading...</div>
-        ) : error ? (
-          <div className="text-center py-12 text-red-500">
-            Error loading writings. Please try again later.
+        {isLoading && writings.length === 0 ? (
+          <div className="text-center py-12 text-secondary-500">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mx-auto mb-4"></div>
+            <p>Loading writings...</p>
+          </div>
+        ) : error && writings.length === 0 ? (
+          <div className="text-center py-12 text-red-500 space-y-4">
+            <p className="text-lg">Unable to load writings at this moment.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm"
+            >
+              Retry
+            </button>
           </div>
         ) : writings.length === 0 ? (
-          <div className="text-center py-12 text-foreground">
-            No writings found matching your filters.
+          <div className="text-center py-12 text-foreground space-y-4">
+            <p className="text-lg">No writings found matching your filters.</p>
+            <button
+              onClick={clearFilters}
+              className="px-4 py-2 bg-secondary-200 dark:bg-secondary-800 text-foreground rounded-lg hover:opacity-80 transition-opacity text-sm"
+            >
+              Reset Filters
+            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-foreground">

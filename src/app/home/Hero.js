@@ -27,7 +27,7 @@ const Hero = () => {
             </div>
 
             <p className="text-lg md:text-xl text-secondary-600 dark:text-secondary-400 max-w-2xl">
-              Award-winning developer specializing in innovative solutions. GovTechThon winner with expertise in building scalable applications and chatbots that make a real impact.
+              Full Stack Developer, Anthropic-certified Claude Architect (CCA-F), and GovTechThon winner specializing in building scalable applications, public-interest chatbots, and thoughtful digital products.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

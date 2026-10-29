@@ -264,54 +264,73 @@ export default function RootLayout({ children }) {
           body { margin: 0; background: linear-gradient(135deg, #f0e7f6ff 0%, #ffffffff 100%, #e1b5faff 100%); }
           [data-theme='dark'] body { background: linear-gradient(135deg, #0a0f1c 0%, #1e293b 40%, #2d3748 80%, #4a5568 100%); }
         `}} />
-                <script
+                {/* Canonical Person schema */}
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              "@id": "https://www.ajithkumarr.com/#identity",
-              "name": "Ajithkumar",
-              "alternateName": "Ajith Kumar",
-              "givenName": "Ajith",
-              "familyName": "Kumar",
-              "description": "Award-winning Tamil writer, poet, and lyricist exploring themes of feminism, social justice, and human emotions through captivating poetry and creative works.",
+              "@id": "https://www.ajithkumarr.com/#ajithkumar",
+              "name": "Ajithkumar R",
+              "alternateName": ["Ajithkumar", "Ajith Kumar", "அஜித்குமார்"],
+              "givenName": "Ajithkumar",
+              "familyName": "R",
+              "description": "Ajithkumar R is a Full Stack Developer, AI automation specialist, Anthropic-certified Claude Architect (CCA-F), and author of 5 published Tamil poetry books based in Bengaluru, Karnataka, India.",
               "url": "https://www.ajithkumarr.com",
-              "image": "https://www.ajithkumarr.com/images/ajithkumar-portrait.jpg",
+              "image": "https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741809430/techblog/ujikvc0er4tebs8mps0d.jpg",
               "sameAs": [
-                "https://www.goodreads.com/author/show/ajithkumarr",
-                "https://twitter.com/ajithkumarr",
-                "https://www.instagram.com/ajithkumarr",
                 "https://github.com/ajith2401",
-                "https://linkedin.com/in/ajithkumarr"
+                "https://www.linkedin.com/in/ajithkumar-r-a6531a232/",
+                "https://www.credly.com/users/ajithkumar-r",
+                "https://claude.ajithkumarr.com/",
+                "https://www.instagram.com/ajithkumarr"
               ],
-               "jobTitle": ["Writer", "Poet", "Full Stack Developer", "Software Engineer"],
-              "worksFor": {
-                "@type": "Organization",
-                "name": "Self-Employed Writer"
-              },
-              "knowsLanguage": ["Tamil", "English"],
-               "nationality": {
+              "jobTitle": ["Full Stack Developer", "AI Automation Specialist", "Claude Certified Architect", "Tamil Writer & Poet", "Lyricist"],
+              "knowsLanguage": [
+                { "@type": "Language", "name": "Tamil", "alternateName": "ta" },
+                { "@type": "Language", "name": "English", "alternateName": "en" }
+              ],
+              "nationality": {
                 "@type": "Country",
                 "name": "India"
               },
-              "birthPlace": {
+              "workLocation": {
                 "@type": "Place",
-                "name": "Tamil Nadu, India"
+                "name": "Bengaluru, Karnataka, India"
               },
+              "award": [
+                "First Prize Winner, GovTechThon — Government Welfare Scheme Discovery Chatbot (MakkalNalamBot / SEVAI)"
+              ],
+              "hasCredential": [
+                {
+                  "@type": "EducationalOccupationalCredential",
+                  "name": "Claude Certified Architect – Foundations (CCA-F)",
+                  "credentialCategory": "Professional Certification",
+                  "recognizedBy": {
+                    "@type": "Organization",
+                    "name": "Anthropic"
+                  },
+                  "url": "https://www.credly.com/users/ajithkumar-r"
+                },
+                {
+                  "@type": "EducationalOccupationalCredential",
+                  "name": "Published Author",
+                  "description": "Author of 5 published Tamil poetry books exploring feminism, social justice, and human relationships"
+                }
+              ],
               "hasOccupation": [
                 {
                   "@type": "Occupation",
-                  "name": "Tamil Writer",
+                  "name": "Tamil Writer & Poet",
                   "description": "Published author of 5 Tamil poetry books"
                 },
                 {
                   "@type": "Occupation", 
                   "name": "Full Stack Developer",
-                  "description": "Specializing in React.js, Node.js, and MERN stack development"
+                  "description": "Specializing in React.js, Next.js, Node.js, and MERN stack development"
                 }
               ],
-      
               "mainEntityOfPage": "https://www.ajithkumarr.com"
             })
           }}
@@ -326,11 +345,11 @@ export default function RootLayout({ children }) {
               "@type": "WebSite",
               "@id": "https://www.ajithkumarr.com/#website",
               "url": "https://www.ajithkumarr.com",
-              "name": "Ajithkumar - Tamil Writer & Poet",
-              "description": "Award-winning Tamil writer, poet and lyricist",
+              "name": "Ajithkumar R — Tamil Writer, Poet, Lyricist & Full-Stack Developer",
+              "description": "Personal website of Ajithkumar R: Tamil literary works, poetry books, and full-stack software engineering portfolio.",
               "publisher": {
                 "@type": "Person",
-                "@id": "https://www.ajithkumarr.com/#identity"
+                "@id": "https://www.ajithkumarr.com/#ajithkumar"
               },
               "inLanguage": "en-US",
               "potentialAction": [{

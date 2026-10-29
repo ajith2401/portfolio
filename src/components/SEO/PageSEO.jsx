@@ -83,8 +83,8 @@ export default function PageSEO({
         "@type": "WebSite",
         "@id": `${baseUrl}/#website`,
         "url": baseUrl,
-        "name": "Ajithkumar - Tamil Writer & Full Stack Developer",
-        "description": "Award-winning Tamil writer, poet, and full stack developer sharing technical insights and creative writings.",
+        "name": "Ajithkumar R — Tamil Writer, Poet, Lyricist & Full-Stack Developer",
+        "description": "Tamil writer with 5 published poetry books and Full Stack Developer sharing technical insights and creative writings.",
         "publisher": {
           "@type": "Person",
           "@id": `${baseUrl}/#ajithkumar`

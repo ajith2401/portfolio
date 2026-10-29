@@ -152,8 +152,8 @@ const DevfolioClient = ({ initialProjects = [] }) => {
              text-base sm:text-lg lg:text-[22px] 
              leading-[20px] sm:leading-[24px] lg:leading-[26px] 
              font-normal text-secondary-600">
-            A showcase of my journey through code, featuring award-winning projects 
-            and innovative solutions that make a real impact.
+            A showcase of my engineering journey, featuring production applications, 
+            AI systems, and GovTechThon-winning public interest chatbots.
           </p>
         </div>
       </div>
@@ -189,14 +189,14 @@ const DevfolioClient = ({ initialProjects = [] }) => {
         </div>
 
         {/* Loading state */}
-        {isLoading && (
+        {isLoading && projects.length === 0 && (
           <div className="flex justify-center items-center py-20">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
           </div>
         )}
 
         {/* Projects Grid */}
-        {!isLoading && (
+        {projects.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, idx) => (
               <Link 
@@ -317,8 +317,18 @@ const DevfolioClient = ({ initialProjects = [] }) => {
 
         {/* No results message */}
         {!isLoading && projects.length === 0 && (
-          <div className="text-center py-12">
+          <div className="text-center py-12 space-y-4">
             <p className="text-secondary-600">No projects found matching your criteria.</p>
+            <button
+              onClick={() => {
+                setSelectedCategory('All Projects');
+                setSearchQuery('');
+                setCurrentPage(1);
+              }}
+              className="px-4 py-2 bg-secondary-200 dark:bg-secondary-800 text-foreground rounded-lg hover:opacity-80 transition-opacity text-sm"
+            >
+              Reset Filters
+            </button>
           </div>
         )}
         

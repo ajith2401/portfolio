@@ -364,7 +364,7 @@ const Hero = () => {
               <div className="modern-card p-6 rounded-xl space-y-4 hover:shadow-card-hover transition-all duration-300">
                 <h3 className="text-xl font-bold text-primary">Published Tamil Poet</h3>
                 <p className="text-secondary">
-                  Author of five acclaimed Tamil poetry books exploring themes of social justice, feminism, and cultural identity. My writing has been recognized for its authentic voice and thematic depth within Tamil literary circles.
+                  Author of five published Tamil poetry books exploring themes such as feminism, social justice, identity, and human emotion.
                 </p>
               </div>
 

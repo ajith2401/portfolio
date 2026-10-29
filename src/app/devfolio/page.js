@@ -7,14 +7,16 @@ import DeveloperSchema from "@/components/schema/DeveloperSchema";
 
 // Enhanced metadata for better SEO - targeting developer-focused keywords
 export const metadata = {
-  title: "Ajithkumar | Full Stack MERN Developer Portfolio",
-  description: "Explore Ajithkumar's projects and applications built with MERN stack (MongoDB, Express.js, React.js, Node.js). Experienced JavaScript developer creating responsive, scalable web solutions.",
+  title: "Ajithkumar R | Full Stack Developer & AI Architect Portfolio",
+  description: "Explore technical projects and applications by Ajithkumar R built with React.js, Next.js, Node.js, TypeScript, and MongoDB. Full stack developer, Anthropic-certified Claude Architect, and GovTechThon winner.",
   keywords: [
+    "Ajithkumar R",
     "Ajithkumar developer", 
     "Ajithkumar full stack developer",
     "Ajithkumar MERN stack developer",
     "Ajithkumar ReactJS developer",
     "Ajithkumar NodeJS developer",
+    "Claude Certified Architect",
     "MERN stack",
     "Full stack developer",
     "JavaScript developer",
@@ -28,24 +30,24 @@ export const metadata = {
     canonical: "https://www.ajithkumarr.com/devfolio",
   },
   openGraph: {
-    title: "Ajithkumar | Full Stack MERN Developer",
-    description: "Explore my technical projects showcasing expertise in JavaScript, React.js, Node.js, Express.js and MongoDB development.",
+    title: "Ajithkumar R | Full Stack Developer & AI Architect",
+    description: "Explore technical projects showcasing expertise in React.js, Next.js, Node.js, TypeScript, Express.js, MongoDB, and AI system architecture.",
     images: [
       {
         url: '/og-image-developer.jpg',
         width: 1200,
         height: 630,
-        alt: 'Ajithkumar - Full Stack MERN Developer Portfolio'
+        alt: 'Ajithkumar R - Full Stack Developer Portfolio'
       }
     ],
     type: 'website',
     url: 'https://www.ajithkumarr.com/devfolio',
-    siteName: 'Ajithkumar - Full Stack Developer'
+    siteName: 'Ajithkumar R - Full Stack Developer'
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Ajithkumar | Full Stack MERN Developer",
-    description: "Explore my technical projects showcasing expertise in JavaScript, React.js, Node.js, Express.js and MongoDB development.",
+    title: "Ajithkumar R | Full Stack Developer & AI Architect",
+    description: "Explore technical projects showcasing expertise in React.js, Next.js, Node.js, TypeScript, Express.js, MongoDB, and AI system architecture.",
     images: ['/twitter-image-developer.jpg'],
     creator: '@ajithkumarr'
   }
@@ -60,29 +62,34 @@ function DevfolioLoading() {
 
 // Server component with enhanced SEO
 export default async function DevfolioPage() {
-  await connectDB();
-  
-  // Pre-render the page with initial data
-  const projects = await Project.find({ status: 'published' })
-    .sort({ createdAt: -1 })
-    .limit(100)
-    .lean();
+  let safeProjects = [];
+  try {
+    await connectDB();
+    
+    // Pre-render the page with initial data
+    const projects = await Project.find({ status: 'published' })
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .lean();
 
-  // Convert MongoDB documents to plain objects and include slug
-  const safeProjects = projects.map(project => ({
-    _id: project._id.toString(),
-    slug: project.slug,
-    title: project.title,
-    shortDescription: project.shortDescription,
-    category: project.category,
-    technologies: project.technologies,
-    publishedAt: project.publishedAt,
-    images: project.images,
-    performance: project.performance,
-    featured: project.featured,
-    createdAt: project.createdAt?.toString(),
-    updatedAt: project.updatedAt?.toString()
-  }));
+    // Convert MongoDB documents to plain objects and include slug
+    safeProjects = projects.map(project => ({
+      _id: project._id.toString(),
+      slug: project.slug,
+      title: project.title,
+      shortDescription: project.shortDescription,
+      category: project.category,
+      technologies: project.technologies,
+      publishedAt: project.publishedAt,
+      images: project.images,
+      performance: project.performance,
+      featured: project.featured,
+      createdAt: project.createdAt?.toString(),
+      updatedAt: project.updatedAt?.toString()
+    }));
+  } catch (error) {
+    console.error('Error prefetching devfolio projects on server:', error);
+  }
 
   return (
     <>
