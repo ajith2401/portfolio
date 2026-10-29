@@ -98,6 +98,12 @@ export default async function sitemap() {
         lastModified: books.length > 0 ? getMostRecentDate(books[0]) : currentDate,
         changeFrequency: 'monthly',
         priority: 0.9 // High priority for published books
+      },
+      {
+        url: `${baseUrl}/photography`,
+        lastModified: currentDate,
+        changeFrequency: 'monthly',
+        priority: 0.75
       }
     ];
 

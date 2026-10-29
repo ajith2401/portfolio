@@ -54,12 +54,6 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     loader: 'default',
     remotePatterns: [
-      'res.cloudinary.com', 
-      'ajithkumarr.com', 
-      'www.ajithkumarr.com',
-      'images.unsplash.com'
-    ],
-    remotePatterns: [
       {
         protocol: 'https',
         hostname: '**'

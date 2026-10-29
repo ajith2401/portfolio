@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { ThemeContext } from '../theme/themeProvider';
@@ -15,6 +15,26 @@ const Navbar = () => {
   const pathname = usePathname();
   const { theme } = useContext(ThemeContext);
   const isDark = theme === 'dark';
+  const navRef = useRef(null);
+
+  // Close menu on Escape key or click outside
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setIsMenuOpen(false);
+    };
+    const handleClickOutside = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   // Add handleSubscribe function
   const handleSubscribe = () => {
@@ -52,7 +72,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full backdrop-blur-md transition-all duration-300 bg-card/80 border-b border-color">
+      <nav ref={navRef} className="sticky top-0 z-50 w-full backdrop-blur-md transition-all duration-300 bg-card/80 border-b border-color">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <Link 
@@ -135,7 +155,7 @@ const Navbar = () => {
             <ul className="flex flex-col gap-6">
               <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/">Home</NavLink></li>
               <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/devfolio">Devfolio</NavLink></li>
-              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/blog">Tech Blog</NavLink></li>
+              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/blog">Blog</NavLink></li>
               <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/quill">Quill</NavLink></li>
               <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/spotlight">Spotlight</NavLink></li>
               <li>

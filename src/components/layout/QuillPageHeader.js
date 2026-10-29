@@ -80,13 +80,13 @@ const SharedContentHeader = ({ content, contentType }) => {
       </div>
 
       {/* Right Content - Image */}
-      <div className="w-full h-[250px] sm:h-[350px] lg:h-[494px] lg:w-[640px] rounded-lg overflow-hidden">
+      <div className="w-full lg:w-[640px] flex items-center justify-center rounded-lg overflow-hidden">
         <Image
           src={imageUrl}
           alt={title}
-          width={640}
-          height={494}
-          className="object-cover w-full h-full"
+          width={1200}
+          height={675}
+          className="w-full h-auto max-h-[520px] object-contain rounded-lg shadow-sm"
           priority
         />
       </div>

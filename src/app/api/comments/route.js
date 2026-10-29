@@ -3,12 +3,23 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { Comment } from '@/models';
 import { handleCommentOperations, updateCommentStats } from '@/middleware/comment.middleware';
+import { rateLimit, getClientIP } from '@/lib/rateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(request) {
   try {
+    // Rate limit: 5 comments per 5 minutes per IP
+    const ip = getClientIP(request);
+    const { allowed, resetAt } = rateLimit(`comment:${ip}`, 5, 5 * 60_000);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please slow down.' },
+        { status: 429, headers: { 'Retry-After': String(Math.ceil((resetAt - Date.now()) / 1000)) } }
+      );
+    }
+
     await connectDB();
     const commentData = await request.json();
     
@@ -28,7 +39,7 @@ export async function POST(request) {
       ...commentData,
       parentId: parent._id,
       parentModel: commentData.parentModel,
-      status: 'approved' // All comments start as pending
+      status: 'pending'
     });
     
     // Add comment reference to parent

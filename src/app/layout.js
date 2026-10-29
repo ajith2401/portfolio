@@ -81,25 +81,22 @@ export const metadata = {
   },
   description: "Ajithkumar - Published Tamil writer with 5 poetry books and Full Stack MERN Developer, exploring themes of feminism and social justice through captivating poetry while creating innovative web applications.",
   keywords: [
-    "Ajithkumar writer", 
-    "Tamil poet", 
-    "Tamil literature", 
+    "Ajithkumar writer",
+    "Tamil poet",
+    "Tamil literature",
     "MERN stack developer",
     "Full stack developer",
     "Tamil poetry books",
     "published Tamil author",
-    "feminist poetry", 
-    "social justice poetry", 
+    "feminist poetry",
+    "social justice poetry",
     "web developer poet",
     "Tamil developer",
     "modern Tamil writer",
     "contemporary Tamil poetry",
-    "Tamil poetry", 
-    "Tamil writer", 
-    "Indian poet", 
-    "feminist poetry", 
-    "social justice poetry", 
-    "Tamil literature"
+    "Tamil poetry",
+    "Tamil writer",
+    "Indian poet",
   ],
   authors: [{ 
     name: "Ajithkumar",
@@ -109,10 +106,6 @@ export const metadata = {
   publisher: "Ajithkumar",
   alternates: {
     canonical: "/",
-    languages: {
-      'en-US': 'https://www.ajithkumarr.com',
-      'ta-IN': 'https://www.ajithkumarr.com/ta'
-    }
   },
   icons: {
     icon: [
@@ -322,11 +315,7 @@ export default function RootLayout({ children }) {
                 "@type": "Place",
                 "name": "Tamil Nadu, India"
               },
-              "alumniOf": {
-                "@type": "CollegeOrUniversity",
-                "name": "Your University Name"
-              },
-                            "hasOccupation": [
+              "hasOccupation": [
                 {
                   "@type": "Occupation",
                   "name": "Tamil Writer",
@@ -337,10 +326,6 @@ export default function RootLayout({ children }) {
                   "name": "Full Stack Developer",
                   "description": "Specializing in React.js, Node.js, and MERN stack development"
                 }
-              ],
-              "award": [
-                "Tamil Literature Recognition",
-                "Poetry Publication Awards"
               ],
       
               "mainEntityOfPage": "https://www.ajithkumarr.com"
@@ -420,6 +405,13 @@ export default function RootLayout({ children }) {
        <body className="min-h-screen antialiased transition-colors duration-300 overflow-x-hidden">
         <ReduxProvider>
           <ThemeProvider>
+          {/* Skip to main content for keyboard/screen-reader users */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded focus:shadow-lg focus:outline-none"
+          >
+            Skip to main content
+          </a>
           <Toaster 
             position="bottom-center"
             toastOptions={{

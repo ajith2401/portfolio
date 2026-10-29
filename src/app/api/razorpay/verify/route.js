@@ -61,7 +61,7 @@ export async function POST(request) {
   } catch (error) {
     console.error('Error verifying payment:', error);
     return NextResponse.json(
-      { success: false, message: error.message || 'Payment verification failed' },
+      { success: false, message: 'Payment verification failed. Please contact support.' },
       { status: 500 }
     );
   }

@@ -1,5 +1,6 @@
 // src/models/otp.model.js
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 
 const OTPSchema = new mongoose.Schema({
   // The contact information (email or phone) to which OTP was sent
@@ -49,13 +50,10 @@ const OTPSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Add schema indexes here to avoid duplicates
+// Add schema indexes here
 OTPSchema.index({ contactInfo: 1 });
 OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 }); // TTL index for automatic deletion
 OTPSchema.index({ createdAt: 1 });
-
-// Set TTL index to automatically delete expired OTPs
-OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 // Instance method to verify an OTP
 OTPSchema.methods.verifyOTP = function(inputOTP) {
@@ -101,8 +99,8 @@ OTPSchema.methods.verifyOTP = function(inputOTP) {
 
 // Static method to generate a new OTP
 OTPSchema.statics.generateOTP = async function(contactInfo, contactType, expiryMinutes = 10) {
-  // Generate a 6-digit OTP
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  // Generate a cryptographically secure 6-digit OTP
+  const otp = crypto.randomInt(100000, 1000000).toString();
   
   // Calculate expiry time
   const expiresAt = new Date();

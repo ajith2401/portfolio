@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import mongoose from 'mongoose';
 import { sendVerificationEmail, sendWelcomeEmail, validateEmail } from '@/lib/emailUtils';
+import { rateLimit, getClientIP } from '@/lib/rateLimit';
+import { generateSecureToken } from '@/lib/secureToken';
 // import { validateEmail, sendVerificationEmail, sendWelcomeEmail 
 // Define subscriber schema
 let Subscriber;
@@ -44,7 +46,7 @@ try {
     },
     unsubscribeToken: {
       type: String,
-      default: () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+      default: () => require('crypto').randomBytes(32).toString('hex')
     },
     createdAt: {
       type: Date,
@@ -68,12 +70,22 @@ try {
 
 // Helper function to generate verification token
 function generateToken() {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  return generateSecureToken(32);
 }
 
 
 export async function POST(request) {
   try {
+    // Rate limit: 3 subscribe attempts per 10 minutes per IP
+    const ip = getClientIP(request);
+    const { allowed, resetAt } = rateLimit(`subscribe:${ip}`, 3, 10 * 60_000);
+    if (!allowed) {
+      return NextResponse.json(
+        { message: 'Too many requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(Math.ceil((resetAt - Date.now()) / 1000)) } }
+      );
+    }
+
     await connectDB();
     
     const { email, preferences } = await request.json();

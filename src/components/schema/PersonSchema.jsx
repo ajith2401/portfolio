@@ -19,10 +19,6 @@ export default function PersonSchema({ includeFullBio = false }) {
     ],
     'knowsLanguage': ['Tamil', 'English'],
     'jobTitle': ['Full Stack Developer', 'Writer and Poet'],
-    'alumniOf': {
-      '@type': 'CollegeOrUniversity',
-      'name': 'University Name'
-    },
     'publishingPrinciples': 'https://www.ajithkumarr.com/about',
     'workLocation': {
       '@type': 'Place',
@@ -30,10 +26,6 @@ export default function PersonSchema({ includeFullBio = false }) {
         '@type': 'PostalAddress',
         'addressCountry': 'India'
       }
-    },
-    'worksFor': {
-      '@type': 'Organization',
-      'name': 'Current Employer'
     },
     'hasOccupation': [
       {
@@ -68,39 +60,6 @@ export default function PersonSchema({ includeFullBio = false }) {
       '@type': 'Person',
       '@id': 'https://www.ajithkumarr.com/#ajithkumar'
     };
-    
-    schema.workExample = [
-      {
-        '@type': 'Book',
-        'name': 'Tamil Poetry Book 1', // Replace with actual book title
-        'author': {
-          '@type': 'Person',
-          '@id': 'https://www.ajithkumarr.com/#ajithkumar'
-        },
-        'bookFormat': 'Paperback',
-        'inLanguage': 'ta'
-      },
-      {
-        '@type': 'Book',
-        'name': 'Tamil Poetry Book 2', // Replace with actual book title
-        'author': {
-          '@type': 'Person',
-          '@id': 'https://www.ajithkumarr.com/#ajithkumar'
-        },
-        'bookFormat': 'Paperback',
-        'inLanguage': 'ta'
-      },
-      {
-        '@type': 'Book',
-        'name': 'Tamil Poetry Book 3', // Replace with actual book title
-        'author': {
-          '@type': 'Person',
-          '@id': 'https://www.ajithkumarr.com/#ajithkumar'
-        },
-        'bookFormat': 'Paperback',
-        'inLanguage': 'ta'
-      }
-    ];
     
     // Add technical skills
     schema.knowsAbout = [

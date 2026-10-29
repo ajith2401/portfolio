@@ -2,9 +2,25 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { TechBlog, Writing, Project, Book } from '@/models';
+import { rateLimit, getClientIP } from '@/lib/rateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+
+// Helper to escape regex special characters
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Helper to escape HTML characters
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 // Helper function to clean and prepare search query
 function prepareSearchQuery(query) {
@@ -18,20 +34,21 @@ function prepareSearchQuery(query) {
     .trim();
 }
 
-// Helper function to highlight search terms in text
+// Helper function to highlight search terms in text safely
 function highlightSearchTerms(text, searchTerms) {
   if (!text || !searchTerms) return text;
   
   const terms = searchTerms.split(' ').filter(term => term.length > 2);
-  if (terms.length === 0) return text;
+  if (terms.length === 0) return escapeHtml(text);
   
-  let highlightedText = text;
+  let safeText = escapeHtml(text);
   terms.forEach(term => {
-    const regex = new RegExp(`(${term})`, 'gi');
-    highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
+    const escapedTerm = escapeRegExp(escapeHtml(term));
+    const regex = new RegExp(`(${escapedTerm})`, 'gi');
+    safeText = safeText.replace(regex, '<mark>$1</mark>');
   });
   
-  return highlightedText;
+  return safeText;
 }
 
 // Helper function to extract relevant snippet
@@ -69,6 +86,16 @@ function extractSnippet(content, searchTerms, maxLength = 200) {
 }
 
 export async function GET(request) {
+  // Rate limit: 30 search queries per minute per IP
+  const ip = getClientIP(request);
+  const { allowed, resetAt } = rateLimit(`search:${ip}`, 30, 60_000);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Too many search requests. Please slow down.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil((resetAt - Date.now()) / 1000)) } }
+    );
+  }
+
   try {
     await connectDB();
     

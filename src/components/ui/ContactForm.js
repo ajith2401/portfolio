@@ -23,10 +23,13 @@ const ContactForm = ({ isOpen, onClose }) => {
     const newErrors = {};
     
     if (!formData.name.trim()) newErrors.name = 'Name is required';
+    else if (formData.name.length > 100) newErrors.name = 'Name must be under 100 characters';
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     else if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Email is invalid';
     if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
+    else if (formData.subject.length > 200) newErrors.subject = 'Subject must be under 200 characters';
     if (!formData.message.trim()) newErrors.message = 'Message is required';
+    else if (formData.message.length > 5000) newErrors.message = 'Message must be under 5000 characters';
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -121,6 +124,7 @@ const ContactForm = ({ isOpen, onClose }) => {
               onChange={handleChange}
               className={`modern-input ${errors.name ? 'border-error' : ''}`}
               placeholder="Your name"
+              maxLength={100}
             />
             {errors.name && <p className="mt-1 text-sm text-error">{errors.name}</p>}
           </div>
@@ -159,6 +163,7 @@ const ContactForm = ({ isOpen, onClose }) => {
               onChange={handleChange}
               className={`modern-input ${errors.subject ? 'border-error' : ''}`}
               placeholder="What is this regarding?"
+              maxLength={200}
             />
             {errors.subject && <p className="mt-1 text-sm text-error">{errors.subject}</p>}
           </div>
@@ -178,6 +183,7 @@ const ContactForm = ({ isOpen, onClose }) => {
               rows="4"
               className={`modern-input resize-vertical ${errors.message ? 'border-error' : ''}`}
               placeholder="Your message here..."
+              maxLength={5000}
             />
             {errors.message && <p className="mt-1 text-sm text-error">{errors.message}</p>}
           </div>

@@ -2,7 +2,7 @@ User-agent: *
 # Allow crawling of all content by default
 Allow: /
 
-# Important content areas (explicitly allow for clarity)
+# Important content areas
 Allow: /blog/
 Allow: /quill/
 Allow: /devfolio/
@@ -10,7 +10,7 @@ Allow: /spotlight/
 Allow: /about/
 Allow: /photography/
 
-# Optimize crawl budget by preventing crawling of non-essential paths
+# Disallow non-essential paths
 Disallow: /api/
 Disallow: /_next/static/
 Disallow: /_next/image/
@@ -24,8 +24,7 @@ Disallow: /auth/
 Disallow: /login/
 Disallow: /signup/
 
-# Block ObjectId URL patterns that cause SEO issues
-# These patterns match the problematic 24-character MongoDB ObjectIds
+# Block ObjectId URL patterns (24-char MongoDB ObjectIds)
 Disallow: /blog/[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]
 Disallow: /quill/[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]
 Disallow: /devfolio/[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]
@@ -43,7 +42,7 @@ Disallow: /quill/674617c5a56c8f57d0366132
 Disallow: /quill/674617c0a56c8f57d036588a
 Disallow: /quill/674617c0a56c8f57d03655f3
 
-# Prevent duplicate content issues from query parameters
+# Prevent duplicate content from query parameters
 Disallow: /*?page=*
 Disallow: /*?category=*
 Disallow: /*?search=*
@@ -55,38 +54,37 @@ Disallow: /*?source=*
 Disallow: /*?fbclid=*
 Disallow: /*?gclid=*
 
-# Block development and testing URLs
+# Block development/testing/internal URLs
 Disallow: /test/
 Disallow: /dev/
 Disallow: /staging/
 Disallow: /temp/
 Disallow: /backup/
-
-# Block subscription and authentication pages from indexing
-Disallow: /subscription-verified
-Disallow: /unsubscribed
-Disallow: /email-confirmed
-Disallow: /reset-password
-
-# Block internal tools and admin areas
 Disallow: /internal/
 Disallow: /tools/
 Disallow: /analytics/
 Disallow: /metrics/
 
-# Specific directives for Google
+# Block subscription and auth pages
+Disallow: /subscription-verified
+Disallow: /unsubscribed
+Disallow: /email-confirmed
+Disallow: /reset-password
+
+# Crawl delay for generic bots
+Crawl-delay: 2
+
+# Specific directives for Googlebot
 User-agent: Googlebot
 Allow: /
 Disallow: /api/
-# Allow Google to index JavaScript and CSS resources for better rendering
 Allow: /*.js$
 Allow: /*.css$
 Allow: /*.json$
-# Allow favicon and manifest
 Allow: /favicon.ico
 Allow: /manifest.json
 
-# Specific directives for Google Images
+# Google Images
 User-agent: Googlebot-Image
 Allow: /images/
 Allow: /backgrounds/
@@ -100,19 +98,19 @@ Allow: /*.svg$
 Allow: /*.gif$
 Allow: /*.ico$
 
-# Specific directives for Bing
+# Bing
 User-agent: Bingbot
 Allow: /
 Disallow: /api/
 Crawl-delay: 1
 
-# Specific directives for Yahoo
+# Yahoo
 User-agent: Slurp
 Allow: /
 Disallow: /api/
 Crawl-delay: 1
 
-# Specific directives for social media crawlers
+# Social media crawlers
 User-agent: facebookexternalhit
 Allow: /
 Disallow: /api/
@@ -125,11 +123,7 @@ User-agent: LinkedInBot
 Allow: /
 Disallow: /api/
 
-# Be gentle with other bots to prevent server overload
-User-agent: *
-Crawl-delay: 2
-
-# Important: Block aggressive/bad bots
+# Block aggressive/bad bots
 User-agent: AhrefsBot
 Disallow: /
 
@@ -142,9 +136,5 @@ Disallow: /
 User-agent: BLEXBot
 Disallow: /
 
-# Sitemaps - Critical for proper indexing
+# Sitemaps
 Sitemap: https://www.ajithkumarr.com/sitemap.xml
-Sitemap: https://www.ajithkumarr.com/sitemap-images.xml
-
-# Host directive (helps with canonicalization)
-Host: https://www.ajithkumarr.com

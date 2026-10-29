@@ -193,7 +193,6 @@ export function middleware(request) {
   // SEO headers for content pages
   if (contentSections.includes(section) && identifier && !isObjectId(identifier)) {
     // This is a slug URL - add SEO-friendly headers
-    response.headers.set('X-Canonical-URL', `https://www.ajithkumarr.com${pathname}`);
     response.headers.set('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
   }
   

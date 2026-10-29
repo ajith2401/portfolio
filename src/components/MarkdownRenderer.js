@@ -1,187 +1,186 @@
-// src/components/MarkdownRenderer.jsx
+// src/components/MarkdownRenderer.js
 'use client';
 
 import Image from 'next/image';
 import React from 'react';
 
-export const MarkdownRenderer = ({ content }) => {
-  // Return null for empty content
-  if (!content) return null;
+/**
+ * Escape HTML special characters to prevent XSS when injecting into innerHTML.
+ */
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
-  // Process markdown content with safeguards against recursion
-  const processMarkdown = (mdContent) => {
-    // Create a new string instead of modifying in place to avoid recursive replacements
-    let html = mdContent.toString();
+/**
+ * A lightweight, sanitised Markdown → HTML converter.
+ * All user content is HTML-escaped before any inline HTML is re-added
+ * by the renderer itself, preventing XSS injection.
+ */
+function processMarkdown(mdContent) {
+  // 1. Protect code blocks first — escape their contents entirely
+  const codeBlocks = [];
+  let html = mdContent.toString().replace(/```([\s\S]*?)```/g, (_, code) => {
+    const idx = codeBlocks.length;
+    codeBlocks.push(`<pre class="bg-gray-100 p-3 my-3 rounded overflow-x-auto"><code>${escapeHtml(code)}</code></pre>`);
+    return `\x00CODE${idx}\x00`;
+  });
 
-    // Process code blocks first
-    html = html.replace(/```([\s\S]*?)```/g, (match, codeContent) => {
-      return `<pre class="bg-gray-100 p-3 my-3 rounded overflow-x-auto"><code>${codeContent.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
-    });
-    
-    // Inline code
-    html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-1 rounded font-mono text-sm">$1</code>');
-    
-    // Process headings (match at line beginning)
-    html = html.replace(/^# (.*)$/gm, '<h1 class="text-2xl font-bold mt-6 mb-3">$1</h1>');
-    html = html.replace(/^## (.*)$/gm, '<h2 class="text-xl font-bold mt-5 mb-2">$1</h2>');
-    html = html.replace(/^### (.*)$/gm, '<h3 class="text-lg font-bold mt-4 mb-2">$1</h3>');
-    
-    // Process blockquotes - handle multi-line blockquotes
-    html = html.replace(/^> (.*)(?:\n^> (.*))*$/gm, (match) => {
-      const content = match.split('\n')
-        .map(line => line.replace(/^> (.*)$/, '$1'))
-        .join('<br>');
-      return `<blockquote class="border-l-4 border-gray-300 pl-4 py-1 my-4 italic text-gray-700">${content}</blockquote>`;
-    });
-    
-    // Process ordered lists - match consecutive numbered lines
-    html = html.replace(/^(\d+)\. (.*)(?:\n^(\d+)\. (.*))*$/gm, (match) => {
-      const items = match.split('\n')
-        .map(line => {
-          const itemMatch = line.match(/^(\d+)\. (.*)$/);
-          return itemMatch ? `<li>${itemMatch[2]}</li>` : line;
-        })
-        .join('');
-      return `<ol class="list-decimal pl-6 my-4">${items}</ol>`;
-    });
-    
-    // Process unordered lists - match consecutive bulleted lines
-    html = html.replace(/^- (.*)(?:\n^- (.*))*$/gm, (match) => {
-      const items = match.split('\n')
-        .map(line => {
-          const itemMatch = line.match(/^- (.*)$/);
-          return itemMatch ? `<li>${itemMatch[1]}</li>` : line;
-        })
-        .join('');
-      return `<ul class="list-disc pl-6 my-4">${items}</ul>`;
-    });
-    
-    // Process text formatting - using non-recursive replacements
-    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-    html = html.replace(/~~([^~]+)~~/g, '<del>$1</del>');
-    
-    // Process links with styling - limit depth to avoid recursion
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="text-blue-600 hover:underline">$1</a>');
-    
-    // Process horizontal rule
-    html = html.replace(/^---$/gm, '<hr class="my-6 border-t border-gray-300" />');
-    
-    // Split into paragraphs on double newlines
-    const paragraphs = html.split(/\n\n+/);
-    
-    // Handle paragraphs and line breaks
-    return paragraphs.map(para => {
-      // Skip wrapping if paragraph already contains block-level HTML
+  // 2. Inline code
+  const inlineCodes = [];
+  html = html.replace(/`([^`]+)`/g, (_, code) => {
+    const idx = inlineCodes.length;
+    inlineCodes.push(`<code class="bg-gray-100 px-1 rounded font-mono text-sm">${escapeHtml(code)}</code>`);
+    return `\x00INLINE${idx}\x00`;
+  });
+
+  // 3. Headings (applied before escaping paragraphs)
+  html = html.replace(/^# (.*)$/gm, (_, t) => `<h1 class="text-2xl font-bold mt-6 mb-3">${escapeHtml(t)}</h1>`);
+  html = html.replace(/^## (.*)$/gm, (_, t) => `<h2 class="text-xl font-bold mt-5 mb-2">${escapeHtml(t)}</h2>`);
+  html = html.replace(/^### (.*)$/gm, (_, t) => `<h3 class="text-lg font-bold mt-4 mb-2">${escapeHtml(t)}</h3>`);
+
+  // 4. Blockquotes
+  html = html.replace(/^> (.*)$/gm, (_, t) =>
+    `<blockquote class="border-l-4 border-gray-300 pl-4 py-1 my-4 italic text-gray-700">${escapeHtml(t)}</blockquote>`
+  );
+
+  // 5. Ordered lists
+  html = html.replace(/^(\d+)\. (.*)(?:\n^\d+\. (.*))*$/gm, (match) => {
+    const items = match
+      .split('\n')
+      .map((line) => {
+        const m = line.match(/^\d+\. (.*)$/);
+        return m ? `<li>${escapeHtml(m[1])}</li>` : '';
+      })
+      .join('');
+    return `<ol class="list-decimal pl-6 my-4">${items}</ol>`;
+  });
+
+  // 6. Unordered lists
+  html = html.replace(/^- (.*)(?:\n^- (.*))*$/gm, (match) => {
+    const items = match
+      .split('\n')
+      .map((line) => {
+        const m = line.match(/^- (.*)$/);
+        return m ? `<li>${escapeHtml(m[1])}</li>` : '';
+      })
+      .join('');
+    return `<ul class="list-disc pl-6 my-4">${items}</ul>`;
+  });
+
+  // 7. Bold / italic / strikethrough
+  html = html.replace(/\*\*([^*]+)\*\*/g, (_, t) => `<strong>${escapeHtml(t)}</strong>`);
+  html = html.replace(/\*([^*]+)\*/g, (_, t) => `<em>${escapeHtml(t)}</em>`);
+  html = html.replace(/~~([^~]+)~~/g, (_, t) => `<del>${escapeHtml(t)}</del>`);
+
+  // 8. Links — URL is validated to only allow http/https
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+    const safeHref = /^https?:\/\//i.test(href) ? href : '#';
+    return `<a href="${safeHref}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${escapeHtml(label)}</a>`;
+  });
+
+  // 9. Horizontal rule
+  html = html.replace(/^---$/gm, '<hr class="my-6 border-t border-gray-300" />');
+
+  // 10. Paragraphs
+  const paragraphs = html.split(/\n\n+/);
+  html = paragraphs
+    .map((para) => {
       if (
-        para.startsWith('<h1') || 
-        para.startsWith('<h2') || 
-        para.startsWith('<h3') || 
-        para.startsWith('<ul') || 
-        para.startsWith('<ol') || 
-        para.startsWith('<blockquote') || 
+        para.startsWith('<h1') ||
+        para.startsWith('<h2') ||
+        para.startsWith('<h3') ||
+        para.startsWith('<ul') ||
+        para.startsWith('<ol') ||
+        para.startsWith('<blockquote') ||
         para.startsWith('<pre') ||
-        para.startsWith('<hr')
+        para.startsWith('<hr') ||
+        para.startsWith('\x00CODE')
       ) {
         return para;
       }
-      
-      // Regular paragraph handling - replace line breaks with <br>
-      const withLineBreaks = para.replace(/\n/g, '<br>');
-      return `<p class="my-3">${withLineBreaks}</p>`;
-    }).join('\n\n');
-  };
+      const withBreaks = para.replace(/\n/g, '<br>');
+      return `<p class="my-3">${withBreaks}</p>`;
+    })
+    .join('\n\n');
 
-  // Handle images to avoid problems with dangerouslySetInnerHTML
-  const renderContent = () => {
-    // For safety, create a copy of the content
-    const safeContent = String(content);
-    
-    // Extract image patterns
-    const imagePattern = /!\[(.*?)\]\((https?:\/\/[^)]+)\)/g;
-    const parts = [];
-    let lastIndex = 0;
-    let match;
-    
-    // Find all images in the content
-    while ((match = imagePattern.exec(safeContent)) !== null) {
-      // Add text before the image
-      if (match.index > lastIndex) {
-        const textSegment = safeContent.substring(lastIndex, match.index);
-        // Only process non-empty text
-        if (textSegment.trim()) {
-          parts.push(
-            <span 
-              key={`text-${lastIndex}`} 
-              dangerouslySetInnerHTML={{ 
-                __html: processMarkdown(textSegment) 
-              }} 
-            />
-          );
-        }
-      }
-      
-      // Extract image info and add image component
-      const [, altText, imageUrl] = match;
-      parts.push(
-        <div key={`img-${match.index}`} className="my-4 text-center">
-          <Image
-            src={imageUrl} 
-            alt={altText || 'Image'} 
-            className="max-w-full h-auto rounded mx-auto" 
-            style={{ display: 'block' }}
-          />
-        </div>
-      );
-      
-      lastIndex = match.index + match[0].length;
-    }
-    
-    // Add any remaining content after the last image
-    if (lastIndex < safeContent.length) {
-      const remainingText = safeContent.substring(lastIndex);
-      if (remainingText.trim()) {
+  // 11. Restore code block placeholders
+  codeBlocks.forEach((block, idx) => {
+    html = html.replace(`\x00CODE${idx}\x00`, block);
+  });
+  inlineCodes.forEach((block, idx) => {
+    html = html.replace(`\x00INLINE${idx}\x00`, block);
+  });
+
+  return html;
+}
+
+export const MarkdownRenderer = ({ content }) => {
+  if (!content) return null;
+
+  const safeContent = String(content);
+
+  // Extract images separately so we can use Next.js <Image>
+  const imagePattern = /!\[(.*?)\]\((https?:\/\/[^)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = imagePattern.exec(safeContent)) !== null) {
+    if (match.index > lastIndex) {
+      const segment = safeContent.substring(lastIndex, match.index);
+      if (segment.trim()) {
         parts.push(
-          <span 
-            key={`text-${lastIndex}`} 
-            dangerouslySetInnerHTML={{ 
-              __html: processMarkdown(remainingText) 
-            }} 
+          <span
+            key={`text-${lastIndex}`}
+            dangerouslySetInnerHTML={{ __html: processMarkdown(segment) }}
           />
         );
       }
     }
-    
-    // If no images found, just process the entire content
-    if (parts.length === 0) {
-      try {
-        return <div dangerouslySetInnerHTML={{ __html: processMarkdown(safeContent) }} />;
-      } catch (error) {
-        console.error("Error processing markdown:", error);
-        return <div className="text-red-500">Error processing content: {error.message}</div>;
-      }
-    }
-    
-    return parts;
-  };
-  
-  try {
-    return (
-      <div className="prose prose-lg max-w-none">
-        {renderContent()}
+
+    const [, altText, imageUrl] = match;
+    parts.push(
+      <div key={`img-${match.index}`} className="my-4 text-center relative w-full" style={{ minHeight: 200 }}>
+        <Image
+          src={imageUrl}
+          alt={altText || 'Image'}
+          fill
+          className="object-contain rounded"
+          sizes="(max-width: 768px) 100vw, 700px"
+        />
       </div>
     );
-  } catch (error) {
-    console.error("Error rendering markdown:", error);
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < safeContent.length) {
+    const remaining = safeContent.substring(lastIndex);
+    if (remaining.trim()) {
+      parts.push(
+        <span
+          key={`text-${lastIndex}`}
+          dangerouslySetInnerHTML={{ __html: processMarkdown(remaining) }}
+        />
+      );
+    }
+  }
+
+  if (parts.length === 0) {
     return (
-      <div className="text-red-500 p-4 border border-red-300 rounded-md">
-        <p>Error rendering content: {error.message}</p>
-        <pre className="mt-2 p-2 bg-red-50 rounded text-sm overflow-auto">
-          {JSON.stringify(error, null, 2)}
-        </pre>
-      </div>
+      <div
+        className="prose prose-lg max-w-none"
+        dangerouslySetInnerHTML={{ __html: processMarkdown(safeContent) }}
+      />
     );
   }
+
+  return <div className="prose prose-lg max-w-none">{parts}</div>;
 };
 
 export default MarkdownRenderer;

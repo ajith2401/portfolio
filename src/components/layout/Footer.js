@@ -31,14 +31,20 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="font-playfair text-h4 text-foreground">Quick Links</h4>
             <ul className="space-y-2">
-              {['DevFolio', 'Quill', 'Spotlight', 'Contact'].map((item) => (
-                <li key={item}>
-                  <a
-                    href={`${item.toLowerCase()}`}
+              {[
+                { name: 'DevFolio', href: '/devfolio' },
+                { name: 'Quill', href: '/quill' },
+                { name: 'Blog', href: '/blog' },
+                { name: 'Spotlight', href: '/spotlight' },
+                { name: 'About', href: '/about' }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
                     className="text-body-sm text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                   >
-                    {item}
-                  </a>
+                    {item.name}
+                  </Link>
                 </li>
               ))}
               {/* Add Subscribe link */}

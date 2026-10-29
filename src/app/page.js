@@ -89,10 +89,6 @@ const Hero = () => {
             ],
             "knowsLanguage": ["Tamil", "English"],
             "jobTitle": ["Full Stack Developer", "Writer and Poet"],
-            "alumniOf": {
-              "@type": "CollegeOrUniversity",
-              "name": "University Name"
-            },
             "publishingPrinciples": "https://www.ajithkumarr.com/about",
             "workLocation": {
               "@type": "Place",
@@ -100,10 +96,6 @@ const Hero = () => {
                 "@type": "PostalAddress",
                 "addressCountry": "India"
               }
-            },
-            "worksFor": {
-              "@type": "Organization",
-              "name": "Current Employer"
             },
             "hasOccupation": [
               {
