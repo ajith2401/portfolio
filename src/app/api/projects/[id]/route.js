@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { Project } from '@/models/project.model';
 import mongoose from 'mongoose';
 import connectDB from '@/lib/db';
+import { verifyAdminAuth, adminUnauthorizedResponse } from '@/lib/authGuard';
 
 // Helper to validate MongoDB ObjectId
 function isValidObjectId(id) {
@@ -46,6 +47,14 @@ export async function GET(request, { params }) {
     if (isValidObjectId(id)) {
       foundByObjectId = true;
       project = await Project.findById(id);
+      
+      // Prevent unauthorized access to unpublished drafts
+      if (project && project.status !== 'published') {
+        const auth = verifyAdminAuth(request);
+        if (!auth.authorized) {
+          project = null;
+        }
+      }
       
       // If found by ObjectId and has slug, redirect to slug URL
       if (project && project.slug) {
@@ -175,8 +184,13 @@ export async function GET(request, { params }) {
   }
 }
 
-// PUT update a project (optional - for admin functionality)
+// PUT update a project (requires admin authentication)
 export async function PUT(request, { params }) {
+  const auth = verifyAdminAuth(request);
+  if (!auth.authorized) {
+    return adminUnauthorizedResponse(auth.error);
+  }
+
   try {
     await connectDB();
     
@@ -236,8 +250,13 @@ export async function PUT(request, { params }) {
   }
 }
 
-// DELETE a project (optional - for admin functionality)
+// DELETE a project (requires admin authentication)
 export async function DELETE(request, { params }) {
+  const auth = verifyAdminAuth(request);
+  if (!auth.authorized) {
+    return adminUnauthorizedResponse(auth.error);
+  }
+
   try {
     await connectDB();
     

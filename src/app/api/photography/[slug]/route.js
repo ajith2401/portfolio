@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { PhotoService } from '@/models';
+import { verifyAdminAuth, adminUnauthorizedResponse } from '@/lib/authGuard';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -38,6 +39,11 @@ export async function GET(request, { params }) {
 }
 
 export async function PUT(request, { params }) {
+  const auth = verifyAdminAuth(request);
+  if (!auth.authorized) {
+    return adminUnauthorizedResponse(auth.error);
+  }
+
   try {
     await connectDB();
     
@@ -85,6 +91,11 @@ export async function PUT(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
+  const auth = verifyAdminAuth(request);
+  if (!auth.authorized) {
+    return adminUnauthorizedResponse(auth.error);
+  }
+
   try {
     await connectDB();
     

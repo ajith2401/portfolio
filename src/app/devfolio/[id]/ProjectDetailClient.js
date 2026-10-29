@@ -88,8 +88,13 @@ const MarkdownRenderer = ({ content }) => {
     // Process italic text
     html = html.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
     
-    // Process links
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary-500 hover:underline">$1</a>');
+    // Process links with safe URL validation
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, href) => {
+      const cleanHref = href.trim();
+      const isSafe = /^https?:\/\//i.test(cleanHref) || cleanHref.startsWith('/') || cleanHref.startsWith('#');
+      const safeHref = isSafe ? cleanHref : '#';
+      return `<a href="${safeHref}" target="_blank" rel="noopener noreferrer" class="text-primary-500 hover:underline">${label}</a>`;
+    });
     
     // Process line breaks
     html = html.replace(/\n/g, '<br>');

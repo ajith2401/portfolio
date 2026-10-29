@@ -91,20 +91,24 @@ export default async function QuillPage({ searchParams }) {
     const skip = (safePage - 1) * limit;
 
     const writings = await Writing.find(query)
-      .sort({ date: -1 })
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .select('title body category date readTime thumbnail slug status wordCount')
+      .select('title body excerpt category images publishedAt createdAt readTime slug status wordCount averageRating totalRatings')
       .lean();
 
     initialWritings = writings.map((writing) => ({
       _id: writing._id.toString(),
       title: writing.title,
       body: writing.body,
+      excerpt: writing.excerpt || '',
       category: writing.category,
-      date: writing.date ? new Date(writing.date).toISOString() : null,
+      images: writing.images || null,
+      publishedAt: writing.publishedAt ? new Date(writing.publishedAt).toISOString() : null,
+      createdAt: writing.createdAt ? new Date(writing.createdAt).toISOString() : null,
+      averageRating: writing.averageRating || 0,
+      totalRatings: writing.totalRatings || 0,
       readTime: writing.readTime || null,
-      thumbnail: writing.thumbnail || null,
       slug: writing.slug || writing._id.toString(),
       wordCount: writing.wordCount || 0
     }));

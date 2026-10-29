@@ -23,22 +23,61 @@ export async function POST(request) {
     await connectDB();
     const commentData = await request.json();
     
-    // Validate required fields
-    if (!commentData.parentId || !commentData.parentModel || !commentData.name || 
-        !commentData.email || !commentData.comment || !commentData.rating) {
+    // Strict allowlist for parentModel
+    const ALLOWED_MODELS = ['Writing', 'TechBlog'];
+    if (!ALLOWED_MODELS.includes(commentData.parentModel)) {
+      return NextResponse.json({ error: 'Invalid parent model' }, { status: 400 });
+    }
+
+    // Validate required fields and types
+    if (
+      !commentData.parentId ||
+      typeof commentData.name !== 'string' ||
+      typeof commentData.email !== 'string' ||
+      typeof commentData.comment !== 'string' ||
+      typeof commentData.rating !== 'number'
+    ) {
       return NextResponse.json({ 
-        error: 'Missing required fields' 
+        error: 'Missing or invalid required fields' 
       }, { status: 400 });
+    }
+
+    const trimmedName = commentData.name.trim();
+    const trimmedEmail = commentData.email.trim();
+    const trimmedComment = commentData.comment.trim();
+    const numericRating = Math.min(5, Math.max(1, Math.round(commentData.rating)));
+
+    // Length and format limits
+    if (!trimmedName || trimmedName.length > 100 || !trimmedComment || trimmedComment.length > 2000) {
+      return NextResponse.json({ 
+        error: 'Name (max 100 chars) and comment (max 2000 chars) must be valid' 
+      }, { status: 400 });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail) || trimmedEmail.length > 150) {
+      return NextResponse.json({ error: 'Valid email address is required' }, { status: 400 });
     }
     
     // Use middleware to handle comment operations and initialize arrays
-    const { parent, Model } = await handleCommentOperations(commentData);
-
-    // Create new comment
-    const comment = await Comment.create({
-      ...commentData,
-      parentId: parent._id,
+    const cleanPayload = {
+      parentId: commentData.parentId,
       parentModel: commentData.parentModel,
+      name: trimmedName,
+      email: trimmedEmail,
+      comment: trimmedComment,
+      rating: numericRating
+    };
+    const { parent, Model } = await handleCommentOperations(cleanPayload);
+
+    // Create new comment with safe, explicit attributes (status defaults to pending)
+    const comment = await Comment.create({
+      parentId: parent._id,
+      parentModel: cleanPayload.parentModel,
+      name: cleanPayload.name,
+      email: cleanPayload.email,
+      comment: cleanPayload.comment,
+      rating: cleanPayload.rating,
       status: 'pending'
     });
     

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import connectDB from '@/lib/db';
 import { TechBlog, Writing, Book, Project } from '@/models';
 import { generateUniqueShortCode } from '@/utils/shortCode';
+import { rateLimit, getClientIP } from '@/lib/rateLimit';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,6 +43,16 @@ async function ensureShortCode(found) {
 }
 
 export async function POST(request) {
+  // Rate limit: 20 short-url requests per minute per IP
+  const ip = getClientIP(request);
+  const { allowed, resetAt } = rateLimit(`short-url:${ip}`, 20, 60_000);
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please wait before generating another link.' },
+      { status: 429, headers: { 'Retry-After': String(Math.ceil((resetAt - Date.now()) / 1000)) } }
+    );
+  }
+
   try {
     const body = await request.json().catch(() => ({}));
     const { pathname } = body;

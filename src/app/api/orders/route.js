@@ -2,11 +2,18 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { Order, PhotoService } from '@/models';
+import { verifyAdminAuth, adminUnauthorizedResponse } from '@/lib/authGuard';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
+  // Prevent unauthenticated enumeration of customer orders and PII
+  const auth = verifyAdminAuth(request);
+  if (!auth.authorized) {
+    return adminUnauthorizedResponse(auth.error);
+  }
+
   try {
     await connectDB();
     const { searchParams } = new URL(request.url);

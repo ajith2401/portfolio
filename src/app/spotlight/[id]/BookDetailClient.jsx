@@ -85,8 +85,13 @@ const MarkdownRenderer = ({ content }) => {
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
     html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
     
-    // Process links with styling
-    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" class="text-blue-600 hover:underline">$1</a>');
+    // Process links with safe URL validation
+    html = html.replace(/\[(.*?)\]\((.*?)\)/g, (match, label, href) => {
+      const cleanHref = href.trim();
+      const isSafe = /^https?:\/\//i.test(cleanHref) || cleanHref.startsWith('/') || cleanHref.startsWith('#');
+      const safeHref = isSafe ? cleanHref : '#';
+      return `<a href="${safeHref}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${label}</a>`;
+    });
     
     // Process horizontal rule
     html = html.replace(/^---$/gm, '<hr class="my-6 border-t border-gray-300" />');

@@ -70,7 +70,12 @@ const QuillClientPage = ({ initialWritings = [], initialPagination = null }) => 
     // Get initial values from URL or localStorage
     const pageFromUrl = searchParams.get('page');
     const pageFromStorage = getLocalStorage('quillPage', '1');
-    const initialPage = pageFromUrl ? parseInt(pageFromUrl) : (initialPagination?.current || parseInt(pageFromStorage) || 1);
+    let parsedPage = pageFromUrl ? parseInt(pageFromUrl, 10) : (initialPagination?.current || parseInt(pageFromStorage, 10) || 1);
+    if (isNaN(parsedPage) || parsedPage < 1) parsedPage = 1;
+    if (initialPagination?.pages && parsedPage > initialPagination.pages) {
+      parsedPage = initialPagination.pages;
+    }
+    const initialPage = parsedPage;
     
     const initialCategory = searchParams.get('category') || getLocalStorage('quillCategory', 'All Writings');
     const initialSearch = searchParams.get('search') || getLocalStorage('quillSearch', '');
@@ -78,7 +83,7 @@ const QuillClientPage = ({ initialWritings = [], initialPagination = null }) => 
     const initialStartDate = searchParams.get('startDate') || getLocalStorage('quillStartDate', '');
     const initialEndDate = searchParams.get('endDate') || getLocalStorage('quillEndDate', '');
 
-    setCurrentPage(isNaN(initialPage) ? 1 : initialPage);
+    setCurrentPage(initialPage);
     setSelectedCategory(initialCategory);
     setSearchQuery(initialSearch);
     setSortBy(initialSortBy);
@@ -124,12 +129,14 @@ const QuillClientPage = ({ initialWritings = [], initialPagination = null }) => 
   const totalPages = data?.pagination?.pages ?? (initialPagination?.pages || 1);
   const serverCurrentPage = data?.pagination?.current ?? (initialPagination?.current || 1);
 
-  // Auto-sync currentPage if server clamped an out-of-range page
+  // Auto-sync currentPage if server clamped an out-of-range page or if totalPages changed
   useEffect(() => {
     if (serverCurrentPage && serverCurrentPage !== currentPage) {
       setCurrentPage(serverCurrentPage);
+    } else if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages);
     }
-  }, [serverCurrentPage, currentPage]);
+  }, [serverCurrentPage, totalPages, currentPage]);
 
   // Store current state in localStorage and URL when it changes
   useEffect(() => {
@@ -523,49 +530,51 @@ const QuillClientPage = ({ initialWritings = [], initialPagination = null }) => 
         )}
 
         {/* Pagination */}
-        <div className="flex justify-center items-center mt-8 md:mt-12">
-          <div className="flex items-center gap-1 sm:gap-2 px-2 py-1 rounded-lg bg-background">
-            {/* Previous Button */}
-            <button
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className="p-1.5 sm:p-2 rounded-xl border border-primary disabled:opacity-50 disabled:cursor-not-allowed text-primary hover:bg-tertiary transition-colors"
-              aria-label="Previous page"
-            >
-              <span className="text-sm sm:text-base">←</span>
-            </button>
+        {writings.length > 0 && totalPages > 1 && (
+          <div className="flex justify-center items-center mt-8 md:mt-12">
+            <div className="flex items-center gap-1 sm:gap-2 px-2 py-1 rounded-lg bg-background">
+              {/* Previous Button */}
+              <button
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="p-1.5 sm:p-2 rounded-xl border border-primary disabled:opacity-50 disabled:cursor-not-allowed text-primary hover:bg-tertiary transition-colors"
+                aria-label="Previous page"
+              >
+                <span className="text-sm sm:text-base">←</span>
+              </button>
 
-            {/* Page Numbers */}
-            <div className="flex items-center gap-1 sm:gap-2">
-              {generatePaginationArray().map((page, index) => (
-                <button
-                  key={index}
-                  onClick={() => typeof page === 'number' && setCurrentPage(page)}
-                  disabled={typeof page !== 'number'}
-                  className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-xl text-sm sm:text-base transition-colors ${
-                    currentPage === page
-                      ? 'bg-accent text-white'
-                      : typeof page === 'number'
-                      ? 'text-primary hover:bg-tertiary'
-                      : 'text-muted cursor-default'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
+              {/* Page Numbers */}
+              <div className="flex items-center gap-1 sm:gap-2">
+                {generatePaginationArray().map((page, index) => (
+                  <button
+                    key={index}
+                    onClick={() => typeof page === 'number' && setCurrentPage(page)}
+                    disabled={typeof page !== 'number'}
+                    className={`min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 flex items-center justify-center rounded-xl text-sm sm:text-base transition-colors ${
+                      currentPage === page
+                        ? 'bg-accent text-white'
+                        : typeof page === 'number'
+                        ? 'text-primary hover:bg-tertiary'
+                        : 'text-muted cursor-default'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="p-1.5 sm:p-2 rounded-xl border border-primary disabled:opacity-50 disabled:cursor-not-allowed text-primary hover:bg-tertiary transition-colors"
+                aria-label="Next page"
+              >
+                <span className="text-sm sm:text-base">→</span>
+              </button>
             </div>
-
-            {/* Next Button */}
-            <button
-              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages}
-              className="p-1.5 sm:p-2 rounded-xl border border-primary disabled:opacity-50 disabled:cursor-not-allowed text-primary hover:bg-tertiary transition-colors"
-              aria-label="Next page"
-            >
-              <span className="text-sm sm:text-base">→</span>
-            </button>
           </div>
-        </div>
+        )}
       </section>
     </main>
   );

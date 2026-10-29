@@ -5,6 +5,7 @@ import { Writing } from '@/models';
 import { uploadImage } from '@/lib/cloudinary';
 import { notifyWritingSubscribers } from '@/lib/notificationHandler';
 import { generateSlug, ensureUniqueSlug } from '@/utils/slugGenerator';
+import { verifyAdminAuth, adminUnauthorizedResponse } from '@/lib/authGuard';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -132,6 +133,12 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  // Enforce administrative authorization
+  const auth = verifyAdminAuth(request);
+  if (!auth.authorized) {
+    return adminUnauthorizedResponse(auth.error);
+  }
+
   try {
     await connectDB();
     

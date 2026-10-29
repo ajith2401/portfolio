@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { Book } from '@/models/book.model';
 import mongoose from 'mongoose';
 import connectDB from '@/lib/db';
+import { verifyAdminAuth, adminUnauthorizedResponse } from '@/lib/authGuard';
 
 // Helper to validate MongoDB ObjectId
 function isValidObjectId(id) {
@@ -46,6 +47,14 @@ export async function GET(request, { params }) {
     if (isValidObjectId(id)) {
       foundByObjectId = true;
       book = await Book.findById(id);
+      
+      // Prevent unauthorized access to unpublished drafts
+      if (book && book.status && book.status !== 'published') {
+        const auth = verifyAdminAuth(request);
+        if (!auth.authorized) {
+          book = null;
+        }
+      }
       
       // If found by ObjectId and has slug, redirect to slug URL
       if (book && book.slug) {
@@ -181,8 +190,13 @@ export async function GET(request, { params }) {
   }
 }
 
-// PUT update a book (optional - for admin functionality)
+// PUT update a book (requires admin authentication)
 export async function PUT(request, { params }) {
+  const auth = verifyAdminAuth(request);
+  if (!auth.authorized) {
+    return adminUnauthorizedResponse(auth.error);
+  }
+
   try {
     await connectDB();
     
@@ -242,8 +256,13 @@ export async function PUT(request, { params }) {
   }
 }
 
-// DELETE a book (optional - for admin functionality)
+// DELETE a book (requires admin authentication)
 export async function DELETE(request, { params }) {
+  const auth = verifyAdminAuth(request);
+  if (!auth.authorized) {
+    return adminUnauthorizedResponse(auth.error);
+  }
+
   try {
     await connectDB();
     
