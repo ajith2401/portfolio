@@ -31,8 +31,8 @@ export async function GET(request, { params }) {
       Writing.find({
         _id: { $ne: params.id },
         category: writing.category,
-        // Only include published items if applicable
-        ...(writing.status === 'published' ? { status: 'published' } : {})
+        status: 'published',
+        wordCount: { $gte: 50 }
       })
       .sort({ createdAt: -1 })
       .limit(5) // Get more than we need to filter
@@ -57,7 +57,8 @@ export async function GET(request, { params }) {
         Writing.find({
           _id: { $ne: params.id },
           $text: { $search: searchTerms },
-          ...(writing.status === 'published' ? { status: 'published' } : {})
+          status: 'published',
+          wordCount: { $gte: 50 }
         })
         .sort({ score: { $meta: 'textScore' } })
         .limit(10)
@@ -81,7 +82,8 @@ export async function GET(request, { params }) {
         Writing.find({
           _id: { $ne: params.id },
           category: { $ne: writing.category },
-          ...(writing.status === 'published' ? { status: 'published' } : {})
+          status: 'published',
+          wordCount: { $gte: 50 }
         })
         .sort({ averageRating: -1 }) // Sort by highest rating
         .limit(5)

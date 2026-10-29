@@ -21,7 +21,11 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     
     // Build query based on parameters
-    const query = {};
+    // Only return published writings with at least 50 words
+    const query = {
+      status: 'published',
+      wordCount: { $gte: 50 }
+    };
     const sort = {};
     
     // Category filter - use exact match for indexed performance
@@ -75,50 +79,35 @@ export async function GET(request) {
     // Pagination
     const pageParam = searchParams.get('page');
     const limitParam = searchParams.get('limit');
-    let page = 1;
+    let requestedPage = 1;
     if (pageParam) {
       const parsedPage = parseInt(pageParam);
-      page = !isNaN(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+      requestedPage = !isNaN(parsedPage) && parsedPage > 0 ? parsedPage : 1;
     }
     let limit = 12;
     if (limitParam) {
       const parsedLimit = parseInt(limitParam);
       limit = !isNaN(parsedLimit) && parsedLimit > 0 ? Math.min(parsedLimit, 50) : 12;
     }
-    const skip = (page - 1) * limit;
+
+    // Get total count of matching documents
+    const total = await Writing.countDocuments(query);
+    const totalPages = Math.max(1, Math.ceil(total / limit));
     
-    // Only select needed fields for the listing (including wordCount and body for word-count verification)
+    // Clamp requested page to valid range so out-of-bounds requests return valid data
+    const currentPage = total > 0 ? Math.min(requestedPage, totalPages) : 1;
+    const skip = (currentPage - 1) * limit;
+    
+    // Select needed fields for listing
     const writings = await Writing.find(query)
-      .select('title slug excerpt body wordCount images publishedAt createdAt category averageRating totalRatings status featured trending performance')
+      .select('title slug excerpt wordCount images publishedAt createdAt category averageRating totalRatings status featured trending performance')
       .sort(sort)
       .skip(skip)
       .limit(limit)
       .lean();
-
-    // Helper to calculate word count
-    const getWordCount = (doc) => {
-      if (typeof doc?.wordCount === 'number' && doc.wordCount > 0) {
-        return doc.wordCount;
-      }
-      const text = doc?.body || doc?.excerpt || '';
-      return text.replace(/<[^>]*>/g, '').trim().split(/\s+/).filter(Boolean).length;
-    };
-
-    // Temporary block: do not return writeups with less than 50 words
-    const filteredWritings = writings
-      .map(w => ({
-        ...w,
-        wordCount: getWordCount(w)
-      }))
-      .filter(w => w.wordCount >= 50);
-    
-    // Get total count for pagination
-    const total = await Writing.countDocuments(query);
-    const totalPages = Math.max(1, Math.ceil(total / limit));
-    const currentPage = page > totalPages ? totalPages : page;
     
     return NextResponse.json({
-      writings: filteredWritings,
+      writings,
       pagination: {
         total,
         pages: totalPages,

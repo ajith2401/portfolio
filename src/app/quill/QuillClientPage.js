@@ -105,20 +105,16 @@ const QuillClientPage = () => {
     endDate
   }, { skip: !isMounted }); // Skip the query until mounted
 
-  const rawWritings = data?.writings || [];
-
-  // Temporary block: writeups with less than 50 words need not be rendered
-  const getWordCount = (writing) => {
-    if (typeof writing?.wordCount === 'number' && writing.wordCount > 0) {
-      return writing.wordCount;
-    }
-    const text = writing?.body || writing?.excerpt || '';
-    const clean = text.replace(/<[^>]*>/g, '').trim();
-    return clean ? clean.split(/\s+/).filter(Boolean).length : 0;
-  };
-
-  const writings = rawWritings.filter((writing) => getWordCount(writing) >= 50);
+  const writings = data?.writings || [];
   const totalPages = data?.pagination?.pages || 0;
+  const serverCurrentPage = data?.pagination?.current;
+
+  // Auto-sync currentPage if server clamped an out-of-range page
+  useEffect(() => {
+    if (serverCurrentPage && serverCurrentPage !== currentPage) {
+      setCurrentPage(serverCurrentPage);
+    }
+  }, [serverCurrentPage, currentPage]);
 
   // Store current state in localStorage and URL when it changes
   useEffect(() => {
