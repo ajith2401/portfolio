@@ -41,58 +41,64 @@ export default function DeveloperSchema({ includedSkills = [] }) {
     ? includedSkills 
     : allSkills;
 
-  // Create schema for Ajithkumar as a developer
+  // Create schema for Ajithkumar R as a developer
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    '@id': 'https://www.ajithkumarr.com/#ajithkumar-developer',
-    'name': 'Ajithkumar',
-    'alternateName': 'Ajith Kumar',
-    'description': 'Full Stack MERN Developer with expertise in JavaScript, React.js, Node.js, Express, and MongoDB. Creator of responsive, scalable web applications while maintaining a unique perspective as a published Tamil writer.',
+    '@id': 'https://www.ajithkumarr.com/#ajithkumar',
+    'name': 'Ajithkumar R',
+    'alternateName': ['Ajithkumar', 'Ajith Kumar'],
+    'description': 'Full Stack MERN Developer and Anthropic-certified Claude Architect with expertise in React.js, Next.js, Node.js, Express, MongoDB, and TypeScript. Creator of responsive web applications, automated workflows, and published Tamil writer.',
     'image': 'https://res.cloudinary.com/dk5p5vrwa/image/upload/v1741809430/techblog/ujikvc0er4tebs8mps0d.jpg',
     'url': 'https://www.ajithkumarr.com/devfolio',
     'sameAs': [
       'https://github.com/ajith2401',
       'https://www.linkedin.com/in/ajithkumar-r-a6531a232/',
+      'https://www.credly.com/users/ajithkumar-r',
+      'https://claude.ajithkumarr.com',
       'https://www.instagram.com/ajithkumarr'
     ],
-    'knowsLanguage': ['JavaScript', 'HTML', 'CSS', 'SQL', 'TypeScript', 'English', 'Tamil'],
-    'jobTitle': 'Full Stack Developer',
+    'knowsLanguage': [
+      { '@type': 'Language', 'name': 'English', 'alternateName': 'en' },
+      { '@type': 'Language', 'name': 'Tamil', 'alternateName': 'ta' }
+    ],
+    'jobTitle': 'Full Stack Developer & AI Solutions Architect',
     'alumniOf': {
       '@type': 'CollegeOrUniversity',
       'name': 'Government College of Technology'
-    },
-    'worksFor': {
-      '@type': 'OneVarsity',
-      'name': 'Current Employer'
     },
     'hasOccupation': {
       '@type': 'Occupation',
       'name': 'Full Stack Developer',
       'occupationCategory': 'Software Developer',
       'skills': skills.join(', '),
-      'description': 'MERN Stack developer creating modern web applications with JavaScript, React.js, Node.js, Express.js, and MongoDB',
-      'estimatedSalary': {
-        '@type': 'MonetaryAmountDistribution',
-        'currency': 'INR',
-        'percentile10': '800000',
-        'percentile50': '1200000',
-        'percentile90': '2000000'
-      }
+      'description': 'MERN Stack developer creating modern web applications with JavaScript, React.js, Node.js, Express.js, and MongoDB'
     },
+    'hasCredential': [
+      {
+        '@type': 'EducationalOccupationalCredential',
+        'name': 'Claude Certified Architect – Foundations (CCA-F)',
+        'credentialCategory': 'Certification',
+        'recognizedBy': {
+          '@type': 'Organization',
+          'name': 'Anthropic'
+        },
+        'url': 'https://www.credly.com/users/ajithkumar-r'
+      }
+    ],
     'knowsAbout': [
       'MERN Stack Development',
       'Full Stack Web Development',
       'JavaScript',
+      'TypeScript',
       'React.js Development',
+      'Next.js',
       'Node.js Development',
       'MongoDB',
       'Express.js',
-      'Front-end Development',
-      'Back-end Development',
       'RESTful API Design',
-      'Database Management',
-      'Web Application Architecture'
+      'AI Workflows & LLM Integration',
+      'Claude Certified Architect'
     ],
     'mainEntityOfPage': {
       '@type': 'WebPage',
@@ -101,31 +107,23 @@ export default function DeveloperSchema({ includedSkills = [] }) {
     'workExample': [
       {
         '@type': 'SoftwareApplication',
-        'name': 'MERN Stack Project',
-        'applicationCategory': 'WebApplication',
+        'name': 'Claude Cert Prep',
+        'applicationCategory': 'EducationalApplication',
         'operatingSystem': 'Web Browser',
+        'url': 'https://claude.ajithkumarr.com',
         'author': {
           '@type': 'Person',
-          '@id': 'https://www.ajithkumarr.com/#ajithkumar-developer'
+          '@id': 'https://www.ajithkumarr.com/#ajithkumar'
         }
       },
       {
         '@type': 'SoftwareApplication',
-        'name': 'React.js Frontend',
+        'name': 'MERN Stack Applications',
         'applicationCategory': 'WebApplication',
         'operatingSystem': 'Web Browser',
         'author': {
           '@type': 'Person',
-          '@id': 'https://www.ajithkumarr.com/#ajithkumar-developer'
-        }
-      },
-      {
-        '@type': 'SoftwareApplication',
-        'name': 'Node.js Backend API',
-        'applicationCategory': 'DeveloperApplication',
-        'author': {
-          '@type': 'Person',
-          '@id': 'https://www.ajithkumarr.com/#ajithkumar-developer'
+          '@id': 'https://www.ajithkumarr.com/#ajithkumar'
         }
       }
     ],
@@ -134,47 +132,22 @@ export default function DeveloperSchema({ includedSkills = [] }) {
         '@type': 'Offer',
         'itemOffered': {
           '@type': 'Service',
-          'name': 'Full Stack MERN Development',
-          'description': 'End-to-end web application development using MongoDB, Express.js, React.js, and Node.js'
+          'name': 'Full Stack Web Development',
+          'description': 'End-to-end web application development using React.js, Next.js, Node.js, Express, and MongoDB'
         }
       },
       {
         '@type': 'Offer',
         'itemOffered': {
           '@type': 'Service',
-          'name': 'Frontend Development',
-          'description': 'Responsive, interactive user interfaces built with React.js and modern JavaScript'
+          'name': 'AI Solutions & Architecture',
+          'description': 'Claude AI integration, agentic workflows, and automated system development'
         }
-      },
-      {
-        '@type': 'Offer',
-        'itemOffered': {
-          '@type': 'Service',
-          'name': 'Backend API Development',
-          'description': 'Scalable, secure REST APIs built with Node.js and Express.js'
-        }
-      }
-    ],
-    'memberOf': [
-      {
-        '@type': 'Organization',
-        'name': 'JavaScript Developer Community'
-      },
-      {
-        '@type': 'Organization',
-        'name': 'React.js Developer Network'
-      },
-      {
-        '@type': 'Organization',
-        'name': 'Node.js Community'
       }
     ],
     'award': [
-      {
-        '@type': 'Honour',
-        'name': 'Certified MERN Stack Developer',
-        'description': 'Certification in MERN stack development'
-      }
+      'Claude Certified Architect – Foundations (CCA-F), Anthropic',
+      'GovTechThon Winner — National Informatics Centre (NIC) & IEEE'
     ],
     'subjectOf': {
       '@type': 'CreativeWork',

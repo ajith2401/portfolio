@@ -57,19 +57,22 @@ export async function generateMetadata({ params }) {
       console.error("Date conversion error in metadata:", error);
     }
     
+    const canonicalSlug = project.slug || params.id;
+    const canonicalUrl = `https://www.ajithkumarr.com/devfolio/${canonicalSlug}`;
+
     return {
-      title: `${project.title} | Ajith Kumar`,
+      title: `${project.title} | Ajithkumar R`,
       description: description,
-      keywords: [project.category, 'project', 'portfolio', 'development', 'Ajith Kumar'].concat(project.technologies || []).filter(Boolean),
-      authors: [{ name: 'Ajith Kumar' }],
+      keywords: [project.category, 'project', 'portfolio', 'development', 'Ajithkumar R'].concat(project.technologies || []).filter(Boolean),
+      authors: [{ name: 'Ajithkumar R' }],
       category: project.category,
       alternates: {
-        canonical: `https://www.ajithkumarr.com/devfolio/${params.id}`,
+        canonical: canonicalUrl,
       },
       openGraph: {
         title: project.title,
         description: description,
-        url: `https://www.ajithkumarr.com/devfolio/${params.id}`,
+        url: canonicalUrl,
         type: 'article',
         publishedTime: publishedTime,
         modifiedTime: modifiedTime,

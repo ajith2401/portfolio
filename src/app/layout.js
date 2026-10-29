@@ -63,36 +63,39 @@ const geistMono = localFont({
 export const metadata = {
   metadataBase: new URL('https://www.ajithkumarr.com'),
   title: {
-    default: "Ajithkumar | Full Stack Developer, Poet, Writer & Lyricist",
-    template: "%s | Ajithkumar - Tamil Writer & MERN Developer"
+    default: "Ajithkumar R — Tamil Writer, Poet, Lyricist & Full-Stack Developer",
+    template: "%s | Ajithkumar R"
   },
-  description: "Ajithkumar - Published Tamil writer with 5 poetry books and Full Stack MERN Developer, exploring themes of feminism and social justice through captivating poetry while creating innovative web applications.",
+  description: "Official portfolio and literary works of Ajithkumar R — Published Tamil poet with 5 books, Anthropic-certified Claude Architect (CCA-F), and Full Stack MERN Developer based in Bengaluru, India.",
   keywords: [
+    "Ajithkumar R",
     "Ajithkumar writer",
-    "Tamil poet",
-    "Tamil literature",
-    "MERN stack developer",
-    "Full stack developer",
+    "Ajith Kumar writer",
+    "Ajith Tamil writer",
+    "Ajithkumar poet",
+    "Ajith Kumar poet",
+    "Ajith Tamil poet",
+    "Ajithkumar lyricist",
+    "Ajith Kumar lyricist",
+    "Ajithkumar full stack developer",
+    "Ajith Kumar full stack developer",
+    "Ajithkumar MERN developer",
+    "Ajithkumar Claude architect",
+    "Ajithkumar CCA-F",
+    "Ajithkumar filmmaker",
     "Tamil poetry books",
-    "published Tamil author",
-    "feminist poetry",
-    "social justice poetry",
-    "web developer poet",
-    "Tamil developer",
-    "modern Tamil writer",
-    "contemporary Tamil poetry",
-    "Tamil poetry",
-    "Tamil writer",
-    "Indian poet",
+    "Claude Cert Prep",
+    "GovTechThon winner",
+    "MakkalNalamBot"
   ],
   authors: [{ 
-    name: "Ajithkumar",
+    name: "Ajithkumar R",
     url: "https://www.ajithkumarr.com"
   }],
-  creator: "Ajithkumar",
-  publisher: "Ajithkumar",
+  creator: "Ajithkumar R",
+  publisher: "Ajithkumar R",
   alternates: {
-    canonical: "/",
+    canonical: "https://www.ajithkumarr.com",
   },
   icons: {
     icon: [
@@ -112,16 +115,16 @@ export const metadata = {
     ]
   },
   openGraph: {
-    title: "Ajithkumar | Tamil Writer & Full Stack Developer",
-    description: "Explore the work of Ajithkumar - published Tamil poet with 5 books who also creates innovative web applications as a Full Stack MERN Developer.",
+    title: "Ajithkumar R — Tamil Writer, Poet, Lyricist & Full-Stack Developer",
+    description: "Official website of Ajithkumar R. Exploring Tamil poetry, literature, full-stack software engineering, applied AI architecture, and creative storytelling.",
     url: "https://www.ajithkumarr.com",
-    siteName: "Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist",
+    siteName: "Ajithkumar R",
     images: [
       {
         url: "/opengraph-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Ajithkumar - Full Stack Developer, Poet, Writer & Lyricist" 
+        alt: "Ajithkumar R — Tamil Writer, Poet, Lyricist & Full-Stack Developer" 
       }
     ],
     locale: "en_US",
@@ -129,8 +132,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ajithkumar |Full Stack Developer, Poet, Writer & Lyricist",
-    description: "Explore the captivating Tamil poetry books and MERN stack projects of Ajithkumar - where literature meets technology.",
+    title: "Ajithkumar R — Tamil Writer, Poet, Lyricist & Full-Stack Developer",
+    description: "Official website of Ajithkumar R — Published Tamil poet with 5 books, Claude Certified Architect (CCA-F), and Full Stack Developer.",
     images: ["/twitter-image.jpg"],
     creator: "@ajithkumarr"
   },

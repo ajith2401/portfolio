@@ -12,8 +12,6 @@ Allow: /photography/
 
 # Disallow non-essential paths
 Disallow: /api/
-Disallow: /_next/static/
-Disallow: /_next/image/
 Disallow: /_vercel/
 Disallow: /checkout/
 Disallow: /create-writing/
@@ -120,6 +118,35 @@ Allow: /
 Disallow: /api/
 
 User-agent: LinkedInBot
+Allow: /
+Disallow: /api/
+
+# AI Search & Answer Engine Crawlers (AEO / GEO visibility)
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+
+User-agent: Applebot-Extended
 Allow: /
 Disallow: /api/
 

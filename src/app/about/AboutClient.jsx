@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ExternalLink, Award, Sparkles, BookOpen, Code2, Users, ArrowRight } from 'lucide-react';
+import { ExternalLink, Award, Sparkles, BookOpen, Code2, Users, ArrowRight, Film } from 'lucide-react';
 import eventEmitter from '@/lib/eventEmitter';
 
 export default function AboutClient() {
@@ -193,6 +193,25 @@ export default function AboutClient() {
         </p>
         <p className="text-secondary leading-relaxed">
           For me, literature is not just an exercise in expression. It is a way of paying attention, questioning the familiar, and finding words for experiences that deserve to be understood.
+        </p>
+      </section>
+
+      {/* Screenwriting & Filmmaking Exploration */}
+      <section className="mb-14 md:mb-16 border-t border-color/40 pt-10">
+        <div className="flex items-center gap-3 mb-4">
+          <Film className="w-6 h-6 text-accent-primary" />
+          <h2 className="text-2xl md:text-3xl font-playfair font-bold text-foreground">
+            Screenwriting &amp; Filmmaking Exploration
+          </h2>
+        </div>
+        <p className="text-secondary leading-relaxed mb-4">
+          In addition to poetry and essays, I am actively exploring filmmaking, screenwriting, and cinematic storytelling. Coming from a literary background in Tamil, I am drawn to how visual narrative, character interiority, dialogue, and pacing can convey human realities that words alone cannot fully capture.
+        </p>
+        <p className="text-secondary leading-relaxed mb-4">
+          This is an emerging creative pursuit where I focus on developing original concepts, screenplays, and visual language grounded in contemporary Tamil culture, honest dialogue, and social realism.
+        </p>
+        <p className="text-secondary leading-relaxed">
+          I welcome conversations and collaborations with fellow writers, independent filmmakers, and creators interested in thoughtful, story-driven cinema.
         </p>
       </section>
 

@@ -161,12 +161,12 @@ const Hero = () => {
                   </div>
                 </div>
       
-                <div className="space-y-2">
-                  <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-primary">
-                    Full Stack Developer
+                <div className="space-y-3">
+                  <h1 className="font-playfair text-3xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight">
+                    Ajithkumar R
                   </h1>
                   <h2 className="text-xl md:text-2xl text-accent-primary font-medium">
-                    Ajithkumar
+                    Tamil Writer, Poet, Lyricist &amp; Full-Stack Developer
                   </h2>
                 </div>
 

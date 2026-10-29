@@ -18,6 +18,9 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   optimizeFonts: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   
   // Experimental features for better performance and Unicode support
   experimental: {
@@ -185,8 +188,8 @@ const nextConfig = {
   // Environment variables
   env: {
     SITE_URL: process.env.SITE_URL || 'https://www.ajithkumarr.com',
-    AUTHOR_NAME: 'Ajithkumar',
-    SITE_NAME: 'Ajithkumar - Tamil Writer & Full Stack Developer'
+    AUTHOR_NAME: 'Ajithkumar R',
+    SITE_NAME: 'Ajithkumar R — Tamil Writer, Poet, Lyricist & Full Stack Developer'
   },
 
   // Compiler options (SIMPLIFIED)

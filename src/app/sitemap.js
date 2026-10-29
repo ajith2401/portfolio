@@ -23,6 +23,7 @@ export default async function sitemap() {
         
       Writing.find({ 
         status: 'published',
+        wordCount: { $gte: 50 },
         slug: { $exists: true, $ne: null, $ne: '' },
         title: { $exists: true, $ne: null, $ne: '' }
       })
