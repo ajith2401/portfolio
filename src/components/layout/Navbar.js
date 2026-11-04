@@ -115,18 +115,21 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
-            <ul className="flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
+            <ul className="flex items-center gap-5 text-sm">
               <li><NavLink href="/">Home</NavLink></li>
+              <li><NavLink href="/writer">Writer</NavLink></li>
+              <li><NavLink href="/screenwriter">Screenwriter</NavLink></li>
+              <li><NavLink href="/filmmaker">Filmmaker</NavLink></li>
+              <li><NavLink href="/books">Books</NavLink></li>
+              <li><NavLink href="/quill">Quill</NavLink></li>
               <li><NavLink href="/devfolio">Devfolio</NavLink></li>
               <li><NavLink href="/blog">Blog</NavLink></li>
-              <li><NavLink href="/quill">Quill</NavLink></li>
-              <li><NavLink href="/spotlight">Spotlight</NavLink></li>
               <li>
                 <button 
                   onClick={openContactForm}
                   className={`
-                    ml-4 px-6 py-2 rounded-full transition-all duration-300
+                    ml-2 px-5 py-2 rounded-full transition-all duration-300 text-sm font-medium
                     ${isDark
                       ? 'bg-primary-400 text-slate-900 hover:bg-primary-300'
                       : 'bg-primary-600 text-white hover:bg-primary-700'}
@@ -142,7 +145,7 @@ const Navbar = () => {
                 <button 
                   onClick={handleSubscribe}
                   className={`
-                    px-4 py-1.5 rounded-full transition-all duration-300
+                    px-3.5 py-1.5 rounded-full transition-all duration-300 text-xs font-medium
                     border border-primary-400 text-primary-600
                     hover:bg-primary-50 dark:hover:bg-primary-900/30
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2
@@ -166,17 +169,21 @@ const Navbar = () => {
             ${isDark ? 'bg-slate-900/95' : 'bg-sky-50/95'}
             backdrop-blur-md
           `}>
-            <ul className="flex flex-col gap-6">
+            <ul className="flex flex-col gap-4">
               <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/">Home</NavLink></li>
+              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/writer">Writer</NavLink></li>
+              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/screenwriter">Screenwriter</NavLink></li>
+              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/filmmaker">Filmmaker</NavLink></li>
+              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/books">Books</NavLink></li>
+              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/quill">Quill</NavLink></li>
               <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/devfolio">Devfolio</NavLink></li>
               <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/blog">Blog</NavLink></li>
-              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/quill">Quill</NavLink></li>
-              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/spotlight">Spotlight</NavLink></li>
+              <li onClick={() => setIsMenuOpen(!isMenuOpen)}><NavLink href="/about">About</NavLink></li>
               <li>
                 <button 
                   onClick={openContactForm}
                   className={`
-                    w-full px-6 py-3 rounded-full transition-all duration-300
+                    w-full px-6 py-2.5 rounded-full transition-all duration-300 text-sm font-medium
                     ${isDark
                       ? 'bg-primary-400 text-slate-900 hover:bg-primary-300'
                       : 'bg-primary-600 text-white hover:bg-primary-700'}

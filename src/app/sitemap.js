@@ -71,15 +71,33 @@ export default async function sitemap() {
         priority: 1.0
       },
       {
+        url: `${baseUrl}/writer`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.98
+      },
+      {
+        url: `${baseUrl}/screenwriter`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.96
+      },
+      {
+        url: `${baseUrl}/filmmaker`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly',
+        priority: 0.96
+      },
+      {
+        url: `${baseUrl}/books`,
+        lastModified: books.length > 0 ? getMostRecentDate(books[0]) : currentDate,
+        changeFrequency: 'monthly',
+        priority: 0.95
+      },
+      {
         url: `${baseUrl}/about`,
         lastModified: currentDate,
         changeFrequency: 'monthly',
-        priority: 0.9
-      },
-      {
-        url: `${baseUrl}/blog`,
-        lastModified: techBlogs.length > 0 ? getMostRecentDate(techBlogs[0]) : currentDate,
-        changeFrequency: 'daily',
         priority: 0.9
       },
       {
@@ -89,16 +107,22 @@ export default async function sitemap() {
         priority: 0.95 // Higher priority for main writing section
       },
       {
+        url: `${baseUrl}/spotlight`,
+        lastModified: books.length > 0 ? getMostRecentDate(books[0]) : currentDate,
+        changeFrequency: 'monthly',
+        priority: 0.9 // High priority for published books
+      },
+      {
         url: `${baseUrl}/devfolio`,
         lastModified: projects.length > 0 ? getMostRecentDate(projects[0]) : currentDate,
         changeFrequency: 'weekly',
         priority: 0.8
       },
       {
-        url: `${baseUrl}/spotlight`,
-        lastModified: books.length > 0 ? getMostRecentDate(books[0]) : currentDate,
-        changeFrequency: 'monthly',
-        priority: 0.9 // High priority for published books
+        url: `${baseUrl}/blog`,
+        lastModified: techBlogs.length > 0 ? getMostRecentDate(techBlogs[0]) : currentDate,
+        changeFrequency: 'daily',
+        priority: 0.85
       },
       {
         url: `${baseUrl}/photography`,

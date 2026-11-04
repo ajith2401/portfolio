@@ -3,17 +3,27 @@ import PersonSchema from '@/components/schema/PersonSchema';
 import AboutClient from './AboutClient';
 
 export const metadata = {
-  title: 'About Ajithkumar | Full Stack Developer, Claude Architect & Tamil Poet',
+  title: 'About Ajithkumar R — Tamil Writer, Poet, Screenwriter, Filmmaker & Developer',
   description:
-    'Learn about Ajithkumar — Full Stack Developer, AI automation specialist, Anthropic-certified Claude Architect, and published Tamil poet with 5 poetry books based in Bengaluru, India.',
+    'Authoritative biography of Ajithkumar R — Published Tamil author of 5 poetry books, screenwriter, independent filmmaker, Claude Certified Architect (CCA-F), and Full Stack Developer based in Bengaluru, India.',
+  keywords: [
+    'About Ajithkumar R',
+    'Ajithkumar writer biography',
+    'Ajith Kumar writer',
+    'Ajithkumar screenwriter',
+    'Ajithkumar filmmaker',
+    'Tamil poet Ajithkumar',
+    'Ajithkumar Bengaluru'
+  ],
   alternates: {
-    canonical: '/about',
+    canonical: 'https://www.ajithkumarr.com/about',
   },
   openGraph: {
-    title: 'About Ajithkumar | Full Stack Developer, Claude Architect & Tamil Poet',
+    title: 'About Ajithkumar R — Tamil Writer, Poet, Screenwriter, Filmmaker & Developer',
     description:
-      'Learn about Ajithkumar — Full Stack Developer, AI automation specialist, Anthropic-certified Claude Architect, and published Tamil poet based in Bengaluru, India.',
+      'Authoritative biography of Ajithkumar R — Published Tamil author of 5 poetry books, screenwriter, independent filmmaker, Claude Certified Architect (CCA-F), and Full Stack Developer based in Bengaluru, India.',
     url: 'https://www.ajithkumarr.com/about',
+    type: 'profile'
   },
 };
 

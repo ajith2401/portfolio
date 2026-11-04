@@ -3,6 +3,10 @@ User-agent: *
 Allow: /
 
 # Important content areas
+Allow: /writer/
+Allow: /screenwriter/
+Allow: /filmmaker/
+Allow: /books/
 Allow: /blog/
 Allow: /quill/
 Allow: /devfolio/

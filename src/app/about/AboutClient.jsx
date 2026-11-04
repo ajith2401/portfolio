@@ -31,15 +31,20 @@ export default function AboutClient() {
       {/* Hero Section */}
       <section className="mb-14 md:mb-16">
         <h1 className="text-4xl md:text-5xl font-playfair font-bold text-foreground mb-4">
-          About Me
+          About Ajithkumar R.
         </h1>
         <div className="w-16 h-1 bg-accent-primary mb-8 rounded-full" />
         <p className="text-xl md:text-2xl text-foreground font-medium leading-relaxed mb-6">
-          I&apos;m Ajithkumar — a Full Stack Developer, AI automation specialist, Anthropic-certified Claude Architect, and published Tamil poet based in Bengaluru, Karnataka, India.
+          I&apos;m Ajithkumar R — a Tamil writer, published author of five poetry books, screenwriter, independent filmmaker, and Full Stack Developer based in Bengaluru, Karnataka, India.
         </p>
-        <p className="text-base md:text-lg text-secondary leading-relaxed">
-          My work spans software engineering, applied AI, and Tamil literature. I build digital products and intelligent tools to solve practical problems, while writing poetry, stories, essays, and lyrics that explore human experiences and social realities. These pursuits may appear different, but they share a common thread: curiosity about people, a desire to question assumptions, and an interest in turning ideas into something meaningful.
+        <p className="text-base md:text-lg text-secondary leading-relaxed mb-6">
+          My work spans software engineering, applied AI, and Tamil literature. I build digital products and intelligent tools to solve practical problems, while writing poetry, stories, screenplays, essays, and lyrics that explore human experiences and social realities. These pursuits may appear different, but they share a common thread: curiosity about people, a desire to question assumptions, and an interest in turning ideas into something meaningful.
         </p>
+
+        {/* Entity Disambiguation Box */}
+        <div className="p-4 rounded-xl bg-tertiary/60 border border-color text-xs text-secondary leading-relaxed">
+          <strong className="text-foreground">Personal Entity Disambiguation:</strong> Ajithkumar R is an independent Indian author, poet, screenwriter, and software engineer based in Bengaluru. He is distinct from Tamil cinema actor Ajith Kumar (Thala) and Malayalam film editor and director B. Ajithkumar.
+        </div>
       </section>
 
       {/* Software Engineering & Applied AI */}
@@ -191,9 +196,26 @@ export default function AboutClient() {
         <p className="text-secondary leading-relaxed mb-4">
           Beyond poetry, I write short stories, essays, and lyrics. Through these forms, I explore the nuances of contemporary Tamil life, using language to examine personal experiences as well as larger social realities.
         </p>
-        <p className="text-secondary leading-relaxed">
+        <p className="text-secondary leading-relaxed mb-6">
           For me, literature is not just an exercise in expression. It is a way of paying attention, questioning the familiar, and finding words for experiences that deserve to be understood.
         </p>
+
+        <div className="flex flex-wrap gap-4 pt-1">
+          <Link
+            href="/writer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white transition-all text-sm font-medium"
+          >
+            Explore Writer Profile &amp; Philosophy
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            href="/books"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-tertiary border border-color text-foreground hover:bg-tertiary/80 transition-all text-sm font-medium"
+          >
+            View 5 Published Books
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </section>
 
       {/* Screenwriting & Filmmaking Exploration */}
@@ -201,18 +223,35 @@ export default function AboutClient() {
         <div className="flex items-center gap-3 mb-4">
           <Film className="w-6 h-6 text-accent-primary" />
           <h2 className="text-2xl md:text-3xl font-playfair font-bold text-foreground">
-            Screenwriting &amp; Filmmaking Exploration
+            Screenwriting &amp; Filmmaking Pursuits
           </h2>
         </div>
         <p className="text-secondary leading-relaxed mb-4">
-          In addition to poetry and essays, I am actively exploring filmmaking, screenwriting, and cinematic storytelling. Coming from a literary background in Tamil, I am drawn to how visual narrative, character interiority, dialogue, and pacing can convey human realities that words alone cannot fully capture.
+          In addition to poetry and essays, I am actively developing original screenplays and exploring independent filmmaking. Coming from a literary background in Tamil, I am drawn to how visual narrative, character interiority, dialogue, and pacing can convey human realities that words alone cannot fully capture.
         </p>
         <p className="text-secondary leading-relaxed mb-4">
-          This is an emerging creative pursuit where I focus on developing original concepts, screenplays, and visual language grounded in contemporary Tamil culture, honest dialogue, and social realism.
+          This creative pursuit focuses on developing original narrative concepts, feature film treatments, and short films grounded in contemporary Tamil culture, honest dialogue, and social realism.
         </p>
-        <p className="text-secondary leading-relaxed">
-          I welcome conversations and collaborations with fellow writers, independent filmmakers, and creators interested in thoughtful, story-driven cinema.
+        <p className="text-secondary leading-relaxed mb-6">
+          I welcome conversations and collaborations with fellow writers, independent filmmakers, cinematographers, and producers interested in thoughtful, story-driven cinema.
         </p>
+
+        <div className="flex flex-wrap gap-4 pt-1">
+          <Link
+            href="/screenwriter"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-accent-primary text-accent-primary hover:bg-accent-primary hover:text-white transition-all text-sm font-medium"
+          >
+            Screenwriting Portfolio &amp; Treatments
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            href="/filmmaker"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-tertiary border border-color text-foreground hover:bg-tertiary/80 transition-all text-sm font-medium"
+          >
+            Independent Filmmaking Vision
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </section>
 
       {/* One Curiosity, Different Forms */}

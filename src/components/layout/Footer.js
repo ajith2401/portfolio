@@ -30,19 +30,22 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-great-vibes text-logo text-foreground">Ajith Kumar</h3>
             <p className="text-body-sm text-secondary-600 dark:text-secondary-400">
-              Crafting digital experiences with passion and precision. Full-stack developer focused on creating impactful solutions.
+              Tamil writer, published author of 5 poetry books, screenwriter, independent filmmaker, and Full Stack Developer based in Bengaluru, Karnataka, India.
             </p>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-4">
             <h4 className="font-playfair text-h4 text-foreground">Quick Links</h4>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5 text-xs">
               {[
+                { name: 'Writer Portfolio', href: '/writer' },
+                { name: 'Screenwriter', href: '/screenwriter' },
+                { name: 'Filmmaker', href: '/filmmaker' },
+                { name: 'Published Books', href: '/books' },
+                { name: 'Quill (Writings)', href: '/quill' },
                 { name: 'DevFolio', href: '/devfolio' },
-                { name: 'Quill', href: '/quill' },
                 { name: 'Blog', href: '/blog' },
-                { name: 'Spotlight', href: '/spotlight' },
                 { name: 'About', href: '/about' }
               ].map((item) => (
                 <li key={item.name}>

@@ -63,10 +63,10 @@ const geistMono = localFont({
 export const metadata = {
   metadataBase: new URL('https://www.ajithkumarr.com'),
   title: {
-    default: "Ajithkumar R — Tamil Writer, Poet, Lyricist & Full-Stack Developer",
+    default: "Ajithkumar R — Tamil Writer, Poet, Screenwriter & Filmmaker",
     template: "%s | Ajithkumar R"
   },
-  description: "Official portfolio and literary works of Ajithkumar R — Published Tamil poet with 5 books, Anthropic-certified Claude Architect (CCA-F), and Full Stack MERN Developer based in Bengaluru, India.",
+  description: "Official website of Ajithkumar R — Published Tamil author of 5 poetry books, screenwriter, independent filmmaker, and Full Stack Developer based in Bengaluru, Karnataka, India.",
   keywords: [
     "Ajithkumar R",
     "Ajithkumar writer",
@@ -75,18 +75,24 @@ export const metadata = {
     "Ajithkumar poet",
     "Ajith Kumar poet",
     "Ajith Tamil poet",
-    "Ajithkumar lyricist",
-    "Ajith Kumar lyricist",
-    "Ajithkumar full stack developer",
-    "Ajith Kumar full stack developer",
-    "Ajithkumar MERN developer",
-    "Ajithkumar Claude architect",
-    "Ajithkumar CCA-F",
+    "Ajithkumar screenwriter",
+    "Ajith Kumar screenwriter",
+    "Ajith screenplay writer",
+    "Tamil screenplay writer Ajithkumar",
     "Ajithkumar filmmaker",
+    "Ajith filmmaker",
+    "Ajith Kumar filmmaker",
+    "Ajithkumar director",
+    "Tamil filmmaker Ajithkumar",
+    "Ajithkumar lyricist",
     "Tamil poetry books",
-    "Claude Cert Prep",
-    "GovTechThon winner",
-    "MakkalNalamBot"
+    "அஜித்குமார் எழுத்தாளர்",
+    "அஜித்குமார் கவிஞர்",
+    "தமிழ் எழுத்தாளர் அஜித்குமார்",
+    "அஜித்குமார் திரைக்கதை எழுத்தாளர்",
+    "அஜித்குமார் இயக்குநர்",
+    "Ajithkumar full stack developer",
+    "Ajithkumar Claude architect"
   ],
   authors: [{ 
     name: "Ajithkumar R",
