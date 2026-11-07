@@ -251,6 +251,8 @@ const WritingSchema = new mongoose.Schema({
 });
 
 // Optimized compound indexes for better query performance
+WritingSchema.index({ status: 1, wordCount: 1, createdAt: -1 }); // Filtered wordCount listing index
+WritingSchema.index({ status: 1, wordCount: 1, category: 1, createdAt: -1 }); // Filtered category listing index
 WritingSchema.index({ status: 1, publishedAt: -1, category: 1 }); // Main listing index
 WritingSchema.index({ 'performance.views.total': -1, status: 1, publishedAt: -1 }); // Popular content
 WritingSchema.index({ language: 1, status: 1, category: 1, publishedAt: -1 }); // Language-specific listing

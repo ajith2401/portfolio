@@ -94,7 +94,8 @@ const Footer = () => {
               {[
                 { name: 'GitHub', url: 'https://github.com/ajith2401' },
                 { name: 'LinkedIn', url: 'https://www.linkedin.com/in/ajithkumar-r-a6531a232/' },
-                { name: 'Twitter', url: 'https://twitter.com' }
+                { name: 'Instagram', url: 'https://www.instagram.com/ajithkumarr' },
+                { name: 'Twitter', url: 'https://twitter.com/ajithkumarr' }
               ].map((social) => (
                 <a
                   key={social.name}

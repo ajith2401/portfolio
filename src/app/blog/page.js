@@ -40,7 +40,7 @@ export const metadata = {
     siteName: 'Ajithkumar',
     images: [
       {
-        url: '/og-image-tech.jpg',
+        url: 'https://www.ajithkumarr.com/opengraph-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Ajithkumar Tech Blog - React.js & MERN Stack Tutorials'
@@ -52,7 +52,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: "Technical Blog | React.js & MERN Stack Tutorials",
     description: "Learn modern web development with React.js, Next.js, Node.js tutorials and best practices.",
-    images: ['/twitter-image-tech.jpg'],
+    images: ['https://www.ajithkumarr.com/twitter-image.jpg'],
     creator: '@ajithkumarr'
   },
   alternates: {

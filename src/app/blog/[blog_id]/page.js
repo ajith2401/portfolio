@@ -103,19 +103,19 @@ export async function generateMetadata({ params }) {
         authors: [techBlog.author?.name || 'Ajithkumar R'],
         section: techBlog.category,
         tags: techBlog.tags,
-        images: techBlog.images?.large ? [{
-          url: techBlog.images.large,
+        images: [{
+          url: techBlog.images?.large || techBlog.images?.medium || 'https://www.ajithkumarr.com/opengraph-image.jpg',
           width: 1200,
           height: 630,
           alt: techBlog.title
-        }] : undefined
+        }]
       },
       twitter: {
         card: 'summary_large_image',
         title: techBlog.seo?.twitterTitle || techBlog.title,
         description: techBlog.seo?.twitterDescription || techBlog.metaDescription || techBlog.excerpt,
         creator: '@ajithkumarr',
-        images: techBlog.images?.large ? [techBlog.images.large] : undefined
+        images: [techBlog.images?.large || techBlog.images?.medium || 'https://www.ajithkumarr.com/twitter-image.jpg']
       },
       alternates: {
         canonical: canonicalUrl

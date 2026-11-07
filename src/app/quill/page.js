@@ -32,9 +32,10 @@ export const metadata = {
     description: "Explore the literary works of Ajithkumar R - published Tamil writer with 5 poetry books exploring themes of feminism, social justice, and human emotions.",
     url: "https://www.ajithkumarr.com/quill",
     type: "website",
+    siteName: "Ajithkumar R",
     images: [
       {
-        url: "/og-image-writer.jpg",
+        url: "https://www.ajithkumarr.com/opengraph-image.jpg",
         width: 1200,
         height: 630,
         alt: "Ajithkumar R - Tamil Writer & Poet"
@@ -45,7 +46,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Ajithkumar R | Tamil Writer & Poet",
     description: "Explore the literary works of Ajithkumar R - published Tamil writer with 5 poetry books exploring themes of feminism, social justice, and human emotions.",
-    images: ["/twitter-image-writer.jpg"],
+    images: ["https://www.ajithkumarr.com/twitter-image.jpg"],
     creator: "@ajithkumarr"
   }
 };

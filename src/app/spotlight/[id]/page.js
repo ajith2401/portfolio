@@ -81,7 +81,7 @@ export async function generateMetadata({ params }) {
         authors: ['Ajith Kumar'],
         images: [
           {
-            url: book.coverImage || 'https://www.ajithkumarr.com/og-image.jpg',
+            url: book.coverImage || 'https://www.ajithkumarr.com/opengraph-image.jpg',
             width: 1200,
             height: 630,
             alt: book.title,

@@ -122,6 +122,10 @@ export async function GET(request) {
         search: search || null,
         sortBy
       }
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=86400'
+      }
     });
   } catch (error) {
     console.error('Error fetching writings:', error);

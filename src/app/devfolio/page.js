@@ -34,7 +34,7 @@ export const metadata = {
     description: "Explore technical projects showcasing expertise in React.js, Next.js, Node.js, TypeScript, Express.js, MongoDB, and AI system architecture.",
     images: [
       {
-        url: '/og-image-developer.jpg',
+        url: 'https://www.ajithkumarr.com/opengraph-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Ajithkumar R - Full Stack Developer Portfolio'
@@ -48,7 +48,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: "Ajithkumar R | Full Stack Developer & AI Architect",
     description: "Explore technical projects showcasing expertise in React.js, Next.js, Node.js, TypeScript, Express.js, MongoDB, and AI system architecture.",
-    images: ['/twitter-image-developer.jpg'],
+    images: ['https://www.ajithkumarr.com/twitter-image.jpg'],
     creator: '@ajithkumarr'
   }
 };

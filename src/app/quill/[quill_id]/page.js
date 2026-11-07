@@ -156,19 +156,19 @@ export async function generateMetadata({ params }) {
         authors: ['Ajithkumar R'],
         section: writing.category,
         tags: writing.tags,
-        images: writing.images?.large ? [{
-          url: writing.images.large,
+        images: [{
+          url: writing.images?.large || writing.images?.medium || writing.images?.small || 'https://www.ajithkumarr.com/opengraph-image.jpg',
           width: 1200,
           height: 630,
           alt: writing.title
-        }] : undefined
+        }]
       },
       twitter: {
         card: 'summary_large_image',
         title: writing.seo?.twitterTitle || writing.title,
         description: writing.seo?.twitterDescription || writing.metaDescription || writing.excerpt,
         creator: '@ajithkumarr',
-        images: writing.images?.large ? [writing.images.large] : undefined
+        images: [writing.images?.large || writing.images?.medium || writing.images?.small || 'https://www.ajithkumarr.com/twitter-image.jpg']
       },
       alternates: {
         canonical: canonicalUrl

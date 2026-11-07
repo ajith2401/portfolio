@@ -125,6 +125,7 @@ const Navbar = () => {
               <li><NavLink href="/quill">Quill</NavLink></li>
               <li><NavLink href="/devfolio">Devfolio</NavLink></li>
               <li><NavLink href="/blog">Blog</NavLink></li>
+              <li><NavLink href="/about">About</NavLink></li>
               <li>
                 <button 
                   onClick={openContactForm}

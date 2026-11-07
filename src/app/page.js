@@ -317,6 +317,124 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* SECTION 2.5: Featured Portfolios & Works (Quick Link Previews) */}
+      <section id="featured-portfolios" className="py-14 border-b border-color/40 bg-background/50">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 text-accent-primary text-xs font-semibold tracking-wider uppercase mb-2">
+                <BookOpen className="w-4 h-4" />
+                <span>Core Portfolios &amp; Hubs</span>
+              </div>
+              <h2 className="font-playfair text-2xl md:text-3xl font-bold text-foreground">
+                Featured Works &amp; Creative Portfolios
+              </h2>
+            </div>
+            <p className="text-sm text-secondary max-w-md">
+              Quick access to published literature, technical software engineering projects, screenwriting drafts, and long-form writings.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Card 1: Quill */}
+            <Link href="/quill" className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary rounded-2xl">
+              <div className="modern-card p-6 rounded-2xl h-full flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover border border-color/60 hover:border-accent-primary/50 relative overflow-hidden bg-card/60">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                <div className="relative z-10 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-accent-primary/10 text-accent-primary flex items-center justify-center font-bold">
+                    <PenTool className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-accent-primary transition-colors">
+                    Tamil Poetry Collection
+                  </h3>
+                  <p className="text-xs text-secondary leading-relaxed">
+                    Explore 600+ curated Tamil poems, reflections, and social commentaries addressing feminism, human emotion, and freedom.
+                  </p>
+                </div>
+                <div className="relative z-10 pt-4 mt-auto">
+                  <span className="inline-flex items-center text-accent-primary text-xs font-semibold tracking-wide group-hover:translate-x-1 transition-transform">
+                    Browse Quill Writings
+                    <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Card 2: Books / Spotlight */}
+            <Link href="/books" className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary rounded-2xl">
+              <div className="modern-card p-6 rounded-2xl h-full flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover border border-color/60 hover:border-accent-primary/50 relative overflow-hidden bg-card/60">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                <div className="relative z-10 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-accent-primary/10 text-accent-primary flex items-center justify-center font-bold">
+                    <BookOpen className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-accent-primary transition-colors">
+                    Published Books
+                  </h3>
+                  <p className="text-xs text-secondary leading-relaxed">
+                    5 published Tamil poetry volumes in print, exploring urban existence, tender intimacy, grief, and societal reflections.
+                  </p>
+                </div>
+                <div className="relative z-10 pt-4 mt-auto">
+                  <span className="inline-flex items-center text-accent-primary text-xs font-semibold tracking-wide group-hover:translate-x-1 transition-transform">
+                    View Published Books
+                    <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Card 3: Devfolio */}
+            <Link href="/devfolio" className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary rounded-2xl">
+              <div className="modern-card p-6 rounded-2xl h-full flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover border border-color/60 hover:border-accent-primary/50 relative overflow-hidden bg-card/60">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                <div className="relative z-10 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-accent-primary/10 text-accent-primary flex items-center justify-center font-bold">
+                    <Code2 className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-accent-primary transition-colors">
+                    Developer Portfolio
+                  </h3>
+                  <p className="text-xs text-secondary leading-relaxed">
+                    Full Stack engineering projects, MERN stack web apps, Next.js systems, and Claude Architect AI tools.
+                  </p>
+                </div>
+                <div className="relative z-10 pt-4 mt-auto">
+                  <span className="inline-flex items-center text-accent-primary text-xs font-semibold tracking-wide group-hover:translate-x-1 transition-transform">
+                    Explore DevFolio Projects
+                    <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Card 4: Screenwriter & Filmmaker */}
+            <Link href="/screenwriter" className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary rounded-2xl">
+              <div className="modern-card p-6 rounded-2xl h-full flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-card-hover border border-color/60 hover:border-accent-primary/50 relative overflow-hidden bg-card/60">
+                <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                <div className="relative z-10 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-accent-primary/10 text-accent-primary flex items-center justify-center font-bold">
+                    <Film className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-accent-primary transition-colors">
+                    Screenplay &amp; Cinema
+                  </h3>
+                  <p className="text-xs text-secondary leading-relaxed">
+                    Narrative film screenplays, character-driven scripts, directorial treatments, and visual storytelling craft.
+                  </p>
+                </div>
+                <div className="relative z-10 pt-4 mt-auto">
+                  <span className="inline-flex items-center text-accent-primary text-xs font-semibold tracking-wide group-hover:translate-x-1 transition-transform">
+                    Explore Screenplays &amp; Films
+                    <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* SECTION 3: Tamil Writer & Published Author */}
       <section className="py-16 md:py-20 border-b border-color/40">
         <div className="container mx-auto px-4 max-w-6xl">

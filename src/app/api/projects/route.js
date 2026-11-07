@@ -61,15 +61,19 @@ export async function GET(request) {
     const skip = (page - 1) * limit;
     
     // Define fields to select (projection)
-    // Exclude the longDescription which could be large
+    // Only include needed listing fields
     const projection = {
-      longDescription: 0,
       slug: 1,
       _id: 1,
       title: 1,
+      subtitle: 1,
       shortDescription: 1,
       category: 1,
       technologies: 1,
+      stack: 1,
+      github: 1,
+      liveUrl: 1,
+      demoUrl: 1,
       publishedAt: 1,
       createdAt: 1,
       images: 1,
@@ -100,6 +104,10 @@ export async function GET(request) {
         limit,  // Items per page
         hasNextPage: page < pages,
         hasPrevPage: page > 1
+      }
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=86400'
       }
     });
   } catch (error) {

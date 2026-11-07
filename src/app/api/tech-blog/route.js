@@ -72,6 +72,10 @@ export async function GET(request) {
         hasNextPage: page < pages,
         hasPrevPage: page > 1
       }
+    }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=86400'
+      }
     });
   } catch (error) {
     console.error('Error fetching tech blogs:', error);

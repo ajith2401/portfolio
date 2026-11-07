@@ -15,7 +15,11 @@ export async function GET() {
       .select('title slug _id description coverImage publishYear publisher featured')
       .lean();
     
-    return NextResponse.json({ success: true, data: books });
+    return NextResponse.json({ success: true, data: books }, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
+      }
+    });
   } catch (error) {
     return NextResponse.json(
       { success: false, message: error.message },
