@@ -1,9 +1,19 @@
 // src/app/spotlight/[id]/page.js
 import { Book } from '@/models';
 import BookDetailClient from './BookDetailClient.jsx';
-import mongoose from 'mongoose';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
+import { cache } from 'react';
+import { resolveBookRoute } from '@/lib/public/book-routing.js';
 import connectDB from '@/lib/db';
+
+const lookup = cache(async (param) => {
+  await connectDB();
+  return resolveBookRoute(param, {
+    byId: (id) => Book.findById(id).lean(),
+    bySlug: (slug) => Book.findOne({ slug }).lean(),
+    byHistory: (slug) => Book.findOne({ 'slugHistory.slug': slug }).select('slug').lean(),
+  });
+});
 
 // Helper to safely convert any date-like value to ISO string
 function safeDate(val) {
@@ -15,17 +25,10 @@ function safeDate(val) {
 
 export async function generateMetadata(props) {
   const params = await props.params;
-  await connectDB();
-
   try {
-    let book = null;
-    if (mongoose.Types.ObjectId.isValid(params.id)) {
-      book = await Book.findById(params.id).lean();
-    }
-    if (!book) {
-      const decodedSlug = decodeURIComponent(params.id);
-      book = await Book.findOne({ slug: decodedSlug }).lean();
-    }
+    const route = await lookup(params.id);
+    if (route.action === 'redirect') return { robots: { index: false, follow: false } };
+    const book = route.action === 'render' ? route.book : null;
     
     if (!book) return { title: 'Book Not Found' };
     
@@ -125,23 +128,10 @@ export async function generateMetadata(props) {
 export default async function BookDetailPage(props) {
   const params = await props.params;
   const { id } = params;
-  let book = null;
-  let accessType = null;
-
-  if (mongoose.Types.ObjectId.isValid(id)) {
-    try {
-      book = await Book.findById(id).lean();
-      if (book) accessType = 'objectId';
-    } catch (e) {}
-  }
-  if (!book) {
-    const decodedSlug = decodeURIComponent(id);
-    book = await Book.findOne({ slug: decodedSlug }).lean();
-    if (book) accessType = 'slug';
-  }
-  if (!book) {
-    return notFound();
-  }
+  const route = await lookup(id);
+  if (route.action === 'redirect') permanentRedirect(route.to);
+  if (route.action !== 'render') return notFound();
+  const book = route.book;
 
   // Create a safe object for serialization - with explicit mapping of all nested objects
   const safeBook = {

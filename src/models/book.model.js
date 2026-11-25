@@ -1,6 +1,6 @@
 // src/models/book.model.js
 import mongoose from 'mongoose';
-import { generateSlug, ensureUniqueSlug } from '../utils/slugGenerator.js';
+import { generateSlug, ensureUniqueSlug, validateSlug } from '../lib/content-contract/index.js';
 import { generateUniqueShortCode } from '../utils/shortCode.js';
 
 const PoemSchema = new mongoose.Schema({
@@ -45,13 +45,18 @@ const BookSchema = new mongoose.Schema({
     lowercase: true,
     index: true,
     validate: {
-      validator: function(v) {
-        return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v);
-      },
-      message: 'Slug must only contain lowercase letters, numbers, and hyphens'
+      validator: (v) => validateSlug(v).valid,
+      message: 'Invalid slug (use letters, numbers and single hyphens; not an ObjectId)'
     },
     maxlength: [100, 'Slug cannot exceed 100 characters']
   },
+  // Former slugs. A stored slug is never changed automatically; if it is changed explicitly the old
+  // one is kept here so the old URL can 301 to the new one.
+  slugHistory: [{
+    _id: false,
+    slug: { type: String, required: true },
+    changedAt: { type: Date, default: Date.now }
+  }],
   shortCode: {
     type: String,
     unique: true,
@@ -189,33 +194,45 @@ const BookSchema = new mongoose.Schema({
 });
 
 // Compound indexes for better query performance
+BookSchema.index({ 'slugHistory.slug': 1 });
 BookSchema.index({ status: 1, publishYear: -1 });
 BookSchema.index({ featured: 1, status: 1, publishYear: -1 });
 BookSchema.index({ language: 1, status: 1, publishYear: -1 });
 BookSchema.index({ genre: 1, status: 1, publishYear: -1 });
 BookSchema.index({ averageRating: -1, status: 1 });
 
-// Pre-save middleware to generate slug and other fields
-BookSchema.pre('save', async function(next) {
+// Slug lifecycle (shared Tamil-aware contract). Existing slugs are NEVER regenerated from the title:
+// published URLs stay stable. A slug is generated only when missing; an explicit slug change records
+// the old slug in slugHistory (used for 301 redirects) and may not clash with another book's slug/history.
+BookSchema.pre('validate', async function(next) {
   try {
-    // Generate slug if not provided or if title has changed
-    if (!this.slug || this.isModified('title')) {
+    const taken = (candidate) => this.constructor.exists({
+      _id: { $ne: this._id },
+      $or: [{ slug: candidate }, { 'slugHistory.slug': candidate }]
+    }).then(Boolean);
+
+    if (!this.slug) {
       const baseSlug = generateSlug(this.title);
-      
-      if (baseSlug) {
-        // Ensure uniqueness
-        this.slug = await ensureUniqueSlug(
-          baseSlug,
-          async (slug, excludeId) => {
-            const query = { slug };
-            if (excludeId) query._id = { $ne: excludeId };
-            return await this.constructor.findOne(query);
-          },
-          this._id
-        );
+      if (baseSlug) this.slug = await ensureUniqueSlug(baseSlug, taken);
+    } else if (!this.isNew && this.isModified('slug')) {
+      const prev = await this.constructor.findById(this._id).select('slug').lean();
+      if (prev?.slug && prev.slug !== this.slug) {
+        if (await taken(this.slug)) throw new Error(`Slug "${this.slug}" is already used by another book`);
+        if (!this.slugHistory.some((h) => h.slug === prev.slug)) {
+          this.slugHistory.push({ slug: prev.slug, changedAt: new Date() });
+        }
+        this.slugHistory = this.slugHistory.filter((h) => h.slug !== this.slug);
       }
     }
-    
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Pre-save middleware for other derived fields
+BookSchema.pre('save', async function(next) {
+  try {
     if (!this.shortCode) {
       this.shortCode = await generateUniqueShortCode({
         excludeModelName: 'Book',

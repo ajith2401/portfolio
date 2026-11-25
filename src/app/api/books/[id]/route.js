@@ -111,6 +111,19 @@ export async function GET(request, props) {
       }
     }
     
+    // Former slug: permanent redirect to the current one
+    if (!book) {
+      const moved = await Book.findOne({
+        'slugHistory.slug': id.normalize('NFC').toLowerCase().trim(),
+        status: 'published'
+      }).select('slug').lean();
+      if (moved?.slug) {
+        const target = new URL(request.url);
+        target.pathname = `/api/books/${encodeURIComponent(moved.slug)}`;
+        return NextResponse.redirect(target, { status: 301, headers: { 'X-Redirect-Reason': 'Slug-History' } });
+      }
+    }
+
     // If still not found, return 404
     if (!book) {
       logRequest('GET', id, userAgent, clientIP, '404-NOT-FOUND');

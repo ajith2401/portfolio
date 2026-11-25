@@ -1,61 +1,27 @@
 // src/utils/slugGenerator.js
 /**
  * Generates SEO-friendly URL slugs from titles
- * Handles English, Tamil, and special characters
+ * Thin wrapper over the shared slug contract (src/lib/content-contract/slug.js).
  */
 
-export function generateSlug(title) {
-  if (!title) return '';
-  
-  return title
-    .toLowerCase()
-    .trim()
-    // Handle special characters and preserve international characters
-    .replace(/[^\w\s\u0B80-\u0BFF-]/g, '') // Remove special chars, keep Tamil
-    .replace(/\s+/g, '-')     // Replace spaces with hyphens
-    .replace(/-+/g, '-')      // Replace multiple hyphens with single hyphen
-    .replace(/^-+|-+$/g, '')  // Remove leading/trailing hyphens
-    .substring(0, 100);       // Limit length for URLs
-}
+export { generateSlug } from '../lib/content-contract/slug.js';
+
+import {
+  ensureUniqueSlug as contractEnsureUniqueSlug,
+  validateSlug as contractValidateSlug,
+} from '../lib/content-contract/slug.js';
 
 /**
- * Ensures slug uniqueness by checking against existing slugs
- * @param {string} baseSlug - The base slug to check
- * @param {Function} findFunction - Function to check if slug exists
- * @param {string} excludeId - ID to exclude from uniqueness check (for updates)
+ * Legacy signature kept for existing callers: findFunction(slug, excludeId) resolves truthy if taken.
+ * Delegates to the shared contract (suffixes -2, -3 ...; never returns an invalid slug).
  */
 export async function ensureUniqueSlug(baseSlug, findFunction, excludeId = null) {
-  if (!baseSlug) return null;
-  
-  let slug = baseSlug;
-  let counter = 1;
-  
-  while (true) {
-    const existingDoc = await findFunction(slug, excludeId);
-    if (!existingDoc) {
-      return slug;
-    }
-    
-    slug = `${baseSlug}-${counter}`;
-    counter++;
-    
-    // Prevent infinite loops
-    if (counter > 1000) {
-      return `${baseSlug}-${Date.now()}`;
-    }
-  }
+  return contractEnsureUniqueSlug(baseSlug, async (slug) => Boolean(await findFunction(slug, excludeId)));
 }
 
-/**
- * Validates slug format
- * @param {string} slug 
- */
+/** Boolean wrapper over the shared contract validator (Tamil letters allowed). */
 export function validateSlug(slug) {
-  if (!slug) return false;
-  
-  // Must be lowercase alphanumeric with hyphens only
-  const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-  return slugPattern.test(slug) && slug.length <= 100;
+  return contractValidateSlug(slug).valid;
 }
 
 /**
