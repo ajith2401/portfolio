@@ -1,0 +1,11 @@
+{
+  "files": {
+    "index.js": "3bedc735b7debb0759053a87fab2b1b66eb8d59fa7b6535c86bfa691d17d22a8",
+    "lifecycle.js": "2c447bc5a7f54cb7613e307149fb625bc2e066c91f810eee04ec89e4f9deafe4",
+    "public-dto.js": "07ffe251d5a26a3cce8f828c10243335ac4702b715e266de2d645af4fb40a1db",
+    "seo.js": "3cbab538850c482da393a7c72d2af67deb1ba9cb307e01ed2673a3ef71dc8f72",
+    "slug.js": "7b038a2d9d113f0908020f51021a7e82a297dad54b9756983955a4a6278b0522",
+    "structured-data.js": "1f1ce69b08c08ab063ee1a6b9856ccd899fdc53e2525d7acb88c0021e5ade55b",
+    "text.js": "ea818c3ab676629e1aec15a47e38e996bce68e415ca6950da5fd5619dc9aff86"
+  }
+}
