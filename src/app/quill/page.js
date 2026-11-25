@@ -98,7 +98,8 @@ export default async function QuillPage(props) {
       totalRatings: 0,
       readTime: c.readTime || null,
       slug: c.slug,
-      wordCount: c.wordCount || 0
+      wordCount: c.wordCount || 0,
+      preview: c.preview || null
     }));
 
     initialPagination = {

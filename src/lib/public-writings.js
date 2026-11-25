@@ -5,6 +5,7 @@ import connectDB from '@/lib/db';
 import { Writing } from '@/models';
 import { toPublicWritingCard } from '@/lib/content-contract/index.js';
 import { resolveWritingRoute } from '@/lib/public/writing-routing.js';
+import { poemPreview } from '@/lib/public/poem-preview.js';
 
 // Never selected on public paths: ratings carry reviewer emails, revisions carry old drafts.
 const EXCLUDE = '-ratings -revisions -comments -__v';
@@ -21,6 +22,21 @@ export async function findForRoute(param) {
   });
 }
 
+/**
+ * Cards for lean docs, plus `preview` (first stanza) for poems only. The poem text is loaded in a second,
+ * narrow query so list pages never pull every prose body.
+ */
+export async function toCardsWithPreview(docs) {
+  const poemIds = docs.filter((d) => d.category === 'poem').map((d) => d._id);
+  const byId = new Map();
+  if (poemIds.length) {
+    const rows = await Writing.find({ _id: { $in: poemIds }, status: 'published' })
+      .select('category contentFormat content body').lean();
+    for (const r of rows) byId.set(String(r._id), poemPreview(r));
+  }
+  return docs.map((d) => ({ ...toPublicWritingCard(d), preview: byId.get(String(d._id)) || null }));
+}
+
 export async function listPublishedCards({ category, search, sort = { publishedAt: -1, createdAt: -1 }, skip = 0, limit = 12 } = {}) {
   await connectDB();
   const query = { status: 'published' };
@@ -30,7 +46,7 @@ export async function listPublishedCards({ category, search, sort = { publishedA
     Writing.countDocuments(query),
     Writing.find(query).select(CARD_FIELDS).sort(sort).skip(skip).limit(limit).lean(),
   ]);
-  return { total, cards: docs.map(toPublicWritingCard) };
+  return { total, cards: await toCardsWithPreview(docs) };
 }
 
 /** Related works: same category first, then most recent others. Published only, excludes the source. */
@@ -46,5 +62,5 @@ export async function relatedCards(writing, limit = 3) {
       .select(CARD_FIELDS).sort({ publishedAt: -1 }).limit(limit - docs.length).lean();
     docs = docs.concat(more);
   }
-  return docs.map(toPublicWritingCard);
+  return toCardsWithPreview(docs);
 }

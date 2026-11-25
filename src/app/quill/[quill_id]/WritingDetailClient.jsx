@@ -13,6 +13,7 @@ import WordCard from '@/components/ui/card/WordCard';
 import { useGetCommentsQuery } from '@/services/api';
 import { writingPath } from '@/lib/content-contract/seo.js';
 import ReaderShell from './ReaderShell';
+import PoemPreview from '../PoemPreview';
 import { notoSerifTamil, notoSansTamil } from './reader-fonts';
 
 const getLocalStorage = (key, fallback) => {
@@ -78,7 +79,9 @@ const RelatedWorks = ({ related }) => {
                 <div className="p-6 space-y-3">
                   <span className="px-2 py-1 text-xs font-medium rounded-full bg-[rgba(140,140,140,0.15)]">{w.category}</span>
                   <h3 className="font-work-sans text-lg font-medium">{w.title}</h3>
-                  {w.excerpt && <p className="text-sm line-clamp-3 opacity-80">{w.excerpt}</p>}
+                  {w.preview?.lines?.length
+                    ? <PoemPreview preview={w.preview} />
+                    : w.excerpt && <p className="text-sm line-clamp-3 opacity-80">{w.excerpt}</p>}
                 </div>
               </article>
             </Link>

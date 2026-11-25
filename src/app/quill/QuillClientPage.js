@@ -8,6 +8,7 @@ import { Search, CalendarIcon, SortAsc, SortDesc } from 'lucide-react';
 import { useGetWritingsQuery } from '@/services/api';
 import PersonSchema from '@/components/schema/PersonSchema';
 import { getSafeUrl } from '@/utils/slugGenerator';
+import PoemPreview from './PoemPreview';
 
 // Safe localStorage access functions
 const getLocalStorage = (key, fallback) => {
@@ -515,9 +516,13 @@ const QuillClientPage = ({ initialWritings = [], initialPagination = null }) => 
                       </h3>
                     </div>
 
-                    <p className="text-secondary-600 text-sm line-clamp-3">
-                      {truncateBody(writing.body)}
-                    </p>
+                    {writing.preview?.lines?.length ? (
+                      <PoemPreview preview={writing.preview} />
+                    ) : (
+                      <p className="text-secondary-600 text-sm line-clamp-3">
+                        {truncateBody(writing.body ?? writing.excerpt)}
+                      </p>
+                    )}
 
                     <div className="mt-4 text-sm text-secondary-500 font-work-sans">
                       {formatDate(writing.publishedAt || writing.createdAt)}

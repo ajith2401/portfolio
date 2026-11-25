@@ -5,7 +5,7 @@ import { Writing } from '@/models';
 import { uploadImage } from '@/lib/cloudinary';
 import { notifyWritingSubscribers } from '@/lib/notificationHandler';
 import { generateSlug, ensureUniqueSlug } from '@/utils/slugGenerator';
-import { toPublicWritingCard } from '@/lib/content-contract/index.js';
+import { toCardsWithPreview } from '@/lib/public-writings';
 import { verifyAdminAuth, adminUnauthorizedResponse } from '@/lib/authGuard';
 
 export const runtime = 'nodejs';
@@ -107,14 +107,15 @@ export async function GET(request) {
       .limit(limit)
       .lean();
     
+    const cards = await toCardsWithPreview(writings);
     return NextResponse.json({
-      writings: writings.map((w) => ({
-        ...toPublicWritingCard(w),
-        _id: String(w._id),
-        averageRating: w.averageRating || 0,
-        totalRatings: w.totalRatings || 0,
-        trending: Boolean(w.trending),
-        status: w.status
+      writings: cards.map((card, i) => ({
+        ...card,
+        _id: String(writings[i]._id),
+        averageRating: writings[i].averageRating || 0,
+        totalRatings: writings[i].totalRatings || 0,
+        trending: Boolean(writings[i].trending),
+        status: writings[i].status
       })),
       pagination: {
         total,
