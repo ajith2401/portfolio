@@ -1,6 +1,7 @@
 // src/app/api/feed/route.js
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
+import { cdata, writingFeedItem } from '@/lib/public/feed';
 import { TechBlog, Writing } from '@/models';
 
 export const runtime = 'nodejs';
@@ -68,23 +69,18 @@ export async function GET(request) {
     }
 
     if (type === 'all' || type === 'quill') {
-      const writings = await Writing.find({ status: 'published' })
+      const writings = await Writing.find({ status: 'published', slug: { $exists: true, $ne: '' } })
         .sort({ publishedAt: -1 })
         .limit(type === 'quill' ? limit : Math.floor(limit / 2))
-        .select('title slug _id body excerpt category tags publishedAt images language')
+        .select('title slug excerpt body content contentFormat category tags publishedAt createdAt language')
         .lean();
 
-      const writingItems = writings.map(writing => ({
-        title: writing.title,
-        link: `${baseUrl}/quill/${writing.slug || writing._id}`,
-        description: writing.excerpt || cleanContent(writing.body),
-        content: writing.body,
-        pubDate: formatRSSDate(writing.publishedAt),
-        category: writing.category,
-        tags: writing.tags || [],
+      const writingItems = writings.map((w) => writingFeedItem(w)).filter(Boolean).map((it) => ({
+        ...it,
+        content: it.contentHtml,
         author: 'Ajithkumar',
-        guid: `${baseUrl}/quill/${writing.slug || writing._id}`,
-        language: writing.language || 'tamil',
+        guid: it.link,
+        language: it.lang === 'ta' ? 'tamil' : 'english',
         type: 'writing'
       }));
 
@@ -135,7 +131,7 @@ export async function GET(request) {
       <title>${escapeXML(item.title)}</title>
       <link>${item.link}</link>
       <description>${escapeXML(item.description)}</description>
-      <content:encoded><![CDATA[${item.content || item.description}]]></content:encoded>
+      <content:encoded>${cdata(item.content || item.description)}</content:encoded>
       <pubDate>${item.pubDate}</pubDate>
       <guid isPermaLink="true">${item.guid}</guid>
       <dc:creator>${escapeXML(item.author)}</dc:creator>

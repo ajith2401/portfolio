@@ -1,6 +1,7 @@
 // src/app/api/category/[slug]/route.js
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
+import { escapeRegExp } from '@/lib/public/comments';
 import { TechBlog, Writing, Project } from '@/models';
 
 export const runtime = 'nodejs';
@@ -43,7 +44,7 @@ export async function GET(request, props) {
     if (type === 'all' || type === 'blog') {
       const blogQuery = { 
         status: 'published',
-        category: { $regex: new RegExp(category, 'i') }
+        category: { $regex: new RegExp('^' + escapeRegExp(category) + '$', 'i') }
       };
 
       const [blogs, blogCount] = await Promise.all([
@@ -74,7 +75,7 @@ export async function GET(request, props) {
     if (type === 'all' || type === 'quill') {
       const writingQuery = { 
         status: 'published',
-        category: { $regex: new RegExp(category, 'i') }
+        category: { $regex: new RegExp('^' + escapeRegExp(category) + '$', 'i') }
       };
 
       const [writings, writingCount] = await Promise.all([
@@ -104,7 +105,7 @@ export async function GET(request, props) {
     if (type === 'all' || type === 'devfolio') {
       const projectQuery = { 
         status: 'published',
-        category: { $regex: new RegExp(category, 'i') }
+        category: { $regex: new RegExp('^' + escapeRegExp(category) + '$', 'i') }
       };
 
       const [projects, projectCount] = await Promise.all([

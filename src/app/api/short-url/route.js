@@ -20,7 +20,7 @@ function parseContentPath(pathname) {
   if (!pathname || typeof pathname !== 'string') return null;
   const match = pathname.match(/^\/(blog|quill|spotlight|devfolio)\/([^/?#]+)/);
   if (!match) return null;
-  return { section: match[1], identifier: decodeURIComponent(match[2]) };
+  try { return { section: match[1], identifier: decodeURIComponent(match[2]) }; } catch { return null; }
 }
 
 async function findDoc(section, identifier) {
@@ -28,10 +28,10 @@ async function findDoc(section, identifier) {
   if (!entry) return null;
   const { Model, modelName } = entry;
   if (mongoose.Types.ObjectId.isValid(identifier)) {
-    const byId = await Model.findById(identifier).select('shortCode slug _id');
+    const byId = await Model.findOne({ _id: identifier, status: 'published' }).select('shortCode slug _id');
     if (byId) return { Model, modelName, doc: byId };
   }
-  const bySlug = await Model.findOne({ slug: identifier }).select('shortCode slug _id');
+  const bySlug = await Model.findOne({ slug: identifier, status: 'published' }).select('shortCode slug _id');
   return bySlug ? { Model, modelName, doc: bySlug } : null;
 }
 

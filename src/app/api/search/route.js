@@ -184,7 +184,7 @@ export async function GET(request) {
         const formattedWritings = writingResults.map(writing => ({
           id: writing._id,
           title: writing.title,
-          url: `/quill/${writing.slug || writing._id}`,
+          url: `/quill/${encodeURIComponent(writing.slug || String(writing._id))}`,
           type: 'quill',
           typeLabel: writing.language === 'tamil' ? 'Tamil Writing' : 'Writing',
           excerpt: writing.excerpt || extractSnippet(writing.body, query),

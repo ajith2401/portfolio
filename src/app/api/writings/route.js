@@ -5,6 +5,7 @@ import { Writing } from '@/models';
 import { uploadImage } from '@/lib/cloudinary';
 import { notifyWritingSubscribers } from '@/lib/notificationHandler';
 import { generateSlug, ensureUniqueSlug } from '@/utils/slugGenerator';
+import { toPublicWritingCard } from '@/lib/content-contract/index.js';
 import { verifyAdminAuth, adminUnauthorizedResponse } from '@/lib/authGuard';
 
 export const runtime = 'nodejs';
@@ -22,16 +23,15 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     
     // Build query based on parameters
-    // Only return published writings with at least 50 words
+    // Only published writings. Short pieces (e.g. two-line Tamil poems) are valid and must be listed.
     const query = {
-      status: 'published',
-      wordCount: { $gte: 50 }
+      status: 'published'
     };
     const sort = {};
     
     // Category filter - use exact match for indexed performance
     let category = searchParams.get('category');
-    if (category && category.toLowerCase() !== 'all writings') {
+    if (category && category.length <= 60 && category.toLowerCase() !== 'all writings') {
       query.category = category;
     }
     
@@ -55,7 +55,7 @@ export async function GET(request) {
     // Search text - use $text if indexed
     const search = searchParams.get('search');
     if (search && search.trim() !== '') {
-      query.$text = { $search: search };
+      query.$text = { $search: search.slice(0, 200) };
     }
     
     // Sorting
@@ -101,14 +101,21 @@ export async function GET(request) {
     
     // Select needed fields for listing
     const writings = await Writing.find(query)
-      .select('title slug excerpt wordCount images publishedAt createdAt category averageRating totalRatings status featured trending performance')
+      .select('title slug excerpt wordCount readTime language tags images publishedAt createdAt updatedAt category averageRating totalRatings status featured trending')
       .sort(sort)
       .skip(skip)
       .limit(limit)
       .lean();
     
     return NextResponse.json({
-      writings,
+      writings: writings.map((w) => ({
+        ...toPublicWritingCard(w),
+        _id: String(w._id),
+        averageRating: w.averageRating || 0,
+        totalRatings: w.totalRatings || 0,
+        trending: Boolean(w.trending),
+        status: w.status
+      })),
       pagination: {
         total,
         pages: totalPages,
@@ -130,7 +137,7 @@ export async function GET(request) {
   } catch (error) {
     console.error('Error fetching writings:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch writings', details: error.message },
+      { error: 'Failed to fetch writings' },
       { status: 500 }
     );
   }
@@ -196,7 +203,7 @@ export async function POST(request) {
     }
     
     // Validate required fields
-    if (!writing.title || !writing.category || !writing.body) {
+    if (!writing.title || !writing.category || (!writing.body && writing.contentFormat !== 'tiptap')) {
       return NextResponse.json(
         { error: 'Title, category, and body are required' },
         { status: 400 }
@@ -256,7 +263,7 @@ export async function POST(request) {
       });
     }
 
-    return NextResponse.json(populatedWriting, { status: 201 });
+    return NextResponse.json({ _id: String(newWriting._id), slug: newWriting.slug, status: newWriting.status }, { status: 201 });
 
   } catch (error) {
     console.error('Error creating writing:', error);

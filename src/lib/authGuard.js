@@ -8,16 +8,17 @@ import { NextResponse } from 'next/server';
  * - Authorization: Bearer <secret>
  * - x-admin-key: <secret>
  * 
- * Compares against process.env.ADMIN_API_KEY or process.env.JWT_SECRET
- * using constant-time comparison to prevent timing attacks.
+ * Compares against process.env.ADMIN_API_KEY ONLY, using constant-time comparison.
+ * There is deliberately no fallback to JWT_SECRET: a token-signing secret must never double as a bearer credential,
+ * and a missing key must deny (not silently pick another secret).
  * 
  * @param {Request} request 
  * @returns {{ authorized: boolean, error?: string }}
  */
 export function verifyAdminAuth(request) {
-  const adminSecret = process.env.ADMIN_API_KEY || process.env.JWT_SECRET;
-  
-  if (!adminSecret) {
+  const adminSecret = process.env.ADMIN_API_KEY;
+
+  if (!adminSecret || adminSecret.length < 24) {
     // If no secret is configured, deny all administrative mutations by default
     return {
       authorized: false,
@@ -43,15 +44,9 @@ export function verifyAdminAuth(request) {
   }
 
   try {
-    const expectedBuffer = Buffer.from(adminSecret);
-    const providedBuffer = Buffer.from(providedToken);
-
-    if (expectedBuffer.length !== providedBuffer.length) {
-      return {
-        authorized: false,
-        error: 'Invalid authorization token.'
-      };
-    }
+    // Hash both sides so the comparison is constant-time regardless of the provided length.
+    const expectedBuffer = crypto.createHash('sha256').update(adminSecret).digest();
+    const providedBuffer = crypto.createHash('sha256').update(providedToken).digest();
 
     const matches = crypto.timingSafeEqual(expectedBuffer, providedBuffer);
     if (!matches) {

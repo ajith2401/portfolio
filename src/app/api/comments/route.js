@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { Comment } from '@/models';
 import { handleCommentOperations, updateCommentStats } from '@/middleware/comment.middleware';
+import { toPublicComment } from '@/lib/public/comments';
 import { rateLimit, getClientIP } from '@/lib/rateLimit';
 
 export const runtime = 'nodejs';
@@ -70,6 +71,20 @@ export async function POST(request) {
     };
     const { parent, Model } = await handleCommentOperations(cleanPayload);
 
+    if (parent.status && parent.status !== 'published') {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+
+    // One rating/comment per email per work: blocks ballot-stuffing with repeat submissions.
+    const duplicate = await Comment.exists({
+      parentId: parent._id,
+      parentModel: cleanPayload.parentModel,
+      email: cleanPayload.email.toLowerCase()
+    });
+    if (duplicate) {
+      return NextResponse.json({ error: 'You have already submitted a response for this work.' }, { status: 409 });
+    }
+
     // Create new comment with safe, explicit attributes (status defaults to pending)
     const comment = await Comment.create({
       parentId: parent._id,
@@ -90,7 +105,7 @@ export async function POST(request) {
     // Update rating stats
     await updateCommentStats(parent, Model);
     
-    return NextResponse.json(comment, { status: 201 });
+    return NextResponse.json({ ...toPublicComment(comment), status: 'pending' }, { status: 201 });
   } catch (error) {
     console.error('Error creating comment:', error);
     return NextResponse.json({ 

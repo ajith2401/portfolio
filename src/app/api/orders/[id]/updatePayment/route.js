@@ -38,14 +38,23 @@ export async function POST(request, props) {
     }
     
     // Update payment information
+    if (typeof razorpayOrderId !== 'string' || razorpayOrderId.length > 100 || !/^[A-Za-z0-9_]+$/.test(razorpayOrderId)) {
+      return NextResponse.json({ error: 'Invalid Razorpay order ID' }, { status: 400 });
+    }
+    // Never rewrite the payment reference of an order that is already settled.
+    if (order.payment?.status === 'paid' || order.payment?.status === 'completed') {
+      return NextResponse.json({ error: 'Order already paid' }, { status: 409 });
+    }
+
     order.payment.razorpayOrderId = razorpayOrderId;
     await order.save();
-    
-    return NextResponse.json({ success: true, order });
+
+    // Do not echo the order (it contains customer PII).
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error updating payment information:', error);
     return NextResponse.json(
-      { error: error.message },
+      { error: 'Failed to update payment information' },
       { status: 500 }
     );
   }

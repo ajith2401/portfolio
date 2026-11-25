@@ -3,6 +3,7 @@
 import connectDB from "@/lib/db";
 import { Comment } from "@/models";
 import { NextResponse } from "next/server";
+import { toPublicComment } from "@/lib/public/comments";
 
 
 export const runtime = 'nodejs';
@@ -37,7 +38,7 @@ export async function GET(request, props) {
     // Find comments with timeout
     const comments = await withTimeout(Comment.findByParent(parentId, parentModel));
     
-    return NextResponse.json(comments);
+    return NextResponse.json(comments.map((c) => toPublicComment(c)));
   } catch (error) {
     console.error('Error fetching comments:', error);
     return NextResponse.json({ 
