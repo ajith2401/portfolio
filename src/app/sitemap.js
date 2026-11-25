@@ -1,6 +1,7 @@
 // src/app/sitemap.js
 import { TechBlog, Writing, Project, Book } from '@/models';
 import connectDB from '@/lib/db';
+import { writingSitemapEntry } from '@/lib/public/sitemap-entries.js';
 
 export default async function sitemap() {
   try {
@@ -23,7 +24,6 @@ export default async function sitemap() {
         
       Writing.find({ 
         status: 'published',
-        wordCount: { $gte: 50 },
         slug: { $exists: true, $ne: null, $ne: '' },
         title: { $exists: true, $ne: null, $ne: '' }
       })
@@ -149,19 +149,7 @@ export default async function sitemap() {
       }));
 
     // Writing routes - higher priority as you're primarily a writer (only slug URLs)
-    const writingRoutes = writings
-      .filter(writing => writing.slug && writing.title.trim().length > 0)
-      .map((writing) => ({
-        url: `${baseUrl}/quill/${writing.slug}`,
-        lastModified: getMostRecentDate(writing),
-        changeFrequency: 'weekly',
-        priority: 0.85, // Higher priority for writings
-        images: writing.images?.large ? [{
-          url: writing.images.large,
-          title: writing.title,
-          caption: `${writing.title} - Tamil writing by Ajithkumar`
-        }] : undefined
-      }));
+    const writingRoutes = writings.map((w) => writingSitemapEntry(w)).filter(Boolean);
 
     // Project routes
     const projectRoutes = projects
@@ -195,12 +183,6 @@ export default async function sitemap() {
 
     // Additional important pages
     const additionalPages = [
-      {
-        url: `${baseUrl}/photography`,
-        lastModified: currentDate,
-        changeFrequency: 'weekly',
-        priority: 0.7
-      },
       {
         url: `${baseUrl}/privacy-policy`,
         lastModified: currentDate,
@@ -279,5 +261,4 @@ export default async function sitemap() {
 }
 
 // Export dynamic sitemap configuration
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Regenerate every hour

@@ -917,3 +917,51 @@ input[type="checkbox"]:hover {
 /* =============================================================================
    END OF GLOBALS CSS
    ============================================================================= */
+/* =============================================================================
+   READING EXPERIENCE (/quill/[slug])
+   ============================================================================= */
+.reader {
+  --reader-bg: transparent;
+  --reader-fg: var(--text-primary);
+  --reader-muted: var(--text-muted);
+  --reader-border: var(--border-color, rgba(127, 127, 127, 0.35));
+  --reader-size: 20px;
+  background: var(--reader-bg);
+  color: var(--reader-fg);
+  border-radius: 12px;
+}
+.reader[data-reader-theme='light'] { --reader-bg: #ffffff; --reader-fg: #171717; --reader-muted: #525252; }
+.reader[data-reader-theme='dark'] { --reader-bg: #121212; --reader-fg: #ececec; --reader-muted: #a3a3a3; }
+.reader[data-reader-theme='sepia'] { --reader-bg: #f4ecd8; --reader-fg: #433422; --reader-muted: #6b5a43; }
+.reader-progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 60; background: transparent; }
+.reader-progress-bar { height: 100%; background: var(--reader-fg, #171717); opacity: 0.7; transition: width 0.1s linear; }
+.reader-toolbar { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: center; justify-content: center; padding: 0.75rem 1rem; }
+.reader-group { display: inline-flex; align-items: center; gap: 0.25rem; }
+.reader-toolbar button { min-width: 2.75rem; min-height: 2.75rem; padding: 0 0.75rem; border: 1px solid var(--reader-border); border-radius: 8px; background: transparent; color: inherit; font: inherit; font-size: 0.875rem; cursor: pointer; }
+.reader-toolbar button[data-active='true'] { background: var(--reader-fg); color: var(--reader-bg, #fff); }
+.reader[data-reader-theme='auto'] .reader-toolbar button[data-active='true'] { background: var(--text-primary); color: var(--bg-primary); }
+.reader-toolbar button:disabled { opacity: 0.4; cursor: not-allowed; }
+.reader-toolbar button:focus-visible, .reader-toc a:focus-visible, .reader-toc summary:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }
+.reader-size { min-width: 3.5rem; text-align: center; font-size: 0.875rem; color: var(--reader-muted); }
+.reader-toc { max-width: 68ch; margin: 0 auto 1.5rem; padding: 0 1rem; font-size: 0.95rem; }
+.reader-toc summary { cursor: pointer; padding: 0.5rem 0; min-height: 2.75rem; display: flex; align-items: center; }
+.reader-toc ol { list-style: none; margin: 0; padding: 0 0 0.5rem; }
+.reader-toc a { display: inline-block; padding: 0.35rem 0; color: var(--reader-muted); text-decoration: underline; text-underline-offset: 3px; }
+.reader-article { padding: 1rem; }
+
+.writing-content { max-width: 68ch; margin: 0 auto; font-size: var(--reader-size, 20px); line-height: 2; word-break: normal; overflow-wrap: anywhere; font-family: var(--font-reader-serif), 'Noto Serif Tamil', Georgia, serif; }
+.writing-content[lang='en'] { line-height: 1.75; font-family: var(--font-merriweather), Georgia, serif; }
+.writing-content :where(p, ul, ol, blockquote, figure, pre, .poem) { margin: 0 0 1.25em; }
+.writing-content :where(h2, h3, h4, h5, h6) { font-family: var(--font-reader-sans), 'Noto Sans Tamil', sans-serif; line-height: 1.5; margin: 2em 0 0.75em; scroll-margin-top: 5rem; }
+.writing-content h2 { font-size: 1.5em; }
+.writing-content h3 { font-size: 1.25em; }
+.writing-content blockquote { border-inline-start: 3px solid var(--reader-border); padding-inline-start: 1em; color: var(--reader-muted); }
+.writing-content img { max-width: 100%; height: auto; border-radius: 6px; }
+.writing-content figcaption { font-size: 0.8em; color: var(--reader-muted); text-align: center; margin-top: 0.5em; }
+.writing-content pre { overflow-x: auto; padding: 1em; border: 1px solid var(--reader-border); border-radius: 6px; font-size: 0.85em; line-height: 1.6; }
+.writing-content a { text-decoration: underline; text-underline-offset: 3px; }
+.writing-content .poem-center { text-align: center; }
+.writing-content .poem .stanza { margin: 0 0 1.75em; white-space: normal; }
+.writing-content hr { border: 0; border-top: 1px dashed var(--reader-border); margin: 2em 0; }
+@media (max-width: 480px) { .reader-article { padding: 0.5rem; } }
+@media (prefers-reduced-motion: reduce) { .reader-progress-bar { transition: none; } }

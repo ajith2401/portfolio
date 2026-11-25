@@ -1,15 +1,13 @@
 // src/app/quill/page.js - Server Component
 import { Suspense } from 'react';
 import QuillClientPage from './QuillClientPage';
-import connectDB from '@/lib/db';
-import { Writing } from '@/models';
+import { listPublishedCards } from '@/lib/public-writings';
 
 // Metadata must be in a server component, not a client component
-export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export const metadata = {
-  title: "Ajithkumar R | Tamil Writer & Poet",
+  title: "Tamil Writings, Poems and Stories",
   description: "Explore the literary works of Ajithkumar R - published Tamil writer with 5 poetry books exploring themes of feminism, social justice, identity, and human emotions through nuanced Tamil poetry.",
   keywords: [
     "Ajithkumar R",
@@ -28,7 +26,7 @@ export const metadata = {
     canonical: "https://www.ajithkumarr.com/quill",
   },
   openGraph: {
-    title: "Ajithkumar R | Tamil Writer & Poet",
+    title: "Tamil Writings, Poems and Stories",
     description: "Explore the literary works of Ajithkumar R - published Tamil writer with 5 poetry books exploring themes of feminism, social justice, and human emotions.",
     url: "https://www.ajithkumarr.com/quill",
     type: "website",
@@ -44,7 +42,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ajithkumar R | Tamil Writer & Poet",
+    title: "Tamil Writings, Poems and Stories",
     description: "Explore the literary works of Ajithkumar R - published Tamil writer with 5 poetry books exploring themes of feminism, social justice, and human emotions.",
     images: ["https://www.ajithkumarr.com/twitter-image.jpg"],
     creator: "@ajithkumarr"
@@ -75,44 +73,32 @@ export default async function QuillPage(props) {
   };
 
   try {
-    await connectDB();
     const page = Math.max(1, parseInt(searchParams?.page || '1', 10) || 1);
     const limit = 12;
-    const query = {
-      status: 'published',
-      wordCount: { $gte: 50 }
-    };
+    const category = searchParams?.category && searchParams.category !== 'All Writings'
+      ? String(searchParams.category).slice(0, 50) : undefined;
 
-    if (searchParams?.category && searchParams.category !== 'All Writings') {
-      query.category = searchParams.category;
-    }
-
-    const total = await Writing.countDocuments(query);
+    const first = await listPublishedCards({ category, skip: 0, limit: 1 });
+    const total = first.total;
     const totalPages = Math.ceil(total / limit) || 1;
     const safePage = Math.min(page, totalPages);
-    const skip = (safePage - 1) * limit;
+    const { cards } = await listPublishedCards({ category, skip: (safePage - 1) * limit, limit });
 
-    const writings = await Writing.find(query)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .select('title body excerpt category images publishedAt createdAt readTime slug status wordCount averageRating totalRatings')
-      .lean();
-
-    initialWritings = writings.map((writing) => ({
-      _id: writing._id.toString(),
-      title: writing.title,
-      body: writing.body,
-      excerpt: writing.excerpt || '',
-      category: writing.category,
-      images: writing.images || null,
-      publishedAt: writing.publishedAt ? new Date(writing.publishedAt).toISOString() : null,
-      createdAt: writing.createdAt ? new Date(writing.createdAt).toISOString() : null,
-      averageRating: writing.averageRating || 0,
-      totalRatings: writing.totalRatings || 0,
-      readTime: writing.readTime || null,
-      slug: writing.slug || writing._id.toString(),
-      wordCount: writing.wordCount || 0
+    // Public cards only: no body, ratings or revisions reach the client.
+    initialWritings = cards.map((c) => ({
+      _id: c.id,
+      title: c.title,
+      body: c.excerpt || '',
+      excerpt: c.excerpt || '',
+      category: c.category,
+      images: c.images,
+      publishedAt: c.publishedAt,
+      createdAt: c.publishedAt,
+      averageRating: 0,
+      totalRatings: 0,
+      readTime: c.readTime || null,
+      slug: c.slug,
+      wordCount: c.wordCount || 0
     }));
 
     initialPagination = {

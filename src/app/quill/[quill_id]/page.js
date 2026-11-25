@@ -1,274 +1,87 @@
 // src/app/quill/[quill_id]/page.js
-import { notFound, redirect } from 'next/navigation';
-import { Writing } from '@/models/writings.model';
+// Public writing page. One lookup per request (shared by metadata and page via cache()).
+import { cache } from 'react';
+import { notFound, permanentRedirect } from 'next/navigation';
+import { findForRoute, relatedCards } from '@/lib/public-writings';
 import connectDB from '@/lib/db';
-import mongoose from 'mongoose';
+import { Writing } from '@/models';
+import { toPublicWriting, writingPath, docHeadings } from '@/lib/content-contract/index.js';
+import { parseMarkdown, markdownHeadings } from '@/lib/render/markdown-ast.js';
+import { WritingContent } from '@/lib/render/WritingContent.jsx';
+import {
+  buildWritingMetadata,
+  buildWritingJsonLdScripts,
+  notFoundMetadata,
+} from '@/lib/public/writing-metadata.js';
 import WritingDetailClient from './WritingDetailClient';
 
-// Helper to check if string is ObjectId
-function isObjectId(str) {
-  return mongoose.Types.ObjectId.isValid(str);
-}
-
-// Helper to safely convert any date-like value to ISO string
-function safeDate(val) {
-  if (!val) return null;
-  if (val instanceof Date) return val.toISOString();
-  const d = new Date(val);
-  return isNaN(d) ? null : d.toISOString();
-}
-
-// Helper to log page access for monitoring
-function logPageAccess(identifier, accessType, userAgent) {
-  const timestamp = new Date().toISOString();
-  console.log(`[PAGE] ${timestamp} | /quill/${identifier} | ${accessType} | UA: ${userAgent?.substring(0, 50) || 'unknown'}`);
-}
-
-// Timeout wrapper for database operations
-const withTimeout = (promise, timeoutMs = 8000) => {
-  return Promise.race([
-    promise,
-    new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('Database operation timeout')), timeoutMs);
-    })
-  ]);
-};
-
-async function getWriting(quill_id) {
+const lookup = cache(async (param) => {
   try {
-    await connectDB();
-    
-    let writing;
-    
-    // First, try to find by slug with better Unicode handling
-    if (!isObjectId(quill_id)) {
-      let decodedSlug;
-      try {
-        // Handle double/triple encoding that can happen with Tamil characters
-        decodedSlug = decodeURIComponent(quill_id);
-        // Try again if it's still URL encoded
-        if (decodedSlug.includes('%')) {
-          decodedSlug = decodeURIComponent(decodedSlug);
-        }
-        decodedSlug = decodedSlug.trim();
-      } catch (error) {
-        console.error('Error decoding slug:', error);
-        decodedSlug = quill_id.trim();
-      }
-      
-      writing = await withTimeout(
-        Writing.findOne({ 
-          slug: decodedSlug,
-          status: 'published'
-        }).lean()
-      );
-      
-      if (writing) {
-        logPageAccess(decodedSlug, 'SLUG-SUCCESS', '');
-        return { writing, accessType: 'slug' };
-      }
-    }
-    
-    // If not found by slug and it's a valid ObjectId, try ObjectId
-    if (isObjectId(quill_id)) {
-      writing = await withTimeout(
-        Writing.findOne({ 
-          _id: quill_id,
-          status: 'published'
-        }).lean()
-      );
-      
-      if (writing) {
-        logPageAccess(quill_id, 'OBJECTID-SUCCESS', '');
-        return { writing, accessType: 'objectId' };
-      }
-    }
-    
-    logPageAccess(quill_id, 'NOT-FOUND', '');
-    return null;
-    
+    return await findForRoute(param);
   } catch (error) {
-    console.error('Error fetching writing:', error);
-    logPageAccess(quill_id, 'ERROR', '');
-    return null;
+    console.error('Error resolving writing route:', error);
+    return { kind: 'notfound' };
   }
-}
+});
 
-// Generate metadata for SEO
 export async function generateMetadata(props) {
-  const params = await props.params;
-  const { quill_id } = params;
-
-  try {
-    await connectDB();
-    
-    let result = null;
-    if (mongoose.Types.ObjectId.isValid(quill_id)) {
-      const writing = await withTimeout(Writing.findById(quill_id).lean());
-      if (writing) result = { writing, accessType: 'objectId' };
-    }
-    if (!result) {
-      let decodedSlug;
-      try {
-        decodedSlug = decodeURIComponent(quill_id);
-        if (decodedSlug.includes('%')) {
-          decodedSlug = decodeURIComponent(decodedSlug);
-        }
-        decodedSlug = decodedSlug.trim();
-      } catch (error) {
-        console.error('Error decoding slug in metadata:', error);
-        decodedSlug = quill_id.trim();
-      }
-      const writing = await withTimeout(Writing.findOne({ slug: decodedSlug, status: 'published' }).lean());
-      if (writing) result = { writing, accessType: 'slug' };
-    }
-    if (!result) {
-      return {
-        title: 'Writing Not Found - Ajithkumar R',
-        description: 'The requested writing could not be found. Browse other writings by Ajithkumar R.',
-        robots: 'noindex, nofollow'
-      };
-    }
-    
-    const { writing, accessType } = result;
-    
-    // All canonical and OG URLs should use writing.slug if available
-    const canonicalUrl = writing.slug 
-      ? `https://www.ajithkumarr.com/quill/${writing.slug}`
-      : `https://www.ajithkumarr.com/quill/${writing._id}`;
-    
-    return {
-      title: `${writing.title} - Ajithkumar R`,
-      description: writing.metaDescription || writing.excerpt || `${writing.title} - A Tamil writing by Ajithkumar R`,
-      keywords: writing.tags ? writing.tags.join(', ') : 'Tamil writing, poetry, literature',
-      authors: [{ name: 'Ajithkumar R' }],
-      creator: 'Ajithkumar R',
-      publisher: 'Ajithkumar R',
-      robots: accessType === 'objectId' ? 'noindex, nofollow, noarchive, nosnippet' : 'index, follow',
-      canonical: canonicalUrl,
-      openGraph: {
-        title: writing.seo?.ogTitle || writing.title,
-        description: writing.seo?.ogDescription || writing.metaDescription || writing.excerpt,
-        url: canonicalUrl,
-        siteName: 'Ajithkumar R',
-        type: 'article',
-        publishedTime: safeDate(writing.publishedAt),
-        modifiedTime: safeDate(writing.updatedAt),
-        authors: ['Ajithkumar R'],
-        section: writing.category,
-        tags: writing.tags,
-        images: [{
-          url: writing.images?.large || writing.images?.medium || writing.images?.small || 'https://www.ajithkumarr.com/opengraph-image.jpg',
-          width: 1200,
-          height: 630,
-          alt: writing.title
-        }]
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: writing.seo?.twitterTitle || writing.title,
-        description: writing.seo?.twitterDescription || writing.metaDescription || writing.excerpt,
-        creator: '@ajithkumarr',
-        images: [writing.images?.large || writing.images?.medium || writing.images?.small || 'https://www.ajithkumarr.com/twitter-image.jpg']
-      },
-      alternates: {
-        canonical: canonicalUrl
-      }
-    };
-  } catch (error) {
-    console.error('Error generating metadata:', error);
-    return {
-      title: 'Writing - Ajithkumar R',
-      description: 'Tamil writings by Ajithkumar R',
-      robots: 'noindex, nofollow'
-    };
+  const { quill_id } = await props.params;
+  const route = await lookup(quill_id);
+  if (route.kind === 'render') {
+    return buildWritingMetadata(route.doc, { objectIdAccess: false });
   }
+  if (route.kind === 'redirect') return { robots: { index: false, follow: false } };
+  return notFoundMetadata();
 }
 
-// Main page component
 export default async function WritingDetailPage(props) {
-  const params = await props.params;
-  const { quill_id } = params;
+  const { quill_id } = await props.params;
+  const route = await lookup(quill_id);
 
+  if (route.kind === 'redirect') permanentRedirect(writingPath(route.slug));
+  if (route.kind !== 'render') notFound();
+
+  const doc = route.doc;
+  const writing = JSON.parse(JSON.stringify(toPublicWriting(doc)));
+  let related = [];
   try {
-    // Add additional URL validation for Tamil characters
-    if (!quill_id || typeof quill_id !== 'string') {
-      console.error('Invalid quill_id parameter:', quill_id);
-      return notFound();
-    }
-
-    const result = await getWriting(quill_id);
-    
-    if (!result) {
-      console.log(`[404] Writing not found for quill_id: ${quill_id}`);
-      return notFound();
-    }
-    
-    const { writing, accessType } = result;
-    
-    // Temporary block: writeups with less than 50 words need not be rendered
-    const countWords = (text) => {
-      if (!text) return 0;
-      return text.replace(/<[^>]*>/g, '').trim().split(/\s+/).filter(Boolean).length;
-    };
-    const wordCount = (typeof writing.wordCount === 'number' && writing.wordCount > 0)
-      ? writing.wordCount
-      : countWords(writing.body || writing.excerpt);
-
-    if (wordCount < 50) {
-      console.log(`[BLOCKED] Writing "${writing.title}" has ${wordCount} words (< 50 words). Rendering blocked.`);
-      return notFound();
-    }
-
-    // Don't redirect ObjectId URLs to avoid "Page with redirect" SEO issues
-    // Instead, let canonical URLs and robots.txt handle proper indexing
-    // The metadata will point to the correct canonical URL
-    
-    // Convert MongoDB _id to string for client component and safely serialize dates
-    const writingData = {
-      ...writing,
-      _id: writing._id.toString(),
-      createdAt: safeDate(writing.createdAt),
-      updatedAt: safeDate(writing.updatedAt),
-      publishedAt: safeDate(writing.publishedAt),
-      lastModified: safeDate(writing.lastModified)
-    };
-    
-    return (
-      <WritingDetailClient initialWriting={writingData} quillId={writing._id.toString()} />
-    );
+    related = JSON.parse(JSON.stringify(await relatedCards(doc, 3)));
   } catch (error) {
-    console.error('Error in WritingDetailPage:', error);
-    return notFound();
+    console.error('Error loading related writings:', error);
   }
+  let headings = [];
+  try {
+    headings = writing.contentFormat === 'tiptap' && writing.content
+      ? docHeadings(writing.content)
+      : markdownHeadings(parseMarkdown(writing.body || ''));
+  } catch {
+    headings = [];
+  }
+  const [workLd, crumbLd] = buildWritingJsonLdScripts(doc);
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: workLd }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: crumbLd }} />
+      <WritingDetailClient writing={writing} quillId={writing.id} headings={headings} related={related}>
+        <WritingContent writing={writing} />
+      </WritingDetailClient>
+    </>
+  );
 }
 
-// Generate static params for better performance (optional)
 export async function generateStaticParams() {
   try {
     await connectDB();
-    
-    // Only generate for published writings with slugs
-    const writings = await withTimeout(
-      Writing.find({ 
-        status: 'published',
-        slug: { $exists: true, $ne: null, $ne: '' }
-      })
-      .select('slug')
-      .limit(100) // Limit for build performance
-      .lean()
-    );
-    
-    return writings.map((writing) => ({
-      quill_id: writing.slug,
-    }));
+    const rows = await Writing.find({ status: 'published', slug: { $exists: true, $nin: [null, ''] } })
+      .select('slug').sort({ publishedAt: -1 }).limit(100).lean();
+    return rows.map((w) => ({ quill_id: w.slug }));
   } catch (error) {
     console.error('Error generating static params:', error);
     return [];
   }
 }
 
-// Configure dynamic behavior for Vercel
-export const dynamic = 'force-dynamic';
-export const revalidate = 3600; // Revalidate every hour
-export const maxDuration = 10; // Max execution time in seconds for Vercel
+// ISR: pages are rendered on demand and cached for an hour; /api/revalidate refreshes sooner.
+export const revalidate = 3600;
+export const maxDuration = 10;

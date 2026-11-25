@@ -1,5 +1,6 @@
 'use client';
-
+// Client shell for the writing page: back link, header, reader controls, approved reviews, rating form.
+// The article body arrives pre-rendered from the server as `children`; related works come from the server too.
 import { useState, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,512 +8,125 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import RatingForm from '@/components/ui/form/RatingForm';
 import DecorativeLine from '@/components/ui/DecorativeLine';
-import WritingSchema from '@/components/schema/WritingSchema';
 import SharedContentHeader from '@/components/layout/QuillPageHeader';
-import WordCard from '@/components/ui/card/WordCard'; 
-import { useGetCommentsQuery, useGetRelatedWritingsQuery } from '@/services/api';
-import { getSafeUrl } from '@/utils/slugGenerator';
+import WordCard from '@/components/ui/card/WordCard';
+import { useGetCommentsQuery } from '@/services/api';
+import { writingPath } from '@/lib/content-contract/seo.js';
+import ReaderShell from './ReaderShell';
+import { notoSerifTamil, notoSansTamil } from './reader-fonts';
 
-// Safe localStorage access functions
 const getLocalStorage = (key, fallback) => {
-  if (typeof window !== 'undefined') {
+  try {
     return localStorage.getItem(key) || fallback;
-  }
-  return fallback;
-};
-
-const setLocalStorage = (key, value) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(key, value);
+  } catch {
+    return fallback;
   }
 };
 
-// Components that need useSearchParams
 const BackButtonWithParams = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  // Get the returnPage from URL params or localStorage (safely)
   const returnPage = searchParams.get('returnPage') || getLocalStorage('quillPage', '1');
   const category = getLocalStorage('quillCategory', '');
   const search = getLocalStorage('quillSearch', '');
-  
+
   const handleBack = () => {
-    // Construct the back URL with all preserved parameters
     const backUrl = new URL('/quill', window.location.origin);
-    
-    // Add page parameter
     backUrl.searchParams.set('page', returnPage);
-    
-    // Add category if it exists and isn't the default
-    if (category && category !== 'All Writings') {
-      backUrl.searchParams.set('category', category);
-    }
-    
-    // Add search if it exists
-    if (search) {
-      backUrl.searchParams.set('search', search);
-    }
-    
-    // Navigate to the constructed URL
+    if (category && category !== 'All Writings') backUrl.searchParams.set('category', category);
+    if (search) backUrl.searchParams.set('search', search);
     router.push(backUrl.toString());
   };
-  
+
   return (
     <div className="py-4 sm:py-6 md:py-8">
-      <button 
-        onClick={handleBack}
-        className="inline-flex items-center text-xs sm:text-sm hover:text-primary"
-      >
-        <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+      <button onClick={handleBack} className="inline-flex items-center text-xs sm:text-sm hover:text-primary min-h-11">
+        <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" aria-hidden="true" />
         Back to Writings
       </button>
     </div>
   );
 };
 
-// Markdown Renderer Component
-const MarkdownRenderer = ({ content }) => {
-  // Only process if we have content
-  if (!content) return null;
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const d = new Date(dateString);
+  return Number.isNaN(d.getTime())
+    ? ''
+    : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+};
 
-  // Fix broken image markdown syntax (handles line breaks)
-  const fixBrokenImageMarkdown = (text) => {
-    // Fix common issue: line breaks between [] and ()
-    let fixed = text.replace(/!\[(.*?)\][ \t\r\n]*\([ \t\r\n]*(https?:\/\/[^)]+)[ \t\r\n]*\)/g, '![$1]($2)');
-    
-    // Fix extra closing parenthesis on separate line
-    fixed = fixed.replace(/!\[(.*?)\]\((https?:\/\/[^)]+)\n\)/g, '![$1]($2)');
-    
-    // Convert bare image URLs to proper markdown
-    fixed = fixed.replace(/^(https?:\/\/\S+\.(jpg|jpeg|png|gif|webp))$/gim, '![Image]($1)');
-    
-    return fixed;
-  };
-  
-  // Process markdown content
-  const processMarkdown = (mdContent) => {
-    // First fix any broken image markdown
-    let processedContent = fixBrokenImageMarkdown(mdContent);
-    
-    let html = processedContent;
-    
-    // Process code blocks first to avoid conflicts with other formatting
-    html = html.replace(/```([\s\S]*?)```/g, (match, codeContent) => {
-      return `<pre class="bg-gray-100 p-3 my-3 rounded overflow-x-auto"><code>${codeContent.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
-    });
-    
-    // Inline code
-    html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-1 rounded font-mono text-sm">$1</code>');
-    
-    // Process headings (match at line beginning)
-    html = html.replace(/^# (.*)$/gm, '<h1 class="text-2xl font-bold mt-6 mb-3">$1</h1>');
-    html = html.replace(/^## (.*)$/gm, '<h2 class="text-xl font-bold mt-5 mb-2">$1</h2>');
-    html = html.replace(/^### (.*)$/gm, '<h3 class="text-lg font-bold mt-4 mb-2">$1</h3>');
-    
-    // Process blockquotes - handle multi-line blockquotes
-    html = html.replace(/^> (.*)(?:\n^> (.*))*$/gm, (match) => {
-      const content = match.split('\n')
-        .map(line => line.replace(/^> (.*)$/, '$1'))
-        .join('<br>');
-      return `<blockquote class="border-l-4 border-gray-300 pl-4 py-1 my-4 italic text-gray-700">${content}</blockquote>`;
-    });
-    
-    // Process ordered lists - match consecutive numbered lines
-    html = html.replace(/^(\d+)\. (.*)(?:\n^(\d+)\. (.*))*$/gm, (match) => {
-      const items = match.split('\n')
-        .map(line => {
-          const itemMatch = line.match(/^(\d+)\. (.*)$/);
-          return itemMatch ? `<li>${itemMatch[2]}</li>` : line;
-        })
-        .join('');
-      return `<ol class="list-decimal pl-6 my-4">${items}</ol>`;
-    });
-    
-    // Process unordered lists - match consecutive bulleted lines
-    html = html.replace(/^- (.*)(?:\n^- (.*))*$/gm, (match) => {
-      const items = match.split('\n')
-        .map(line => {
-          const itemMatch = line.match(/^- (.*)$/);
-          return itemMatch ? `<li>${itemMatch[1]}</li>` : line;
-        })
-        .join('');
-      return `<ul class="list-disc pl-6 my-4">${items}</ul>`;
-    });
-    
-    // Process text formatting
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
-    
-    // Process links with safe URL validation
-    html = html.replace(/\[(.*?)\]\((.*?)\)/g, (match, label, href) => {
-      const cleanHref = href.trim();
-      const isSafe = /^https?:\/\//i.test(cleanHref) || cleanHref.startsWith('/') || cleanHref.startsWith('#');
-      const safeHref = isSafe ? cleanHref : '#';
-      return `<a href="${safeHref}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${label}</a>`;
-    });
-    
-    // Process horizontal rule
-    html = html.replace(/^---$/gm, '<hr class="my-6 border-t border-gray-300" />');
-    
-    // Process paragraphs and line breaks
-    // Split into paragraphs on double newlines
-    const paragraphs = html.split(/\n\n+/);
-    
-    html = paragraphs.map(para => {
-      // Skip wrapping if paragraph already contains block-level HTML
-      if (
-        para.startsWith('<h1') || 
-        para.startsWith('<h2') || 
-        para.startsWith('<h3') || 
-        para.startsWith('<ul') || 
-        para.startsWith('<ol') || 
-        para.startsWith('<blockquote') || 
-        para.startsWith('<pre') ||
-        para.startsWith('<hr')
-      ) {
-        return para;
-      }
-      
-      // Regular paragraph handling
-      const withLineBreaks = para.replace(/\n/g, '<br>');
-      return `<p class="my-3">${withLineBreaks}</p>`;
-    }).join('\n\n');
-    
-    return html;
-  };
-  
-  // We need to detect URLs and render them as images directly
-  const renderContent = () => {
-    // Process the markdown to HTML
-    const processedHtml = processMarkdown(content);
-    
-    // Replace image markdown with actual image tags
-    // This is a safer approach than using dangerouslySetInnerHTML
-    const parts = [];
-    const regex = /!\[(.*?)\]\((https?:\/\/[^)]+)\)/g;
-    let lastIndex = 0;
-    let match;
-    
-    while ((match = regex.exec(content)) !== null) {
-      // Add the text before the image
-      if (match.index > lastIndex) {
-        parts.push(
-          <span key={`text-${lastIndex}`} dangerouslySetInnerHTML={{ 
-            __html: processMarkdown(content.substring(lastIndex, match.index)) 
-          }} />
-        );
-      }
-      
-      // Extract the alt text and image URL
-      const [, altText, imageUrl] = match;
-      
-      // Add the image component
-      parts.push(
-        <div key={`img-${match.index}`} className="my-4 text-center">
-           <Image
-            src={imageUrl} 
-            alt={altText} 
-            width={800}
-            height={600}
-            className="max-w-full h-auto rounded mx-auto" 
-            style={{ display: 'block' }}
-            unoptimized={true}
-          />
-        </div>
-      );
-      
-      lastIndex = match.index + match[0].length;
-    }
-    
-    // Add any remaining content after the last image
-    if (lastIndex < content.length) {
-      parts.push(
-        <span key={`text-${lastIndex}`} dangerouslySetInnerHTML={{ 
-          __html: processMarkdown(content.substring(lastIndex)) 
-        }} />
-      );
-    }
-    
-    // If no images were found, just render the processed HTML
-    if (parts.length === 0) {
-      return <div dangerouslySetInnerHTML={{ __html: processedHtml }} />;
-    }
-    
-    return parts;
-  };
-  
+const RelatedWorks = ({ related }) => {
+  if (!related?.length) return null;
   return (
-    <div className="prose prose-lg max-w-none">
-      {renderContent()}
-    </div>
+    <section className="mb-8 md:mb-16 mt-16 md:mt-28" aria-labelledby="related-heading">
+      <h2 id="related-heading" className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">You Might Also Like</h2>
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 list-none p-0">
+        {related.map((w) => (
+          <li key={w.id}>
+            <Link href={writingPath(w.slug)} className="block w-full">
+              <article className="clean-container rounded-lg overflow-hidden group transition-all duration-300 hover:shadow-[var(--card-hover-shadow)]">
+                <div className="relative w-full aspect-[16/9] overflow-hidden">
+                  <Image
+                    src={w.images?.small || w.images?.medium || '/placeholder.jpg'}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-6 space-y-3">
+                  <span className="px-2 py-1 text-xs font-medium rounded-full bg-[rgba(140,140,140,0.15)]">{w.category}</span>
+                  <h3 className="font-work-sans text-lg font-medium">{w.title}</h3>
+                  {w.excerpt && <p className="text-sm line-clamp-3 opacity-80">{w.excerpt}</p>}
+                </div>
+              </article>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 };
 
-const truncateBody = (text, wordLimit = 15) => {
-  if (!text) return '';
-  
-  // Remove HTML tags and special characters
-  const cleanText = text
-    .replace(/<[^>]*>/g, '') // Remove HTML tags
-    .replace(/[!,.?":;]/g, '') // Remove special characters
-    .replace(/\n/g, ' ') // Remove newlines
-    .replace(/\s+/g, ' ') // Remove multiple spaces
-    .trim(); // Remove leading/trailing spaces
-
-  // Get the specified number of words
-  const words = cleanText.split(' ');
-  const truncatedWords = words.slice(0, wordLimit);
-  
-  // Only add ... if there are more words
-  const hasMoreWords = words.length > wordLimit;
-  return `${truncatedWords.join(' ')}${hasMoreWords ? '...' : ''}`;
-};
-
-// Related writings component that uses searchParams
-const RelatedWritings = ({ relatedWritings, formatDate }) => {
-  const searchParams = useSearchParams();
-  const returnPage = searchParams.get('returnPage') || getLocalStorage('quillPage', '1');
-
-  // Temporary block: related writeups with less than 50 words need not be rendered
-  const countWords = (text) => {
-    if (!text) return 0;
-    return text.replace(/<[^>]*>/g, '').trim().split(/\s+/).filter(Boolean).length;
-  };
-  const visibleRelated = (relatedWritings || []).filter(w => {
-    const wc = (typeof w?.wordCount === 'number' && w.wordCount > 0)
-      ? w.wordCount
-      : countWords(w?.body || w?.excerpt);
-    return wc >= 50;
-  });
-
-  if (!visibleRelated || visibleRelated.length === 0) {
-    return <p className="text-gray-500 col-span-3 text-center">No related articles found.</p>;
-  }
-
-  return (
-    <>
-      {visibleRelated.map((relatedWriting) => (
-        <Link 
-          href={`${getSafeUrl(relatedWriting, 'quill')}?returnPage=${returnPage}`} 
-          key={relatedWriting._id}
-          className="block w-full"
-        >
-          <article 
-            className="clean-container rounded-lg overflow-hidden group transition-all duration-300
-              hover:shadow-[var(--card-hover-shadow)] 
-              hover:translate-y-[var(--card-hover-transform)]
-              cursor-pointer"
-          >
-            {/* Fixed aspect ratio container for image */}
-            <div className="relative w-full aspect-[16/9] overflow-hidden">
-              <Image
-                src={relatedWriting.images?.small || '/placeholder.jpg'}
-                alt={relatedWriting.title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                priority={false}
-                quality={75}
-              />
-              {(relatedWriting.publishedAt || relatedWriting.createdAt) && (
-                <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
-                  <span className="text-sm font-work-sans text-foreground">
-                    {(() => {
-                      try {
-                        const date = new Date(relatedWriting.publishedAt || relatedWriting.createdAt);
-                        return isNaN(date.getTime()) ? '—' : date.getFullYear();
-                      } catch {
-                        return '—';
-                      }
-                    })()}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            <div className="p-6 space-y-4">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="px-2 py-1 text-xs font-medium text-primary-600 bg-primary-100 rounded-full">
-                    {relatedWriting.category}
-                  </span>
-                  {relatedWriting.averageRating > 0 && (
-                    <div className="flex items-center gap-1 text-yellow-500">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <span key={i} className="text-xs">
-                          {i < Math.floor(relatedWriting.averageRating) ? '★' : '☆'}
-                        </span>
-                      ))}
-                      <span className="text-xs text-secondary-500 ml-1">
-                        ({relatedWriting.totalRatings || 0})
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <h3 className="font-work-sans text-lg font-medium text-foreground group-hover:text-primary-500 transition-colors">
-                  {relatedWriting.title}
-                </h3>
-              </div>
-
-              <p className="text-secondary-600 text-sm line-clamp-3">
-                {truncateBody(relatedWriting.body)}
-              </p>
-            </div>
-          </article>
-        </Link>
-      ))}
-    </>
-  );
-};
-
-export default function WritingDetailClient({ initialWriting, quillId }) {
-  // Initialize with pre-fetched writing data
-  const [writing] = useState(initialWriting);
+export default function WritingDetailClient({ writing, quillId, headings = [], related = [], children }) {
   const [isMounted, setIsMounted] = useState(false);
-  const [error, setError] = useState(null);
-  
-  // Mount check to ensure we're running in the browser
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  useEffect(() => { setIsMounted(true); }, []);
 
-  // Error boundary effect
-  useEffect(() => {
-    const handleError = (error) => {
-      console.error('WritingDetailClient error:', error);
-      setError(error.message || 'An unexpected error occurred');
-    };
+  const { data: comments = [] } = useGetCommentsQuery(
+    { contentType: 'Writing', contentId: quillId },
+    { skip: !isMounted || !quillId },
+  );
 
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', (event) => {
-      handleError(new Error(event.reason));
-    });
-
-    return () => {
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', handleError);
-    };
-  }, []);
-  
-  // Use RTK Query hooks with error handling
-  const { data: comments = [], error: commentsError } = useGetCommentsQuery({
-    contentType: 'Writing',
-    contentId: quillId
-  }, {
-    skip: !isMounted || !quillId
-  });
-  
-  const { data: relatedWritings = [], error: relatedError } = useGetRelatedWritingsQuery(quillId, {
-    skip: !isMounted || !quillId
-  });
-
-  // Handle API errors
-  useEffect(() => {
-    if (commentsError) {
-      console.warn('Comments loading error:', commentsError);
-    }
-    if (relatedError) {
-      console.warn('Related writings loading error:', relatedError);
-    }
-  }, [commentsError, relatedError]);
-
-  // Format date function
-  const formatDate = (dateString) => { 
-    if (!dateString) return '';
-    
-    try {
-      return new Date(dateString).toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      }); 
-    } catch (error) {
-      console.error('Error formatting date:', error);
-      return '';
-    }
-  };
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Something went wrong</h1>
-          <p className="text-gray-600 mb-4">{error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!writing) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-  }
+  const lang = writing.language === 'English' ? 'en' : 'ta';
 
   return (
-  <div className="min-h-screen text-foreground tamil-quill not-dark-black">
-      <WritingSchema writing={writing} />
-      
+    <div className={`min-h-screen text-foreground tamil-quill not-dark-black ${notoSerifTamil.variable} ${notoSansTamil.variable}`}>
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        {/* Back Button - Wrapped in Suspense and only render on client-side */}
         {isMounted ? (
-          <Suspense fallback={
-            <div className="py-4 sm:py-6 md:py-8">
-              <span className="inline-flex items-center text-xs sm:text-sm">
-                <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                Back
-              </span>
-            </div>
-          }>
+          <Suspense fallback={<div className="py-4 sm:py-6 md:py-8" />}>
             <BackButtonWithParams />
           </Suspense>
         ) : (
-          <div className="py-4 sm:py-6 md:py-8">
-            <span className="inline-flex items-center text-xs sm:text-sm">
-              <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-              Back
-            </span>
-          </div>
+          <div className="py-4 sm:py-6 md:py-8" />
         )}
 
-        {/* Header Section */}
         <SharedContentHeader content={writing} contentType="Writing" />
 
-        {/* Decorative Line */}
         <div className="w-full mx-auto mt-4 md:mt-8 mb-8 sm:mb-12 md:mb-16">
           <DecorativeLine />
         </div>
 
-        {/* Content Section */}
-        <div className="w-full max-w-[1064px] mx-auto mb-16 md:mb-36 px-4 sm:px-6 relative">
-          {/* Use the MarkdownRenderer to render the body content */}
-          <div className="font-merriweather text-base sm:text-lg leading-[34px]">
-            <MarkdownRenderer content={writing.body} />
-          </div>
-        </div>
+        <ReaderShell headings={headings} lang={lang}>{children}</ReaderShell>
 
         <div className="w-full border-b border-dashed border-[#949494] opacity-50 my-8 md:my-12" />
 
-        {/* Reviews Section */}
-        <section className="mb-8 md:mb-14 mt-16 md:mt-36">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6 sm:mb-8">
-            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold">Words About My Words</h2>
-            <div className="flex gap-2">
-              <button className="p-1.5 sm:p-2 rounded-full border border-gray-700">&larr;</button>
-              <button className="p-1.5 sm:p-2 rounded-full border border-gray-700">&rarr;</button>
-            </div>
-          </div>
-          
+        <section className="mb-8 md:mb-14 mt-16 md:mt-36" aria-labelledby="reviews-heading">
+          <h2 id="reviews-heading" className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">Words About My Words</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {comments && comments.length > 0 ? comments.slice(0, 3).map((comment, index) => (
+            {comments.length > 0 ? comments.slice(0, 3).map((comment, index) => (
               <WordCard
-                key={index}
+                key={comment._id || index}
                 author={comment.name}
                 content={comment.comment}
                 rating={comment.rating || 5}
@@ -524,24 +138,11 @@ export default function WritingDetailClient({ initialWriting, quillId }) {
           </div>
         </section>
 
-        {/* Rating Form */}
         <RatingForm contentType="Writing" contentId={quillId} />
 
         <div className="w-full border-b border-dashed border-[#949494] opacity-50 my-8 md:my-12" />
 
-        {/* Related Articles - Wrapped in Suspense */}
-        <section className="mb-8 md:mb-16 mt-16 md:mt-28">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8">You Might Also Like</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {isMounted ? (
-              <Suspense fallback={<p className="text-gray-500 col-span-3 text-center">Loading related articles...</p>}>
-                <RelatedWritings relatedWritings={relatedWritings} formatDate={formatDate} />
-              </Suspense>
-            ) : (
-              <p className="text-gray-500 col-span-3 text-center">Loading related articles...</p>
-            )}
-          </div>
-        </section>
+        <RelatedWorks related={related} />
       </div>
     </div>
   );
