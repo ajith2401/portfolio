@@ -1,0 +1,4 @@
+Noto Sans Tamil (Regular, Bold) and Noto Sans (Latin subset, Regular, Bold)
+Copyright Google LLC / The Noto Project Authors.
+Licensed under the SIL Open Font License, Version 1.1 - https://openfontlicense.org
+These files are bundled unmodified (Latin files are the Google Fonts latin subset) for Open Graph image rendering.

@@ -16,7 +16,11 @@ const withPWA = nextPWA({
 
 const nextConfig = {
   reactStrictMode: true,
-  serverExternalPackages: ['mongoose'],
+  serverExternalPackages: ['mongoose', '@napi-rs/canvas'],
+  // The OG card route reads its bundled OFL fonts at runtime; make sure they ship with the function.
+  outputFileTracingIncludes: {
+    '/quill/[quill_id]/opengraph-image': ['./src/lib/og/fonts/**'],
+  },
   
   // Experimental features for better performance and Unicode support
   experimental: {

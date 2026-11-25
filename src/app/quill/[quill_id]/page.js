@@ -4,6 +4,7 @@ import { cache } from 'react';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { findForRoute, relatedCards } from '@/lib/public-writings';
 import connectDB from '@/lib/db';
+import { getSiteUrl } from '@/lib/public/site.js';
 import { Writing } from '@/models';
 import { toPublicWriting, writingPath, docHeadings } from '@/lib/content-contract/index.js';
 import { parseMarkdown, markdownHeadings } from '@/lib/render/markdown-ast.js';
@@ -28,7 +29,7 @@ export async function generateMetadata(props) {
   const { quill_id } = await props.params;
   const route = await lookup(quill_id);
   if (route.action === 'render') {
-    return buildWritingMetadata(route.writing, { objectIdAccess: route.via === 'objectId' });
+    return buildWritingMetadata(route.writing, { objectIdAccess: route.via === 'objectId', siteUrl: getSiteUrl() });
   }
   if (route.action === 'redirect') return { robots: { index: false, follow: false } };
   return notFoundMetadata();
@@ -57,7 +58,7 @@ export default async function WritingDetailPage(props) {
   } catch {
     headings = [];
   }
-  const [workLd, crumbLd] = buildWritingJsonLdScripts(doc);
+  const [workLd, crumbLd] = buildWritingJsonLdScripts(doc, { siteUrl: getSiteUrl() });
 
   return (
     <>

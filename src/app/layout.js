@@ -1,5 +1,6 @@
 // src/app/layout.js
 import localFont from "next/font/local";
+import { getSiteUrl } from "@/lib/public/site.js";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/themeProvider";
 import { Great_Vibes, Playfair_Display, Merriweather, DM_Sans, Work_Sans } from 'next/font/google';
@@ -61,7 +62,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://www.ajithkumarr.com'),
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: "Ajithkumar R — Tamil Writer, Poet, Screenwriter & Filmmaker",
     template: "%s | Ajithkumar R"
