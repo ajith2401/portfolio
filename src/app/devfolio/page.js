@@ -7,7 +7,7 @@ import DeveloperSchema from "@/components/schema/DeveloperSchema";
 
 // Enhanced metadata for better SEO - targeting developer-focused keywords
 export const metadata = {
-  title: "Ajithkumar R | Full Stack Developer & AI Architect Portfolio",
+  title: "Full Stack Developer & AI Architect Portfolio",
   description: "Explore technical projects and applications by Ajithkumar R built with React.js, Next.js, Node.js, TypeScript, and MongoDB. Full stack developer, Anthropic-certified Claude Architect, and GovTechThon winner.",
   keywords: [
     "Ajithkumar R",

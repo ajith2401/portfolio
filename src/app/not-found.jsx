@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Search, Home, BookOpen, Code, PenTool, Sparkles } from 'lucide-react';
 
 export const metadata = {
-  title: '404 - Page Not Found | Ajithkumar',
+  title: '404 - Page Not Found',
   description: 'The page you are looking for does not exist. Explore our blog, poetry, projects, or return to homepage.',
   robots: 'noindex,nofollow',
 };

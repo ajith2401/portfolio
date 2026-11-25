@@ -3,7 +3,7 @@
 import { ShippingDelivery } from '@/components/legal/LegalPolicies';
 
 export const metadata = {
-  title: 'Shipping & Delivery Policy | Ajithkumar',
+  title: 'Shipping & Delivery Policy',
   description: 'Details about our delivery timeframes and shipping methods.',
 };
 

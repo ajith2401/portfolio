@@ -2,7 +2,7 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Subscription Verified | Ajithkumar',
+  title: 'Subscription Verified',
   description: 'Your email subscription has been successfully verified.',
   robots: { index: false }
 };

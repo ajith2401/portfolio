@@ -15,7 +15,7 @@ import {
 import PersonSchema from '@/components/schema/PersonSchema';
 
 export const metadata = {
-  title: "Ajithkumar R — Tamil Screenwriter & Story Writer (அஜித்குமார் திரைக்கதை எழுத்தாளர்)",
+  title: { absolute: "Ajithkumar R — Tamil Screenwriter & Story Writer (அஜித்குமார் திரைக்கதை எழுத்தாளர்)" },
   description: "Official screenwriting portfolio of Ajithkumar R. Developing original character-driven Tamil screenplays, story treatments, and dialogues rooted in social realism and authentic narrative conflict.",
   keywords: [
     "Ajith screenwriter",

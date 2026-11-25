@@ -57,7 +57,7 @@ export async function generateMetadata(props) {
     }
     
     return {
-      title: `${book.title} | Tamil Poetry by Ajith Kumar`,
+      title: `${book.title} - Tamil Poetry Book`,
       description: description,
       keywords: [
         'tamil poetry', 
@@ -118,7 +118,7 @@ export async function generateMetadata(props) {
     };
   } catch (error) {
     console.error("Error generating metadata:", error);
-    return { title: 'Book Details | Ajith Kumar' };
+    return { title: 'Book Details' };
   }
 }
 

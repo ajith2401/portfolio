@@ -4,7 +4,7 @@
 import { TermsAndConditions } from "@/components/legal/LegalPolicies";
 
 export const metadata = {
-  title: 'Terms and Conditions | Ajithkumar',
+  title: 'Terms and Conditions',
   description: 'Understand the terms governing the use of our services.',
 };
 

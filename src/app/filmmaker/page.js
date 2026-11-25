@@ -16,7 +16,7 @@ import {
 import PersonSchema from '@/components/schema/PersonSchema';
 
 export const metadata = {
-  title: "Ajithkumar R — Independent Filmmaker & Director (அஜித்குமார் இயக்குநர்)",
+  title: { absolute: "Ajithkumar R — Independent Filmmaker & Director (அஜித்குமார் இயக்குநர்)" },
   description: "Official filmmaking portfolio of Ajithkumar R. Exploring independent visual cinema, directorial concepts, short-film development, and narrative realism in Tamil storytelling.",
   keywords: [
     "Ajith director",

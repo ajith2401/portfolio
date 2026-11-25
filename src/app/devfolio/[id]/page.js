@@ -62,7 +62,7 @@ export async function generateMetadata(props) {
     const canonicalUrl = `https://www.ajithkumarr.com/devfolio/${canonicalSlug}`;
 
     return {
-      title: `${project.title} | Ajithkumar R`,
+      title: `${project.title}`,
       description: description,
       keywords: [project.category, 'project', 'portfolio', 'development', 'Ajithkumar R'].concat(project.technologies || []).filter(Boolean),
       authors: [{ name: 'Ajithkumar R' }],

@@ -6,7 +6,7 @@ import connectDB from "@/lib/db";
 
 // Enhanced metadata for better SEO
 export const metadata = {
-  title: "Tamil Poetry Books | Ajithkumar R",
+  title: "Tamil Poetry Books",
   description: "Explore five Tamil poetry books by Ajithkumar R, exploring themes of feminism, social justice, identity, and human emotions.",
   keywords: ["Tamil poetry", "Ajithkumar R", "Ajith Kumar", "Ajithkumar", "Tamil literature", "Tamil books", "Indian poetry", "feminism", "social justice"],
   alternates: {

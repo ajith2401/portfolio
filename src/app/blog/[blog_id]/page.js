@@ -71,7 +71,7 @@ export async function generateMetadata(props) {
     
     if (!result) {
       return {
-        title: 'Blog Post Not Found - Ajithkumar R',
+        title: 'Blog Post Not Found',
         description: 'The requested blog post could not be found. Browse other tech articles by Ajithkumar R.',
         robots: 'noindex, nofollow'
       };
@@ -85,7 +85,7 @@ export async function generateMetadata(props) {
       : `https://www.ajithkumarr.com/blog/${techBlog._id}`;
     
     return {
-      title: `${techBlog.title} - Ajithkumar R`,
+      title: techBlog.title,
       description: techBlog.metaDescription || techBlog.excerpt || `${techBlog.title} - A technical blog post by Ajithkumar R`,
       keywords: techBlog.tags ? techBlog.tags.join(', ') : 'web development, programming, technology',
       authors: [{ name: techBlog.author?.name || 'Ajithkumar R' }],
@@ -132,7 +132,7 @@ export async function generateMetadata(props) {
   } catch (error) {
     console.error('Error generating metadata:', error);
     return {
-      title: 'Tech Blog - Ajithkumar R',
+      title: 'Tech Blog',
       description: 'Technical blog posts by Ajithkumar R',
       robots: 'noindex, nofollow'
     };

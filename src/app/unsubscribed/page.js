@@ -2,7 +2,7 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Unsubscribed | Ajithkumar',
+  title: 'Unsubscribed',
   description: 'You have been successfully unsubscribed from email notifications.',
   robots: { index: false }
 };

@@ -17,7 +17,7 @@ import {
 import PersonSchema from '@/components/schema/PersonSchema';
 
 export const metadata = {
-  title: "Ajithkumar R — Tamil Writer, Author & Published Poet (அஜித்குமார் எழுத்தாளர்)",
+  title: { absolute: "Ajithkumar R — Tamil Writer, Author & Published Poet (அஜித்குமார் எழுத்தாளர்)" },
   description: "Official writer portfolio of Ajithkumar R. Published author of five Tamil poetry books exploring feminism, social justice, and contemporary human emotions.",
   keywords: [
     "Ajith writer",

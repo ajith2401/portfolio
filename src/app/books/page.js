@@ -17,7 +17,7 @@ import connectDB from '@/lib/db';
 import { Book } from '@/models';
 
 export const metadata = {
-  title: "Published Tamil Poetry Books by Ajithkumar R (அஜித்குமார் புத்தகங்கள்)",
+  title: { absolute: "Published Tamil Poetry Books by Ajithkumar R (அஜித்குமார் புத்தகங்கள்)" },
   description: "Complete literary bibliography and portfolio of five published Tamil poetry books authored by Ajithkumar R, exploring social justice, feminism, identity, and human emotions.",
   keywords: [
     "Ajith Kumar published books",

@@ -20,17 +20,17 @@ const lookup = cache(async (param) => {
     return await findForRoute(param);
   } catch (error) {
     console.error('Error resolving writing route:', error);
-    return { kind: 'notfound' };
+    return { action: 'notfound' };
   }
 });
 
 export async function generateMetadata(props) {
   const { quill_id } = await props.params;
   const route = await lookup(quill_id);
-  if (route.kind === 'render') {
-    return buildWritingMetadata(route.doc, { objectIdAccess: false });
+  if (route.action === 'render') {
+    return buildWritingMetadata(route.writing, { objectIdAccess: route.via === 'objectId' });
   }
-  if (route.kind === 'redirect') return { robots: { index: false, follow: false } };
+  if (route.action === 'redirect') return { robots: { index: false, follow: false } };
   return notFoundMetadata();
 }
 
@@ -38,10 +38,10 @@ export default async function WritingDetailPage(props) {
   const { quill_id } = await props.params;
   const route = await lookup(quill_id);
 
-  if (route.kind === 'redirect') permanentRedirect(writingPath(route.slug));
-  if (route.kind !== 'render') notFound();
+  if (route.action === 'redirect') permanentRedirect(writingPath(route.slug));
+  if (route.action !== 'render') notFound();
 
-  const doc = route.doc;
+  const doc = route.writing;
   const writing = JSON.parse(JSON.stringify(toPublicWriting(doc)));
   let related = [];
   try {
