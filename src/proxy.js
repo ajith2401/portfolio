@@ -36,7 +36,7 @@ function getClientIP(request) {
   return 'unknown';
 }
 
-export function middleware(request) {
+export function proxy(request) {
   const hostname = request.headers.get('host');
   const url = request.nextUrl.clone();
   const pathname = url.pathname;

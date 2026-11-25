@@ -17,9 +17,6 @@ const withPWA = nextPWA({
 const nextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ['mongoose'],
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   
   // Experimental features for better performance and Unicode support
   experimental: {
@@ -31,7 +28,6 @@ const nextConfig = {
     ],
     // Enable better Unicode URL handling
     urlImports: ['https://'],
-    typedRoutes: false
   },
 
   // Better Unicode and international URL support
