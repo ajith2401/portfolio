@@ -174,6 +174,7 @@ export default async function BookDetailPage(props) {
   // Find related books (same publisher or similar year)
   const relatedBooks = await Book.find({
     _id: { $ne: book._id },
+    ...PUBLIC,
     $or: [
       { publisher: book.publisher },
       { publishYear: { $gte: (book.publishYear || 2000) - 2, $lte: (book.publishYear || 2000) + 2 } }

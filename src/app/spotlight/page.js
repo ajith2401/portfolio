@@ -47,7 +47,7 @@ export default async function SpotlightPage() {
   await connectDB();
   
   // Pre-render the page with initial data
-  const books = await Book.find({})
+  const books = await Book.find({ status: { $nin: ['draft', 'archived'] } })
     .sort({ publishYear: -1 })
     .lean();
 

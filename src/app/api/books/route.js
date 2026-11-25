@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     await connectDB();
-    const books = await Book.find({})
+    const books = await Book.find({ status: { $nin: ['draft', 'archived'] } })
       .sort({ publishYear: -1 })
       .select('title slug _id description coverImage publishYear publisher featured')
       .lean();

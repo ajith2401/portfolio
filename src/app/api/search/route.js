@@ -252,7 +252,8 @@ export async function GET(request) {
     if (type === 'all' || type === 'spotlight') {
       try {
         const bookResults = await Book.find({
-          $text: { $search: query }
+          $text: { $search: query },
+          status: { $nin: ['draft', 'archived'] }
         })
         .select('title slug _id description coverImage publishYear publisher featured')
         .sort({ score: { $meta: 'textScore' }, publishYear: -1 })

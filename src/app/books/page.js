@@ -64,7 +64,7 @@ export const revalidate = 3600; // 1 hour
 
 export default async function BooksPage() {
   await connectDB();
-  const dbBooks = await Book.find({}).sort({ publishYear: -1 }).lean();
+  const dbBooks = await Book.find({ status: { $nin: ['draft', 'archived'] } }).sort({ publishYear: -1 }).lean();
 
   const books = [
     {

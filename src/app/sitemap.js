@@ -41,6 +41,7 @@ export default async function sitemap() {
         .lean(),
         
       Book.find({ 
+        status: { $nin: ['draft', 'archived'] },
         slug: { $exists: true, $ne: null, $ne: '' },
         title: { $exists: true, $ne: null, $ne: '' }
       })

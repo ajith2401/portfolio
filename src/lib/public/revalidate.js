@@ -25,6 +25,7 @@ export function revalidationTargets(body) {
   for (const s of [slug, ...previousSlugs]) {
     paths.add(`/quill/${s.trim()}`);
     paths.add(`/quill/${encodeSlugForUrl(s.trim())}`);
+    paths.add(`/quill/${encodeSlugForUrl(s.trim())}/opengraph-image`);
   }
   return { paths: [...paths] };
 }
