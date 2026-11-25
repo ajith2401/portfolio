@@ -1,18 +1,9 @@
 /** @type {import('next').NextConfig} */
 import path from 'path';
 import { fileURLToPath } from 'url';
-import nextPWA from 'next-pwa';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const withPWA = nextPWA({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
-  register: true,
-  skipWaiting: true,
-  buildExcludes: [/middleware-manifest\.json$/]
-});
 
 const nextConfig = {
   reactStrictMode: true,
@@ -74,6 +65,13 @@ const nextConfig = {
           key: 'X-Robots-Tag',
           value: 'noindex, nofollow'
         }
+      ]
+    },
+    {
+      // Old clients must always be able to fetch the self-destructing worker.
+      source: '/sw.js',
+      headers: [
+        { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' }
       ]
     },
     {
@@ -215,4 +213,4 @@ const nextConfig = {
   poweredByHeader: false
 };
 
-export default withPWA(nextConfig);
+export default nextConfig;

@@ -39,3 +39,8 @@ next-env.d.ts
 /localUtils
 SEO_AEO_PROMPT.md
 SECURITY_AUDIT_PROMPT.md
+
+# legacy next-pwa output (no longer generated)
+/public/workbox-*.js
+/public/sw.js.map
+/public/worker-*.js
