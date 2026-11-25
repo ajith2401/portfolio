@@ -1,4 +1,5 @@
 // src/app/blog/page.js
+import Link from 'next/link';
 import { Suspense } from 'react';
 import connectDB from '@/lib/db';
 import { TechBlog } from '@/models';
@@ -102,7 +103,8 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 60; // Revalidate every 60 seconds
 
 // Server component for better SEO
-export default async function TechBlogPage({ searchParams }) {
+export default async function TechBlogPage(props) {
+  const searchParams = await props.searchParams;
   try {
     await connectDB();
     
@@ -322,12 +324,12 @@ export default async function TechBlogPage({ searchParams }) {
           <p className="text-gray-600 mb-8">
             We&lsquo;re experiencing technical difficulties. Please try again later.
           </p>
-          <a 
+          <Link 
             href="/" 
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
             Return Home
-          </a>
+          </Link>
         </div>
       </div>
     );

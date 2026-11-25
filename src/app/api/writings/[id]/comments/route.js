@@ -4,7 +4,8 @@ import connectDB from '@/lib/db';
 import { Writing, Comment } from '@/models';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-export async function GET(request, { params }) {
+export async function GET(request, props) {
+  const params = await props.params;
   try {
     await connectDB();
     const comments = await Comment.find({ writing: params.id })
@@ -15,7 +16,8 @@ export async function GET(request, { params }) {
   }
 }
 
-export async function POST(request, { params }) {
+export async function POST(request, props) {
+  const params = await props.params;
   try {
     await connectDB();
     const commentData = await request.json();

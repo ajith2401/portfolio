@@ -95,9 +95,10 @@ async function getWriting(quill_id) {
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { quill_id } = params;
-  
+
   try {
     await connectDB();
     
@@ -185,9 +186,10 @@ export async function generateMetadata({ params }) {
 }
 
 // Main page component
-export default async function WritingDetailPage({ params }) {
+export default async function WritingDetailPage(props) {
+  const params = await props.params;
   const { quill_id } = params;
-  
+
   try {
     // Add additional URL validation for Tamil characters
     if (!quill_id || typeof quill_id !== 'string') {

@@ -5,9 +5,10 @@ import ProjectDetailClient from './ProjectDetailClient';
 import mongoose from 'mongoose';
 import { notFound } from 'next/navigation';
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   await connectDB();
-  
+
   try {
     let project = null;
     
@@ -99,9 +100,10 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function ProjectDetailPage({ params }) {
+export default async function ProjectDetailPage(props) {
+  const params = await props.params;
   await connectDB();
-  
+
   const { id } = params;
   let project = null;
   let accessType = null;
@@ -115,7 +117,7 @@ export default async function ProjectDetailPage({ params }) {
       console.error('ObjectId query failed in main function:', e);
     }
   }
-  
+
   // If not found by ObjectId, try slug
   if (!project) {
     try {
@@ -125,11 +127,11 @@ export default async function ProjectDetailPage({ params }) {
       console.error('Slug query failed in main function:', e);
     }
   }
-  
+
   if (!project) {
     return notFound();
   }
-  
+
   // Create a safe object for serialization - explicitly handle all nested objects
   const safeProject = {
     _id: project._id.toString(),
@@ -169,7 +171,7 @@ export default async function ProjectDetailPage({ params }) {
     teamMembers: Array.isArray(project.teamMembers) ? project.teamMembers : [],
     solutions: Array.isArray(project.solutions) ? project.solutions : []
   };
-  
+
   // Pass project and accessType to client component
   return (
     <ProjectDetailClient project={safeProject} projectId={project._id} />

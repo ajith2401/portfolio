@@ -13,9 +13,10 @@ function safeDate(val) {
   return isNaN(d) ? null : d.toISOString();
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   await connectDB();
-  
+
   try {
     let book = null;
     if (mongoose.Types.ObjectId.isValid(params.id)) {
@@ -121,7 +122,8 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function BookDetailPage({ params }) {
+export default async function BookDetailPage(props) {
+  const params = await props.params;
   const { id } = params;
   let book = null;
   let accessType = null;
@@ -140,7 +142,7 @@ export default async function BookDetailPage({ params }) {
   if (!book) {
     return notFound();
   }
-  
+
   // Create a safe object for serialization - with explicit mapping of all nested objects
   const safeBook = {
     _id: book._id.toString(),
@@ -175,7 +177,7 @@ export default async function BookDetailPage({ params }) {
     createdAt: safeDate(book.createdAt),
     updatedAt: safeDate(book.updatedAt)
   };
-  
+
   // Find related books (same publisher or similar year)
   const relatedBooks = await Book.find({
     _id: { $ne: book._id },
@@ -184,7 +186,7 @@ export default async function BookDetailPage({ params }) {
       { publishYear: { $gte: (book.publishYear || 2000) - 2, $lte: (book.publishYear || 2000) + 2 } }
     ]
   }).limit(3).lean();
-  
+
   // Explicitly map related books to safe objects
   const safeRelatedBooks = relatedBooks.map(relatedBook => ({
     _id: relatedBook._id.toString(),
@@ -195,7 +197,7 @@ export default async function BookDetailPage({ params }) {
     publishYear: relatedBook.publishYear || null,
     price: relatedBook.price || 0
   }));
-  
+
   // Pass the safely serialized data to the client component
   return <BookDetailClient 
     book={safeBook} 

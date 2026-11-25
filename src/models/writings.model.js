@@ -269,7 +269,11 @@ WritingSchema.index({
     tags: 5,
     body: 1
   },
-  name: 'ContentIndex'
+  name: 'ContentIndex',
+  // `language` holds 'Tamil'/'English', which MongoDB rejects as a text-index language override.
+  // Point the override at a field that is never set and disable English stemming.
+  default_language: 'none',
+  language_override: 'textSearchLanguage'
 }); // Full-text search
 
 // Pre-save middleware to generate slug

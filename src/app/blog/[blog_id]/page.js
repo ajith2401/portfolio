@@ -62,9 +62,10 @@ async function getTechBlog(blog_id) {
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { blog_id } = params;
-  
+
   try {
     const result = await getTechBlog(blog_id);
     
@@ -172,7 +173,8 @@ function generateStructuredData(techBlog) {
 }
 
 // Main page component
-export default async function BlogDetailPage({ params }) {
+export default async function BlogDetailPage(props) {
+  const params = await props.params;
   const { blog_id } = params;
   let techBlog = null;
   let accessType = null;
@@ -190,10 +192,10 @@ export default async function BlogDetailPage({ params }) {
   if (!techBlog) {
     return notFound();
   }
-  
+
   // Don't redirect ObjectId URLs to avoid "Page with redirect" SEO issues
   // Instead, let canonical URLs and robots.txt handle proper indexing
-  
+
   // Convert MongoDB _id to string for client component
   const techBlogData = {
     ...techBlog,
@@ -203,9 +205,9 @@ export default async function BlogDetailPage({ params }) {
     publishedAt: techBlog.publishedAt?.toISOString(),
     lastModified: techBlog.lastModified?.toISOString()
   };
-  
+
   const structuredData = generateStructuredData(techBlogData);
-  
+
   return (
     <>
       {/* JSON-LD Structured Data */}

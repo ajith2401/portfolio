@@ -16,8 +16,7 @@ const withPWA = nextPWA({
 
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  optimizeFonts: true,
+  serverExternalPackages: ['mongoose'],
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -30,7 +29,6 @@ const nextConfig = {
       'lucide-react', 
       'next/image'
     ],
-    serverComponentsExternalPackages: ['mongoose'],
     // Enable better Unicode URL handling
     urlImports: ['https://'],
     typedRoutes: false

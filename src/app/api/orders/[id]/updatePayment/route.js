@@ -6,7 +6,8 @@ import { Order } from '@/models';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function POST(request, { params }) {
+export async function POST(request, props) {
+  const params = await props.params;
   try {
     await connectDB();
     

@@ -64,7 +64,8 @@ function QuillLoading() {
 }
 
 // Main QuillPage component (server component)
-export default async function QuillPage({ searchParams }) {
+export default async function QuillPage(props) {
+  const searchParams = await props.searchParams;
   let initialWritings = [];
   let initialPagination = {
     total: 0,

@@ -17,7 +17,8 @@ function logRequest(method, identifier, userAgent, clientIP, result) {
 }
 
 // GET a single book by slug or ObjectId
-export async function GET(request, { params }) {
+export async function GET(request, props) {
+  const params = await props.params;
   try {
     await connectDB();
     
@@ -191,7 +192,8 @@ export async function GET(request, { params }) {
 }
 
 // PUT update a book (requires admin authentication)
-export async function PUT(request, { params }) {
+export async function PUT(request, props) {
+  const params = await props.params;
   const auth = verifyAdminAuth(request);
   if (!auth.authorized) {
     return adminUnauthorizedResponse(auth.error);
@@ -257,7 +259,8 @@ export async function PUT(request, { params }) {
 }
 
 // DELETE a book (requires admin authentication)
-export async function DELETE(request, { params }) {
+export async function DELETE(request, props) {
+  const params = await props.params;
   const auth = verifyAdminAuth(request);
   if (!auth.authorized) {
     return adminUnauthorizedResponse(auth.error);

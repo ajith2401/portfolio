@@ -6,7 +6,8 @@ import connectDB from '@/lib/db';
 /**
  * GET handler for related projects with enhanced search capabilities
  */
-export async function GET(request, { params }) {
+export async function GET(request, props) {
+  const params = await props.params;
   try {
     await connectDB();
     
