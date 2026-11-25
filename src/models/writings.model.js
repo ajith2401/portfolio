@@ -327,9 +327,28 @@ WritingSchema.pre('validate', async function (next) {
 // Query-style writes bypass document validation, so structured content is checked here too.
 function guardStructuredUpdate(next) {
   const raw = this.getUpdate?.() || {};
-  const u = { ...raw, ...(raw.$set || {}) };
-  if ('content' in u || u.contentFormat === 'tiptap') {
-    const doc = u.content ? canonicalizeDoc(JSON.parse(JSON.stringify(u.content))) : null;
+  if (Array.isArray(raw)) return next(new Error('Pipeline updates are not allowed on writings'));
+  const touchesContent = (k) => k === 'content' || k.startsWith('content.');
+  let wholeContent;
+  let formatTiptap = false;
+  for (const [k, v] of Object.entries(raw)) {
+    if (!k.startsWith('$')) {
+      if (touchesContent(k)) { if (k !== 'content') return next(new Error('Partial updates to structured content are not allowed')); wholeContent = v; }
+      if (k === 'contentFormat' && v === 'tiptap') formatTiptap = true;
+      continue;
+    }
+    if (v && typeof v === 'object') {
+      for (const [f, fv] of Object.entries(v)) {
+        if (k === '$rename' && typeof fv === 'string' && touchesContent(fv)) return next(new Error('Operator $rename on structured content is not allowed'));
+        if (!touchesContent(f)) { if (k === '$set' && f === 'contentFormat' && fv === 'tiptap') formatTiptap = true; continue; }
+        // Only a whole-document replacement via $set is permitted; everything else is rejected.
+        if (k === '$set' && f === 'content') wholeContent = fv;
+        else return next(new Error(`Operator ${k} on structured content is not allowed`));
+      }
+    }
+  }
+  if (wholeContent !== undefined || formatTiptap) {
+    const doc = wholeContent ? canonicalizeDoc(JSON.parse(JSON.stringify(wholeContent))) : null;
     const result = doc ? validateDoc(doc) : { ok: false, errors: ['content is required for contentFormat "tiptap"'] };
     if (!result.ok) return next(new Error(`Invalid structured content: ${result.errors.slice(0, 5).join('; ')}`));
     const set = raw.$set || (raw.$set = {});

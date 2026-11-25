@@ -33,6 +33,14 @@ test('Writing model: structured content, slugs, legacy compatibility', { skip },
   await assert.rejects(Writing.updateOne({ _id: a._id }, { content: evil }), /Invalid structured content/);
   const upd = await Writing.findOneAndUpdate({ _id: a._id }, { content: POEM }, { new: true });
   assert.equal(upd.body, 'மழை\nஇரவு');
+  for (const upd of [
+    { $set: { 'content.content.0': { type: 'script' } } },
+    { $push: { 'content.content': { type: 'script' } } },
+    { $unset: { content: '' } },
+    { $rename: { body: 'content' } },
+    { $setOnInsert: { content: evil } },
+    { 'content.content.0.attrs.src': 'javascript:alert(1)' },
+  ]) await assert.rejects(Writing.updateOne({ _id: a._id }, upd), /not allowed|Invalid structured/, JSON.stringify(upd).slice(0, 50));
   await assert.rejects(Writing.insertMany([{ ...base, title: 'x', slug: 'x', contentFormat: 'tiptap', content: evil }]));
   await Writing.deleteMany({});
 });
