@@ -369,3 +369,10 @@ test("public dto never exposes invalid structured content; canonicalize strips u
   assert.deepEqual(c.content[0].attrs, { textAlign: "left" });
   assert.deepEqual(c.content[0].content[0].marks[0].attrs, { href: "https://a.test" });
 });
+
+test("toOneLine collapses separators but keeps Tamil text intact", async () => {
+  const { toOneLine } = await import("../src/lib/content-contract/index.js");
+  const input = "தலைப்பு\n\nஅவள்   மெல்ல\tநடந்தாள். கொ‍டை, ‘மழை’!";
+  assert.equal(toOneLine(input), "தலைப்பு அவள் மெல்ல நடந்தாள். கொ‍டை, ‘மழை’!");
+  assert.equal(toOneLine(null), "");
+});

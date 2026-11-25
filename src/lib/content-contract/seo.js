@@ -5,6 +5,7 @@ import { analyzeWriting, hasContent, resolveContentFormat } from "./document.js"
 import {
   buildDescription,
   markdownToPlainText,
+  toOneLine,
   truncateText,
   SEO_LIMITS,
 } from "./text.js";
@@ -91,7 +92,7 @@ export function resolveWritingSeo(
 
   const title = first(seo.title, doc?.title) || site.siteName;
   const excerptPlain = doc?.excerpt
-    ? markdownToPlainText(doc.excerpt).replace(/\s+/g, " ")
+    ? toOneLine(markdownToPlainText(doc.excerpt))
     : "";
   const description = truncateText(
     first(

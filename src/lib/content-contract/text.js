@@ -9,6 +9,18 @@ const wordSegmenter =
     : null;
 
 /**
+ * Collapse paragraph separators, line breaks and repeated whitespace into single spaces, for one-line
+ * contexts (SEO excerpt, search snippet). Never alters characters other than whitespace, so Tamil
+ * combining marks, ZWJ/ZWNJ and punctuation are preserved. Does not touch stored content.
+ */
+export function toOneLine(value) {
+  return normalizeText(value)
+    .replace(/[\u2028\u2029]/g, " ")
+    .replace(/[ \t\r\n\f\v\u00a0]+/g, " ")
+    .trim();
+}
+
+/**
  * Markdown -> plain text. Keeps paragraph breaks (blank line) and line breaks (important for poems).
  * Drops images and code blocks, keeps link labels.
  */

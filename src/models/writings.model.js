@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import {
   generateSlug, ensureUniqueSlug, validateSlug, validateDoc, canonicalizeDoc, docToPlainText,
   DOC_SCHEMA_VERSION, CONTENT_FORMATS,
+  toOneLine,
 } from '../lib/content-contract/index.js';
 import { generateUniqueShortCode } from '../utils/shortCode.js';
 
@@ -383,7 +384,7 @@ WritingSchema.pre('save', async function(next) {
 
     // Auto-generate excerpt if not provided
     if (!this.excerpt && this.body) {
-      const plainText = this.body.replace(/<[^>]*>/g, ''); // Remove HTML
+      const plainText = toOneLine(this.body.replace(/<[^>]*>/g, ' ')); // Remove HTML, one line
       this.excerpt = plainText.substring(0, 300) + (plainText.length > 300 ? '...' : '');
     }
     
