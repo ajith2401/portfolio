@@ -1,4 +1,11 @@
-import { resolveContentFormat, canonicalizeDoc } from "./document.js";
+import { resolveContentFormat, canonicalizeDoc, validateDoc } from "./document.js";
+
+// Defence in depth: only validated structured content is ever exposed publicly.
+function safeContent(doc) {
+  if (resolveContentFormat(doc) !== "tiptap") return null;
+  const c = canonicalizeDoc(doc.content);
+  return validateDoc(c).ok ? c : null;
+}
 // Shared content contract: explicit public shapes. Public pages must serialise ONLY these,
 // never a raw Mongo document (ratings[] carry reviewer emails, revisions carry old drafts).
 
@@ -39,8 +46,9 @@ export function toPublicWriting(doc) {
     ...toPublicWritingCard(doc),
     contentFormat: resolveContentFormat(doc),
     // Exactly one representation is public: structured content OR legacy markdown body.
-    body: resolveContentFormat(doc) === "markdown" ? doc.body : null,
-    content: resolveContentFormat(doc) === "tiptap" ? canonicalizeDoc(doc.content) : null,
+    // If structured content is invalid, fall back to the derived plain-text body (rendered as text only).
+    body: resolveContentFormat(doc) === "markdown" || safeContent(doc) === null ? doc.body : null,
+    content: safeContent(doc),
     metaDescription: doc.metaDescription || null,
     status: doc.status,
     seo: {

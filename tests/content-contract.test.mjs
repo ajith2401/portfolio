@@ -358,3 +358,14 @@ test("structured content flows through lifecycle, seo and public dto", () => {
   assert.equal(toPublicWriting({ ...w, contentFormat: "markdown", body: "# x" }).content, null);
   assert.ok(!checkSeo(w).some((i) => i.id === "body-empty"));
 });
+
+test("public dto never exposes invalid structured content; canonicalize strips unknown attrs", () => {
+  const evil = { type: "doc", content: [{ type: "image", attrs: { src: "javascript:alert(1)", onerror: "x" } }] };
+  const w = { title: "t", slug: "t", status: "published", contentFormat: "tiptap", content: evil, body: "plain fallback" };
+  const pub = toPublicWriting(w);
+  assert.equal(pub.content, null);
+  assert.equal(pub.body, "plain fallback");
+  const c = canonicalizeDoc({ type: "doc", content: [{ type: "paragraph", attrs: { onclick: "x", textAlign: "left" }, content: [{ type: "text", text: "a", marks: [{ type: "link", attrs: { href: "https://a.test", onclick: "x" } }] }] }] });
+  assert.deepEqual(c.content[0].attrs, { textAlign: "left" });
+  assert.deepEqual(c.content[0].content[0].marks[0].attrs, { href: "https://a.test" });
+});

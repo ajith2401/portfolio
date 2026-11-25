@@ -324,6 +324,34 @@ WritingSchema.pre('validate', async function (next) {
   next();
 });
 
+// Query-style writes bypass document validation, so structured content is checked here too.
+function guardStructuredUpdate(next) {
+  const raw = this.getUpdate?.() || {};
+  const u = { ...raw, ...(raw.$set || {}) };
+  if ('content' in u || u.contentFormat === 'tiptap') {
+    const doc = u.content ? canonicalizeDoc(JSON.parse(JSON.stringify(u.content))) : null;
+    const result = doc ? validateDoc(doc) : { ok: false, errors: ['content is required for contentFormat "tiptap"'] };
+    if (!result.ok) return next(new Error(`Invalid structured content: ${result.errors.slice(0, 5).join('; ')}`));
+    const set = raw.$set || (raw.$set = {});
+    set.content = doc; set.contentSchemaVersion = DOC_SCHEMA_VERSION; set.body = docToPlainText(doc);
+    delete raw.content; delete raw.body;
+  }
+  next();
+}
+for (const op of ['findOneAndUpdate', 'updateOne', 'updateMany', 'replaceOne', 'findOneAndReplace']) {
+  WritingSchema.pre(op, guardStructuredUpdate);
+}
+WritingSchema.pre('insertMany', function (next, docs) {
+  for (const d of docs || []) {
+    if (d.contentFormat === 'tiptap') {
+      const c = d.content ? canonicalizeDoc(JSON.parse(JSON.stringify(d.content))) : null;
+      if (!c || !validateDoc(c).ok) return next(new Error('Invalid structured content'));
+      d.content = c; d.body = docToPlainText(c);
+    }
+  }
+  next();
+});
+
 // Pre-save middleware to generate slug
 WritingSchema.pre('save', async function(next) {
   try {

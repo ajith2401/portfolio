@@ -183,15 +183,17 @@ export function canonicalizeDoc(doc) {
     const out = { type: n.type };
     let attrs = n.attrs ? { ...n.attrs } : null;
     if (attrs) {
+      const allowed = NODE_SPEC[n.type]?.attrs || {};
       for (const k of Object.keys(attrs)) {
-        if (attrs[k] === null || attrs[k] === undefined || attrs[k] === "") delete attrs[k];
+        if (!(k in allowed)) delete attrs[k]; // unknown attributes never survive canonicalization
+        else if (attrs[k] === null || attrs[k] === undefined || attrs[k] === "") delete attrs[k];
         else if (DEFAULTS[n.type]?.[k] === attrs[k]) delete attrs[k];
       }
       if (Object.keys(attrs).length) out.attrs = attrs;
     }
     if (n.content?.length) out.content = n.content.map(clean);
     if (n.text !== undefined) out.text = n.text.normalize("NFC");
-    if (n.marks?.length) out.marks = n.marks.map((m) => ({ type: m.type, ...(m.attrs && Object.keys(m.attrs).length ? { attrs: m.attrs } : {}) }));
+    if (n.marks?.length) out.marks = n.marks.map((m) => ({ type: m.type, ...(m.attrs && Object.keys(m.attrs).length ? { attrs: Object.fromEntries(Object.entries(m.attrs).filter(([k]) => k in (MARK_SPEC[m.type]?.attrs || {}))) } : {}) }));
     return out;
   };
   return clean(doc);

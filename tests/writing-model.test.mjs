@@ -27,5 +27,12 @@ test('Writing model: structured content, slugs, legacy compatibility', { skip },
   const d = await Writing.create({ ...base, title: 'மழை இரவு', contentFormat: 'tiptap', content: POEM });
   assert.equal(d.slug, 'மழை-இரவு-2');
   assert.ok((await Writing.find({ $text: { $search: 'இரவு' } })).length >= 1, 'Tamil text search');
+  // Query-style writes must not bypass validation.
+  const evil = { type: 'doc', content: [{ type: 'image', attrs: { src: 'javascript:alert(1)' } }] };
+  await assert.rejects(Writing.findOneAndUpdate({ _id: a._id }, { $set: { contentFormat: 'tiptap', content: evil } }), /Invalid structured content/);
+  await assert.rejects(Writing.updateOne({ _id: a._id }, { content: evil }), /Invalid structured content/);
+  const upd = await Writing.findOneAndUpdate({ _id: a._id }, { content: POEM }, { new: true });
+  assert.equal(upd.body, 'மழை\nஇரவு');
+  await assert.rejects(Writing.insertMany([{ ...base, title: 'x', slug: 'x', contentFormat: 'tiptap', content: evil }]));
   await Writing.deleteMany({});
 });
