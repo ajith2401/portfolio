@@ -1,5 +1,6 @@
 // src/middleware.js
 import { NextResponse } from 'next/server';
+import { getClientIP } from '@/lib/rateLimit';
 
 // Known problematic ObjectIds from Google Search Console
 const BLOCKED_OBJECT_IDS = new Set([
@@ -18,22 +19,6 @@ const BLOCKED_OBJECT_IDS = new Set([
 // Helper to check if string is valid ObjectId
 function isObjectId(str) {
   return /^[0-9a-fA-F]{24}$/.test(str);
-}
-
-// Helper to get client IP for logging
-function getClientIP(request) {
-  const forwarded = request.headers.get('x-forwarded-for');
-  const realIP = request.headers.get('x-real-ip');
-  
-  if (forwarded) {
-    return forwarded.split(',')[0].trim();
-  }
-  
-  if (realIP) {
-    return realIP;
-  }
-  
-  return 'unknown';
 }
 
 export function proxy(request) {
