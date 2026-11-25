@@ -293,3 +293,68 @@ test("json-ld: canonical ids, no ratings/reviews/publisher, safe embedding", () 
   );
   assert.deepEqual(JSON.parse(safeJsonLd({ t: "</x>" })), { t: "</x>" });
 });
+
+import {
+  validateDoc, docToPlainText, canonicalizeDoc, analyzeWriting,
+  resolveContentFormat, docHeadings, docImages, isSafeUrl,
+} from "../src/lib/content-contract/index.js";
+
+const POEM_DOC = { type: "doc", content: [{ type: "poem", attrs: { align: "left" }, content: [
+  { type: "paragraph", content: [{ type: "text", text: "மழை" }, { type: "hardBreak" }, { type: "text", text: "இரவு" }] },
+  { type: "paragraph", content: [{ type: "text", text: "காற்று" }] },
+] }] };
+
+test("document: valid poem doc, short poem has words and is analysable", () => {
+  assert.ok(validateDoc(POEM_DOC).ok);
+  const a = analyzeWriting({ contentFormat: "tiptap", content: POEM_DOC });
+  assert.equal(a.plain, "மழை\nஇரவு\n\nகாற்று");
+  assert.equal(a.wordCount, 3);
+  assert.equal(a.readTime, 1);
+});
+test("document: legacy markdown and structured share the analysis shape", () => {
+  const md = analyzeWriting({ body: "மழை\nஇரவு" });
+  assert.equal(md.format, "markdown");
+  assert.equal(resolveContentFormat({ contentFormat: "tiptap", content: null }), "markdown"); // never half-structured
+});
+test("document: canonicalize drops editor default attrs, keeps content", () => {
+  const withDefaults = { type: "doc", content: [{ type: "image", attrs: { src: "https://x.test/a.jpg", alt: "a", title: null, width: null } }, { type: "poem", attrs: { align: "left" }, content: POEM_DOC.content[0].content }] };
+  const c = canonicalizeDoc(withDefaults);
+  assert.deepEqual(c.content[0].attrs, { src: "https://x.test/a.jpg", alt: "a" });
+  assert.equal(c.content[1].attrs, undefined);
+  assert.ok(validateDoc(c).ok);
+});
+test("document: hostile documents are rejected", () => {
+  const bad = [
+    { type: "doc", content: [{ type: "image", attrs: { src: "javascript:alert(1)" } }] },
+    { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: "x", marks: [{ type: "link", attrs: { href: "data:text/html,x" } }] }] }] },
+    { type: "doc", content: [{ type: "script" }] },
+    { type: "doc", content: [{ type: "paragraph", attrs: { onclick: "x" } }] },
+    { type: "doc", content: [{ type: "heading", attrs: { level: 9 }, content: [] }] },
+    { type: "doc", content: [{ type: "paragraph", content: [{ type: "text", text: "" }] }] },
+  ];
+  bad.forEach((d, i) => assert.equal(validateDoc(d).ok, false, `hostile #${i + 1}`));
+  assert.equal(isSafeUrl("//evil.test/x"), false);
+  assert.equal(isSafeUrl("/images/a.png"), true);
+});
+test("document: headings and images extracted", () => {
+  const d = { type: "doc", content: [
+    { type: "heading", attrs: { level: 2 }, content: [{ type: "text", text: "அத்தியாயம்" }] },
+    { type: "image", attrs: { src: "https://x.test/a.jpg", alt: "மழை", title: "தலைப்பு" } },
+  ] };
+  assert.deepEqual(docHeadings(d), [{ level: 2, text: "அத்தியாயம்" }]);
+  assert.deepEqual(docImages(d), [{ url: "https://x.test/a.jpg", alt: "மழை", caption: "தலைப்பு" }]);
+});
+
+test("structured content flows through lifecycle, seo and public dto", () => {
+  const w = { _id: "507f1f77bcf86cd799439011", title: "மழை", slug: "மழை", category: "poem", language: "Tamil", status: "draft", body: "", contentFormat: "tiptap", content: POEM_DOC };
+  assert.ok(planTransition(w, "published", new Date()).ok); // empty legacy body does not block structured poem
+  assert.equal(planTransition({ ...w, content: { type: "doc", content: [{ type: "paragraph" }] } }, "published").ok, false);
+  const seo = resolveWritingSeo({ ...w, status: "published", publishedAt: new Date() });
+  assert.equal(seo.description, "மழை / இரவு / காற்று");
+  const pub = toPublicWriting({ ...w, status: "published", body: "ignored markdown", ratings: [{ email: "a@b.c" }] });
+  assert.equal(pub.body, null);
+  assert.equal(pub.content.content[0].attrs, undefined); // default align stripped
+  assert.ok(!JSON.stringify(pub).includes("a@b.c"));
+  assert.equal(toPublicWriting({ ...w, contentFormat: "markdown", body: "# x" }).content, null);
+  assert.ok(!checkSeo(w).some((i) => i.id === "body-empty"));
+});

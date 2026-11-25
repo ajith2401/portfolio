@@ -1,3 +1,4 @@
+import { resolveContentFormat, canonicalizeDoc } from "./document.js";
 // Shared content contract: explicit public shapes. Public pages must serialise ONLY these,
 // never a raw Mongo document (ratings[] carry reviewer emails, revisions carry old drafts).
 
@@ -36,7 +37,10 @@ export function toPublicWriting(doc) {
   const seo = doc.seo || {};
   return {
     ...toPublicWritingCard(doc),
-    body: doc.body,
+    contentFormat: resolveContentFormat(doc),
+    // Exactly one representation is public: structured content OR legacy markdown body.
+    body: resolveContentFormat(doc) === "markdown" ? doc.body : null,
+    content: resolveContentFormat(doc) === "tiptap" ? canonicalizeDoc(doc.content) : null,
     metaDescription: doc.metaDescription || null,
     status: doc.status,
     seo: {

@@ -1,6 +1,9 @@
 // src/models/writings.model.js
 import mongoose from 'mongoose';
-import { generateSlug, ensureUniqueSlug } from '../utils/slugGenerator.js';
+import {
+  generateSlug, ensureUniqueSlug, validateSlug, validateDoc, canonicalizeDoc, docToPlainText,
+  DOC_SCHEMA_VERSION, CONTENT_FORMATS,
+} from '../lib/content-contract/index.js';
 import { generateUniqueShortCode } from '../utils/shortCode.js';
 
 const WritingSchema = new mongoose.Schema({
@@ -17,11 +20,9 @@ const WritingSchema = new mongoose.Schema({
     required: true,
     trim: true,
     validate: {
-      validator: function(v) {
-        // Allow lowercase alphanumeric, Tamil characters, and hyphens
-        return /^[a-z0-9\u0B80-\u0BFF]+(?:-[a-z0-9\u0B80-\u0BFF]+)*$/.test(v);
-      },
-      message: 'Slug must be lowercase alphanumeric with Tamil characters and hyphens only'
+      // Single source of truth: the shared content contract (NFC, letters/marks/digits, hyphen separated).
+      validator: (v) => validateSlug(v).valid,
+      message: 'Invalid slug (use letters, numbers and single hyphens; not an ObjectId)'
     },
     maxlength: [100, 'Slug cannot exceed 100 characters']
   },
@@ -32,11 +33,32 @@ const WritingSchema = new mongoose.Schema({
     index: true,
     trim: true
   },
+  // Legacy Markdown source. For contentFormat 'tiptap' this is a DERIVED plain-text projection
+  // (search/index only), regenerated from `content` on every save; never edit it independently.
   body: {
     type: String,
-    required: [true, 'Body content is required'],
+    required: [function () { return this.contentFormat !== 'tiptap'; }, 'Body content is required'],
+    default: '',
     index: true
   },
+  contentFormat: { type: String, enum: CONTENT_FORMATS, default: 'markdown', index: true },
+  contentSchemaVersion: { type: Number, default: null },
+  // Structured document (Tiptap/ProseMirror JSON). Source of truth when contentFormat === 'tiptap'.
+  content: { type: mongoose.Schema.Types.Mixed, default: undefined },
+  // Original Markdown preserved when a legacy document is explicitly converted (never auto-deleted).
+  importedFrom: {
+    type: new mongoose.Schema({
+      markdown: String,
+      importedAt: Date,
+      warnings: [String]
+    }, { _id: false }),
+    default: undefined
+  },
+  slugHistory: [{
+    _id: false,
+    slug: { type: String, required: true },
+    changedAt: { type: Date, default: Date.now }
+  }],
   excerpt: {
     type: String,
     maxlength: [500, 'Excerpt cannot exceed 500 characters'],
@@ -86,7 +108,13 @@ const WritingSchema = new mongoose.Schema({
     }
   },
   seo: {
+    title: String,
+    description: String,
     canonicalUrl: String,
+    robots: { index: { type: Boolean, default: true }, follow: { type: Boolean, default: true } },
+    ogImage: String,
+    ogImageAlt: String,
+    twitterCard: { type: String, enum: ['summary', 'summary_large_image'] },
     ogTitle: String,
     ogDescription: String,
     twitterTitle: String,
@@ -276,27 +304,29 @@ WritingSchema.index({
   language_override: 'textSearchLanguage'
 }); // Full-text search
 
+// Structured content: validate against the shared schema, canonicalize, derive the plain-text body.
+WritingSchema.pre('validate', async function (next) {
+  if (!this.slug && this.title) {
+    const baseSlug = generateSlug(this.title);
+    if (baseSlug) {
+      this.slug = await ensureUniqueSlug(baseSlug, async (candidate) =>
+        Boolean(await this.constructor.exists({ slug: candidate, _id: { $ne: this._id } })));
+    }
+  }
+  if (this.contentFormat === 'tiptap') {
+    const doc = this.content ? canonicalizeDoc(JSON.parse(JSON.stringify(this.content))) : null;
+    const result = doc ? validateDoc(doc) : { ok: false, errors: ['content is required for contentFormat "tiptap"'] };
+    if (!result.ok) return next(new Error(`Invalid structured content: ${result.errors.slice(0, 5).join('; ')}`));
+    this.content = doc;
+    this.contentSchemaVersion = DOC_SCHEMA_VERSION;
+    this.body = docToPlainText(doc);
+  }
+  next();
+});
+
 // Pre-save middleware to generate slug
 WritingSchema.pre('save', async function(next) {
   try {
-    // Generate slug if not provided or if title has changed
-    if (!this.slug || this.isModified('title')) {
-      const baseSlug = generateSlug(this.title);
-      
-      if (baseSlug) {
-        // Ensure uniqueness
-        this.slug = await ensureUniqueSlug(
-          baseSlug,
-          async (slug, excludeId) => {
-            const query = { slug };
-            if (excludeId) query._id = { $ne: excludeId };
-            return await this.constructor.findOne(query);
-          },
-          this._id
-        );
-      }
-    }
-
     if (!this.shortCode) {
       this.shortCode = await generateUniqueShortCode({
         excludeModelName: 'Writing',

@@ -1,6 +1,7 @@
 // Shared content contract: SEO metadata resolution. The admin uses this for previews and the public
 // site uses it for rendering, so what you preview is what is served.
 import { encodeSlugForUrl } from "./slug.js";
+import { analyzeWriting, hasContent, resolveContentFormat } from "./document.js";
 import {
   buildDescription,
   markdownToPlainText,
@@ -97,7 +98,9 @@ export function resolveWritingSeo(
       seo.description,
       doc?.metaDescription,
       excerptPlain,
-      buildDescription(doc?.body, { lineSeparator: poem ? " / " : " " }),
+      resolveContentFormat(doc) === "tiptap"
+        ? buildDescription(analyzeWriting(doc).plain, { plain: true, lineSeparator: poem ? " / " : " " })
+        : buildDescription(doc?.body, { lineSeparator: poem ? " / " : " " }),
       site.fallbackDescription,
     ),
     SEO_LIMITS.description,
@@ -196,7 +199,7 @@ export function checkSeo(
       "info",
       "No custom description: one will be generated from the text. Review it.",
     );
-  if (!doc?.body || !markdownToPlainText(doc.body))
+  if (!hasContent(doc) || (resolveContentFormat(doc) === "markdown" && !markdownToPlainText(doc.body)))
     add("body-empty", "error", "The content is empty.");
   if (duplicateSlug)
     add("slug-duplicate", "error", "Another work already uses this slug.");

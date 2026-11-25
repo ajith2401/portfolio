@@ -60,9 +60,9 @@ export function truncateText(text, max, { ellipsis = "…" } = {}) {
 /** Single-line description for meta tags. Poems can pass lineSeparator ' / '. */
 export function buildDescription(
   markdown,
-  { max = SEO_LIMITS.description, lineSeparator = " " } = {},
+  { max = SEO_LIMITS.description, lineSeparator = " ", plain: isPlain = false } = {},
 ) {
-  const plain = markdownToPlainText(markdown);
+  const plain = isPlain ? normalizeText(markdown).trim() : markdownToPlainText(markdown);
   if (!plain) return "";
   const joined = plain
     .split(/\n+/)

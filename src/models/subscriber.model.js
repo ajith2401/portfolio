@@ -1,5 +1,6 @@
 // src/models/subscriber.model.js
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 
 const SubscriberSchema = new mongoose.Schema({
   email: {
@@ -34,7 +35,7 @@ const SubscriberSchema = new mongoose.Schema({
   },
   unsubscribeToken: {
     type: String,
-    default: () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    default: () => crypto.randomBytes(32).toString('hex')
   },
   createdAt: {
     type: Date,
@@ -54,10 +55,8 @@ SubscriberSchema.pre('save', function(next) {
 
 let Subscriber;
 try {
-  // Try to get the model if it exists
   Subscriber = mongoose.model('Subscriber');
 } catch {
-  // Otherwise create it
   Subscriber = mongoose.model('Subscriber', SubscriberSchema);
 }
 

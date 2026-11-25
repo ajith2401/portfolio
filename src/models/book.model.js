@@ -200,19 +200,7 @@ BookSchema.pre('save', async function(next) {
   try {
     // Generate slug if not provided or if title has changed
     if (!this.slug || this.isModified('title')) {
-      let baseSlug = generateSlug(this.title);
-      
-      // If Tamil title, romanize it for the slug
-      if (/[\u0B80-\u0BFF]/.test(this.title)) {
-        baseSlug = baseSlug.normalize('NFKD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .toLowerCase()
-          .replace(/\s+/g, '-')
-          .replace(/[^\w\-]+/g, '')
-          .replace(/\-\-+/g, '-')
-          .replace(/^-+/, '')
-          .replace(/-+$/, '');
-      }
+      const baseSlug = generateSlug(this.title);
       
       if (baseSlug) {
         // Ensure uniqueness

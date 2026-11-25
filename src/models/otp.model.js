@@ -50,10 +50,13 @@ const OTPSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Add schema indexes here
+// Add schema indexes here to avoid duplicates
 OTPSchema.index({ contactInfo: 1 });
 OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 }); // TTL index for automatic deletion
 OTPSchema.index({ createdAt: 1 });
+
+// Set TTL index to automatically delete expired OTPs
+OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 // Instance method to verify an OTP
 OTPSchema.methods.verifyOTP = function(inputOTP) {

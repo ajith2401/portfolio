@@ -1,5 +1,6 @@
 // Shared content contract: publishing lifecycle. Persistence-agnostic and side-effect free.
 import { validateSlug } from "./slug.js";
+import { hasContent } from "./document.js";
 
 export const STATUSES = ["draft", "published", "archived"];
 
@@ -38,7 +39,7 @@ export function planTransition(doc, nextStatus, now = new Date()) {
   if (errors.length === 0 && nextStatus === "published") {
     if (!String(doc.title ?? "").trim())
       errors.push("A title is required to publish.");
-    if (!String(doc.body ?? "").trim())
+    if (!hasContent(doc))
       errors.push("Content is required to publish."); // any length: short poems are valid
     const slugCheck = validateSlug(doc.slug);
     if (!slugCheck.valid) errors.push(slugCheck.reason);
