@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node --import ./tests/helpers/jsx-register.mjs --test tests/*.test.mjs"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.64",
