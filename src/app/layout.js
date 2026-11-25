@@ -368,48 +368,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* BreadcrumbList schema for navigation */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {
-                  "@type": "ListItem",
-                  "position": 1,
-                  "name": "Home",
-                  "item": "https://www.ajithkumarr.com"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 2,
-                  "name": "Poetry",
-                  "item": "https://www.ajithkumarr.com/quill"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 3,
-                  "name": "Technical Blog",
-                  "item": "https://www.ajithkumarr.com/blog"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 4,
-                  "name": "Books",
-                  "item": "https://www.ajithkumarr.com/spotlight"
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 5,
-                  "name": "About",
-                  "item": "https://www.ajithkumarr.com/about"
-                }
-              ]
-            })
-          }}
-        />
+        {/* No global BreadcrumbList: a breadcrumb is a per-page trail, emitted by the page itself (e.g. /quill/[id]). */}
       </head>
       {/*<body className={`${inter.className} antialiased min-h-screen flex flex-col`}> */}
        <body className="min-h-screen antialiased transition-colors duration-300 overflow-x-hidden">
