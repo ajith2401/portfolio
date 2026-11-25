@@ -6,12 +6,15 @@ import { cache } from 'react';
 import { resolveBookRoute } from '@/lib/public/book-routing.js';
 import connectDB from '@/lib/db';
 
+// Drafts and archived books are never public (legacy docs without a status stay visible).
+const PUBLIC = { status: { $nin: ['draft', 'archived'] } };
+
 const lookup = cache(async (param) => {
   await connectDB();
   return resolveBookRoute(param, {
-    byId: (id) => Book.findById(id).lean(),
-    bySlug: (slug) => Book.findOne({ slug }).lean(),
-    byHistory: (slug) => Book.findOne({ 'slugHistory.slug': slug }).select('slug').lean(),
+    byId: (id) => Book.findOne({ _id: id, ...PUBLIC }).lean(),
+    bySlug: (slug) => Book.findOne({ slug, ...PUBLIC }).lean(),
+    byHistory: (slug) => Book.findOne({ 'slugHistory.slug': slug, ...PUBLIC }).select('slug').lean(),
   });
 });
 
