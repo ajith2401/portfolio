@@ -2,7 +2,8 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { TechBlog, Writing, Project, Book } from '@/models';
-import { rateLimit, getClientIP } from '@/lib/rateLimit';
+import { getClientIP } from '@/lib/rateLimit';
+import { rateLimitShared } from '@/lib/sharedRateLimit';
 
 import { withBookVisibility } from '@/lib/content-contract/book-visibility.js';
 export const runtime = 'nodejs';
@@ -89,7 +90,7 @@ function extractSnippet(content, searchTerms, maxLength = 200) {
 export async function GET(request) {
   // Rate limit: 30 search queries per minute per IP
   const ip = getClientIP(request);
-  const { allowed, resetAt } = rateLimit(`search:${ip}`, 30, 60_000);
+  const { allowed, resetAt } = await rateLimitShared(`search:${ip}`, 30, 60_000);
   if (!allowed) {
     return NextResponse.json(
       { error: 'Too many search requests. Please slow down.' },

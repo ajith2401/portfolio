@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import { OTP } from '@/models/otp.model';
-import { rateLimit, getClientIP } from '@/lib/rateLimit';
+import { getClientIP } from '@/lib/rateLimit';
+import { rateLimitShared } from '@/lib/sharedRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -9,7 +10,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(request) {
   // Rate limit: 3 OTP requests per 10 minutes per IP
   const ip = getClientIP(request);
-  const { allowed, resetAt } = rateLimit(`otp-sms:${ip}`, 3, 10 * 60_000);
+  const { allowed, resetAt } = await rateLimitShared(`otp-sms:${ip}`, 3, 10 * 60_000);
   if (!allowed) {
     return NextResponse.json(
       { success: false, message: 'Too many OTP requests. Please wait before requesting another.' },

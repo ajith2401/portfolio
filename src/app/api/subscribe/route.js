@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import mongoose from 'mongoose';
 import { sendVerificationEmail, sendWelcomeEmail, validateEmail } from '@/lib/emailUtils';
-import { rateLimit, getClientIP } from '@/lib/rateLimit';
+import { getClientIP } from '@/lib/rateLimit';
+import { rateLimitShared } from '@/lib/sharedRateLimit';
 import { generateSecureToken } from '@/lib/secureToken';
 // import { validateEmail, sendVerificationEmail, sendWelcomeEmail 
 // Define subscriber schema
@@ -78,7 +79,7 @@ export async function POST(request) {
   try {
     // Rate limit: 3 subscribe attempts per 10 minutes per IP
     const ip = getClientIP(request);
-    const { allowed, resetAt } = rateLimit(`subscribe:${ip}`, 3, 10 * 60_000);
+    const { allowed, resetAt } = await rateLimitShared(`subscribe:${ip}`, 3, 10 * 60_000);
     if (!allowed) {
       return NextResponse.json(
         { message: 'Too many requests. Please try again later.' },

@@ -5,7 +5,8 @@ import { Comment } from '@/models';
 import { handleCommentOperations, updateCommentStats } from '@/middleware/comment.middleware';
 import { toPublicComment } from '@/lib/public/comments';
 import { findPublishedParent } from '@/lib/public/comment-parent';
-import { rateLimit, getClientIP } from '@/lib/rateLimit';
+import { getClientIP } from '@/lib/rateLimit';
+import { rateLimitShared } from '@/lib/sharedRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -14,7 +15,7 @@ export async function POST(request) {
   try {
     // Rate limit: 5 comments per 5 minutes per IP
     const ip = getClientIP(request);
-    const { allowed, resetAt } = rateLimit(`comment:${ip}`, 5, 5 * 60_000);
+    const { allowed, resetAt } = await rateLimitShared(`comment:${ip}`, 5, 5 * 60_000);
     if (!allowed) {
       return NextResponse.json(
         { error: 'Too many requests. Please slow down.' },

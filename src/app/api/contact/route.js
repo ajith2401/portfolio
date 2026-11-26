@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { rateLimit, getClientIP } from '@/lib/rateLimit';
+import { getClientIP } from '@/lib/rateLimit';
+import { rateLimitShared } from '@/lib/sharedRateLimit';
 
 // Initialize Resend with your API key
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -19,7 +20,7 @@ function escapeHtml(str) {
 export async function POST(request) {
   // Rate limit: 5 requests per minute per IP
   const ip = getClientIP(request);
-  const { allowed, resetAt } = rateLimit(`contact:${ip}`, 5, 60_000);
+  const { allowed, resetAt } = await rateLimitShared(`contact:${ip}`, 5, 60_000);
   if (!allowed) {
     return NextResponse.json(
       { message: 'Too many requests. Please wait before sending another message.' },
