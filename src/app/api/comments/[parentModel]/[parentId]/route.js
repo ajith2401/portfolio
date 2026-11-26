@@ -4,6 +4,7 @@ import connectDB from "@/lib/db";
 import { Comment } from "@/models";
 import { NextResponse } from "next/server";
 import { toPublicComment } from "@/lib/public/comments";
+import { findPublishedParent } from "@/lib/public/comment-parent";
 
 
 export const runtime = 'nodejs';
@@ -35,6 +36,10 @@ export async function GET(request, props) {
       }, { status: 400 });
     }
     
+    if (!(await findPublishedParent(parentModel, parentId))) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+
     // Find comments with timeout
     const comments = await withTimeout(Comment.findByParent(parentId, parentModel));
     

@@ -4,6 +4,7 @@ import connectDB from '@/lib/db';
 import { Comment } from '@/models';
 import { handleCommentOperations, updateCommentStats } from '@/middleware/comment.middleware';
 import { toPublicComment } from '@/lib/public/comments';
+import { findPublishedParent } from '@/lib/public/comment-parent';
 import { rateLimit, getClientIP } from '@/lib/rateLimit';
 
 export const runtime = 'nodejs';
@@ -69,11 +70,11 @@ export async function POST(request) {
       comment: trimmedComment,
       rating: numericRating
     };
-    const { parent, Model } = await handleCommentOperations(cleanPayload);
-
-    if (parent.status && parent.status !== 'published') {
+    // Drafts, archived, deleted and malformed ids are all a plain 404, and nothing is touched.
+    if (!(await findPublishedParent(cleanPayload.parentModel, cleanPayload.parentId))) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
+    const { parent, Model } = await handleCommentOperations(cleanPayload);
 
     // One rating/comment per email per work: blocks ballot-stuffing with repeat submissions.
     const duplicate = await Comment.exists({

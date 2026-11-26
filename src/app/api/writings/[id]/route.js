@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import connectDB from '@/lib/db';
 import { findForRoute } from '@/lib/public-writings';
 import { toPublicWriting, encodeSlugForUrl } from '@/lib/content-contract/index.js';
-import { verifyAdminAuth, adminUnauthorizedResponse } from '@/lib/authGuard';
 
 // Helper to validate MongoDB ObjectId
 function isValidObjectId(id) {
@@ -77,124 +76,22 @@ export async function GET(request, props) {
   }
 }
 
-// PUT update a writing (requires admin authentication)
-export async function PUT(request, props) {
-  const params = await props.params;
-  const auth = verifyAdminAuth(request);
-  if (!auth.authorized) {
-    return adminUnauthorizedResponse(auth.error);
-  }
+// RETIRED. Writes happen only in the Admin studio, which enforces version compare-and-swap, slug history,
+// lifecycle rules and the shared content contract. This key-gated route bypassed all of them and had no callers.
+const gone = () =>
+  NextResponse.json(
+    { error: 'Gone. Writings are managed through the Admin studio.' },
+    { status: 410, headers: { 'Cache-Control': 'no-store' } },
+  );
 
-  try {
-    await connectDB();
-    
-    const { id } = params;
-    const userAgent = request.headers.get('user-agent');
-    const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
-    
-    // Find writing by slug or ObjectId
-    let writing;
-    if (isValidObjectId(id)) {
-      writing = await Writing.findById(id);
-    } else {
-      writing = await Writing.findOne({ slug: id });
-    }
-    
-    if (!writing) {
-      logRequest('PUT', id, userAgent, clientIP, '404-NOT-FOUND');
-      return NextResponse.json(
-        { status: 'error', message: 'Writing not found' },
-        { status: 404 }
-      );
-    }
-    
-    // Get update data
-    const updateData = await request.json();
-    
-    // Remove fields that shouldn't be updated directly
-    for (const k of ['_id', 'createdAt', 'updatedAt', 'ratings', 'comments', 'revisions', 'averageRating', 'totalRatings', 'performance', 'slugHistory']) {
-      delete updateData[k];
-    }
-    
-    // Update the writing
-    Object.assign(writing, updateData);
-    await writing.save();
-    
-    logRequest('PUT', id, userAgent, clientIP, '200-UPDATED');
-    
-    return NextResponse.json({
-      status: 'success',
-      data: { writing: { _id: String(writing._id), slug: writing.slug, status: writing.status } },
-      message: 'Writing updated successfully'
-    });
-    
-  } catch (error) {
-    console.error('Error updating writing:', error);
-    
-    logRequest('PUT', params.id, request.headers.get('user-agent'), 'unknown', '500-ERROR');
-    
-    return NextResponse.json(
-      { 
-        status: 'error', 
-        message: 'Error updating writing',
-        ...(process.env.NODE_ENV === 'development' && { details: error.message })
-      },
-      { status: 500 }
-    );
-  }
+export async function PUT() {
+  return gone();
 }
 
-// DELETE a writing (requires admin authentication)
-export async function DELETE(request, props) {
-  const params = await props.params;
-  const auth = verifyAdminAuth(request);
-  if (!auth.authorized) {
-    return adminUnauthorizedResponse(auth.error);
-  }
+export async function PATCH() {
+  return gone();
+}
 
-  try {
-    await connectDB();
-    
-    const { id } = params;
-    const userAgent = request.headers.get('user-agent');
-    const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
-    
-    // Find and delete writing
-    let writing;
-    if (isValidObjectId(id)) {
-      writing = await Writing.findByIdAndDelete(id);
-    } else {
-      writing = await Writing.findOneAndDelete({ slug: id });
-    }
-    
-    if (!writing) {
-      logRequest('DELETE', id, userAgent, clientIP, '404-NOT-FOUND');
-      return NextResponse.json(
-        { status: 'error', message: 'Writing not found' },
-        { status: 404 }
-      );
-    }
-    
-    logRequest('DELETE', id, userAgent, clientIP, '200-DELETED');
-    
-    return NextResponse.json({
-      status: 'success',
-      message: 'Writing deleted successfully',
-      data: { deletedId: writing._id, deletedSlug: writing.slug }
-    });
-    
-  } catch (error) {
-    console.error('Error deleting writing:', error);
-    
-    logRequest('DELETE', params.id, request.headers.get('user-agent'), 'unknown', '500-ERROR');
-    
-    return NextResponse.json(
-      { 
-        status: 'error', 
-        message: 'Error deleting writing',
-        ...(process.env.NODE_ENV === 'development' && { details: error.message })
-      },
-      { status: 500 }
-    );
-  }
+export async function DELETE() {
+  return gone();
 }
