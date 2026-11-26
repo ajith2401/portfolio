@@ -131,3 +131,45 @@ only an explicitly empty value does. Run local tests with explicit values for ev
 - The in-memory rate limiter is per instance (not shared across serverless instances).
 - If `/api/revalidate` fails, the public page stays stale until the next ISR window (≤1 h).
 - Old service workers installed by the removed `next-pwa` are replaced by a self-destructing worker; not tested in a long-lived browser profile.
+
+---
+
+## 4. Slug registry rollout (Admin; owner-run, not yet done)
+
+### What it is
+
+`slugclaims` is an Admin-only collection with a **unique index on `slug`**. Creating or renaming a writing
+claims the slug first (one atomic insert), and releases it if the save then fails. Old slugs stay claimed after
+a rename so the 308 redirect can never be hijacked. It is not part of the shared contract.
+
+### Important limit until the backfill has run
+
+**The registry cannot guarantee collision protection for legacy slugs.** Writings and slug-history entries that
+existed before the registry have no claim row, so two concurrent requests can still race for a slug that only
+exists in `writings.slug` / `writings.slugHistory`. Today the route also checks `writings` directly
+(`$or: [{slug}, {"slugHistory.slug"}]`), which closes the non-concurrent case, but only the registry makes the
+check atomic. Treat the guarantee as **partial until existing claims are backfilled**.
+
+### Steps (each needs the owner's explicit approval)
+
+1. **Dry run (read-only, safe to run now):**
+   `MONGODB_URI='<production uri>' node scripts/backfill-slug-registry.mjs` (add `--json` for machine output).
+   Reports: writings, current slugs, historical slugs, distinct slugs, already in registry, expected new
+   registry records, duplicates inside one writing, invalid slugs, conflicts needing manual resolution.
+   It writes nothing.
+2. **Resolve every listed conflict and invalid slug by hand** (the script registers a conflicting slug to the first
+   writing it sees; decide the real owner first).
+3. **Apply** (owner-approved window): the same command with `--apply`. It only inserts missing claim rows
+   (idempotent; re-running is safe). Create the unique index first by letting the Admin start once, or run
+   `SlugClaim.init()`.
+4. Re-run the dry run: expect `expectedNewRegistryRecords: 0`.
+
+Verified locally on disposable MongoDB: dry run on a seeded database wrote 0 rows and reported the conflict and invalid
+slug correctly; 7 real-database tests cover simultaneous claims (same and different slugs), historical collisions,
+rename, failed-save compensation and idempotent retry. **No production database was touched.**
+
+### Public-site refresh after unpublishing a Book
+
+`/books`, `/spotlight` and the sitemap are ISR (1 h). After hiding a Book, call `POST /api/revalidate` with
+`{ "slug": "<book-slug>", "section": "book" }` to refresh those paths at once. Nothing in the Admin calls this yet
+(Books have no Admin editor), so until it does, a hidden Book can remain visible in cached listings for up to 1 hour.
