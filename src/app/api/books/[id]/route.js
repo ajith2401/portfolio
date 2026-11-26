@@ -201,124 +201,13 @@ export async function GET(request, props) {
   }
 }
 
-// PUT update a book (requires admin authentication)
-export async function PUT(request, props) {
-  const params = await props.params;
-  const auth = verifyAdminAuth(request);
-  if (!auth.authorized) {
-    return adminUnauthorizedResponse(auth.error);
-  }
-
-  try {
-    await connectDB();
-    
-    const { id } = params;
-    const userAgent = request.headers.get('user-agent');
-    const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
-    
-    // Find book by slug or ObjectId
-    let book;
-    if (isValidObjectId(id)) {
-      book = await Book.findById(id);
-    } else {
-      book = await Book.findOne({ slug: id });
-    }
-    
-    if (!book) {
-      logRequest('PUT', id, userAgent, clientIP, '404-NOT-FOUND');
-      return NextResponse.json(
-        { status: 'error', message: 'Book not found' },
-        { status: 404 }
-      );
-    }
-    
-    // Get update data
-    const updateData = await request.json();
-    
-    // Remove fields that shouldn't be updated directly
-    delete updateData._id;
-    delete updateData.createdAt;
-    delete updateData.updatedAt;
-    
-    // Update the book
-    Object.assign(book, updateData);
-    await book.save();
-    
-    logRequest('PUT', id, userAgent, clientIP, '200-UPDATED');
-    
-    return NextResponse.json({
-      status: 'success',
-      data: { book },
-      message: 'Book updated successfully'
-    });
-    
-  } catch (error) {
-    console.error('Error updating book:', error);
-    
-    logRequest('PUT', params.id, request.headers.get('user-agent'), 'unknown', '500-ERROR');
-    
-    return NextResponse.json(
-      { 
-        status: 'error', 
-        message: 'Error updating book',
-        ...(process.env.NODE_ENV === 'development' && { details: error.message })
-      },
-      { status: 500 }
-    );
-  }
-}
-
-// DELETE a book (requires admin authentication)
-export async function DELETE(request, props) {
-  const params = await props.params;
-  const auth = verifyAdminAuth(request);
-  if (!auth.authorized) {
-    return adminUnauthorizedResponse(auth.error);
-  }
-
-  try {
-    await connectDB();
-    
-    const { id } = params;
-    const userAgent = request.headers.get('user-agent');
-    const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
-    
-    // Find and delete book
-    let book;
-    if (isValidObjectId(id)) {
-      book = await Book.findByIdAndDelete(id);
-    } else {
-      book = await Book.findOneAndDelete({ slug: id });
-    }
-    
-    if (!book) {
-      logRequest('DELETE', id, userAgent, clientIP, '404-NOT-FOUND');
-      return NextResponse.json(
-        { status: 'error', message: 'Book not found' },
-        { status: 404 }
-      );
-    }
-    
-    logRequest('DELETE', id, userAgent, clientIP, '200-DELETED');
-    
-    return NextResponse.json({
-      status: 'success',
-      message: 'Book deleted successfully',
-      data: { deletedId: book._id, deletedSlug: book.slug }
-    });
-    
-  } catch (error) {
-    console.error('Error deleting book:', error);
-    
-    logRequest('DELETE', params.id, request.headers.get('user-agent'), 'unknown', '500-ERROR');
-    
-    return NextResponse.json(
-      { 
-        status: 'error', 
-        message: 'Error deleting book',
-        ...(process.env.NODE_ENV === 'development' && { details: error.message })
-      },
-      { status: 500 }
-    );
-  }
-}
+// Book writes moved to the Admin app (authenticated session, validated origin, public-site refresh).
+// The old key-gated writes bypassed revalidation and are retired.
+const retired = () =>
+  NextResponse.json(
+    { error: 'Book writes moved to the admin application.' },
+    { status: 410, headers: { 'Cache-Control': 'no-store' } },
+  );
+export const PUT = retired;
+export const PATCH = retired;
+export const DELETE = retired;
