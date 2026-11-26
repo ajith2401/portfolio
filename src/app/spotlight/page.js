@@ -4,6 +4,7 @@ import { Book } from "@/models";
 import { Suspense } from "react";
 import connectDB from "@/lib/db";
 
+import { withBookVisibility } from '@/lib/content-contract/book-visibility.js';
 // Enhanced metadata for better SEO
 export const metadata = {
   title: "Tamil Poetry Books",
@@ -47,7 +48,7 @@ export default async function SpotlightPage() {
   await connectDB();
   
   // Pre-render the page with initial data
-  const books = await Book.find({ status: { $nin: ['draft', 'archived'] } })
+  const books = await Book.find(withBookVisibility({}))
     .sort({ publishYear: -1 })
     .lean();
 

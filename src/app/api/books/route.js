@@ -4,13 +4,14 @@ import connectDB from '@/lib/db';
 import { Book } from '@/models';
 import { NextResponse } from 'next/server';
 
+import { withBookVisibility } from '@/lib/content-contract/book-visibility.js';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
     await connectDB();
-    const books = await Book.find({ status: { $nin: ['draft', 'archived'] } })
+    const books = await Book.find(withBookVisibility({}))
       .sort({ publishYear: -1 })
       .select('title slug _id description coverImage publishYear publisher featured')
       .lean();

@@ -17,6 +17,7 @@ import PersonSchema from '@/components/schema/PersonSchema';
 import connectDB from '@/lib/db';
 import { Book } from '@/models';
 
+import { withBookVisibility } from '@/lib/content-contract/book-visibility.js';
 export const metadata = {
   title: { absolute: "Published Tamil Poetry Books by Ajithkumar R (அஜித்குமார் புத்தகங்கள்)" },
   description: "Complete literary bibliography and portfolio of five published Tamil poetry books authored by Ajithkumar R, exploring social justice, feminism, identity, and human emotions.",
@@ -65,7 +66,7 @@ export const revalidate = 3600; // 1 hour
 
 export default async function BooksPage() {
   await connectDB();
-  const dbBooks = await Book.find({ status: { $nin: ['draft', 'archived'] } }).sort({ publishYear: -1 }).lean();
+  const dbBooks = await Book.find(withBookVisibility({})).sort({ publishYear: -1 }).lean();
 
   const books = [
     {

@@ -6,15 +6,16 @@ import { cache } from 'react';
 import { resolveBookRoute } from '@/lib/public/book-routing.js';
 import connectDB from '@/lib/db';
 
+import { withBookVisibility } from '@/lib/content-contract/book-visibility.js';
 // Drafts and archived books are never public (legacy docs without a status stay visible).
-const PUBLIC = { status: { $nin: ['draft', 'archived'] } };
+// One shared rule (content-contract/book-visibility.js).
 
 const lookup = cache(async (param) => {
   await connectDB();
   return resolveBookRoute(param, {
-    byId: (id) => Book.findOne({ _id: id, ...PUBLIC }).lean(),
-    bySlug: (slug) => Book.findOne({ slug, ...PUBLIC }).lean(),
-    byHistory: (slug) => Book.findOne({ 'slugHistory.slug': slug, ...PUBLIC }).select('slug').lean(),
+    byId: (id) => Book.findOne(withBookVisibility({ _id: id })).lean(),
+    bySlug: (slug) => Book.findOne(withBookVisibility({ slug })).lean(),
+    byHistory: (slug) => Book.findOne(withBookVisibility({ 'slugHistory.slug': slug })).select('slug').lean(),
   });
 });
 
@@ -172,14 +173,13 @@ export default async function BookDetailPage(props) {
   };
 
   // Find related books (same publisher or similar year)
-  const relatedBooks = await Book.find({
+  const relatedBooks = await Book.find(withBookVisibility({
     _id: { $ne: book._id },
-    ...PUBLIC,
     $or: [
       { publisher: book.publisher },
       { publishYear: { $gte: (book.publishYear || 2000) - 2, $lte: (book.publishYear || 2000) + 2 } }
     ]
-  }).limit(3).lean();
+  })).limit(3).lean();
 
   // Explicitly map related books to safe objects
   const safeRelatedBooks = relatedBooks.map(relatedBook => ({

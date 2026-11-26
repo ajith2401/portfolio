@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import connectDB from '@/lib/db';
 import { TechBlog, Writing, Book, Project } from '@/models';
 import { generateUniqueShortCode } from '@/utils/shortCode';
+import { withBookVisibility } from '@/lib/content-contract/book-visibility.js';
 import { rateLimit, getClientIP } from '@/lib/rateLimit';
 
 export const dynamic = 'force-dynamic';
@@ -27,11 +28,12 @@ async function findDoc(section, identifier) {
   const entry = SECTION_MAP[section];
   if (!entry) return null;
   const { Model, modelName } = entry;
+  const visible = (q) => (modelName === 'Book' ? withBookVisibility(q) : { ...q, status: 'published' });
   if (mongoose.Types.ObjectId.isValid(identifier)) {
-    const byId = await Model.findOne({ _id: identifier, status: 'published' }).select('shortCode slug _id');
+    const byId = await Model.findOne(visible({ _id: identifier })).select('shortCode slug _id');
     if (byId) return { Model, modelName, doc: byId };
   }
-  const bySlug = await Model.findOne({ slug: identifier, status: 'published' }).select('shortCode slug _id');
+  const bySlug = await Model.findOne(visible({ slug: identifier })).select('shortCode slug _id');
   return bySlug ? { Model, modelName, doc: bySlug } : null;
 }
 

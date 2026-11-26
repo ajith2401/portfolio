@@ -3,6 +3,7 @@ import { TechBlog, Writing, Project, Book } from '@/models';
 import connectDB from '@/lib/db';
 import { writingSitemapEntry } from '@/lib/public/sitemap-entries.js';
 
+import { withBookVisibility } from '@/lib/content-contract/book-visibility.js';
 export default async function sitemap() {
   try {
     // Connect to database
@@ -40,11 +41,10 @@ export default async function sitemap() {
         .sort({ publishedAt: -1 })
         .lean(),
         
-      Book.find({ 
-        status: { $nin: ['draft', 'archived'] },
+      Book.find(withBookVisibility({
         slug: { $exists: true, $ne: null, $ne: '' },
         title: { $exists: true, $ne: null, $ne: '' }
-      })
+      }))
         .select('slug title updatedAt createdAt publishYear coverImage')
         .sort({ publishYear: -1 })
         .lean()

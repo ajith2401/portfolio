@@ -4,6 +4,7 @@ import connectDB from '@/lib/db';
 import { TechBlog, Writing, Project, Book } from '@/models';
 import { rateLimit, getClientIP } from '@/lib/rateLimit';
 
+import { withBookVisibility } from '@/lib/content-contract/book-visibility.js';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
@@ -251,10 +252,7 @@ export async function GET(request) {
     // Search Books
     if (type === 'all' || type === 'spotlight') {
       try {
-        const bookResults = await Book.find({
-          $text: { $search: query },
-          status: { $nin: ['draft', 'archived'] }
-        })
+        const bookResults = await Book.find(withBookVisibility({ $text: { $search: query } }))
         .select('title slug _id description coverImage publishYear publisher featured')
         .sort({ score: { $meta: 'textScore' }, publishYear: -1 })
         .limit(type === 'spotlight' ? limit : Math.ceil(limit / 4))

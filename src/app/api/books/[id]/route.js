@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { Book } from '@/models/book.model';
 import mongoose from 'mongoose';
 import connectDB from '@/lib/db';
+import { withBookVisibility, isBookPublic } from '@/lib/content-contract/book-visibility.js';
 import { verifyAdminAuth, adminUnauthorizedResponse } from '@/lib/authGuard';
 
 // Helper to validate MongoDB ObjectId
@@ -50,7 +51,7 @@ export async function GET(request, props) {
       book = await Book.findById(id);
       
       // Prevent unauthorized access to unpublished drafts
-      if (book && book.status && book.status !== 'published') {
+      if (book && !isBookPublic(book)) {
         const auth = verifyAdminAuth(request);
         if (!auth.authorized) {
           book = null;
@@ -101,10 +102,7 @@ export async function GET(request, props) {
     
     // If not found by ObjectId or not an ObjectId, try slug search
     if (!book) {
-      book = await Book.findOne({ 
-        slug: id.toLowerCase().trim(),
-        status: 'published' // Only return published books
-      });
+      book = await Book.findOne(withBookVisibility({ slug: id.toLowerCase().trim() }));
       
       if (book) {
         logRequest('GET', id, userAgent, clientIP, '200-SLUG');
@@ -113,10 +111,9 @@ export async function GET(request, props) {
     
     // Former slug: permanent redirect to the current one
     if (!book) {
-      const moved = await Book.findOne({
+      const moved = await Book.findOne(withBookVisibility({
         'slugHistory.slug': id.normalize('NFC').toLowerCase().trim(),
-        status: 'published'
-      }).select('slug').lean();
+      })).select('slug').lean();
       if (moved?.slug) {
         const target = new URL(request.url);
         target.pathname = `/api/books/${encodeURIComponent(moved.slug)}`;

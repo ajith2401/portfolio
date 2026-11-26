@@ -3,14 +3,16 @@ import connectDB from '@/lib/db';
 import { TechBlog, Writing, Book, Project } from '@/models';
 import { isValidShortCode } from '@/utils/shortCode';
 
+import { bookVisibilityClause } from '@/lib/content-contract/book-visibility.js';
 export const dynamic = 'force-dynamic';
 
 // Only public records resolve: drafts/archived must not leak through metadata or redirects.
 const PUBLISHED = { status: 'published' };
+const BOOK_VISIBLE = bookVisibilityClause(); // shared rule: published or legacy-without-status
 const LOOKUPS = [
   { Model: TechBlog, section: 'blog', visible: PUBLISHED },
   { Model: Writing, section: 'quill', visible: PUBLISHED },
-  { Model: Book, section: 'spotlight', visible: { status: { $nin: ['draft', 'archived'] } } },
+  { Model: Book, section: 'spotlight', visible: BOOK_VISIBLE },
   { Model: Project, section: 'devfolio', visible: PUBLISHED },
 ];
 
