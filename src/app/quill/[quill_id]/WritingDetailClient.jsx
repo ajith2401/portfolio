@@ -2,7 +2,8 @@
 // Client shell for the writing page: back link, header, reader controls, approved reviews, rating form.
 // The article body arrives pre-rendered from the server as `children`; related works come from the server too.
 import { useState, useEffect, Suspense } from 'react';
-import Image from 'next/image';
+import CoverImage from '@/components/ui/CoverImage';
+import { resolveCoverSrc } from '@/lib/cover-src';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
@@ -67,15 +68,12 @@ const RelatedWorks = ({ related }) => {
           <li key={w.id}>
             <Link href={writingPath(w.slug)} className="block w-full">
               <article className="clean-container rounded-lg overflow-hidden group transition-all duration-300 hover:shadow-[var(--card-hover-shadow)]">
-                <div className="relative w-full aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={w.images?.small || w.images?.medium || '/placeholder.jpg'}
-                    alt=""
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                </div>
+                <CoverImage
+                  src={resolveCoverSrc(w.images, ['small', 'medium'])}
+                  title={w.title}
+                  category={w.category}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
                 <div className="p-6 space-y-3">
                   <span className="px-2 py-1 text-xs font-medium rounded-full bg-[rgba(140,140,140,0.15)]">{w.category}</span>
                   <h3 className="font-work-sans text-lg font-medium">{w.title}</h3>

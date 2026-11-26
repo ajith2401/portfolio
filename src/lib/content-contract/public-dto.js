@@ -12,13 +12,18 @@ function safeContent(doc) {
 const iso = (d) => (d ? new Date(d).toISOString() : null);
 const str = (v) => (v == null ? null : String(v));
 
-const pickImages = (i = {}) => ({
-  small: i.small || null,
-  medium: i.medium || null,
-  large: i.large || null,
-  thumbnail: i.thumbnail || null,
-  alt: i.alt || null,
-});
+// `images` may be absent, null or any non-object in legacy documents; a default parameter would not catch null.
+const imgStr = (v) => (typeof v === "string" && v.trim() ? v : null);
+const pickImages = (input) => {
+  const i = input && typeof input === "object" && !Array.isArray(input) ? input : {};
+  return {
+    small: imgStr(i.small),
+    medium: imgStr(i.medium),
+    large: imgStr(i.large),
+    thumbnail: imgStr(i.thumbnail),
+    alt: imgStr(i.alt),
+  };
+};
 
 /** Card/list shape: no body. */
 export function toPublicWritingCard(doc) {

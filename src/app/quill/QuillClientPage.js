@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import CoverImage from '@/components/ui/CoverImage';
+import { resolveCoverSrc } from '@/lib/cover-src';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Search, CalendarIcon, SortAsc, SortDesc } from 'lucide-react';
 import { useGetWritingsQuery } from '@/services/api';
@@ -466,16 +467,13 @@ const QuillClientPage = ({ initialWritings = [], initialPagination = null }) => 
                     cursor-pointer"
                 >
                   {/* Fixed aspect ratio container for image */}
-                  <div className="relative w-full aspect-[16/9] overflow-hidden">
-                    <Image
-                      src={writing.images?.small || '/placeholder.jpg'}
-                      alt={writing.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      priority={false}
-                      quality={75}
-                    />
+                  <CoverImage
+                    src={resolveCoverSrc(writing.images, ['small', 'medium'])}
+                    title={writing.title}
+                    category={writing.category}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    imgClassName="object-cover transition-transform duration-300 group-hover:scale-105"
+                  >
                     {(writing.publishedAt || writing.createdAt) && (
                       <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full">
                         <span className="text-sm font-work-sans text-foreground">
@@ -490,7 +488,7 @@ const QuillClientPage = ({ initialWritings = [], initialPagination = null }) => 
                         </span>
                       </div>
                     )}
-                  </div>
+                  </CoverImage>
 
                   <div className="p-6 space-y-4">
                     <div>

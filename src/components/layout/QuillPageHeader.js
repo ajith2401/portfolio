@@ -1,6 +1,7 @@
 // src/components/layout/SharedContentHeader.jsx
 'use client';
-import Image from 'next/image';
+import CoverImage from '@/components/ui/CoverImage';
+import { resolveCoverSrc } from '@/lib/cover-src';
 import ShareButtons from './ShareButtons';
 
 const SharedContentHeader = ({ content, contentType }) => {
@@ -24,9 +25,9 @@ const SharedContentHeader = ({ content, contentType }) => {
   const category = contentType === 'TechBlog' 
     ? (content?.category ? content.category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'TechBlog')
     : (content?.category ? content.category.charAt(0).toUpperCase() + content.category.slice(1) : 'Article');
-  const rawImageUrl = content?.images?.large || content?.images?.medium || '/placeholder.jpg';
+  const rawImageUrl = resolveCoverSrc(content?.images, ['large', 'medium', 'small']);
   // Remap legacy c_fill to c_limit to ensure full aspect ratio is preserved and title text is never cropped
-  const imageUrl = typeof rawImageUrl === 'string' && rawImageUrl.includes('/upload/')
+  const imageUrl = rawImageUrl && rawImageUrl.includes('/upload/')
     ? rawImageUrl.replace(/w_\d+,h_\d+,c_fill/g, 'w_1200,c_limit').replace(/c_fill/g, 'c_limit')
     : rawImageUrl;
   const publishDate = formatDate(content?.publishedAt || content?.createdAt);
@@ -85,13 +86,14 @@ const SharedContentHeader = ({ content, contentType }) => {
 
       {/* Right Content - Image */}
       <div className="w-full lg:w-[640px] flex items-center justify-center rounded-lg overflow-hidden">
-        <Image
+        <CoverImage
           src={imageUrl}
-          alt={title}
-          width={1200}
-          height={675}
-          className="w-full h-auto max-h-[520px] object-contain rounded-lg shadow-sm"
+          title={title}
+          category={category}
           priority
+          sizes="(max-width: 1024px) 100vw, 640px"
+          className="rounded-lg shadow-sm"
+          imgClassName="object-contain rounded-lg"
         />
       </div>
     </div>

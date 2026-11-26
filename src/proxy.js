@@ -22,7 +22,8 @@ function isObjectId(str) {
 }
 
 export function proxy(request) {
-  const hostname = request.headers.get('host');
+  // Next's internal image-optimizer fetch carries no Host header; never assume one.
+  const hostname = request.headers.get('host') || request.nextUrl.host || '';
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
   const userAgent = request.headers.get('user-agent') || '';
@@ -34,10 +35,10 @@ export function proxy(request) {
 
   // 1. Force HTTPS and www redirect for SEO consistency (highest priority)
   const protocol = request.headers.get('x-forwarded-proto') || url.protocol.slice(0, -1);
-  const needsHttpsRedirect = protocol !== 'https' && 
+  const needsHttpsRedirect = Boolean(hostname) && protocol !== 'https' && 
                            !hostname.includes('localhost') && 
                            !hostname.includes('127.0.0.1');
-  const needsWwwRedirect = !hostname.startsWith('www.') && 
+  const needsWwwRedirect = Boolean(hostname) && !hostname.startsWith('www.') && 
                           !hostname.includes('localhost') && 
                           !hostname.includes('127.0.0.1') &&
                           !hostname.includes('vercel.app') &&
