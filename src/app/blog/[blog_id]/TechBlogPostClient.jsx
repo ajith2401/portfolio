@@ -17,6 +17,7 @@ import {
 import { getSafeUrl } from '@/utils/slugGenerator';
 
 import MarkdownRenderer from '@/components/MarkdownRenderer';
+import { StructuredContent } from '@/lib/render/structured';
 
 
 const truncateBody = (text) => {
@@ -87,7 +88,11 @@ export default function TechBlogPostClient({ blog, blogId }) {
         {/* Content Section */}
         <div className="w-full max-w-[1064px] mx-auto mb-16 md:mb-36 px-4 sm:px-6 relative">
           {/* Keep your MarkdownRenderer component */}
-          <MarkdownRenderer content={blogPost.content} />
+          {blogPost.contentFormat === 'tiptap' && blogPost.doc ? (
+            <div className="writing-content"><StructuredContent doc={blogPost.doc} /></div>
+          ) : (
+            <MarkdownRenderer content={blogPost.content} />
+          )}
         </div>
         
         {/* Tags */}

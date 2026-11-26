@@ -13,6 +13,7 @@ import { getSafeUrl } from '@/utils/slugGenerator';
 // Replace the MarkdownRenderer component in ProjectDetailClient.js
 
 import MarkdownRenderer from '@/components/MarkdownRenderer';
+import { StructuredContent } from '@/lib/render/structured';
 
 export default function ProjectDetailClient({ project, projectId }) {
   const [relatedProjects, setRelatedProjects] = useState([]);
@@ -136,7 +137,11 @@ export default function ProjectDetailClient({ project, projectId }) {
         {/* Content Section */}
         <div className="w-full max-w-[1064px] mx-auto mb-16 md:mb-36 px-4 sm:px-6 relative">
           {/* Use MarkdownRenderer for the content */}
-          <MarkdownRenderer content={project.longDescription} />
+          {project.contentFormat === 'tiptap' && project.doc ? (
+            <div className="writing-content"><StructuredContent doc={project.doc} /></div>
+          ) : (
+            <MarkdownRenderer content={project.longDescription} />
+          )}
           
           {/* Project Stats */}
           {project.stats && Object.keys(project.stats).length > 0 && (

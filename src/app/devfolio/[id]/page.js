@@ -138,6 +138,8 @@ export default async function ProjectDetailPage(props) {
     title: project.title || '',
     shortDescription: project.shortDescription || '',
     longDescription: project.longDescription || '',
+    contentFormat: project.contentFormat === 'tiptap' ? 'tiptap' : 'markdown',
+    doc: project.contentFormat === 'tiptap' && project.doc ? JSON.parse(JSON.stringify(project.doc)) : null,
     category: project.category || '',
     technologies: Array.isArray(project.technologies) ? project.technologies : [],
     achievement: project.achievement || '',

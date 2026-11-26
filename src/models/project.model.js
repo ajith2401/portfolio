@@ -39,6 +39,10 @@ const ProjectSchema = new mongoose.Schema({
     trim: true,
     maxlength: [200, 'Short description cannot exceed 200 characters']
   },
+  // Rich-editor body. 'markdown' (default) keeps the legacy string field as the source of truth;
+  // 'tiptap' stores a validated structured document in `doc` and keeps the string field as a derived plain-text projection.
+  contentFormat: { type: String, enum: ['markdown', 'tiptap'], default: 'markdown' },
+  doc: { type: mongoose.Schema.Types.Mixed, default: undefined },
   longDescription: {
     type: String,
     required: [true, 'Long description is required'],
