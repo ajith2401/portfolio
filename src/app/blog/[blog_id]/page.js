@@ -1,3 +1,4 @@
+import { isPrerenderSafeSlug } from '@/lib/static-params';
 import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/app/blog/[blog_id]/page.js
 import { notFound, redirect } from 'next/navigation';
@@ -238,7 +239,7 @@ export async function generateStaticParams() {
     .limit(100) // Limit for build performance
     .lean();
     
-    return techBlogs.map((techBlog) => ({
+    return techBlogs.filter((t) => isPrerenderSafeSlug(t.slug)).map((techBlog) => ({
       blog_id: techBlog.slug,
     }));
   } catch (error) {

@@ -1,5 +1,6 @@
 // src/app/quill/[quill_id]/page.js
 // Public writing page. One lookup per request (shared by metadata and page via cache()).
+import { isPrerenderSafeSlug } from '@/lib/static-params';
 import { cache } from 'react';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { findForRoute, relatedCards } from '@/lib/public-writings';
@@ -76,7 +77,7 @@ export async function generateStaticParams() {
     await connectDB();
     const rows = await Writing.find({ status: 'published', slug: { $exists: true, $nin: [null, ''] } })
       .select('slug').sort({ publishedAt: -1 }).limit(100).lean();
-    return rows.map((w) => ({ quill_id: w.slug }));
+    return rows.filter((w) => isPrerenderSafeSlug(w.slug)).map((w) => ({ quill_id: w.slug }));
   } catch (error) {
     console.error('Error generating static params:', error);
     return [];
