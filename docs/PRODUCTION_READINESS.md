@@ -128,7 +128,7 @@ only an explicitly empty value does. Run local tests with explicit values for ev
 ## 3. Known limits (not blockers for review, but not proven)
 
 - Vercel runtime behaviour of the OG image route (`@napi-rs/canvas` binary + bundled Noto Sans Tamil font tracing) is unverified; locally it returns a 1200×630 PNG.
-- The in-memory rate limiter is per instance (not shared across serverless instances).
+- Rate limiting is shared across instances via MongoDB (§3a). Behind Vercel's real edge it is unverified; add the WAF rule below.
 - If `/api/revalidate` fails, the public page stays stale until the next ISR window (≤1 h).
 - Old service workers installed by the removed `next-pwa` are replaced by a self-destructing worker; not tested in a long-lived browser profile.
 
@@ -170,6 +170,46 @@ rename, failed-save compensation and idempotent retry. **No production database 
 
 ### Public-site refresh after unpublishing a Book
 
-`/books`, `/spotlight` and the sitemap are ISR (1 h). After hiding a Book, call `POST /api/revalidate` with
-`{ "slug": "<book-slug>", "section": "book" }` to refresh those paths at once. Nothing in the Admin calls this yet
-(Books have no Admin editor), so until it does, a hidden Book can remain visible in cached listings for up to 1 hour.
+The **Admin now owns Book writes** and, after every Book save/status change/delete, calls the Portfolio
+`POST /api/revalidate` with `{ "section": "book", "slug": "<slug>", "previousSlugs": [...] }` (Bearer `REVALIDATE_SECRET`).
+It never fails the save: if the call cannot be made the editor shows a warning and the public site refreshes within its 1-hour ISR window.
+`PORTFOLIO_REVALIDATE_URL` **must use the `www` host** (the apex host is redirected by `proxy.js`; localhost/127.0.0.1 are exempt).
+
+### Book `status` inspection (read-only, before go-live)
+
+Visibility policy: `published` and a missing `status` are public; `draft`, `archived`, any unknown value and `null` are hidden.
+Count the legacy shapes **separately** so nothing public silently disappears:
+`db.books.countDocuments({status:{$exists:false}})` and `db.books.countDocuments({status:{$type:'null'}})` (null → hidden under the new policy; decide whether those should be republished).
+
+---
+
+## 3a. Rate limiting on Vercel (Portfolio)
+
+- **Store:** MongoDB collection `ratelimits` (`_id = key|windowStart`, `$inc count`, TTL index on `expireAt`). No new paid service.
+  The TTL index is created automatically on first use — **that is a production database write at runtime; list it in the deployment approval.**
+- **Routes covered:** comments, contact, OTP email/SMS, search, short-url, subscribe.
+- **Failure policy:** store error or >1.5 s → per-instance limiter (still limits; never 5xx from the limiter).
+- **Client identity:** on Vercel (`VERCEL` env present) `x-vercel-forwarded-for` is used; elsewhere forwarding headers are ignored unless `TRUSTED_PROXY=<n>`. Caller-supplied headers cannot mint buckets.
+- **Recommended defence in depth (owner decision):** a Vercel Firewall rate-limit rule on `/api/*` (e.g. per-IP, fixed window) so abusive traffic is stopped before it reaches a function or MongoDB.
+- **Cost note:** one small upsert per protected request.
+- **Rollback:** revert the commit; the `ratelimits` collection is inert and can be dropped.
+
+## 5. Cloudinary and Vercel runtime dependencies
+
+- **Cloudinary deletion has not been verified against real Cloudinary** (no isolated credentials). Ownership logic is verified; the actual `destroy` result handling (`ok` / `not found` / other) is unit-tested only. Owner can run `node scripts/verify-cloudinary-deletion.mjs --i-am-using-a-test-account` in the Admin with a **test** cloud (it deletes only an asset it uploads itself).
+- Vercel runtime: OG route (`@napi-rs/canvas` and the bundled Tamil font) is unverified on Vercel; Next image optimizer needs `NEXT_PUBLIC_SITE_URL`/remote patterns for Cloudinary; ISR + revalidate depend on `REVALIDATE_SECRET` identical in both projects.
+- `next-pwa` has been removed; a self-destructing `sw.js` unregisters old workers (not tested in a long-lived profile). No PWA feature is claimed.
+
+## 6. Deployment sequence and rollback (each production step needs separate owner approval)
+
+1. Merge/deploy approval for both branches (nothing has been pushed or merged).
+2. Set env vars (§2) — same `REVALIDATE_SECRET` in both projects; Admin `PORTFOLIO_REVALIDATE_URL` on `www`.
+3. Read-only inspections: `scripts/inspect-text-index.mjs`, slug-registry dry run, Book `status` counts (above).
+4. Deploy the **Portfolio** first (it tolerates the old Admin), then the **Admin**.
+5. In an approved quiet window: text-index drop/recreate (§1), then slug-registry `--apply` (§4), then re-run both inspections.
+6. Smoke: publish a synthetic writing and a Book; confirm the public page updates within seconds; hide it and confirm 404 + sitemap; confirm `ratelimits` TTL index exists.
+7. **Rollback:** redeploy the previous Vercel deployment for each project (instant). Data side: slug claims and `ratelimits` are additive and harmless; restore the text index from the Step 0 record/backup (§1 rollback caveat).
+
+## 7. Known unverified / open items
+
+Spec 03 and one spec 06 flake were not reproduced (no root cause; see `ACCEPTANCE_REPORT.md` §1 Phase 5). Open findings: sitemap ignores `seo.robots.index=false`; `/\evil.com` treated as internal in `urls.js`; legacy Markdown body encoding; no version CAS on legacy docs; `totalResults` may count hidden records.
