@@ -1,6 +1,6 @@
+'use client';
 import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/SEO/Breadcrumbs.jsx
-'use client';
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';

@@ -21,3 +21,10 @@ test('targets: invalid bodies rejected', () => {
   assert.ok(revalidationTargets({ slug: 'a/b' }).error);
   assert.ok(revalidationTargets({ slug: 'a', previousSlugs: 'x' }).error);
 });
+
+test('book section refreshes listings, sitemap and detail paths; rejects unknown sections', () => {
+  const r = revalidationTargets({ slug: 'my-book', section: 'book', previousSlugs: ['old-book'] });
+  for (const p of ['/books', '/spotlight', '/sitemap.xml', '/spotlight/my-book', '/spotlight/old-book']) assert.ok(r.paths.includes(p), p);
+  assert.ok(!r.paths.some((p) => p.startsWith('/quill')));
+  assert.ok(revalidationTargets({ slug: 'x', section: 'admin' }).error);
+});

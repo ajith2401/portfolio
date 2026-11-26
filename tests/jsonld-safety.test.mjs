@@ -31,3 +31,20 @@ describe('no unsafe JSON-LD injection points', () => {
     });
   }
 });
+
+// Regression: an import placed above 'use client' breaks `next build` (lint and unit tests do not notice).
+describe('directive placement', () => {
+  const walk2 = (d) => readdirSync(d).flatMap((f) => {
+    const p = join(d, f);
+    return statSync(p).isDirectory() ? walk2(p) : /\.(jsx?|mjs)$/.test(p) ? [p] : [];
+  });
+  for (const file of walk2('src')) {
+    const src = readFileSync(file, 'utf8');
+    const m = src.match(/^['"]use (client|server)['"];?/m);
+    if (!m) continue;
+    it(file, () => {
+      const before = src.slice(0, m.index);
+      assert.equal(/^\s*(import|export|const|let|var|function)\b/m.test(before), false, 'directive must precede code');
+    });
+  }
+});

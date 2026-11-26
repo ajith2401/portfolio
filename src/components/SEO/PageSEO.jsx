@@ -1,6 +1,6 @@
+'use client';
 import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/SEO/PageSEO.jsx
-'use client';
 
 import Head from 'next/head';
 import { usePathname } from 'next/navigation';

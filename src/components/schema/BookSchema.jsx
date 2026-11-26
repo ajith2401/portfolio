@@ -1,6 +1,6 @@
+'use client';
 import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/schema/BookSchema.jsx
-'use client';
 
 import React from 'react';
 

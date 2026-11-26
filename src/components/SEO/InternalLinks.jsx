@@ -1,6 +1,6 @@
+'use client';
 import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/SEO/InternalLinks.jsx
-'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';

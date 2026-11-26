@@ -5,11 +5,13 @@ import { isValidShortCode } from '@/utils/shortCode';
 
 export const dynamic = 'force-dynamic';
 
+// Only public records resolve: drafts/archived must not leak through metadata or redirects.
+const PUBLISHED = { status: 'published' };
 const LOOKUPS = [
-  { Model: TechBlog, section: 'blog' },
-  { Model: Writing, section: 'quill' },
-  { Model: Book, section: 'spotlight' },
-  { Model: Project, section: 'devfolio' },
+  { Model: TechBlog, section: 'blog', visible: PUBLISHED },
+  { Model: Writing, section: 'quill', visible: PUBLISHED },
+  { Model: Book, section: 'spotlight', visible: { status: { $nin: ['draft', 'archived'] } } },
+  { Model: Project, section: 'devfolio', visible: PUBLISHED },
 ];
 
 export async function generateMetadata({ params }) {
@@ -18,8 +20,8 @@ export async function generateMetadata({ params }) {
 
   try {
     await connectDB();
-    for (const { Model, section } of LOOKUPS) {
-      const doc = await Model.findOne({ shortCode: code })
+    for (const { Model, section, visible } of LOOKUPS) {
+      const doc = await Model.findOne({ shortCode: code, ...visible })
         .select('title excerpt description shortDescription images coverImage slug _id')
         .lean();
       if (doc) {
@@ -65,8 +67,8 @@ export default async function ShortUrlRedirect({ params }) {
 
   await connectDB();
 
-  for (const { Model, section } of LOOKUPS) {
-    const doc = await Model.findOne({ shortCode: code }).select('slug _id').lean();
+  for (const { Model, section, visible } of LOOKUPS) {
+    const doc = await Model.findOne({ shortCode: code, ...visible }).select('slug _id').lean();
     if (doc) {
       const identifier = doc.slug ? encodeURI(doc.slug) : doc._id.toString();
       redirect(`/${section}/${identifier}`);
