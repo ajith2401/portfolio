@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/schema/DeveloperSchema.jsx
 import React from 'react';
 
@@ -159,7 +160,7 @@ export default function DeveloperSchema({ includedSkills = [] }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   );
 }

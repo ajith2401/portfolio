@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/schema/PersonSchema.jsx
 import React from 'react';
 
@@ -178,7 +179,7 @@ export default function PersonSchema({ includeFullBio = false }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   );
 }

@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/app/filmmaker/page.js
 import React from 'react';
 import Link from 'next/link';
@@ -124,7 +125,7 @@ export default function FilmmakerPage() {
       <PersonSchema includeFullBio={true} />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
       />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">

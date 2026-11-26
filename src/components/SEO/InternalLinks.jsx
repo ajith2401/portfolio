@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/SEO/InternalLinks.jsx
 'use client';
 
@@ -284,7 +285,7 @@ export default function InternalLinks({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "ItemList",
             "name": `Related ${title}`,

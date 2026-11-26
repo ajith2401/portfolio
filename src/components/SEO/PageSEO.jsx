@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/SEO/PageSEO.jsx
 'use client';
 
@@ -258,7 +259,7 @@ export default function PageSEO({
       <script 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ 
-          __html: JSON.stringify(schemaData) 
+          __html: safeJsonLd(schemaData) 
         }}
       />
 

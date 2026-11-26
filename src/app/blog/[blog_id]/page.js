@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/app/blog/[blog_id]/page.js
 import { notFound, redirect } from 'next/navigation';
 import { TechBlog } from '@/models/techblog.model';
@@ -214,7 +215,7 @@ export default async function BlogDetailPage(props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData)
+          __html: safeJsonLd(structuredData)
         }}
       />
       

@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/schema/BookSchema.jsx
 'use client';
 
@@ -132,7 +133,7 @@ export default function BookSchema({ book }) {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(cleanBookData)
+        __html: safeJsonLd(cleanBookData)
       }}
     />
   );

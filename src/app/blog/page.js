@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/app/blog/page.js
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -263,7 +264,7 @@ export default async function TechBlogPage(props) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: safeJsonLd({
               "@context": "https://schema.org",
               "@type": "Blog",
               "@id": "https://www.ajithkumarr.com/blog#blog",

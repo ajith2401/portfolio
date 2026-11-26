@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/app/books/page.js
 import React from 'react';
 import Link from 'next/link';
@@ -185,11 +186,11 @@ export default async function BooksPage() {
       <PersonSchema includeFullBio={true} />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(bookListSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(bookListSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
       />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">

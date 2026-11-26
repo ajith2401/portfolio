@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/components/SEO/TechnicalKeywords.jsx
 'use client';
 
@@ -119,7 +120,7 @@ export default function TechnicalKeywords() {
         <script 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(technicalSkillsSchema) 
+            __html: safeJsonLd(technicalSkillsSchema) 
           }}
         />
         
@@ -127,7 +128,7 @@ export default function TechnicalKeywords() {
         <script 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(developerSchema) 
+            __html: safeJsonLd(developerSchema) 
           }}
         />
       </Head>

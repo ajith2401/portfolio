@@ -1,3 +1,4 @@
+import { safeJsonLd } from '@/lib/content-contract/structured-data';
 // src/app/layout.js
 import localFont from "next/font/local";
 import { getSiteUrl } from "@/lib/public/site.js";
@@ -275,7 +276,7 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: safeJsonLd({
               "@context": "https://schema.org",
               "@type": "Person",
               "@id": "https://www.ajithkumarr.com/#ajithkumar",
@@ -347,7 +348,7 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: safeJsonLd({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "@id": "https://www.ajithkumarr.com/#website",
